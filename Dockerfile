@@ -13,6 +13,7 @@ RUN go build -o /go/bin/app /go/src/app
 FROM scratch AS runner
 
 COPY --from=build /go/bin/app /
+COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 
 CMD ["/app"]
 
