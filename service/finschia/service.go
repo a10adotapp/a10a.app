@@ -2,13 +2,16 @@ package finschia
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"io"
+	"log/slog"
 	"net/http"
 	"os"
 	"strings"
 
+	"github.com/a10adotapp/a10a.app/lib/log"
 	"github.com/line/line-bot-sdk-go/v8/linebot/messaging_api"
 )
 
@@ -18,7 +21,9 @@ func NewFinschiaService() FinschiaService {
 	return FinschiaService{}
 }
 
-func (FinschiaService) GetMillionAuthurs() error {
+func (FinschiaService) GetMillionAuthurs(ctx context.Context) error {
+	logger := log.LoggerFromContext(ctx)
+
 	reqData := []struct {
 		Key    string   `json:"key"`
 		Values []string `json:"values"`
@@ -73,7 +78,14 @@ func (FinschiaService) GetMillionAuthurs() error {
 		return nil
 	}
 
-	if resData.Content[0].Price >= 0.5 {
+	logger.Info(
+		"GetMillionAuthurs",
+		slog.Uint64("id", uint64(resData.Content[0].ID)),
+		slog.Float64("price", float64(resData.Content[0].Price)),
+		slog.String("name", resData.Content[0].NFT.Name),
+	)
+
+	if resData.Content[0].Price > 0.005 {
 		return nil
 	}
 
