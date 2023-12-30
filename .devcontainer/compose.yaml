@@ -7,3 +7,20 @@ services:
       - ..:/workspace:cached
     ports:
       - 3000:3000
+
+  db:
+    image: mysql:8
+    container_name: a10a-app-db
+    volumes:
+      - dbdata:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_TCP_PORT: 3306
+      MYSQL_USER: "a10adotapp"
+      MYSQL_PASSWORD: "password"
+      MYSQL_DATABASE: "a10adotappdb"
+    ports:
+      - 3306:3306
+
+volumes:
+  dbdata:

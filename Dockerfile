@@ -9,8 +9,8 @@ COPY . .
 RUN go mod download
 RUN go build -o /go/bin/app /go/src/app
 
-# Now copy it into our base image.
 FROM scratch AS runner
+# FROM debian:bookworm AS runner
 
 COPY --from=build /go/bin/app /
 COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/

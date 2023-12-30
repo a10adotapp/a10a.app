@@ -4,17 +4,17 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/a10adotapp/a10a.app/router/middleware"
+	"github.com/a10adotapp/a10a.app/ent"
 	"github.com/a10adotapp/a10a.app/service/finschia"
+	"github.com/a10adotapp/a10a.app/service/linenft"
 	"github.com/go-chi/chi/v5"
 	chimiddleware "github.com/go-chi/chi/v5/middleware"
 )
 
-func NewRouter() *chi.Mux {
+func NewRouter(entClient *ent.Client) *chi.Mux {
 	router := chi.NewRouter()
 
 	router.Use(chimiddleware.Timeout(10 * time.Second))
-	router.Use(middleware.LoggerInjectMiddleware)
 
 	router.MethodNotAllowed(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusMethodNotAllowed)
@@ -31,6 +31,7 @@ func NewRouter() *chi.Mux {
 	})
 
 	router.Route("/finschia", FinschiaRoute(finschia.NewFinschiaService()))
+	router.Route("/line-nft", LINENFTRoute(linenft.NewLINENFTService(entClient)))
 
 	return router
 }

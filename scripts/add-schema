@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+read -p "[Schema name] > " SCHEMA_NAME
+go run entgo.io/ent/cmd/ent new ${SCHEMA_NAME}
