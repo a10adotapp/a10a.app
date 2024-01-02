@@ -39,7 +39,7 @@ const (
 	// It exists in this package in order to avoid circular dependency with the "linenft" package.
 	LineNftInverseTable = "line_nfts"
 	// LineNftColumn is the table column denoting the line_nft relation/edge.
-	LineNftColumn = "linenft_million_arthurs_properties"
+	LineNftColumn = "linenft_million_arthurs_property"
 )
 
 // Columns holds all SQL columns for linenftmillionarthursproperty fields.
@@ -57,7 +57,7 @@ var Columns = []string{
 // ForeignKeys holds the SQL foreign-keys that are owned by the "line_nft_million_arthurs_properties"
 // table and are not defined as standalone fields in the schema.
 var ForeignKeys = []string{
-	"linenft_million_arthurs_properties",
+	"linenft_million_arthurs_property",
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).

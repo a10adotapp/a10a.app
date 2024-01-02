@@ -688,21 +688,21 @@ func HasActivitiesWith(preds ...predicate.LINENFTActivity) predicate.LINENFT {
 	})
 }
 
-// HasMillionArthursProperties applies the HasEdge predicate on the "million_arthurs_properties" edge.
-func HasMillionArthursProperties() predicate.LINENFT {
+// HasMillionArthursProperty applies the HasEdge predicate on the "million_arthurs_property" edge.
+func HasMillionArthursProperty() predicate.LINENFT {
 	return predicate.LINENFT(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.Edge(sqlgraph.O2O, false, MillionArthursPropertiesTable, MillionArthursPropertiesColumn),
+			sqlgraph.Edge(sqlgraph.O2O, false, MillionArthursPropertyTable, MillionArthursPropertyColumn),
 		)
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
 
-// HasMillionArthursPropertiesWith applies the HasEdge predicate on the "million_arthurs_properties" edge with a given conditions (other predicates).
-func HasMillionArthursPropertiesWith(preds ...predicate.LINENFTMillionArthursProperty) predicate.LINENFT {
+// HasMillionArthursPropertyWith applies the HasEdge predicate on the "million_arthurs_property" edge with a given conditions (other predicates).
+func HasMillionArthursPropertyWith(preds ...predicate.LINENFTMillionArthursProperty) predicate.LINENFT {
 	return predicate.LINENFT(func(s *sql.Selector) {
-		step := newMillionArthursPropertiesStep()
+		step := newMillionArthursPropertyStep()
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {
 				p(s)

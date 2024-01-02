@@ -842,15 +842,15 @@ func (c *LINENFTClient) QueryActivities(l *LINENFT) *LINENFTActivityQuery {
 	return query
 }
 
-// QueryMillionArthursProperties queries the million_arthurs_properties edge of a LINENFT.
-func (c *LINENFTClient) QueryMillionArthursProperties(l *LINENFT) *LINENFTMillionArthursPropertyQuery {
+// QueryMillionArthursProperty queries the million_arthurs_property edge of a LINENFT.
+func (c *LINENFTClient) QueryMillionArthursProperty(l *LINENFT) *LINENFTMillionArthursPropertyQuery {
 	query := (&LINENFTMillionArthursPropertyClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
 		id := l.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(linenft.Table, linenft.FieldID, id),
 			sqlgraph.To(linenftmillionarthursproperty.Table, linenftmillionarthursproperty.FieldID),
-			sqlgraph.Edge(sqlgraph.O2O, false, linenft.MillionArthursPropertiesTable, linenft.MillionArthursPropertiesColumn),
+			sqlgraph.Edge(sqlgraph.O2O, false, linenft.MillionArthursPropertyTable, linenft.MillionArthursPropertyColumn),
 		)
 		fromV = sqlgraph.Neighbors(l.driver.Dialect(), step)
 		return fromV, nil

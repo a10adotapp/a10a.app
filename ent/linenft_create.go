@@ -127,23 +127,23 @@ func (lc *LINENFTCreate) AddActivities(l ...*LINENFTActivity) *LINENFTCreate {
 	return lc.AddActivityIDs(ids...)
 }
 
-// SetMillionArthursPropertiesID sets the "million_arthurs_properties" edge to the LINENFTMillionArthursProperty entity by ID.
-func (lc *LINENFTCreate) SetMillionArthursPropertiesID(id uint32) *LINENFTCreate {
-	lc.mutation.SetMillionArthursPropertiesID(id)
+// SetMillionArthursPropertyID sets the "million_arthurs_property" edge to the LINENFTMillionArthursProperty entity by ID.
+func (lc *LINENFTCreate) SetMillionArthursPropertyID(id uint32) *LINENFTCreate {
+	lc.mutation.SetMillionArthursPropertyID(id)
 	return lc
 }
 
-// SetNillableMillionArthursPropertiesID sets the "million_arthurs_properties" edge to the LINENFTMillionArthursProperty entity by ID if the given value is not nil.
-func (lc *LINENFTCreate) SetNillableMillionArthursPropertiesID(id *uint32) *LINENFTCreate {
+// SetNillableMillionArthursPropertyID sets the "million_arthurs_property" edge to the LINENFTMillionArthursProperty entity by ID if the given value is not nil.
+func (lc *LINENFTCreate) SetNillableMillionArthursPropertyID(id *uint32) *LINENFTCreate {
 	if id != nil {
-		lc = lc.SetMillionArthursPropertiesID(*id)
+		lc = lc.SetMillionArthursPropertyID(*id)
 	}
 	return lc
 }
 
-// SetMillionArthursProperties sets the "million_arthurs_properties" edge to the LINENFTMillionArthursProperty entity.
-func (lc *LINENFTCreate) SetMillionArthursProperties(l *LINENFTMillionArthursProperty) *LINENFTCreate {
-	return lc.SetMillionArthursPropertiesID(l.ID)
+// SetMillionArthursProperty sets the "million_arthurs_property" edge to the LINENFTMillionArthursProperty entity.
+func (lc *LINENFTCreate) SetMillionArthursProperty(l *LINENFTMillionArthursProperty) *LINENFTCreate {
+	return lc.SetMillionArthursPropertyID(l.ID)
 }
 
 // Mutation returns the LINENFTMutation object of the builder.
@@ -317,12 +317,12 @@ func (lc *LINENFTCreate) createSpec() (*LINENFT, *sqlgraph.CreateSpec) {
 		}
 		_spec.Edges = append(_spec.Edges, edge)
 	}
-	if nodes := lc.mutation.MillionArthursPropertiesIDs(); len(nodes) > 0 {
+	if nodes := lc.mutation.MillionArthursPropertyIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2O,
 			Inverse: false,
-			Table:   linenft.MillionArthursPropertiesTable,
-			Columns: []string{linenft.MillionArthursPropertiesColumn},
+			Table:   linenft.MillionArthursPropertyTable,
+			Columns: []string{linenft.MillionArthursPropertyColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(linenftmillionarthursproperty.FieldID, field.TypeUint32),

@@ -34,9 +34,9 @@ type LINENFTMillionArthursProperty struct {
 	Omj *string `json:"omj"`
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the LINENFTMillionArthursPropertyQuery when eager-loading is set.
-	Edges                              LINENFTMillionArthursPropertyEdges `json:"edges"`
-	linenft_million_arthurs_properties *uint32
-	selectValues                       sql.SelectValues
+	Edges                            LINENFTMillionArthursPropertyEdges `json:"edges"`
+	linenft_million_arthurs_property *uint32
+	selectValues                     sql.SelectValues
 }
 
 // LINENFTMillionArthursPropertyEdges holds the relations/edges for other nodes in the graph.
@@ -72,7 +72,7 @@ func (*LINENFTMillionArthursProperty) scanValues(columns []string) ([]any, error
 			values[i] = new(sql.NullString)
 		case linenftmillionarthursproperty.FieldCreatedAt, linenftmillionarthursproperty.FieldUpdatedAt, linenftmillionarthursproperty.FieldDeletedAt:
 			values[i] = new(sql.NullTime)
-		case linenftmillionarthursproperty.ForeignKeys[0]: // linenft_million_arthurs_properties
+		case linenftmillionarthursproperty.ForeignKeys[0]: // linenft_million_arthurs_property
 			values[i] = new(sql.NullInt64)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -144,10 +144,10 @@ func (lmap *LINENFTMillionArthursProperty) assignValues(columns []string, values
 			}
 		case linenftmillionarthursproperty.ForeignKeys[0]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for edge-field linenft_million_arthurs_properties", value)
+				return fmt.Errorf("unexpected type %T for edge-field linenft_million_arthurs_property", value)
 			} else if value.Valid {
-				lmap.linenft_million_arthurs_properties = new(uint32)
-				*lmap.linenft_million_arthurs_properties = uint32(value.Int64)
+				lmap.linenft_million_arthurs_property = new(uint32)
+				*lmap.linenft_million_arthurs_property = uint32(value.Int64)
 			}
 		default:
 			lmap.selectValues.Set(columns[i], values[i])

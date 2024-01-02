@@ -176,23 +176,23 @@ func (lu *LINENFTUpdate) AddActivities(l ...*LINENFTActivity) *LINENFTUpdate {
 	return lu.AddActivityIDs(ids...)
 }
 
-// SetMillionArthursPropertiesID sets the "million_arthurs_properties" edge to the LINENFTMillionArthursProperty entity by ID.
-func (lu *LINENFTUpdate) SetMillionArthursPropertiesID(id uint32) *LINENFTUpdate {
-	lu.mutation.SetMillionArthursPropertiesID(id)
+// SetMillionArthursPropertyID sets the "million_arthurs_property" edge to the LINENFTMillionArthursProperty entity by ID.
+func (lu *LINENFTUpdate) SetMillionArthursPropertyID(id uint32) *LINENFTUpdate {
+	lu.mutation.SetMillionArthursPropertyID(id)
 	return lu
 }
 
-// SetNillableMillionArthursPropertiesID sets the "million_arthurs_properties" edge to the LINENFTMillionArthursProperty entity by ID if the given value is not nil.
-func (lu *LINENFTUpdate) SetNillableMillionArthursPropertiesID(id *uint32) *LINENFTUpdate {
+// SetNillableMillionArthursPropertyID sets the "million_arthurs_property" edge to the LINENFTMillionArthursProperty entity by ID if the given value is not nil.
+func (lu *LINENFTUpdate) SetNillableMillionArthursPropertyID(id *uint32) *LINENFTUpdate {
 	if id != nil {
-		lu = lu.SetMillionArthursPropertiesID(*id)
+		lu = lu.SetMillionArthursPropertyID(*id)
 	}
 	return lu
 }
 
-// SetMillionArthursProperties sets the "million_arthurs_properties" edge to the LINENFTMillionArthursProperty entity.
-func (lu *LINENFTUpdate) SetMillionArthursProperties(l *LINENFTMillionArthursProperty) *LINENFTUpdate {
-	return lu.SetMillionArthursPropertiesID(l.ID)
+// SetMillionArthursProperty sets the "million_arthurs_property" edge to the LINENFTMillionArthursProperty entity.
+func (lu *LINENFTUpdate) SetMillionArthursProperty(l *LINENFTMillionArthursProperty) *LINENFTUpdate {
+	return lu.SetMillionArthursPropertyID(l.ID)
 }
 
 // Mutation returns the LINENFTMutation object of the builder.
@@ -221,9 +221,9 @@ func (lu *LINENFTUpdate) RemoveActivities(l ...*LINENFTActivity) *LINENFTUpdate 
 	return lu.RemoveActivityIDs(ids...)
 }
 
-// ClearMillionArthursProperties clears the "million_arthurs_properties" edge to the LINENFTMillionArthursProperty entity.
-func (lu *LINENFTUpdate) ClearMillionArthursProperties() *LINENFTUpdate {
-	lu.mutation.ClearMillionArthursProperties()
+// ClearMillionArthursProperty clears the "million_arthurs_property" edge to the LINENFTMillionArthursProperty entity.
+func (lu *LINENFTUpdate) ClearMillionArthursProperty() *LINENFTUpdate {
+	lu.mutation.ClearMillionArthursProperty()
 	return lu
 }
 
@@ -356,12 +356,12 @@ func (lu *LINENFTUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if lu.mutation.MillionArthursPropertiesCleared() {
+	if lu.mutation.MillionArthursPropertyCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2O,
 			Inverse: false,
-			Table:   linenft.MillionArthursPropertiesTable,
-			Columns: []string{linenft.MillionArthursPropertiesColumn},
+			Table:   linenft.MillionArthursPropertyTable,
+			Columns: []string{linenft.MillionArthursPropertyColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(linenftmillionarthursproperty.FieldID, field.TypeUint32),
@@ -369,12 +369,12 @@ func (lu *LINENFTUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := lu.mutation.MillionArthursPropertiesIDs(); len(nodes) > 0 {
+	if nodes := lu.mutation.MillionArthursPropertyIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2O,
 			Inverse: false,
-			Table:   linenft.MillionArthursPropertiesTable,
-			Columns: []string{linenft.MillionArthursPropertiesColumn},
+			Table:   linenft.MillionArthursPropertyTable,
+			Columns: []string{linenft.MillionArthursPropertyColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(linenftmillionarthursproperty.FieldID, field.TypeUint32),
@@ -551,23 +551,23 @@ func (luo *LINENFTUpdateOne) AddActivities(l ...*LINENFTActivity) *LINENFTUpdate
 	return luo.AddActivityIDs(ids...)
 }
 
-// SetMillionArthursPropertiesID sets the "million_arthurs_properties" edge to the LINENFTMillionArthursProperty entity by ID.
-func (luo *LINENFTUpdateOne) SetMillionArthursPropertiesID(id uint32) *LINENFTUpdateOne {
-	luo.mutation.SetMillionArthursPropertiesID(id)
+// SetMillionArthursPropertyID sets the "million_arthurs_property" edge to the LINENFTMillionArthursProperty entity by ID.
+func (luo *LINENFTUpdateOne) SetMillionArthursPropertyID(id uint32) *LINENFTUpdateOne {
+	luo.mutation.SetMillionArthursPropertyID(id)
 	return luo
 }
 
-// SetNillableMillionArthursPropertiesID sets the "million_arthurs_properties" edge to the LINENFTMillionArthursProperty entity by ID if the given value is not nil.
-func (luo *LINENFTUpdateOne) SetNillableMillionArthursPropertiesID(id *uint32) *LINENFTUpdateOne {
+// SetNillableMillionArthursPropertyID sets the "million_arthurs_property" edge to the LINENFTMillionArthursProperty entity by ID if the given value is not nil.
+func (luo *LINENFTUpdateOne) SetNillableMillionArthursPropertyID(id *uint32) *LINENFTUpdateOne {
 	if id != nil {
-		luo = luo.SetMillionArthursPropertiesID(*id)
+		luo = luo.SetMillionArthursPropertyID(*id)
 	}
 	return luo
 }
 
-// SetMillionArthursProperties sets the "million_arthurs_properties" edge to the LINENFTMillionArthursProperty entity.
-func (luo *LINENFTUpdateOne) SetMillionArthursProperties(l *LINENFTMillionArthursProperty) *LINENFTUpdateOne {
-	return luo.SetMillionArthursPropertiesID(l.ID)
+// SetMillionArthursProperty sets the "million_arthurs_property" edge to the LINENFTMillionArthursProperty entity.
+func (luo *LINENFTUpdateOne) SetMillionArthursProperty(l *LINENFTMillionArthursProperty) *LINENFTUpdateOne {
+	return luo.SetMillionArthursPropertyID(l.ID)
 }
 
 // Mutation returns the LINENFTMutation object of the builder.
@@ -596,9 +596,9 @@ func (luo *LINENFTUpdateOne) RemoveActivities(l ...*LINENFTActivity) *LINENFTUpd
 	return luo.RemoveActivityIDs(ids...)
 }
 
-// ClearMillionArthursProperties clears the "million_arthurs_properties" edge to the LINENFTMillionArthursProperty entity.
-func (luo *LINENFTUpdateOne) ClearMillionArthursProperties() *LINENFTUpdateOne {
-	luo.mutation.ClearMillionArthursProperties()
+// ClearMillionArthursProperty clears the "million_arthurs_property" edge to the LINENFTMillionArthursProperty entity.
+func (luo *LINENFTUpdateOne) ClearMillionArthursProperty() *LINENFTUpdateOne {
+	luo.mutation.ClearMillionArthursProperty()
 	return luo
 }
 
@@ -761,12 +761,12 @@ func (luo *LINENFTUpdateOne) sqlSave(ctx context.Context) (_node *LINENFT, err e
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if luo.mutation.MillionArthursPropertiesCleared() {
+	if luo.mutation.MillionArthursPropertyCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2O,
 			Inverse: false,
-			Table:   linenft.MillionArthursPropertiesTable,
-			Columns: []string{linenft.MillionArthursPropertiesColumn},
+			Table:   linenft.MillionArthursPropertyTable,
+			Columns: []string{linenft.MillionArthursPropertyColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(linenftmillionarthursproperty.FieldID, field.TypeUint32),
@@ -774,12 +774,12 @@ func (luo *LINENFTUpdateOne) sqlSave(ctx context.Context) (_node *LINENFT, err e
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := luo.mutation.MillionArthursPropertiesIDs(); len(nodes) > 0 {
+	if nodes := luo.mutation.MillionArthursPropertyIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2O,
 			Inverse: false,
-			Table:   linenft.MillionArthursPropertiesTable,
-			Columns: []string{linenft.MillionArthursPropertiesColumn},
+			Table:   linenft.MillionArthursPropertyTable,
+			Columns: []string{linenft.MillionArthursPropertyColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(linenftmillionarthursproperty.FieldID, field.TypeUint32),

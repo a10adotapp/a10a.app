@@ -7,11 +7,14 @@ import (
 	"io"
 	"log/slog"
 	"net/http"
+	"os"
+	"strings"
 	"time"
 
 	"github.com/a10adotapp/a10a.app/ent"
 	entlinenft "github.com/a10adotapp/a10a.app/ent/linenft"
 	entlinenftactivity "github.com/a10adotapp/a10a.app/ent/linenftactivity"
+	"github.com/line/line-bot-sdk-go/v8/linebot/messaging_api"
 )
 
 type Activity struct {
@@ -54,6 +57,7 @@ func (s LINENFTService) GetActivities(ctx context.Context) error {
 
 	for _, activity := range activities {
 		lineNFT, err := s.entClient.LINENFT.Query().
+			WithMillionArthursProperty().
 			Where(
 				entlinenft.LineNftID(activity.NFTID),
 			).
@@ -87,7 +91,7 @@ func (s LINENFTService) GetActivities(ctx context.Context) error {
 				continue
 			}
 
-			_, err = s.entClient.LINENFTMillionArthursProperty.Create().
+			lineNFT.Edges.MillionArthursProperty, err = s.entClient.LINENFTMillionArthursProperty.Create().
 				SetLineNft(lineNFT).
 				SetNillableSeries(saleData.Item.Properties.Series).
 				SetNillableGearCategory(saleData.Item.Properties.GearCategory).
@@ -119,7 +123,7 @@ func (s LINENFTService) GetActivities(ctx context.Context) error {
 
 		activatedAt := time.Unix(int64(activity.CreatedAt/1000), int64(activity.CreatedAt%1000))
 
-		_, err = s.entClient.LINENFTActivity.Create().
+		lineNFTActivity, err = s.entClient.LINENFTActivity.Create().
 			SetLineNft(lineNFT).
 			SetActivityType(activity.ActivityType).
 			SetSaleID(activity.SaleID).
@@ -132,6 +136,21 @@ func (s LINENFTService) GetActivities(ctx context.Context) error {
 			slog.Error("GetActivities", slog.Any("error", err))
 
 			continue
+		}
+
+		if lineNFTActivity.ActivityType == "REGISTERED" {
+			if lineNFT.Edges.MillionArthursProperty != nil && lineNFT.Edges.MillionArthursProperty.Omj != nil {
+				if lineNFTActivity.Price < 0.005 {
+					if err = sendLINEMessage(strings.Join([]string{
+						fmt.Sprintf(lineNFT.TokenName),
+						fmt.Sprintf("price: %.4f", lineNFTActivity.Price),
+					}, "\n")); err != nil {
+						slog.Error("GetActivities", slog.Any("error", err))
+
+						continue
+					}
+				}
+			}
 		}
 	}
 
@@ -193,4 +212,22 @@ func fetchSaleData(saleID uint32) (*SaleData, error) {
 	}
 
 	return &resData, nil
+}
+
+func sendLINEMessage(message string) error {
+	bot, err := messaging_api.NewMessagingApiAPI(os.Getenv("LINE_CHANNEL_TOKEN"))
+	if err != nil {
+		return err
+	}
+
+	bot.PushMessage(&messaging_api.PushMessageRequest{
+		To: os.Getenv("LINE_MESSAGE_RECEIVER"),
+		Messages: []messaging_api.MessageInterface{
+			messaging_api.TextMessage{
+				Text: message,
+			},
+		},
+	}, "")
+
+	return nil
 }

@@ -48,8 +48,8 @@ type LINENFT struct {
 type LINENFTEdges struct {
 	// Activities holds the value of the activities edge.
 	Activities []*LINENFTActivity `json:"activities,omitempty"`
-	// MillionArthursProperties holds the value of the million_arthurs_properties edge.
-	MillionArthursProperties *LINENFTMillionArthursProperty `json:"million_arthurs_properties,omitempty"`
+	// MillionArthursProperty holds the value of the million_arthurs_property edge.
+	MillionArthursProperty *LINENFTMillionArthursProperty `json:"million_arthurs_property,omitempty"`
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
 	loadedTypes [2]bool
@@ -64,17 +64,17 @@ func (e LINENFTEdges) ActivitiesOrErr() ([]*LINENFTActivity, error) {
 	return nil, &NotLoadedError{edge: "activities"}
 }
 
-// MillionArthursPropertiesOrErr returns the MillionArthursProperties value or an error if the edge
+// MillionArthursPropertyOrErr returns the MillionArthursProperty value or an error if the edge
 // was not loaded in eager-loading, or loaded but was not found.
-func (e LINENFTEdges) MillionArthursPropertiesOrErr() (*LINENFTMillionArthursProperty, error) {
+func (e LINENFTEdges) MillionArthursPropertyOrErr() (*LINENFTMillionArthursProperty, error) {
 	if e.loadedTypes[1] {
-		if e.MillionArthursProperties == nil {
+		if e.MillionArthursProperty == nil {
 			// Edge was loaded but was not found.
 			return nil, &NotFoundError{label: linenftmillionarthursproperty.Label}
 		}
-		return e.MillionArthursProperties, nil
+		return e.MillionArthursProperty, nil
 	}
-	return nil, &NotLoadedError{edge: "million_arthurs_properties"}
+	return nil, &NotLoadedError{edge: "million_arthurs_property"}
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -188,9 +188,9 @@ func (l *LINENFT) QueryActivities() *LINENFTActivityQuery {
 	return NewLINENFTClient(l.config).QueryActivities(l)
 }
 
-// QueryMillionArthursProperties queries the "million_arthurs_properties" edge of the LINENFT entity.
-func (l *LINENFT) QueryMillionArthursProperties() *LINENFTMillionArthursPropertyQuery {
-	return NewLINENFTClient(l.config).QueryMillionArthursProperties(l)
+// QueryMillionArthursProperty queries the "million_arthurs_property" edge of the LINENFT entity.
+func (l *LINENFT) QueryMillionArthursProperty() *LINENFTMillionArthursPropertyQuery {
+	return NewLINENFTClient(l.config).QueryMillionArthursProperty(l)
 }
 
 // Update returns a builder for updating this LINENFT.

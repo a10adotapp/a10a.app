@@ -55,7 +55,7 @@ func (LINENFTMillionArthursProperty) Fields() []ent.Field {
 func (LINENFTMillionArthursProperty) Edges() []ent.Edge {
 	return []ent.Edge{
 		edge.From("line_nft", LINENFT.Type).
-			Ref("million_arthurs_properties").
+			Ref("million_arthurs_property").
 			Unique().
 			Required(),
 	}

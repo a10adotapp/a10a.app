@@ -275,7 +275,7 @@ func (lmapc *LINENFTMillionArthursPropertyCreate) createSpec() (*LINENFTMillionA
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
-		_node.linenft_million_arthurs_properties = &nodes[0]
+		_node.linenft_million_arthurs_property = &nodes[0]
 		_spec.Edges = append(_spec.Edges, edge)
 	}
 	return _node, _spec

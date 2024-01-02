@@ -54,7 +54,7 @@ func (LINENFT) Edges() []ent.Edge {
 	return []ent.Edge{
 		edge.To("activities", LINENFTActivity.Type),
 
-		edge.To("million_arthurs_properties", LINENFTMillionArthursProperty.Type).
+		edge.To("million_arthurs_property", LINENFTMillionArthursProperty.Type).
 			Unique(),
 	}
 }

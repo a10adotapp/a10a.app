@@ -20,12 +20,12 @@ import (
 // LINENFTQuery is the builder for querying LINENFT entities.
 type LINENFTQuery struct {
 	config
-	ctx                          *QueryContext
-	order                        []linenft.OrderOption
-	inters                       []Interceptor
-	predicates                   []predicate.LINENFT
-	withActivities               *LINENFTActivityQuery
-	withMillionArthursProperties *LINENFTMillionArthursPropertyQuery
+	ctx                        *QueryContext
+	order                      []linenft.OrderOption
+	inters                     []Interceptor
+	predicates                 []predicate.LINENFT
+	withActivities             *LINENFTActivityQuery
+	withMillionArthursProperty *LINENFTMillionArthursPropertyQuery
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -84,8 +84,8 @@ func (lq *LINENFTQuery) QueryActivities() *LINENFTActivityQuery {
 	return query
 }
 
-// QueryMillionArthursProperties chains the current query on the "million_arthurs_properties" edge.
-func (lq *LINENFTQuery) QueryMillionArthursProperties() *LINENFTMillionArthursPropertyQuery {
+// QueryMillionArthursProperty chains the current query on the "million_arthurs_property" edge.
+func (lq *LINENFTQuery) QueryMillionArthursProperty() *LINENFTMillionArthursPropertyQuery {
 	query := (&LINENFTMillionArthursPropertyClient{config: lq.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
 		if err := lq.prepareQuery(ctx); err != nil {
@@ -98,7 +98,7 @@ func (lq *LINENFTQuery) QueryMillionArthursProperties() *LINENFTMillionArthursPr
 		step := sqlgraph.NewStep(
 			sqlgraph.From(linenft.Table, linenft.FieldID, selector),
 			sqlgraph.To(linenftmillionarthursproperty.Table, linenftmillionarthursproperty.FieldID),
-			sqlgraph.Edge(sqlgraph.O2O, false, linenft.MillionArthursPropertiesTable, linenft.MillionArthursPropertiesColumn),
+			sqlgraph.Edge(sqlgraph.O2O, false, linenft.MillionArthursPropertyTable, linenft.MillionArthursPropertyColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(lq.driver.Dialect(), step)
 		return fromU, nil
@@ -293,13 +293,13 @@ func (lq *LINENFTQuery) Clone() *LINENFTQuery {
 		return nil
 	}
 	return &LINENFTQuery{
-		config:                       lq.config,
-		ctx:                          lq.ctx.Clone(),
-		order:                        append([]linenft.OrderOption{}, lq.order...),
-		inters:                       append([]Interceptor{}, lq.inters...),
-		predicates:                   append([]predicate.LINENFT{}, lq.predicates...),
-		withActivities:               lq.withActivities.Clone(),
-		withMillionArthursProperties: lq.withMillionArthursProperties.Clone(),
+		config:                     lq.config,
+		ctx:                        lq.ctx.Clone(),
+		order:                      append([]linenft.OrderOption{}, lq.order...),
+		inters:                     append([]Interceptor{}, lq.inters...),
+		predicates:                 append([]predicate.LINENFT{}, lq.predicates...),
+		withActivities:             lq.withActivities.Clone(),
+		withMillionArthursProperty: lq.withMillionArthursProperty.Clone(),
 		// clone intermediate query.
 		sql:  lq.sql.Clone(),
 		path: lq.path,
@@ -317,14 +317,14 @@ func (lq *LINENFTQuery) WithActivities(opts ...func(*LINENFTActivityQuery)) *LIN
 	return lq
 }
 
-// WithMillionArthursProperties tells the query-builder to eager-load the nodes that are connected to
-// the "million_arthurs_properties" edge. The optional arguments are used to configure the query builder of the edge.
-func (lq *LINENFTQuery) WithMillionArthursProperties(opts ...func(*LINENFTMillionArthursPropertyQuery)) *LINENFTQuery {
+// WithMillionArthursProperty tells the query-builder to eager-load the nodes that are connected to
+// the "million_arthurs_property" edge. The optional arguments are used to configure the query builder of the edge.
+func (lq *LINENFTQuery) WithMillionArthursProperty(opts ...func(*LINENFTMillionArthursPropertyQuery)) *LINENFTQuery {
 	query := (&LINENFTMillionArthursPropertyClient{config: lq.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	lq.withMillionArthursProperties = query
+	lq.withMillionArthursProperty = query
 	return lq
 }
 
@@ -408,7 +408,7 @@ func (lq *LINENFTQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*LINE
 		_spec       = lq.querySpec()
 		loadedTypes = [2]bool{
 			lq.withActivities != nil,
-			lq.withMillionArthursProperties != nil,
+			lq.withMillionArthursProperty != nil,
 		}
 	)
 	_spec.ScanValues = func(columns []string) ([]any, error) {
@@ -436,9 +436,9 @@ func (lq *LINENFTQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*LINE
 			return nil, err
 		}
 	}
-	if query := lq.withMillionArthursProperties; query != nil {
-		if err := lq.loadMillionArthursProperties(ctx, query, nodes, nil,
-			func(n *LINENFT, e *LINENFTMillionArthursProperty) { n.Edges.MillionArthursProperties = e }); err != nil {
+	if query := lq.withMillionArthursProperty; query != nil {
+		if err := lq.loadMillionArthursProperty(ctx, query, nodes, nil,
+			func(n *LINENFT, e *LINENFTMillionArthursProperty) { n.Edges.MillionArthursProperty = e }); err != nil {
 			return nil, err
 		}
 	}
@@ -476,7 +476,7 @@ func (lq *LINENFTQuery) loadActivities(ctx context.Context, query *LINENFTActivi
 	}
 	return nil
 }
-func (lq *LINENFTQuery) loadMillionArthursProperties(ctx context.Context, query *LINENFTMillionArthursPropertyQuery, nodes []*LINENFT, init func(*LINENFT), assign func(*LINENFT, *LINENFTMillionArthursProperty)) error {
+func (lq *LINENFTQuery) loadMillionArthursProperty(ctx context.Context, query *LINENFTMillionArthursPropertyQuery, nodes []*LINENFT, init func(*LINENFT), assign func(*LINENFT, *LINENFTMillionArthursProperty)) error {
 	fks := make([]driver.Value, 0, len(nodes))
 	nodeids := make(map[uint32]*LINENFT)
 	for i := range nodes {
@@ -485,20 +485,20 @@ func (lq *LINENFTQuery) loadMillionArthursProperties(ctx context.Context, query 
 	}
 	query.withFKs = true
 	query.Where(predicate.LINENFTMillionArthursProperty(func(s *sql.Selector) {
-		s.Where(sql.InValues(s.C(linenft.MillionArthursPropertiesColumn), fks...))
+		s.Where(sql.InValues(s.C(linenft.MillionArthursPropertyColumn), fks...))
 	}))
 	neighbors, err := query.All(ctx)
 	if err != nil {
 		return err
 	}
 	for _, n := range neighbors {
-		fk := n.linenft_million_arthurs_properties
+		fk := n.linenft_million_arthurs_property
 		if fk == nil {
-			return fmt.Errorf(`foreign-key "linenft_million_arthurs_properties" is nil for node %v`, n.ID)
+			return fmt.Errorf(`foreign-key "linenft_million_arthurs_property" is nil for node %v`, n.ID)
 		}
 		node, ok := nodeids[*fk]
 		if !ok {
-			return fmt.Errorf(`unexpected referenced foreign-key "linenft_million_arthurs_properties" returned %v for node %v`, *fk, n.ID)
+			return fmt.Errorf(`unexpected referenced foreign-key "linenft_million_arthurs_property" returned %v for node %v`, *fk, n.ID)
 		}
 		assign(node, n)
 	}

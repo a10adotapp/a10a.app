@@ -2367,29 +2367,29 @@ func (m *FinschiaItemTokenMillionArthursPropertyMutation) ResetEdge(name string)
 // LINENFTMutation represents an operation that mutates the LINENFT nodes in the graph.
 type LINENFTMutation struct {
 	config
-	op                                Op
-	typ                               string
-	id                                *uint32
-	created_at                        *time.Time
-	updated_at                        *time.Time
-	deleted_at                        *time.Time
-	line_nft_id                       *uint32
-	addline_nft_id                    *int32
-	contract_id                       *string
-	token_type                        *string
-	token_index                       *string
-	token_name                        *string
-	token_description                 *string
-	token_content_url                 *string
-	clearedFields                     map[string]struct{}
-	activities                        map[uint32]struct{}
-	removedactivities                 map[uint32]struct{}
-	clearedactivities                 bool
-	million_arthurs_properties        *uint32
-	clearedmillion_arthurs_properties bool
-	done                              bool
-	oldValue                          func(context.Context) (*LINENFT, error)
-	predicates                        []predicate.LINENFT
+	op                              Op
+	typ                             string
+	id                              *uint32
+	created_at                      *time.Time
+	updated_at                      *time.Time
+	deleted_at                      *time.Time
+	line_nft_id                     *uint32
+	addline_nft_id                  *int32
+	contract_id                     *string
+	token_type                      *string
+	token_index                     *string
+	token_name                      *string
+	token_description               *string
+	token_content_url               *string
+	clearedFields                   map[string]struct{}
+	activities                      map[uint32]struct{}
+	removedactivities               map[uint32]struct{}
+	clearedactivities               bool
+	million_arthurs_property        *uint32
+	clearedmillion_arthurs_property bool
+	done                            bool
+	oldValue                        func(context.Context) (*LINENFT, error)
+	predicates                      []predicate.LINENFT
 }
 
 var _ ent.Mutation = (*LINENFTMutation)(nil)
@@ -2943,43 +2943,43 @@ func (m *LINENFTMutation) ResetActivities() {
 	m.removedactivities = nil
 }
 
-// SetMillionArthursPropertiesID sets the "million_arthurs_properties" edge to the LINENFTMillionArthursProperty entity by id.
-func (m *LINENFTMutation) SetMillionArthursPropertiesID(id uint32) {
-	m.million_arthurs_properties = &id
+// SetMillionArthursPropertyID sets the "million_arthurs_property" edge to the LINENFTMillionArthursProperty entity by id.
+func (m *LINENFTMutation) SetMillionArthursPropertyID(id uint32) {
+	m.million_arthurs_property = &id
 }
 
-// ClearMillionArthursProperties clears the "million_arthurs_properties" edge to the LINENFTMillionArthursProperty entity.
-func (m *LINENFTMutation) ClearMillionArthursProperties() {
-	m.clearedmillion_arthurs_properties = true
+// ClearMillionArthursProperty clears the "million_arthurs_property" edge to the LINENFTMillionArthursProperty entity.
+func (m *LINENFTMutation) ClearMillionArthursProperty() {
+	m.clearedmillion_arthurs_property = true
 }
 
-// MillionArthursPropertiesCleared reports if the "million_arthurs_properties" edge to the LINENFTMillionArthursProperty entity was cleared.
-func (m *LINENFTMutation) MillionArthursPropertiesCleared() bool {
-	return m.clearedmillion_arthurs_properties
+// MillionArthursPropertyCleared reports if the "million_arthurs_property" edge to the LINENFTMillionArthursProperty entity was cleared.
+func (m *LINENFTMutation) MillionArthursPropertyCleared() bool {
+	return m.clearedmillion_arthurs_property
 }
 
-// MillionArthursPropertiesID returns the "million_arthurs_properties" edge ID in the mutation.
-func (m *LINENFTMutation) MillionArthursPropertiesID() (id uint32, exists bool) {
-	if m.million_arthurs_properties != nil {
-		return *m.million_arthurs_properties, true
+// MillionArthursPropertyID returns the "million_arthurs_property" edge ID in the mutation.
+func (m *LINENFTMutation) MillionArthursPropertyID() (id uint32, exists bool) {
+	if m.million_arthurs_property != nil {
+		return *m.million_arthurs_property, true
 	}
 	return
 }
 
-// MillionArthursPropertiesIDs returns the "million_arthurs_properties" edge IDs in the mutation.
+// MillionArthursPropertyIDs returns the "million_arthurs_property" edge IDs in the mutation.
 // Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
-// MillionArthursPropertiesID instead. It exists only for internal usage by the builders.
-func (m *LINENFTMutation) MillionArthursPropertiesIDs() (ids []uint32) {
-	if id := m.million_arthurs_properties; id != nil {
+// MillionArthursPropertyID instead. It exists only for internal usage by the builders.
+func (m *LINENFTMutation) MillionArthursPropertyIDs() (ids []uint32) {
+	if id := m.million_arthurs_property; id != nil {
 		ids = append(ids, *id)
 	}
 	return
 }
 
-// ResetMillionArthursProperties resets all changes to the "million_arthurs_properties" edge.
-func (m *LINENFTMutation) ResetMillionArthursProperties() {
-	m.million_arthurs_properties = nil
-	m.clearedmillion_arthurs_properties = false
+// ResetMillionArthursProperty resets all changes to the "million_arthurs_property" edge.
+func (m *LINENFTMutation) ResetMillionArthursProperty() {
+	m.million_arthurs_property = nil
+	m.clearedmillion_arthurs_property = false
 }
 
 // Where appends a list predicates to the LINENFTMutation builder.
@@ -3296,8 +3296,8 @@ func (m *LINENFTMutation) AddedEdges() []string {
 	if m.activities != nil {
 		edges = append(edges, linenft.EdgeActivities)
 	}
-	if m.million_arthurs_properties != nil {
-		edges = append(edges, linenft.EdgeMillionArthursProperties)
+	if m.million_arthurs_property != nil {
+		edges = append(edges, linenft.EdgeMillionArthursProperty)
 	}
 	return edges
 }
@@ -3312,8 +3312,8 @@ func (m *LINENFTMutation) AddedIDs(name string) []ent.Value {
 			ids = append(ids, id)
 		}
 		return ids
-	case linenft.EdgeMillionArthursProperties:
-		if id := m.million_arthurs_properties; id != nil {
+	case linenft.EdgeMillionArthursProperty:
+		if id := m.million_arthurs_property; id != nil {
 			return []ent.Value{*id}
 		}
 	}
@@ -3349,8 +3349,8 @@ func (m *LINENFTMutation) ClearedEdges() []string {
 	if m.clearedactivities {
 		edges = append(edges, linenft.EdgeActivities)
 	}
-	if m.clearedmillion_arthurs_properties {
-		edges = append(edges, linenft.EdgeMillionArthursProperties)
+	if m.clearedmillion_arthurs_property {
+		edges = append(edges, linenft.EdgeMillionArthursProperty)
 	}
 	return edges
 }
@@ -3361,8 +3361,8 @@ func (m *LINENFTMutation) EdgeCleared(name string) bool {
 	switch name {
 	case linenft.EdgeActivities:
 		return m.clearedactivities
-	case linenft.EdgeMillionArthursProperties:
-		return m.clearedmillion_arthurs_properties
+	case linenft.EdgeMillionArthursProperty:
+		return m.clearedmillion_arthurs_property
 	}
 	return false
 }
@@ -3371,8 +3371,8 @@ func (m *LINENFTMutation) EdgeCleared(name string) bool {
 // if that edge is not defined in the schema.
 func (m *LINENFTMutation) ClearEdge(name string) error {
 	switch name {
-	case linenft.EdgeMillionArthursProperties:
-		m.ClearMillionArthursProperties()
+	case linenft.EdgeMillionArthursProperty:
+		m.ClearMillionArthursProperty()
 		return nil
 	}
 	return fmt.Errorf("unknown LINENFT unique edge %s", name)
@@ -3385,8 +3385,8 @@ func (m *LINENFTMutation) ResetEdge(name string) error {
 	case linenft.EdgeActivities:
 		m.ResetActivities()
 		return nil
-	case linenft.EdgeMillionArthursProperties:
-		m.ResetMillionArthursProperties()
+	case linenft.EdgeMillionArthursProperty:
+		m.ResetMillionArthursProperty()
 		return nil
 	}
 	return fmt.Errorf("unknown LINENFT edge %s", name)

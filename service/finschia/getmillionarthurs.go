@@ -8,7 +8,6 @@ import (
 	"log/slog"
 	"net/http"
 	"net/url"
-	"os"
 	"path"
 	"time"
 
@@ -16,7 +15,6 @@ import (
 	entfinschiaitemtoken "github.com/a10adotapp/a10a.app/ent/finschiaitemtoken"
 	entfinschiaitemtokenactivity "github.com/a10adotapp/a10a.app/ent/finschiaitemtokenactivity"
 	"github.com/a10adotapp/a10a.app/lib/slices"
-	"github.com/line/line-bot-sdk-go/v8/linebot/messaging_api"
 )
 
 var (
@@ -151,6 +149,7 @@ func (s FinschiaService) GetMillionArthurs(ctx context.Context) error {
 					if activity == nil {
 						_, err = s.entClient.FinschiaItemTokenActivity.Create().
 							SetFinschiaItemToken(itemToken).
+							SetTransactionHash(transaction.Info.Hash).
 							SetActivityType(message.Type).
 							SetActivatedAt(activatedAt).
 							Save(ctx)
@@ -320,22 +319,4 @@ func fetchItemToken(contractID string, tokenType string) (*ItemToken, error) {
 	}
 
 	return &resData, nil
-}
-
-func sendLINEMessage() error {
-	bot, err := messaging_api.NewMessagingApiAPI(os.Getenv("LINE_CHANNEL_TOKEN"))
-	if err != nil {
-		return err
-	}
-
-	bot.PushMessage(&messaging_api.PushMessageRequest{
-		To: os.Getenv("LINE_MESSAGE_RECEIVER"),
-		Messages: []messaging_api.MessageInterface{
-			messaging_api.TextMessage{
-				Text: "Hello, World!",
-			},
-		},
-	}, "")
-
-	return nil
 }

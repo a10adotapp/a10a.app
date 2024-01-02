@@ -412,10 +412,10 @@ func (lmapq *LINENFTMillionArthursPropertyQuery) loadLineNft(ctx context.Context
 	ids := make([]uint32, 0, len(nodes))
 	nodeids := make(map[uint32][]*LINENFTMillionArthursProperty)
 	for i := range nodes {
-		if nodes[i].linenft_million_arthurs_properties == nil {
+		if nodes[i].linenft_million_arthurs_property == nil {
 			continue
 		}
-		fk := *nodes[i].linenft_million_arthurs_properties
+		fk := *nodes[i].linenft_million_arthurs_property
 		if _, ok := nodeids[fk]; !ok {
 			ids = append(ids, fk)
 		}
@@ -432,7 +432,7 @@ func (lmapq *LINENFTMillionArthursPropertyQuery) loadLineNft(ctx context.Context
 	for _, n := range neighbors {
 		nodes, ok := nodeids[n.ID]
 		if !ok {
-			return fmt.Errorf(`unexpected foreign-key "linenft_million_arthurs_properties" returned %v`, n.ID)
+			return fmt.Errorf(`unexpected foreign-key "linenft_million_arthurs_property" returned %v`, n.ID)
 		}
 		for i := range nodes {
 			assign(nodes[i], n)

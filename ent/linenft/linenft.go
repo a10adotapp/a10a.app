@@ -37,8 +37,8 @@ const (
 	FieldTokenContentURL = "token_content_url"
 	// EdgeActivities holds the string denoting the activities edge name in mutations.
 	EdgeActivities = "activities"
-	// EdgeMillionArthursProperties holds the string denoting the million_arthurs_properties edge name in mutations.
-	EdgeMillionArthursProperties = "million_arthurs_properties"
+	// EdgeMillionArthursProperty holds the string denoting the million_arthurs_property edge name in mutations.
+	EdgeMillionArthursProperty = "million_arthurs_property"
 	// Table holds the table name of the linenft in the database.
 	Table = "line_nfts"
 	// ActivitiesTable is the table that holds the activities relation/edge.
@@ -48,13 +48,13 @@ const (
 	ActivitiesInverseTable = "line_nft_activities"
 	// ActivitiesColumn is the table column denoting the activities relation/edge.
 	ActivitiesColumn = "linenft_activities"
-	// MillionArthursPropertiesTable is the table that holds the million_arthurs_properties relation/edge.
-	MillionArthursPropertiesTable = "line_nft_million_arthurs_properties"
-	// MillionArthursPropertiesInverseTable is the table name for the LINENFTMillionArthursProperty entity.
+	// MillionArthursPropertyTable is the table that holds the million_arthurs_property relation/edge.
+	MillionArthursPropertyTable = "line_nft_million_arthurs_properties"
+	// MillionArthursPropertyInverseTable is the table name for the LINENFTMillionArthursProperty entity.
 	// It exists in this package in order to avoid circular dependency with the "linenftmillionarthursproperty" package.
-	MillionArthursPropertiesInverseTable = "line_nft_million_arthurs_properties"
-	// MillionArthursPropertiesColumn is the table column denoting the million_arthurs_properties relation/edge.
-	MillionArthursPropertiesColumn = "linenft_million_arthurs_properties"
+	MillionArthursPropertyInverseTable = "line_nft_million_arthurs_properties"
+	// MillionArthursPropertyColumn is the table column denoting the million_arthurs_property relation/edge.
+	MillionArthursPropertyColumn = "linenft_million_arthurs_property"
 )
 
 // Columns holds all SQL columns for linenft fields.
@@ -170,10 +170,10 @@ func ByActivities(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
 	}
 }
 
-// ByMillionArthursPropertiesField orders the results by million_arthurs_properties field.
-func ByMillionArthursPropertiesField(field string, opts ...sql.OrderTermOption) OrderOption {
+// ByMillionArthursPropertyField orders the results by million_arthurs_property field.
+func ByMillionArthursPropertyField(field string, opts ...sql.OrderTermOption) OrderOption {
 	return func(s *sql.Selector) {
-		sqlgraph.OrderByNeighborTerms(s, newMillionArthursPropertiesStep(), sql.OrderByField(field, opts...))
+		sqlgraph.OrderByNeighborTerms(s, newMillionArthursPropertyStep(), sql.OrderByField(field, opts...))
 	}
 }
 func newActivitiesStep() *sqlgraph.Step {
@@ -183,10 +183,10 @@ func newActivitiesStep() *sqlgraph.Step {
 		sqlgraph.Edge(sqlgraph.O2M, false, ActivitiesTable, ActivitiesColumn),
 	)
 }
-func newMillionArthursPropertiesStep() *sqlgraph.Step {
+func newMillionArthursPropertyStep() *sqlgraph.Step {
 	return sqlgraph.NewStep(
 		sqlgraph.From(Table, FieldID),
-		sqlgraph.To(MillionArthursPropertiesInverseTable, FieldID),
-		sqlgraph.Edge(sqlgraph.O2O, false, MillionArthursPropertiesTable, MillionArthursPropertiesColumn),
+		sqlgraph.To(MillionArthursPropertyInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.O2O, false, MillionArthursPropertyTable, MillionArthursPropertyColumn),
 	)
 }

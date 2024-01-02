@@ -138,7 +138,7 @@ var (
 		{Name: "gear_category", Type: field.TypeString, Nullable: true},
 		{Name: "gear_rarity", Type: field.TypeString, Nullable: true},
 		{Name: "omj", Type: field.TypeString, Nullable: true},
-		{Name: "linenft_million_arthurs_properties", Type: field.TypeUint32, Unique: true},
+		{Name: "linenft_million_arthurs_property", Type: field.TypeUint32, Unique: true},
 	}
 	// LineNftMillionArthursPropertiesTable holds the schema information for the "line_nft_million_arthurs_properties" table.
 	LineNftMillionArthursPropertiesTable = &schema.Table{
@@ -148,7 +148,7 @@ var (
 		PrimaryKey: []*schema.Column{LineNftMillionArthursPropertiesColumns[0]},
 		ForeignKeys: []*schema.ForeignKey{
 			{
-				Symbol:     "line_nft_million_arthurs_properties_line_nfts_million_arthurs_properties",
+				Symbol:     "line_nft_million_arthurs_properties_line_nfts_million_arthurs_property",
 				Columns:    []*schema.Column{LineNftMillionArthursPropertiesColumns[8]},
 				RefColumns: []*schema.Column{LineNftsColumns[0]},
 				OnDelete:   schema.NoAction,
