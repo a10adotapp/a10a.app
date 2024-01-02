@@ -9,6 +9,28 @@ import (
 	"github.com/joho/godotenv"
 )
 
+func TestGetMillionArthursSummary(t *testing.T) {
+	godotenv.Load("../../.env")
+
+	entClient := db.NewEntClient()
+
+	defer entClient.Close()
+
+	if err := entClient.Schema.Create(context.Background()); err != nil {
+		t.Fatal(err)
+	}
+
+	service := finschia.NewFinschiaService(entClient)
+
+	ctx := context.Background()
+
+	t.Run("success test", func(t *testing.T) {
+		if err := service.GetMillionArthursSummary(ctx); err != nil {
+			t.Error(err)
+		}
+	})
+}
+
 func TestGetMillionArthurs(t *testing.T) {
 	godotenv.Load("../../.env")
 

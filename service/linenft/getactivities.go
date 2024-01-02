@@ -7,14 +7,13 @@ import (
 	"io"
 	"log/slog"
 	"net/http"
-	"os"
 	"strings"
 	"time"
 
 	"github.com/a10adotapp/a10a.app/ent"
 	entlinenft "github.com/a10adotapp/a10a.app/ent/linenft"
 	entlinenftactivity "github.com/a10adotapp/a10a.app/ent/linenftactivity"
-	"github.com/line/line-bot-sdk-go/v8/linebot/messaging_api"
+	"github.com/a10adotapp/a10a.app/lib/line/message"
 )
 
 type Activity struct {
@@ -141,7 +140,7 @@ func (s LINENFTService) GetActivities(ctx context.Context) error {
 		if lineNFTActivity.ActivityType == "REGISTERED" {
 			if lineNFT.Edges.MillionArthursProperty != nil && lineNFT.Edges.MillionArthursProperty.Omj != nil {
 				if lineNFTActivity.Price < 0.005 {
-					if err = sendLINEMessage(strings.Join([]string{
+					if err = message.Push(strings.Join([]string{
 						fmt.Sprintf(lineNFT.TokenName),
 						fmt.Sprintf("price: %.4f", lineNFTActivity.Price),
 					}, "\n")); err != nil {
@@ -212,22 +211,4 @@ func fetchSaleData(saleID uint32) (*SaleData, error) {
 	}
 
 	return &resData, nil
-}
-
-func sendLINEMessage(message string) error {
-	bot, err := messaging_api.NewMessagingApiAPI(os.Getenv("LINE_CHANNEL_TOKEN"))
-	if err != nil {
-		return err
-	}
-
-	bot.PushMessage(&messaging_api.PushMessageRequest{
-		To: os.Getenv("LINE_MESSAGE_RECEIVER"),
-		Messages: []messaging_api.MessageInterface{
-			messaging_api.TextMessage{
-				Text: message,
-			},
-		},
-	}, "")
-
-	return nil
 }
