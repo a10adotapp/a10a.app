@@ -17,12 +17,10 @@ func FinschiaRoute(service FinschiaService) func(chi.Router) {
 		router.Get("/million-arthurs", func(w http.ResponseWriter, r *http.Request) {
 			if err := service.GetMillionArthurs(r.Context()); err != nil {
 				w.WriteHeader(http.StatusInternalServerError)
-				w.Header().Set("content-type", "application/json")
 				w.Write([]byte(fmt.Sprintf(`{"message":"%s"}`, err.Error())))
 				return
 			}
 
-			w.Header().Set("content-type", "application/json")
 			w.Write([]byte(`{}`))
 		})
 	}

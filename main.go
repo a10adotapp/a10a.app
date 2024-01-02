@@ -27,6 +27,8 @@ func main() {
 			slog.Error("main", slog.Any("error", err))
 		}
 
+		w.Header().Set("content-type", "application/json")
+
 		router.NewRouter(entClient).ServeHTTP(w, r)
 	}))
 }

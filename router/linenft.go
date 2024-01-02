@@ -17,12 +17,10 @@ func LINENFTRoute(service LINENFTService) func(chi.Router) {
 		router.Get("/activities", func(w http.ResponseWriter, r *http.Request) {
 			if err := service.GetActivities(r.Context()); err != nil {
 				w.WriteHeader(http.StatusInternalServerError)
-				w.Header().Set("content-type", "application/json")
 				w.Write([]byte(fmt.Sprintf(`{"message":"%s"}`, err.Error())))
 				return
 			}
 
-			w.Header().Set("content-type", "application/json")
 			w.Write([]byte(`{}`))
 		})
 	}

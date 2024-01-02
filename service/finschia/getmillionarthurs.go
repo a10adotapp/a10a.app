@@ -77,8 +77,6 @@ func (s FinschiaService) GetMillionArthurs(ctx context.Context) error {
 	}
 
 	for _, transaction := range transactions {
-		time.Sleep(1 * time.Second)
-
 		activatedAt := time.Unix(int64(transaction.Info.BlockTime/1000), int64(transaction.Info.BlockTime%1000))
 
 		if lastActivity != nil && activatedAt.Before(lastActivity.ActivatedAt) {
