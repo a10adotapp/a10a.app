@@ -30,7 +30,7 @@ func NewRouter(entClient *ent.Client) *chi.Mux {
 		http.Redirect(w, r, "https://bookmarks.a10a.app", http.StatusMovedPermanently)
 	})
 
-	router.Route("/finschia", FinschiaRoute(finschia.NewFinschiaService()))
+	router.Route("/finschia", FinschiaRoute(finschia.NewFinschiaService(entClient)))
 	router.Route("/line-nft", LINENFTRoute(linenft.NewLINENFTService(entClient)))
 
 	return router

@@ -6,6 +6,15 @@ import (
 	"entgo.io/ent/dialect/sql"
 )
 
+// FinschiaItemToken is the predicate function for finschiaitemtoken builders.
+type FinschiaItemToken func(*sql.Selector)
+
+// FinschiaItemTokenActivity is the predicate function for finschiaitemtokenactivity builders.
+type FinschiaItemTokenActivity func(*sql.Selector)
+
+// FinschiaItemTokenMillionArthursProperty is the predicate function for finschiaitemtokenmillionarthursproperty builders.
+type FinschiaItemTokenMillionArthursProperty func(*sql.Selector)
+
 // LINENFT is the predicate function for linenft builders.
 type LINENFT func(*sql.Selector)
 

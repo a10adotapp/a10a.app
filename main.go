@@ -18,13 +18,15 @@ func main() {
 		AddSource: true,
 	})))
 
-	entClient := db.NewEntClient()
+	http.ListenAndServe(":3000", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		entClient := db.NewEntClient()
 
-	defer entClient.Close()
+		defer entClient.Close()
 
-	if err := entClient.Schema.Create(context.Background()); err != nil {
-		slog.Error("main", slog.Any("error", err))
-	}
+		if err := entClient.Schema.Create(context.Background()); err != nil {
+			slog.Error("main", slog.Any("error", err))
+		}
 
-	http.ListenAndServe(":3000", router.NewRouter(entClient))
+		router.NewRouter(entClient).ServeHTTP(w, r)
+	}))
 }

@@ -8,6 +8,9 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/a10adotapp/a10a.app/ent"
+	"github.com/a10adotapp/a10a.app/ent/finschiaitemtoken"
+	"github.com/a10adotapp/a10a.app/ent/finschiaitemtokenactivity"
+	"github.com/a10adotapp/a10a.app/ent/finschiaitemtokenmillionarthursproperty"
 	"github.com/a10adotapp/a10a.app/ent/linenft"
 	"github.com/a10adotapp/a10a.app/ent/linenftactivity"
 	"github.com/a10adotapp/a10a.app/ent/linenftmillionarthursproperty"
@@ -68,6 +71,87 @@ func (f TraverseFunc) Traverse(ctx context.Context, q ent.Query) error {
 		return err
 	}
 	return f(ctx, query)
+}
+
+// The FinschiaItemTokenFunc type is an adapter to allow the use of ordinary function as a Querier.
+type FinschiaItemTokenFunc func(context.Context, *ent.FinschiaItemTokenQuery) (ent.Value, error)
+
+// Query calls f(ctx, q).
+func (f FinschiaItemTokenFunc) Query(ctx context.Context, q ent.Query) (ent.Value, error) {
+	if q, ok := q.(*ent.FinschiaItemTokenQuery); ok {
+		return f(ctx, q)
+	}
+	return nil, fmt.Errorf("unexpected query type %T. expect *ent.FinschiaItemTokenQuery", q)
+}
+
+// The TraverseFinschiaItemToken type is an adapter to allow the use of ordinary function as Traverser.
+type TraverseFinschiaItemToken func(context.Context, *ent.FinschiaItemTokenQuery) error
+
+// Intercept is a dummy implementation of Intercept that returns the next Querier in the pipeline.
+func (f TraverseFinschiaItemToken) Intercept(next ent.Querier) ent.Querier {
+	return next
+}
+
+// Traverse calls f(ctx, q).
+func (f TraverseFinschiaItemToken) Traverse(ctx context.Context, q ent.Query) error {
+	if q, ok := q.(*ent.FinschiaItemTokenQuery); ok {
+		return f(ctx, q)
+	}
+	return fmt.Errorf("unexpected query type %T. expect *ent.FinschiaItemTokenQuery", q)
+}
+
+// The FinschiaItemTokenActivityFunc type is an adapter to allow the use of ordinary function as a Querier.
+type FinschiaItemTokenActivityFunc func(context.Context, *ent.FinschiaItemTokenActivityQuery) (ent.Value, error)
+
+// Query calls f(ctx, q).
+func (f FinschiaItemTokenActivityFunc) Query(ctx context.Context, q ent.Query) (ent.Value, error) {
+	if q, ok := q.(*ent.FinschiaItemTokenActivityQuery); ok {
+		return f(ctx, q)
+	}
+	return nil, fmt.Errorf("unexpected query type %T. expect *ent.FinschiaItemTokenActivityQuery", q)
+}
+
+// The TraverseFinschiaItemTokenActivity type is an adapter to allow the use of ordinary function as Traverser.
+type TraverseFinschiaItemTokenActivity func(context.Context, *ent.FinschiaItemTokenActivityQuery) error
+
+// Intercept is a dummy implementation of Intercept that returns the next Querier in the pipeline.
+func (f TraverseFinschiaItemTokenActivity) Intercept(next ent.Querier) ent.Querier {
+	return next
+}
+
+// Traverse calls f(ctx, q).
+func (f TraverseFinschiaItemTokenActivity) Traverse(ctx context.Context, q ent.Query) error {
+	if q, ok := q.(*ent.FinschiaItemTokenActivityQuery); ok {
+		return f(ctx, q)
+	}
+	return fmt.Errorf("unexpected query type %T. expect *ent.FinschiaItemTokenActivityQuery", q)
+}
+
+// The FinschiaItemTokenMillionArthursPropertyFunc type is an adapter to allow the use of ordinary function as a Querier.
+type FinschiaItemTokenMillionArthursPropertyFunc func(context.Context, *ent.FinschiaItemTokenMillionArthursPropertyQuery) (ent.Value, error)
+
+// Query calls f(ctx, q).
+func (f FinschiaItemTokenMillionArthursPropertyFunc) Query(ctx context.Context, q ent.Query) (ent.Value, error) {
+	if q, ok := q.(*ent.FinschiaItemTokenMillionArthursPropertyQuery); ok {
+		return f(ctx, q)
+	}
+	return nil, fmt.Errorf("unexpected query type %T. expect *ent.FinschiaItemTokenMillionArthursPropertyQuery", q)
+}
+
+// The TraverseFinschiaItemTokenMillionArthursProperty type is an adapter to allow the use of ordinary function as Traverser.
+type TraverseFinschiaItemTokenMillionArthursProperty func(context.Context, *ent.FinschiaItemTokenMillionArthursPropertyQuery) error
+
+// Intercept is a dummy implementation of Intercept that returns the next Querier in the pipeline.
+func (f TraverseFinschiaItemTokenMillionArthursProperty) Intercept(next ent.Querier) ent.Querier {
+	return next
+}
+
+// Traverse calls f(ctx, q).
+func (f TraverseFinschiaItemTokenMillionArthursProperty) Traverse(ctx context.Context, q ent.Query) error {
+	if q, ok := q.(*ent.FinschiaItemTokenMillionArthursPropertyQuery); ok {
+		return f(ctx, q)
+	}
+	return fmt.Errorf("unexpected query type %T. expect *ent.FinschiaItemTokenMillionArthursPropertyQuery", q)
 }
 
 // The LINENFTFunc type is an adapter to allow the use of ordinary function as a Querier.
@@ -154,6 +238,12 @@ func (f TraverseLINENFTMillionArthursProperty) Traverse(ctx context.Context, q e
 // NewQuery returns the generic Query interface for the given typed query.
 func NewQuery(q ent.Query) (Query, error) {
 	switch q := q.(type) {
+	case *ent.FinschiaItemTokenQuery:
+		return &query[*ent.FinschiaItemTokenQuery, predicate.FinschiaItemToken, finschiaitemtoken.OrderOption]{typ: ent.TypeFinschiaItemToken, tq: q}, nil
+	case *ent.FinschiaItemTokenActivityQuery:
+		return &query[*ent.FinschiaItemTokenActivityQuery, predicate.FinschiaItemTokenActivity, finschiaitemtokenactivity.OrderOption]{typ: ent.TypeFinschiaItemTokenActivity, tq: q}, nil
+	case *ent.FinschiaItemTokenMillionArthursPropertyQuery:
+		return &query[*ent.FinschiaItemTokenMillionArthursPropertyQuery, predicate.FinschiaItemTokenMillionArthursProperty, finschiaitemtokenmillionarthursproperty.OrderOption]{typ: ent.TypeFinschiaItemTokenMillionArthursProperty, tq: q}, nil
 	case *ent.LINENFTQuery:
 		return &query[*ent.LINENFTQuery, predicate.LINENFT, linenft.OrderOption]{typ: ent.TypeLINENFT, tq: q}, nil
 	case *ent.LINENFTActivityQuery:

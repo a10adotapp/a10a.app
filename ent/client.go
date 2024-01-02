@@ -15,6 +15,9 @@ import (
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
+	"github.com/a10adotapp/a10a.app/ent/finschiaitemtoken"
+	"github.com/a10adotapp/a10a.app/ent/finschiaitemtokenactivity"
+	"github.com/a10adotapp/a10a.app/ent/finschiaitemtokenmillionarthursproperty"
 	"github.com/a10adotapp/a10a.app/ent/linenft"
 	"github.com/a10adotapp/a10a.app/ent/linenftactivity"
 	"github.com/a10adotapp/a10a.app/ent/linenftmillionarthursproperty"
@@ -25,6 +28,12 @@ type Client struct {
 	config
 	// Schema is the client for creating, migrating and dropping schema.
 	Schema *migrate.Schema
+	// FinschiaItemToken is the client for interacting with the FinschiaItemToken builders.
+	FinschiaItemToken *FinschiaItemTokenClient
+	// FinschiaItemTokenActivity is the client for interacting with the FinschiaItemTokenActivity builders.
+	FinschiaItemTokenActivity *FinschiaItemTokenActivityClient
+	// FinschiaItemTokenMillionArthursProperty is the client for interacting with the FinschiaItemTokenMillionArthursProperty builders.
+	FinschiaItemTokenMillionArthursProperty *FinschiaItemTokenMillionArthursPropertyClient
 	// LINENFT is the client for interacting with the LINENFT builders.
 	LINENFT *LINENFTClient
 	// LINENFTActivity is the client for interacting with the LINENFTActivity builders.
@@ -42,6 +51,9 @@ func NewClient(opts ...Option) *Client {
 
 func (c *Client) init() {
 	c.Schema = migrate.NewSchema(c.driver)
+	c.FinschiaItemToken = NewFinschiaItemTokenClient(c.config)
+	c.FinschiaItemTokenActivity = NewFinschiaItemTokenActivityClient(c.config)
+	c.FinschiaItemTokenMillionArthursProperty = NewFinschiaItemTokenMillionArthursPropertyClient(c.config)
 	c.LINENFT = NewLINENFTClient(c.config)
 	c.LINENFTActivity = NewLINENFTActivityClient(c.config)
 	c.LINENFTMillionArthursProperty = NewLINENFTMillionArthursPropertyClient(c.config)
@@ -135,11 +147,14 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 	cfg := c.config
 	cfg.driver = tx
 	return &Tx{
-		ctx:                           ctx,
-		config:                        cfg,
-		LINENFT:                       NewLINENFTClient(cfg),
-		LINENFTActivity:               NewLINENFTActivityClient(cfg),
-		LINENFTMillionArthursProperty: NewLINENFTMillionArthursPropertyClient(cfg),
+		ctx:                                     ctx,
+		config:                                  cfg,
+		FinschiaItemToken:                       NewFinschiaItemTokenClient(cfg),
+		FinschiaItemTokenActivity:               NewFinschiaItemTokenActivityClient(cfg),
+		FinschiaItemTokenMillionArthursProperty: NewFinschiaItemTokenMillionArthursPropertyClient(cfg),
+		LINENFT:                                 NewLINENFTClient(cfg),
+		LINENFTActivity:                         NewLINENFTActivityClient(cfg),
+		LINENFTMillionArthursProperty:           NewLINENFTMillionArthursPropertyClient(cfg),
 	}, nil
 }
 
@@ -157,18 +172,21 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 	cfg := c.config
 	cfg.driver = &txDriver{tx: tx, drv: c.driver}
 	return &Tx{
-		ctx:                           ctx,
-		config:                        cfg,
-		LINENFT:                       NewLINENFTClient(cfg),
-		LINENFTActivity:               NewLINENFTActivityClient(cfg),
-		LINENFTMillionArthursProperty: NewLINENFTMillionArthursPropertyClient(cfg),
+		ctx:                                     ctx,
+		config:                                  cfg,
+		FinschiaItemToken:                       NewFinschiaItemTokenClient(cfg),
+		FinschiaItemTokenActivity:               NewFinschiaItemTokenActivityClient(cfg),
+		FinschiaItemTokenMillionArthursProperty: NewFinschiaItemTokenMillionArthursPropertyClient(cfg),
+		LINENFT:                                 NewLINENFTClient(cfg),
+		LINENFTActivity:                         NewLINENFTActivityClient(cfg),
+		LINENFTMillionArthursProperty:           NewLINENFTMillionArthursPropertyClient(cfg),
 	}, nil
 }
 
 // Debug returns a new debug-client. It's used to get verbose logging on specific operations.
 //
 //	client.Debug().
-//		LINENFT.
+//		FinschiaItemToken.
 //		Query().
 //		Count(ctx)
 func (c *Client) Debug() *Client {
@@ -190,22 +208,36 @@ func (c *Client) Close() error {
 // Use adds the mutation hooks to all the entity clients.
 // In order to add hooks to a specific client, call: `client.Node.Use(...)`.
 func (c *Client) Use(hooks ...Hook) {
-	c.LINENFT.Use(hooks...)
-	c.LINENFTActivity.Use(hooks...)
-	c.LINENFTMillionArthursProperty.Use(hooks...)
+	for _, n := range []interface{ Use(...Hook) }{
+		c.FinschiaItemToken, c.FinschiaItemTokenActivity,
+		c.FinschiaItemTokenMillionArthursProperty, c.LINENFT, c.LINENFTActivity,
+		c.LINENFTMillionArthursProperty,
+	} {
+		n.Use(hooks...)
+	}
 }
 
 // Intercept adds the query interceptors to all the entity clients.
 // In order to add interceptors to a specific client, call: `client.Node.Intercept(...)`.
 func (c *Client) Intercept(interceptors ...Interceptor) {
-	c.LINENFT.Intercept(interceptors...)
-	c.LINENFTActivity.Intercept(interceptors...)
-	c.LINENFTMillionArthursProperty.Intercept(interceptors...)
+	for _, n := range []interface{ Intercept(...Interceptor) }{
+		c.FinschiaItemToken, c.FinschiaItemTokenActivity,
+		c.FinschiaItemTokenMillionArthursProperty, c.LINENFT, c.LINENFTActivity,
+		c.LINENFTMillionArthursProperty,
+	} {
+		n.Intercept(interceptors...)
+	}
 }
 
 // Mutate implements the ent.Mutator interface.
 func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 	switch m := m.(type) {
+	case *FinschiaItemTokenMutation:
+		return c.FinschiaItemToken.mutate(ctx, m)
+	case *FinschiaItemTokenActivityMutation:
+		return c.FinschiaItemTokenActivity.mutate(ctx, m)
+	case *FinschiaItemTokenMillionArthursPropertyMutation:
+		return c.FinschiaItemTokenMillionArthursProperty.mutate(ctx, m)
 	case *LINENFTMutation:
 		return c.LINENFT.mutate(ctx, m)
 	case *LINENFTActivityMutation:
@@ -214,6 +246,475 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.LINENFTMillionArthursProperty.mutate(ctx, m)
 	default:
 		return nil, fmt.Errorf("ent: unknown mutation type %T", m)
+	}
+}
+
+// FinschiaItemTokenClient is a client for the FinschiaItemToken schema.
+type FinschiaItemTokenClient struct {
+	config
+}
+
+// NewFinschiaItemTokenClient returns a client for the FinschiaItemToken from the given config.
+func NewFinschiaItemTokenClient(c config) *FinschiaItemTokenClient {
+	return &FinschiaItemTokenClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `finschiaitemtoken.Hooks(f(g(h())))`.
+func (c *FinschiaItemTokenClient) Use(hooks ...Hook) {
+	c.hooks.FinschiaItemToken = append(c.hooks.FinschiaItemToken, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `finschiaitemtoken.Intercept(f(g(h())))`.
+func (c *FinschiaItemTokenClient) Intercept(interceptors ...Interceptor) {
+	c.inters.FinschiaItemToken = append(c.inters.FinschiaItemToken, interceptors...)
+}
+
+// Create returns a builder for creating a FinschiaItemToken entity.
+func (c *FinschiaItemTokenClient) Create() *FinschiaItemTokenCreate {
+	mutation := newFinschiaItemTokenMutation(c.config, OpCreate)
+	return &FinschiaItemTokenCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of FinschiaItemToken entities.
+func (c *FinschiaItemTokenClient) CreateBulk(builders ...*FinschiaItemTokenCreate) *FinschiaItemTokenCreateBulk {
+	return &FinschiaItemTokenCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *FinschiaItemTokenClient) MapCreateBulk(slice any, setFunc func(*FinschiaItemTokenCreate, int)) *FinschiaItemTokenCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &FinschiaItemTokenCreateBulk{err: fmt.Errorf("calling to FinschiaItemTokenClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*FinschiaItemTokenCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &FinschiaItemTokenCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for FinschiaItemToken.
+func (c *FinschiaItemTokenClient) Update() *FinschiaItemTokenUpdate {
+	mutation := newFinschiaItemTokenMutation(c.config, OpUpdate)
+	return &FinschiaItemTokenUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *FinschiaItemTokenClient) UpdateOne(fit *FinschiaItemToken) *FinschiaItemTokenUpdateOne {
+	mutation := newFinschiaItemTokenMutation(c.config, OpUpdateOne, withFinschiaItemToken(fit))
+	return &FinschiaItemTokenUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *FinschiaItemTokenClient) UpdateOneID(id uint32) *FinschiaItemTokenUpdateOne {
+	mutation := newFinschiaItemTokenMutation(c.config, OpUpdateOne, withFinschiaItemTokenID(id))
+	return &FinschiaItemTokenUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for FinschiaItemToken.
+func (c *FinschiaItemTokenClient) Delete() *FinschiaItemTokenDelete {
+	mutation := newFinschiaItemTokenMutation(c.config, OpDelete)
+	return &FinschiaItemTokenDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *FinschiaItemTokenClient) DeleteOne(fit *FinschiaItemToken) *FinschiaItemTokenDeleteOne {
+	return c.DeleteOneID(fit.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *FinschiaItemTokenClient) DeleteOneID(id uint32) *FinschiaItemTokenDeleteOne {
+	builder := c.Delete().Where(finschiaitemtoken.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &FinschiaItemTokenDeleteOne{builder}
+}
+
+// Query returns a query builder for FinschiaItemToken.
+func (c *FinschiaItemTokenClient) Query() *FinschiaItemTokenQuery {
+	return &FinschiaItemTokenQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeFinschiaItemToken},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a FinschiaItemToken entity by its id.
+func (c *FinschiaItemTokenClient) Get(ctx context.Context, id uint32) (*FinschiaItemToken, error) {
+	return c.Query().Where(finschiaitemtoken.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *FinschiaItemTokenClient) GetX(ctx context.Context, id uint32) *FinschiaItemToken {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryActivities queries the activities edge of a FinschiaItemToken.
+func (c *FinschiaItemTokenClient) QueryActivities(fit *FinschiaItemToken) *FinschiaItemTokenActivityQuery {
+	query := (&FinschiaItemTokenActivityClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := fit.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(finschiaitemtoken.Table, finschiaitemtoken.FieldID, id),
+			sqlgraph.To(finschiaitemtokenactivity.Table, finschiaitemtokenactivity.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, finschiaitemtoken.ActivitiesTable, finschiaitemtoken.ActivitiesColumn),
+		)
+		fromV = sqlgraph.Neighbors(fit.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// QueryMillionArthursProperties queries the million_arthurs_properties edge of a FinschiaItemToken.
+func (c *FinschiaItemTokenClient) QueryMillionArthursProperties(fit *FinschiaItemToken) *FinschiaItemTokenMillionArthursPropertyQuery {
+	query := (&FinschiaItemTokenMillionArthursPropertyClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := fit.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(finschiaitemtoken.Table, finschiaitemtoken.FieldID, id),
+			sqlgraph.To(finschiaitemtokenmillionarthursproperty.Table, finschiaitemtokenmillionarthursproperty.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, finschiaitemtoken.MillionArthursPropertiesTable, finschiaitemtoken.MillionArthursPropertiesColumn),
+		)
+		fromV = sqlgraph.Neighbors(fit.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *FinschiaItemTokenClient) Hooks() []Hook {
+	hooks := c.hooks.FinschiaItemToken
+	return append(hooks[:len(hooks):len(hooks)], finschiaitemtoken.Hooks[:]...)
+}
+
+// Interceptors returns the client interceptors.
+func (c *FinschiaItemTokenClient) Interceptors() []Interceptor {
+	inters := c.inters.FinschiaItemToken
+	return append(inters[:len(inters):len(inters)], finschiaitemtoken.Interceptors[:]...)
+}
+
+func (c *FinschiaItemTokenClient) mutate(ctx context.Context, m *FinschiaItemTokenMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&FinschiaItemTokenCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&FinschiaItemTokenUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&FinschiaItemTokenUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&FinschiaItemTokenDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown FinschiaItemToken mutation op: %q", m.Op())
+	}
+}
+
+// FinschiaItemTokenActivityClient is a client for the FinschiaItemTokenActivity schema.
+type FinschiaItemTokenActivityClient struct {
+	config
+}
+
+// NewFinschiaItemTokenActivityClient returns a client for the FinschiaItemTokenActivity from the given config.
+func NewFinschiaItemTokenActivityClient(c config) *FinschiaItemTokenActivityClient {
+	return &FinschiaItemTokenActivityClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `finschiaitemtokenactivity.Hooks(f(g(h())))`.
+func (c *FinschiaItemTokenActivityClient) Use(hooks ...Hook) {
+	c.hooks.FinschiaItemTokenActivity = append(c.hooks.FinschiaItemTokenActivity, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `finschiaitemtokenactivity.Intercept(f(g(h())))`.
+func (c *FinschiaItemTokenActivityClient) Intercept(interceptors ...Interceptor) {
+	c.inters.FinschiaItemTokenActivity = append(c.inters.FinschiaItemTokenActivity, interceptors...)
+}
+
+// Create returns a builder for creating a FinschiaItemTokenActivity entity.
+func (c *FinschiaItemTokenActivityClient) Create() *FinschiaItemTokenActivityCreate {
+	mutation := newFinschiaItemTokenActivityMutation(c.config, OpCreate)
+	return &FinschiaItemTokenActivityCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of FinschiaItemTokenActivity entities.
+func (c *FinschiaItemTokenActivityClient) CreateBulk(builders ...*FinschiaItemTokenActivityCreate) *FinschiaItemTokenActivityCreateBulk {
+	return &FinschiaItemTokenActivityCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *FinschiaItemTokenActivityClient) MapCreateBulk(slice any, setFunc func(*FinschiaItemTokenActivityCreate, int)) *FinschiaItemTokenActivityCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &FinschiaItemTokenActivityCreateBulk{err: fmt.Errorf("calling to FinschiaItemTokenActivityClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*FinschiaItemTokenActivityCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &FinschiaItemTokenActivityCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for FinschiaItemTokenActivity.
+func (c *FinschiaItemTokenActivityClient) Update() *FinschiaItemTokenActivityUpdate {
+	mutation := newFinschiaItemTokenActivityMutation(c.config, OpUpdate)
+	return &FinschiaItemTokenActivityUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *FinschiaItemTokenActivityClient) UpdateOne(fita *FinschiaItemTokenActivity) *FinschiaItemTokenActivityUpdateOne {
+	mutation := newFinschiaItemTokenActivityMutation(c.config, OpUpdateOne, withFinschiaItemTokenActivity(fita))
+	return &FinschiaItemTokenActivityUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *FinschiaItemTokenActivityClient) UpdateOneID(id uint32) *FinschiaItemTokenActivityUpdateOne {
+	mutation := newFinschiaItemTokenActivityMutation(c.config, OpUpdateOne, withFinschiaItemTokenActivityID(id))
+	return &FinschiaItemTokenActivityUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for FinschiaItemTokenActivity.
+func (c *FinschiaItemTokenActivityClient) Delete() *FinschiaItemTokenActivityDelete {
+	mutation := newFinschiaItemTokenActivityMutation(c.config, OpDelete)
+	return &FinschiaItemTokenActivityDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *FinschiaItemTokenActivityClient) DeleteOne(fita *FinschiaItemTokenActivity) *FinschiaItemTokenActivityDeleteOne {
+	return c.DeleteOneID(fita.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *FinschiaItemTokenActivityClient) DeleteOneID(id uint32) *FinschiaItemTokenActivityDeleteOne {
+	builder := c.Delete().Where(finschiaitemtokenactivity.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &FinschiaItemTokenActivityDeleteOne{builder}
+}
+
+// Query returns a query builder for FinschiaItemTokenActivity.
+func (c *FinschiaItemTokenActivityClient) Query() *FinschiaItemTokenActivityQuery {
+	return &FinschiaItemTokenActivityQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeFinschiaItemTokenActivity},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a FinschiaItemTokenActivity entity by its id.
+func (c *FinschiaItemTokenActivityClient) Get(ctx context.Context, id uint32) (*FinschiaItemTokenActivity, error) {
+	return c.Query().Where(finschiaitemtokenactivity.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *FinschiaItemTokenActivityClient) GetX(ctx context.Context, id uint32) *FinschiaItemTokenActivity {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryFinschiaItemToken queries the finschia_item_token edge of a FinschiaItemTokenActivity.
+func (c *FinschiaItemTokenActivityClient) QueryFinschiaItemToken(fita *FinschiaItemTokenActivity) *FinschiaItemTokenQuery {
+	query := (&FinschiaItemTokenClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := fita.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(finschiaitemtokenactivity.Table, finschiaitemtokenactivity.FieldID, id),
+			sqlgraph.To(finschiaitemtoken.Table, finschiaitemtoken.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, finschiaitemtokenactivity.FinschiaItemTokenTable, finschiaitemtokenactivity.FinschiaItemTokenColumn),
+		)
+		fromV = sqlgraph.Neighbors(fita.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *FinschiaItemTokenActivityClient) Hooks() []Hook {
+	hooks := c.hooks.FinschiaItemTokenActivity
+	return append(hooks[:len(hooks):len(hooks)], finschiaitemtokenactivity.Hooks[:]...)
+}
+
+// Interceptors returns the client interceptors.
+func (c *FinschiaItemTokenActivityClient) Interceptors() []Interceptor {
+	inters := c.inters.FinschiaItemTokenActivity
+	return append(inters[:len(inters):len(inters)], finschiaitemtokenactivity.Interceptors[:]...)
+}
+
+func (c *FinschiaItemTokenActivityClient) mutate(ctx context.Context, m *FinschiaItemTokenActivityMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&FinschiaItemTokenActivityCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&FinschiaItemTokenActivityUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&FinschiaItemTokenActivityUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&FinschiaItemTokenActivityDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown FinschiaItemTokenActivity mutation op: %q", m.Op())
+	}
+}
+
+// FinschiaItemTokenMillionArthursPropertyClient is a client for the FinschiaItemTokenMillionArthursProperty schema.
+type FinschiaItemTokenMillionArthursPropertyClient struct {
+	config
+}
+
+// NewFinschiaItemTokenMillionArthursPropertyClient returns a client for the FinschiaItemTokenMillionArthursProperty from the given config.
+func NewFinschiaItemTokenMillionArthursPropertyClient(c config) *FinschiaItemTokenMillionArthursPropertyClient {
+	return &FinschiaItemTokenMillionArthursPropertyClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `finschiaitemtokenmillionarthursproperty.Hooks(f(g(h())))`.
+func (c *FinschiaItemTokenMillionArthursPropertyClient) Use(hooks ...Hook) {
+	c.hooks.FinschiaItemTokenMillionArthursProperty = append(c.hooks.FinschiaItemTokenMillionArthursProperty, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `finschiaitemtokenmillionarthursproperty.Intercept(f(g(h())))`.
+func (c *FinschiaItemTokenMillionArthursPropertyClient) Intercept(interceptors ...Interceptor) {
+	c.inters.FinschiaItemTokenMillionArthursProperty = append(c.inters.FinschiaItemTokenMillionArthursProperty, interceptors...)
+}
+
+// Create returns a builder for creating a FinschiaItemTokenMillionArthursProperty entity.
+func (c *FinschiaItemTokenMillionArthursPropertyClient) Create() *FinschiaItemTokenMillionArthursPropertyCreate {
+	mutation := newFinschiaItemTokenMillionArthursPropertyMutation(c.config, OpCreate)
+	return &FinschiaItemTokenMillionArthursPropertyCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of FinschiaItemTokenMillionArthursProperty entities.
+func (c *FinschiaItemTokenMillionArthursPropertyClient) CreateBulk(builders ...*FinschiaItemTokenMillionArthursPropertyCreate) *FinschiaItemTokenMillionArthursPropertyCreateBulk {
+	return &FinschiaItemTokenMillionArthursPropertyCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *FinschiaItemTokenMillionArthursPropertyClient) MapCreateBulk(slice any, setFunc func(*FinschiaItemTokenMillionArthursPropertyCreate, int)) *FinschiaItemTokenMillionArthursPropertyCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &FinschiaItemTokenMillionArthursPropertyCreateBulk{err: fmt.Errorf("calling to FinschiaItemTokenMillionArthursPropertyClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*FinschiaItemTokenMillionArthursPropertyCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &FinschiaItemTokenMillionArthursPropertyCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for FinschiaItemTokenMillionArthursProperty.
+func (c *FinschiaItemTokenMillionArthursPropertyClient) Update() *FinschiaItemTokenMillionArthursPropertyUpdate {
+	mutation := newFinschiaItemTokenMillionArthursPropertyMutation(c.config, OpUpdate)
+	return &FinschiaItemTokenMillionArthursPropertyUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *FinschiaItemTokenMillionArthursPropertyClient) UpdateOne(fitmap *FinschiaItemTokenMillionArthursProperty) *FinschiaItemTokenMillionArthursPropertyUpdateOne {
+	mutation := newFinschiaItemTokenMillionArthursPropertyMutation(c.config, OpUpdateOne, withFinschiaItemTokenMillionArthursProperty(fitmap))
+	return &FinschiaItemTokenMillionArthursPropertyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *FinschiaItemTokenMillionArthursPropertyClient) UpdateOneID(id uint32) *FinschiaItemTokenMillionArthursPropertyUpdateOne {
+	mutation := newFinschiaItemTokenMillionArthursPropertyMutation(c.config, OpUpdateOne, withFinschiaItemTokenMillionArthursPropertyID(id))
+	return &FinschiaItemTokenMillionArthursPropertyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for FinschiaItemTokenMillionArthursProperty.
+func (c *FinschiaItemTokenMillionArthursPropertyClient) Delete() *FinschiaItemTokenMillionArthursPropertyDelete {
+	mutation := newFinschiaItemTokenMillionArthursPropertyMutation(c.config, OpDelete)
+	return &FinschiaItemTokenMillionArthursPropertyDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *FinschiaItemTokenMillionArthursPropertyClient) DeleteOne(fitmap *FinschiaItemTokenMillionArthursProperty) *FinschiaItemTokenMillionArthursPropertyDeleteOne {
+	return c.DeleteOneID(fitmap.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *FinschiaItemTokenMillionArthursPropertyClient) DeleteOneID(id uint32) *FinschiaItemTokenMillionArthursPropertyDeleteOne {
+	builder := c.Delete().Where(finschiaitemtokenmillionarthursproperty.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &FinschiaItemTokenMillionArthursPropertyDeleteOne{builder}
+}
+
+// Query returns a query builder for FinschiaItemTokenMillionArthursProperty.
+func (c *FinschiaItemTokenMillionArthursPropertyClient) Query() *FinschiaItemTokenMillionArthursPropertyQuery {
+	return &FinschiaItemTokenMillionArthursPropertyQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeFinschiaItemTokenMillionArthursProperty},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a FinschiaItemTokenMillionArthursProperty entity by its id.
+func (c *FinschiaItemTokenMillionArthursPropertyClient) Get(ctx context.Context, id uint32) (*FinschiaItemTokenMillionArthursProperty, error) {
+	return c.Query().Where(finschiaitemtokenmillionarthursproperty.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *FinschiaItemTokenMillionArthursPropertyClient) GetX(ctx context.Context, id uint32) *FinschiaItemTokenMillionArthursProperty {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryFinschiaItemToken queries the finschia_item_token edge of a FinschiaItemTokenMillionArthursProperty.
+func (c *FinschiaItemTokenMillionArthursPropertyClient) QueryFinschiaItemToken(fitmap *FinschiaItemTokenMillionArthursProperty) *FinschiaItemTokenQuery {
+	query := (&FinschiaItemTokenClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := fitmap.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(finschiaitemtokenmillionarthursproperty.Table, finschiaitemtokenmillionarthursproperty.FieldID, id),
+			sqlgraph.To(finschiaitemtoken.Table, finschiaitemtoken.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, finschiaitemtokenmillionarthursproperty.FinschiaItemTokenTable, finschiaitemtokenmillionarthursproperty.FinschiaItemTokenColumn),
+		)
+		fromV = sqlgraph.Neighbors(fitmap.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *FinschiaItemTokenMillionArthursPropertyClient) Hooks() []Hook {
+	hooks := c.hooks.FinschiaItemTokenMillionArthursProperty
+	return append(hooks[:len(hooks):len(hooks)], finschiaitemtokenmillionarthursproperty.Hooks[:]...)
+}
+
+// Interceptors returns the client interceptors.
+func (c *FinschiaItemTokenMillionArthursPropertyClient) Interceptors() []Interceptor {
+	inters := c.inters.FinschiaItemTokenMillionArthursProperty
+	return append(inters[:len(inters):len(inters)], finschiaitemtokenmillionarthursproperty.Interceptors[:]...)
+}
+
+func (c *FinschiaItemTokenMillionArthursPropertyClient) mutate(ctx context.Context, m *FinschiaItemTokenMillionArthursPropertyMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&FinschiaItemTokenMillionArthursPropertyCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&FinschiaItemTokenMillionArthursPropertyUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&FinschiaItemTokenMillionArthursPropertyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&FinschiaItemTokenMillionArthursPropertyDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown FinschiaItemTokenMillionArthursProperty mutation op: %q", m.Op())
 	}
 }
 
@@ -689,9 +1190,13 @@ func (c *LINENFTMillionArthursPropertyClient) mutate(ctx context.Context, m *LIN
 // hooks and interceptors per client, for fast access.
 type (
 	hooks struct {
-		LINENFT, LINENFTActivity, LINENFTMillionArthursProperty []ent.Hook
+		FinschiaItemToken, FinschiaItemTokenActivity,
+		FinschiaItemTokenMillionArthursProperty, LINENFT, LINENFTActivity,
+		LINENFTMillionArthursProperty []ent.Hook
 	}
 	inters struct {
-		LINENFT, LINENFTActivity, LINENFTMillionArthursProperty []ent.Interceptor
+		FinschiaItemToken, FinschiaItemTokenActivity,
+		FinschiaItemTokenMillionArthursProperty, LINENFT, LINENFTActivity,
+		LINENFTMillionArthursProperty []ent.Interceptor
 	}
 )

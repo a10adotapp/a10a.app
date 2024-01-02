@@ -1,7 +1,13 @@
 package finschia
 
-type FinschiaService struct{}
+import "github.com/a10adotapp/a10a.app/ent"
 
-func NewFinschiaService() FinschiaService {
-	return FinschiaService{}
+type FinschiaService struct {
+	entClient *ent.Client
+}
+
+func NewFinschiaService(entClient *ent.Client) FinschiaService {
+	return FinschiaService{
+		entClient: entClient,
+	}
 }

@@ -12,6 +12,9 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
+	"github.com/a10adotapp/a10a.app/ent/finschiaitemtoken"
+	"github.com/a10adotapp/a10a.app/ent/finschiaitemtokenactivity"
+	"github.com/a10adotapp/a10a.app/ent/finschiaitemtokenmillionarthursproperty"
 	"github.com/a10adotapp/a10a.app/ent/linenft"
 	"github.com/a10adotapp/a10a.app/ent/linenftactivity"
 	"github.com/a10adotapp/a10a.app/ent/linenftmillionarthursproperty"
@@ -75,9 +78,12 @@ var (
 func checkColumn(table, column string) error {
 	initCheck.Do(func() {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
-			linenft.Table:                       linenft.ValidColumn,
-			linenftactivity.Table:               linenftactivity.ValidColumn,
-			linenftmillionarthursproperty.Table: linenftmillionarthursproperty.ValidColumn,
+			finschiaitemtoken.Table:                       finschiaitemtoken.ValidColumn,
+			finschiaitemtokenactivity.Table:               finschiaitemtokenactivity.ValidColumn,
+			finschiaitemtokenmillionarthursproperty.Table: finschiaitemtokenmillionarthursproperty.ValidColumn,
+			linenft.Table:                                 linenft.ValidColumn,
+			linenftactivity.Table:                         linenftactivity.ValidColumn,
+			linenftmillionarthursproperty.Table:           linenftmillionarthursproperty.ValidColumn,
 		})
 	})
 	return columnCheck(table, column)

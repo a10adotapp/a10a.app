@@ -9,13 +9,13 @@ import (
 )
 
 type FinschiaService interface {
-	GetMillionAuthurs(context.Context) error
+	GetMillionArthurs(context.Context) error
 }
 
 func FinschiaRoute(service FinschiaService) func(chi.Router) {
 	return func(router chi.Router) {
 		router.Get("/million-arthurs", func(w http.ResponseWriter, r *http.Request) {
-			if err := service.GetMillionAuthurs(r.Context()); err != nil {
+			if err := service.GetMillionArthurs(r.Context()); err != nil {
 				w.WriteHeader(http.StatusInternalServerError)
 				w.Header().Set("content-type", "application/json")
 				w.Write([]byte(fmt.Sprintf(`{"message":"%s"}`, err.Error())))

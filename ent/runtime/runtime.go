@@ -5,6 +5,9 @@ package runtime
 import (
 	"time"
 
+	"github.com/a10adotapp/a10a.app/ent/finschiaitemtoken"
+	"github.com/a10adotapp/a10a.app/ent/finschiaitemtokenactivity"
+	"github.com/a10adotapp/a10a.app/ent/finschiaitemtokenmillionarthursproperty"
 	"github.com/a10adotapp/a10a.app/ent/linenft"
 	"github.com/a10adotapp/a10a.app/ent/linenftactivity"
 	"github.com/a10adotapp/a10a.app/ent/linenftmillionarthursproperty"
@@ -15,6 +18,63 @@ import (
 // (default values, validators, hooks and policies) and stitches it
 // to their package variables.
 func init() {
+	finschiaitemtokenMixin := schema.FinschiaItemToken{}.Mixin()
+	finschiaitemtokenMixinHooks1 := finschiaitemtokenMixin[1].Hooks()
+	finschiaitemtoken.Hooks[0] = finschiaitemtokenMixinHooks1[0]
+	finschiaitemtokenMixinInters1 := finschiaitemtokenMixin[1].Interceptors()
+	finschiaitemtoken.Interceptors[0] = finschiaitemtokenMixinInters1[0]
+	finschiaitemtokenMixinFields0 := finschiaitemtokenMixin[0].Fields()
+	_ = finschiaitemtokenMixinFields0
+	finschiaitemtokenFields := schema.FinschiaItemToken{}.Fields()
+	_ = finschiaitemtokenFields
+	// finschiaitemtokenDescCreatedAt is the schema descriptor for created_at field.
+	finschiaitemtokenDescCreatedAt := finschiaitemtokenMixinFields0[0].Descriptor()
+	// finschiaitemtoken.DefaultCreatedAt holds the default value on creation for the created_at field.
+	finschiaitemtoken.DefaultCreatedAt = finschiaitemtokenDescCreatedAt.Default.(func() time.Time)
+	// finschiaitemtokenDescUpdatedAt is the schema descriptor for updated_at field.
+	finschiaitemtokenDescUpdatedAt := finschiaitemtokenMixinFields0[1].Descriptor()
+	// finschiaitemtoken.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	finschiaitemtoken.DefaultUpdatedAt = finschiaitemtokenDescUpdatedAt.Default.(func() time.Time)
+	// finschiaitemtoken.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	finschiaitemtoken.UpdateDefaultUpdatedAt = finschiaitemtokenDescUpdatedAt.UpdateDefault.(func() time.Time)
+	finschiaitemtokenactivityMixin := schema.FinschiaItemTokenActivity{}.Mixin()
+	finschiaitemtokenactivityMixinHooks1 := finschiaitemtokenactivityMixin[1].Hooks()
+	finschiaitemtokenactivity.Hooks[0] = finschiaitemtokenactivityMixinHooks1[0]
+	finschiaitemtokenactivityMixinInters1 := finschiaitemtokenactivityMixin[1].Interceptors()
+	finschiaitemtokenactivity.Interceptors[0] = finschiaitemtokenactivityMixinInters1[0]
+	finschiaitemtokenactivityMixinFields0 := finschiaitemtokenactivityMixin[0].Fields()
+	_ = finschiaitemtokenactivityMixinFields0
+	finschiaitemtokenactivityFields := schema.FinschiaItemTokenActivity{}.Fields()
+	_ = finschiaitemtokenactivityFields
+	// finschiaitemtokenactivityDescCreatedAt is the schema descriptor for created_at field.
+	finschiaitemtokenactivityDescCreatedAt := finschiaitemtokenactivityMixinFields0[0].Descriptor()
+	// finschiaitemtokenactivity.DefaultCreatedAt holds the default value on creation for the created_at field.
+	finschiaitemtokenactivity.DefaultCreatedAt = finschiaitemtokenactivityDescCreatedAt.Default.(func() time.Time)
+	// finschiaitemtokenactivityDescUpdatedAt is the schema descriptor for updated_at field.
+	finschiaitemtokenactivityDescUpdatedAt := finschiaitemtokenactivityMixinFields0[1].Descriptor()
+	// finschiaitemtokenactivity.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	finschiaitemtokenactivity.DefaultUpdatedAt = finschiaitemtokenactivityDescUpdatedAt.Default.(func() time.Time)
+	// finschiaitemtokenactivity.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	finschiaitemtokenactivity.UpdateDefaultUpdatedAt = finschiaitemtokenactivityDescUpdatedAt.UpdateDefault.(func() time.Time)
+	finschiaitemtokenmillionarthurspropertyMixin := schema.FinschiaItemTokenMillionArthursProperty{}.Mixin()
+	finschiaitemtokenmillionarthurspropertyMixinHooks1 := finschiaitemtokenmillionarthurspropertyMixin[1].Hooks()
+	finschiaitemtokenmillionarthursproperty.Hooks[0] = finschiaitemtokenmillionarthurspropertyMixinHooks1[0]
+	finschiaitemtokenmillionarthurspropertyMixinInters1 := finschiaitemtokenmillionarthurspropertyMixin[1].Interceptors()
+	finschiaitemtokenmillionarthursproperty.Interceptors[0] = finschiaitemtokenmillionarthurspropertyMixinInters1[0]
+	finschiaitemtokenmillionarthurspropertyMixinFields0 := finschiaitemtokenmillionarthurspropertyMixin[0].Fields()
+	_ = finschiaitemtokenmillionarthurspropertyMixinFields0
+	finschiaitemtokenmillionarthurspropertyFields := schema.FinschiaItemTokenMillionArthursProperty{}.Fields()
+	_ = finschiaitemtokenmillionarthurspropertyFields
+	// finschiaitemtokenmillionarthurspropertyDescCreatedAt is the schema descriptor for created_at field.
+	finschiaitemtokenmillionarthurspropertyDescCreatedAt := finschiaitemtokenmillionarthurspropertyMixinFields0[0].Descriptor()
+	// finschiaitemtokenmillionarthursproperty.DefaultCreatedAt holds the default value on creation for the created_at field.
+	finschiaitemtokenmillionarthursproperty.DefaultCreatedAt = finschiaitemtokenmillionarthurspropertyDescCreatedAt.Default.(func() time.Time)
+	// finschiaitemtokenmillionarthurspropertyDescUpdatedAt is the schema descriptor for updated_at field.
+	finschiaitemtokenmillionarthurspropertyDescUpdatedAt := finschiaitemtokenmillionarthurspropertyMixinFields0[1].Descriptor()
+	// finschiaitemtokenmillionarthursproperty.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	finschiaitemtokenmillionarthursproperty.DefaultUpdatedAt = finschiaitemtokenmillionarthurspropertyDescUpdatedAt.Default.(func() time.Time)
+	// finschiaitemtokenmillionarthursproperty.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	finschiaitemtokenmillionarthursproperty.UpdateDefaultUpdatedAt = finschiaitemtokenmillionarthurspropertyDescUpdatedAt.UpdateDefault.(func() time.Time)
 	linenftMixin := schema.LINENFT{}.Mixin()
 	linenftMixinHooks1 := linenftMixin[1].Hooks()
 	linenft.Hooks[0] = linenftMixinHooks1[0]

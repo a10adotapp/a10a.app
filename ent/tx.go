@@ -12,6 +12,12 @@ import (
 // Tx is a transactional client that is created by calling Client.Tx().
 type Tx struct {
 	config
+	// FinschiaItemToken is the client for interacting with the FinschiaItemToken builders.
+	FinschiaItemToken *FinschiaItemTokenClient
+	// FinschiaItemTokenActivity is the client for interacting with the FinschiaItemTokenActivity builders.
+	FinschiaItemTokenActivity *FinschiaItemTokenActivityClient
+	// FinschiaItemTokenMillionArthursProperty is the client for interacting with the FinschiaItemTokenMillionArthursProperty builders.
+	FinschiaItemTokenMillionArthursProperty *FinschiaItemTokenMillionArthursPropertyClient
 	// LINENFT is the client for interacting with the LINENFT builders.
 	LINENFT *LINENFTClient
 	// LINENFTActivity is the client for interacting with the LINENFTActivity builders.
@@ -149,6 +155,9 @@ func (tx *Tx) Client() *Client {
 }
 
 func (tx *Tx) init() {
+	tx.FinschiaItemToken = NewFinschiaItemTokenClient(tx.config)
+	tx.FinschiaItemTokenActivity = NewFinschiaItemTokenActivityClient(tx.config)
+	tx.FinschiaItemTokenMillionArthursProperty = NewFinschiaItemTokenMillionArthursPropertyClient(tx.config)
 	tx.LINENFT = NewLINENFTClient(tx.config)
 	tx.LINENFTActivity = NewLINENFTActivityClient(tx.config)
 	tx.LINENFTMillionArthursProperty = NewLINENFTMillionArthursPropertyClient(tx.config)
@@ -161,7 +170,7 @@ func (tx *Tx) init() {
 // of them in order to commit or rollback the transaction.
 //
 // If a closed transaction is embedded in one of the generated entities, and the entity
-// applies a query, for example: LINENFT.QueryXXX(), the query will be executed
+// applies a query, for example: FinschiaItemToken.QueryXXX(), the query will be executed
 // through the driver which created this transaction.
 //
 // Note that txDriver is not goroutine safe.

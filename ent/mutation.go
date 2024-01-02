@@ -11,6 +11,9 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
+	"github.com/a10adotapp/a10a.app/ent/finschiaitemtoken"
+	"github.com/a10adotapp/a10a.app/ent/finschiaitemtokenactivity"
+	"github.com/a10adotapp/a10a.app/ent/finschiaitemtokenmillionarthursproperty"
 	"github.com/a10adotapp/a10a.app/ent/linenft"
 	"github.com/a10adotapp/a10a.app/ent/linenftactivity"
 	"github.com/a10adotapp/a10a.app/ent/linenftmillionarthursproperty"
@@ -26,10 +29,2340 @@ const (
 	OpUpdateOne = ent.OpUpdateOne
 
 	// Node types.
-	TypeLINENFT                       = "LINENFT"
-	TypeLINENFTActivity               = "LINENFTActivity"
-	TypeLINENFTMillionArthursProperty = "LINENFTMillionArthursProperty"
+	TypeFinschiaItemToken                       = "FinschiaItemToken"
+	TypeFinschiaItemTokenActivity               = "FinschiaItemTokenActivity"
+	TypeFinschiaItemTokenMillionArthursProperty = "FinschiaItemTokenMillionArthursProperty"
+	TypeLINENFT                                 = "LINENFT"
+	TypeLINENFTActivity                         = "LINENFTActivity"
+	TypeLINENFTMillionArthursProperty           = "LINENFTMillionArthursProperty"
 )
+
+// FinschiaItemTokenMutation represents an operation that mutates the FinschiaItemToken nodes in the graph.
+type FinschiaItemTokenMutation struct {
+	config
+	op                                Op
+	typ                               string
+	id                                *uint32
+	created_at                        *time.Time
+	updated_at                        *time.Time
+	deleted_at                        *time.Time
+	contract_id                       *string
+	token_type                        *string
+	name                              *string
+	clearedFields                     map[string]struct{}
+	activities                        map[uint32]struct{}
+	removedactivities                 map[uint32]struct{}
+	clearedactivities                 bool
+	million_arthurs_properties        map[uint32]struct{}
+	removedmillion_arthurs_properties map[uint32]struct{}
+	clearedmillion_arthurs_properties bool
+	done                              bool
+	oldValue                          func(context.Context) (*FinschiaItemToken, error)
+	predicates                        []predicate.FinschiaItemToken
+}
+
+var _ ent.Mutation = (*FinschiaItemTokenMutation)(nil)
+
+// finschiaitemtokenOption allows management of the mutation configuration using functional options.
+type finschiaitemtokenOption func(*FinschiaItemTokenMutation)
+
+// newFinschiaItemTokenMutation creates new mutation for the FinschiaItemToken entity.
+func newFinschiaItemTokenMutation(c config, op Op, opts ...finschiaitemtokenOption) *FinschiaItemTokenMutation {
+	m := &FinschiaItemTokenMutation{
+		config:        c,
+		op:            op,
+		typ:           TypeFinschiaItemToken,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withFinschiaItemTokenID sets the ID field of the mutation.
+func withFinschiaItemTokenID(id uint32) finschiaitemtokenOption {
+	return func(m *FinschiaItemTokenMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *FinschiaItemToken
+		)
+		m.oldValue = func(ctx context.Context) (*FinschiaItemToken, error) {
+			once.Do(func() {
+				if m.done {
+					err = errors.New("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().FinschiaItemToken.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withFinschiaItemToken sets the old FinschiaItemToken of the mutation.
+func withFinschiaItemToken(node *FinschiaItemToken) finschiaitemtokenOption {
+	return func(m *FinschiaItemTokenMutation) {
+		m.oldValue = func(context.Context) (*FinschiaItemToken, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m FinschiaItemTokenMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m FinschiaItemTokenMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, errors.New("ent: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// SetID sets the value of the id field. Note that this
+// operation is only accepted on creation of FinschiaItemToken entities.
+func (m *FinschiaItemTokenMutation) SetID(id uint32) {
+	m.id = &id
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *FinschiaItemTokenMutation) ID() (id uint32, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *FinschiaItemTokenMutation) IDs(ctx context.Context) ([]uint32, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []uint32{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().FinschiaItemToken.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
+}
+
+// SetCreatedAt sets the "created_at" field.
+func (m *FinschiaItemTokenMutation) SetCreatedAt(t time.Time) {
+	m.created_at = &t
+}
+
+// CreatedAt returns the value of the "created_at" field in the mutation.
+func (m *FinschiaItemTokenMutation) CreatedAt() (r time.Time, exists bool) {
+	v := m.created_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCreatedAt returns the old "created_at" field's value of the FinschiaItemToken entity.
+// If the FinschiaItemToken object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *FinschiaItemTokenMutation) OldCreatedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCreatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCreatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCreatedAt: %w", err)
+	}
+	return oldValue.CreatedAt, nil
+}
+
+// ResetCreatedAt resets all changes to the "created_at" field.
+func (m *FinschiaItemTokenMutation) ResetCreatedAt() {
+	m.created_at = nil
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (m *FinschiaItemTokenMutation) SetUpdatedAt(t time.Time) {
+	m.updated_at = &t
+}
+
+// UpdatedAt returns the value of the "updated_at" field in the mutation.
+func (m *FinschiaItemTokenMutation) UpdatedAt() (r time.Time, exists bool) {
+	v := m.updated_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUpdatedAt returns the old "updated_at" field's value of the FinschiaItemToken entity.
+// If the FinschiaItemToken object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *FinschiaItemTokenMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUpdatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUpdatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUpdatedAt: %w", err)
+	}
+	return oldValue.UpdatedAt, nil
+}
+
+// ResetUpdatedAt resets all changes to the "updated_at" field.
+func (m *FinschiaItemTokenMutation) ResetUpdatedAt() {
+	m.updated_at = nil
+}
+
+// SetDeletedAt sets the "deleted_at" field.
+func (m *FinschiaItemTokenMutation) SetDeletedAt(t time.Time) {
+	m.deleted_at = &t
+}
+
+// DeletedAt returns the value of the "deleted_at" field in the mutation.
+func (m *FinschiaItemTokenMutation) DeletedAt() (r time.Time, exists bool) {
+	v := m.deleted_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDeletedAt returns the old "deleted_at" field's value of the FinschiaItemToken entity.
+// If the FinschiaItemToken object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *FinschiaItemTokenMutation) OldDeletedAt(ctx context.Context) (v *time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldDeletedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldDeletedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDeletedAt: %w", err)
+	}
+	return oldValue.DeletedAt, nil
+}
+
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (m *FinschiaItemTokenMutation) ClearDeletedAt() {
+	m.deleted_at = nil
+	m.clearedFields[finschiaitemtoken.FieldDeletedAt] = struct{}{}
+}
+
+// DeletedAtCleared returns if the "deleted_at" field was cleared in this mutation.
+func (m *FinschiaItemTokenMutation) DeletedAtCleared() bool {
+	_, ok := m.clearedFields[finschiaitemtoken.FieldDeletedAt]
+	return ok
+}
+
+// ResetDeletedAt resets all changes to the "deleted_at" field.
+func (m *FinschiaItemTokenMutation) ResetDeletedAt() {
+	m.deleted_at = nil
+	delete(m.clearedFields, finschiaitemtoken.FieldDeletedAt)
+}
+
+// SetContractID sets the "contract_id" field.
+func (m *FinschiaItemTokenMutation) SetContractID(s string) {
+	m.contract_id = &s
+}
+
+// ContractID returns the value of the "contract_id" field in the mutation.
+func (m *FinschiaItemTokenMutation) ContractID() (r string, exists bool) {
+	v := m.contract_id
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldContractID returns the old "contract_id" field's value of the FinschiaItemToken entity.
+// If the FinschiaItemToken object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *FinschiaItemTokenMutation) OldContractID(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldContractID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldContractID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldContractID: %w", err)
+	}
+	return oldValue.ContractID, nil
+}
+
+// ResetContractID resets all changes to the "contract_id" field.
+func (m *FinschiaItemTokenMutation) ResetContractID() {
+	m.contract_id = nil
+}
+
+// SetTokenType sets the "token_type" field.
+func (m *FinschiaItemTokenMutation) SetTokenType(s string) {
+	m.token_type = &s
+}
+
+// TokenType returns the value of the "token_type" field in the mutation.
+func (m *FinschiaItemTokenMutation) TokenType() (r string, exists bool) {
+	v := m.token_type
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldTokenType returns the old "token_type" field's value of the FinschiaItemToken entity.
+// If the FinschiaItemToken object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *FinschiaItemTokenMutation) OldTokenType(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldTokenType is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldTokenType requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldTokenType: %w", err)
+	}
+	return oldValue.TokenType, nil
+}
+
+// ResetTokenType resets all changes to the "token_type" field.
+func (m *FinschiaItemTokenMutation) ResetTokenType() {
+	m.token_type = nil
+}
+
+// SetName sets the "name" field.
+func (m *FinschiaItemTokenMutation) SetName(s string) {
+	m.name = &s
+}
+
+// Name returns the value of the "name" field in the mutation.
+func (m *FinschiaItemTokenMutation) Name() (r string, exists bool) {
+	v := m.name
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldName returns the old "name" field's value of the FinschiaItemToken entity.
+// If the FinschiaItemToken object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *FinschiaItemTokenMutation) OldName(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldName is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldName: %w", err)
+	}
+	return oldValue.Name, nil
+}
+
+// ResetName resets all changes to the "name" field.
+func (m *FinschiaItemTokenMutation) ResetName() {
+	m.name = nil
+}
+
+// AddActivityIDs adds the "activities" edge to the FinschiaItemTokenActivity entity by ids.
+func (m *FinschiaItemTokenMutation) AddActivityIDs(ids ...uint32) {
+	if m.activities == nil {
+		m.activities = make(map[uint32]struct{})
+	}
+	for i := range ids {
+		m.activities[ids[i]] = struct{}{}
+	}
+}
+
+// ClearActivities clears the "activities" edge to the FinschiaItemTokenActivity entity.
+func (m *FinschiaItemTokenMutation) ClearActivities() {
+	m.clearedactivities = true
+}
+
+// ActivitiesCleared reports if the "activities" edge to the FinschiaItemTokenActivity entity was cleared.
+func (m *FinschiaItemTokenMutation) ActivitiesCleared() bool {
+	return m.clearedactivities
+}
+
+// RemoveActivityIDs removes the "activities" edge to the FinschiaItemTokenActivity entity by IDs.
+func (m *FinschiaItemTokenMutation) RemoveActivityIDs(ids ...uint32) {
+	if m.removedactivities == nil {
+		m.removedactivities = make(map[uint32]struct{})
+	}
+	for i := range ids {
+		delete(m.activities, ids[i])
+		m.removedactivities[ids[i]] = struct{}{}
+	}
+}
+
+// RemovedActivities returns the removed IDs of the "activities" edge to the FinschiaItemTokenActivity entity.
+func (m *FinschiaItemTokenMutation) RemovedActivitiesIDs() (ids []uint32) {
+	for id := range m.removedactivities {
+		ids = append(ids, id)
+	}
+	return
+}
+
+// ActivitiesIDs returns the "activities" edge IDs in the mutation.
+func (m *FinschiaItemTokenMutation) ActivitiesIDs() (ids []uint32) {
+	for id := range m.activities {
+		ids = append(ids, id)
+	}
+	return
+}
+
+// ResetActivities resets all changes to the "activities" edge.
+func (m *FinschiaItemTokenMutation) ResetActivities() {
+	m.activities = nil
+	m.clearedactivities = false
+	m.removedactivities = nil
+}
+
+// AddMillionArthursPropertyIDs adds the "million_arthurs_properties" edge to the FinschiaItemTokenMillionArthursProperty entity by ids.
+func (m *FinschiaItemTokenMutation) AddMillionArthursPropertyIDs(ids ...uint32) {
+	if m.million_arthurs_properties == nil {
+		m.million_arthurs_properties = make(map[uint32]struct{})
+	}
+	for i := range ids {
+		m.million_arthurs_properties[ids[i]] = struct{}{}
+	}
+}
+
+// ClearMillionArthursProperties clears the "million_arthurs_properties" edge to the FinschiaItemTokenMillionArthursProperty entity.
+func (m *FinschiaItemTokenMutation) ClearMillionArthursProperties() {
+	m.clearedmillion_arthurs_properties = true
+}
+
+// MillionArthursPropertiesCleared reports if the "million_arthurs_properties" edge to the FinschiaItemTokenMillionArthursProperty entity was cleared.
+func (m *FinschiaItemTokenMutation) MillionArthursPropertiesCleared() bool {
+	return m.clearedmillion_arthurs_properties
+}
+
+// RemoveMillionArthursPropertyIDs removes the "million_arthurs_properties" edge to the FinschiaItemTokenMillionArthursProperty entity by IDs.
+func (m *FinschiaItemTokenMutation) RemoveMillionArthursPropertyIDs(ids ...uint32) {
+	if m.removedmillion_arthurs_properties == nil {
+		m.removedmillion_arthurs_properties = make(map[uint32]struct{})
+	}
+	for i := range ids {
+		delete(m.million_arthurs_properties, ids[i])
+		m.removedmillion_arthurs_properties[ids[i]] = struct{}{}
+	}
+}
+
+// RemovedMillionArthursProperties returns the removed IDs of the "million_arthurs_properties" edge to the FinschiaItemTokenMillionArthursProperty entity.
+func (m *FinschiaItemTokenMutation) RemovedMillionArthursPropertiesIDs() (ids []uint32) {
+	for id := range m.removedmillion_arthurs_properties {
+		ids = append(ids, id)
+	}
+	return
+}
+
+// MillionArthursPropertiesIDs returns the "million_arthurs_properties" edge IDs in the mutation.
+func (m *FinschiaItemTokenMutation) MillionArthursPropertiesIDs() (ids []uint32) {
+	for id := range m.million_arthurs_properties {
+		ids = append(ids, id)
+	}
+	return
+}
+
+// ResetMillionArthursProperties resets all changes to the "million_arthurs_properties" edge.
+func (m *FinschiaItemTokenMutation) ResetMillionArthursProperties() {
+	m.million_arthurs_properties = nil
+	m.clearedmillion_arthurs_properties = false
+	m.removedmillion_arthurs_properties = nil
+}
+
+// Where appends a list predicates to the FinschiaItemTokenMutation builder.
+func (m *FinschiaItemTokenMutation) Where(ps ...predicate.FinschiaItemToken) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// WhereP appends storage-level predicates to the FinschiaItemTokenMutation builder. Using this method,
+// users can use type-assertion to append predicates that do not depend on any generated package.
+func (m *FinschiaItemTokenMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.FinschiaItemToken, len(ps))
+	for i := range ps {
+		p[i] = ps[i]
+	}
+	m.Where(p...)
+}
+
+// Op returns the operation name.
+func (m *FinschiaItemTokenMutation) Op() Op {
+	return m.op
+}
+
+// SetOp allows setting the mutation operation.
+func (m *FinschiaItemTokenMutation) SetOp(op Op) {
+	m.op = op
+}
+
+// Type returns the node type of this mutation (FinschiaItemToken).
+func (m *FinschiaItemTokenMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *FinschiaItemTokenMutation) Fields() []string {
+	fields := make([]string, 0, 6)
+	if m.created_at != nil {
+		fields = append(fields, finschiaitemtoken.FieldCreatedAt)
+	}
+	if m.updated_at != nil {
+		fields = append(fields, finschiaitemtoken.FieldUpdatedAt)
+	}
+	if m.deleted_at != nil {
+		fields = append(fields, finschiaitemtoken.FieldDeletedAt)
+	}
+	if m.contract_id != nil {
+		fields = append(fields, finschiaitemtoken.FieldContractID)
+	}
+	if m.token_type != nil {
+		fields = append(fields, finschiaitemtoken.FieldTokenType)
+	}
+	if m.name != nil {
+		fields = append(fields, finschiaitemtoken.FieldName)
+	}
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *FinschiaItemTokenMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case finschiaitemtoken.FieldCreatedAt:
+		return m.CreatedAt()
+	case finschiaitemtoken.FieldUpdatedAt:
+		return m.UpdatedAt()
+	case finschiaitemtoken.FieldDeletedAt:
+		return m.DeletedAt()
+	case finschiaitemtoken.FieldContractID:
+		return m.ContractID()
+	case finschiaitemtoken.FieldTokenType:
+		return m.TokenType()
+	case finschiaitemtoken.FieldName:
+		return m.Name()
+	}
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *FinschiaItemTokenMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case finschiaitemtoken.FieldCreatedAt:
+		return m.OldCreatedAt(ctx)
+	case finschiaitemtoken.FieldUpdatedAt:
+		return m.OldUpdatedAt(ctx)
+	case finschiaitemtoken.FieldDeletedAt:
+		return m.OldDeletedAt(ctx)
+	case finschiaitemtoken.FieldContractID:
+		return m.OldContractID(ctx)
+	case finschiaitemtoken.FieldTokenType:
+		return m.OldTokenType(ctx)
+	case finschiaitemtoken.FieldName:
+		return m.OldName(ctx)
+	}
+	return nil, fmt.Errorf("unknown FinschiaItemToken field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *FinschiaItemTokenMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	case finschiaitemtoken.FieldCreatedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCreatedAt(v)
+		return nil
+	case finschiaitemtoken.FieldUpdatedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUpdatedAt(v)
+		return nil
+	case finschiaitemtoken.FieldDeletedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDeletedAt(v)
+		return nil
+	case finschiaitemtoken.FieldContractID:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetContractID(v)
+		return nil
+	case finschiaitemtoken.FieldTokenType:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetTokenType(v)
+		return nil
+	case finschiaitemtoken.FieldName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetName(v)
+		return nil
+	}
+	return fmt.Errorf("unknown FinschiaItemToken field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *FinschiaItemTokenMutation) AddedFields() []string {
+	return nil
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *FinschiaItemTokenMutation) AddedField(name string) (ent.Value, bool) {
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *FinschiaItemTokenMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	}
+	return fmt.Errorf("unknown FinschiaItemToken numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *FinschiaItemTokenMutation) ClearedFields() []string {
+	var fields []string
+	if m.FieldCleared(finschiaitemtoken.FieldDeletedAt) {
+		fields = append(fields, finschiaitemtoken.FieldDeletedAt)
+	}
+	return fields
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *FinschiaItemTokenMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *FinschiaItemTokenMutation) ClearField(name string) error {
+	switch name {
+	case finschiaitemtoken.FieldDeletedAt:
+		m.ClearDeletedAt()
+		return nil
+	}
+	return fmt.Errorf("unknown FinschiaItemToken nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *FinschiaItemTokenMutation) ResetField(name string) error {
+	switch name {
+	case finschiaitemtoken.FieldCreatedAt:
+		m.ResetCreatedAt()
+		return nil
+	case finschiaitemtoken.FieldUpdatedAt:
+		m.ResetUpdatedAt()
+		return nil
+	case finschiaitemtoken.FieldDeletedAt:
+		m.ResetDeletedAt()
+		return nil
+	case finschiaitemtoken.FieldContractID:
+		m.ResetContractID()
+		return nil
+	case finschiaitemtoken.FieldTokenType:
+		m.ResetTokenType()
+		return nil
+	case finschiaitemtoken.FieldName:
+		m.ResetName()
+		return nil
+	}
+	return fmt.Errorf("unknown FinschiaItemToken field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *FinschiaItemTokenMutation) AddedEdges() []string {
+	edges := make([]string, 0, 2)
+	if m.activities != nil {
+		edges = append(edges, finschiaitemtoken.EdgeActivities)
+	}
+	if m.million_arthurs_properties != nil {
+		edges = append(edges, finschiaitemtoken.EdgeMillionArthursProperties)
+	}
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *FinschiaItemTokenMutation) AddedIDs(name string) []ent.Value {
+	switch name {
+	case finschiaitemtoken.EdgeActivities:
+		ids := make([]ent.Value, 0, len(m.activities))
+		for id := range m.activities {
+			ids = append(ids, id)
+		}
+		return ids
+	case finschiaitemtoken.EdgeMillionArthursProperties:
+		ids := make([]ent.Value, 0, len(m.million_arthurs_properties))
+		for id := range m.million_arthurs_properties {
+			ids = append(ids, id)
+		}
+		return ids
+	}
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *FinschiaItemTokenMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 2)
+	if m.removedactivities != nil {
+		edges = append(edges, finschiaitemtoken.EdgeActivities)
+	}
+	if m.removedmillion_arthurs_properties != nil {
+		edges = append(edges, finschiaitemtoken.EdgeMillionArthursProperties)
+	}
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *FinschiaItemTokenMutation) RemovedIDs(name string) []ent.Value {
+	switch name {
+	case finschiaitemtoken.EdgeActivities:
+		ids := make([]ent.Value, 0, len(m.removedactivities))
+		for id := range m.removedactivities {
+			ids = append(ids, id)
+		}
+		return ids
+	case finschiaitemtoken.EdgeMillionArthursProperties:
+		ids := make([]ent.Value, 0, len(m.removedmillion_arthurs_properties))
+		for id := range m.removedmillion_arthurs_properties {
+			ids = append(ids, id)
+		}
+		return ids
+	}
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *FinschiaItemTokenMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 2)
+	if m.clearedactivities {
+		edges = append(edges, finschiaitemtoken.EdgeActivities)
+	}
+	if m.clearedmillion_arthurs_properties {
+		edges = append(edges, finschiaitemtoken.EdgeMillionArthursProperties)
+	}
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *FinschiaItemTokenMutation) EdgeCleared(name string) bool {
+	switch name {
+	case finschiaitemtoken.EdgeActivities:
+		return m.clearedactivities
+	case finschiaitemtoken.EdgeMillionArthursProperties:
+		return m.clearedmillion_arthurs_properties
+	}
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *FinschiaItemTokenMutation) ClearEdge(name string) error {
+	switch name {
+	}
+	return fmt.Errorf("unknown FinschiaItemToken unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *FinschiaItemTokenMutation) ResetEdge(name string) error {
+	switch name {
+	case finschiaitemtoken.EdgeActivities:
+		m.ResetActivities()
+		return nil
+	case finschiaitemtoken.EdgeMillionArthursProperties:
+		m.ResetMillionArthursProperties()
+		return nil
+	}
+	return fmt.Errorf("unknown FinschiaItemToken edge %s", name)
+}
+
+// FinschiaItemTokenActivityMutation represents an operation that mutates the FinschiaItemTokenActivity nodes in the graph.
+type FinschiaItemTokenActivityMutation struct {
+	config
+	op                         Op
+	typ                        string
+	id                         *uint32
+	created_at                 *time.Time
+	updated_at                 *time.Time
+	deleted_at                 *time.Time
+	transaction_hash           *string
+	activity_type              *string
+	activated_at               *time.Time
+	clearedFields              map[string]struct{}
+	finschia_item_token        *uint32
+	clearedfinschia_item_token bool
+	done                       bool
+	oldValue                   func(context.Context) (*FinschiaItemTokenActivity, error)
+	predicates                 []predicate.FinschiaItemTokenActivity
+}
+
+var _ ent.Mutation = (*FinschiaItemTokenActivityMutation)(nil)
+
+// finschiaitemtokenactivityOption allows management of the mutation configuration using functional options.
+type finschiaitemtokenactivityOption func(*FinschiaItemTokenActivityMutation)
+
+// newFinschiaItemTokenActivityMutation creates new mutation for the FinschiaItemTokenActivity entity.
+func newFinschiaItemTokenActivityMutation(c config, op Op, opts ...finschiaitemtokenactivityOption) *FinschiaItemTokenActivityMutation {
+	m := &FinschiaItemTokenActivityMutation{
+		config:        c,
+		op:            op,
+		typ:           TypeFinschiaItemTokenActivity,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withFinschiaItemTokenActivityID sets the ID field of the mutation.
+func withFinschiaItemTokenActivityID(id uint32) finschiaitemtokenactivityOption {
+	return func(m *FinschiaItemTokenActivityMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *FinschiaItemTokenActivity
+		)
+		m.oldValue = func(ctx context.Context) (*FinschiaItemTokenActivity, error) {
+			once.Do(func() {
+				if m.done {
+					err = errors.New("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().FinschiaItemTokenActivity.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withFinschiaItemTokenActivity sets the old FinschiaItemTokenActivity of the mutation.
+func withFinschiaItemTokenActivity(node *FinschiaItemTokenActivity) finschiaitemtokenactivityOption {
+	return func(m *FinschiaItemTokenActivityMutation) {
+		m.oldValue = func(context.Context) (*FinschiaItemTokenActivity, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m FinschiaItemTokenActivityMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m FinschiaItemTokenActivityMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, errors.New("ent: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// SetID sets the value of the id field. Note that this
+// operation is only accepted on creation of FinschiaItemTokenActivity entities.
+func (m *FinschiaItemTokenActivityMutation) SetID(id uint32) {
+	m.id = &id
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *FinschiaItemTokenActivityMutation) ID() (id uint32, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *FinschiaItemTokenActivityMutation) IDs(ctx context.Context) ([]uint32, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []uint32{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().FinschiaItemTokenActivity.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
+}
+
+// SetCreatedAt sets the "created_at" field.
+func (m *FinschiaItemTokenActivityMutation) SetCreatedAt(t time.Time) {
+	m.created_at = &t
+}
+
+// CreatedAt returns the value of the "created_at" field in the mutation.
+func (m *FinschiaItemTokenActivityMutation) CreatedAt() (r time.Time, exists bool) {
+	v := m.created_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCreatedAt returns the old "created_at" field's value of the FinschiaItemTokenActivity entity.
+// If the FinschiaItemTokenActivity object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *FinschiaItemTokenActivityMutation) OldCreatedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCreatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCreatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCreatedAt: %w", err)
+	}
+	return oldValue.CreatedAt, nil
+}
+
+// ResetCreatedAt resets all changes to the "created_at" field.
+func (m *FinschiaItemTokenActivityMutation) ResetCreatedAt() {
+	m.created_at = nil
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (m *FinschiaItemTokenActivityMutation) SetUpdatedAt(t time.Time) {
+	m.updated_at = &t
+}
+
+// UpdatedAt returns the value of the "updated_at" field in the mutation.
+func (m *FinschiaItemTokenActivityMutation) UpdatedAt() (r time.Time, exists bool) {
+	v := m.updated_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUpdatedAt returns the old "updated_at" field's value of the FinschiaItemTokenActivity entity.
+// If the FinschiaItemTokenActivity object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *FinschiaItemTokenActivityMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUpdatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUpdatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUpdatedAt: %w", err)
+	}
+	return oldValue.UpdatedAt, nil
+}
+
+// ResetUpdatedAt resets all changes to the "updated_at" field.
+func (m *FinschiaItemTokenActivityMutation) ResetUpdatedAt() {
+	m.updated_at = nil
+}
+
+// SetDeletedAt sets the "deleted_at" field.
+func (m *FinschiaItemTokenActivityMutation) SetDeletedAt(t time.Time) {
+	m.deleted_at = &t
+}
+
+// DeletedAt returns the value of the "deleted_at" field in the mutation.
+func (m *FinschiaItemTokenActivityMutation) DeletedAt() (r time.Time, exists bool) {
+	v := m.deleted_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDeletedAt returns the old "deleted_at" field's value of the FinschiaItemTokenActivity entity.
+// If the FinschiaItemTokenActivity object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *FinschiaItemTokenActivityMutation) OldDeletedAt(ctx context.Context) (v *time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldDeletedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldDeletedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDeletedAt: %w", err)
+	}
+	return oldValue.DeletedAt, nil
+}
+
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (m *FinschiaItemTokenActivityMutation) ClearDeletedAt() {
+	m.deleted_at = nil
+	m.clearedFields[finschiaitemtokenactivity.FieldDeletedAt] = struct{}{}
+}
+
+// DeletedAtCleared returns if the "deleted_at" field was cleared in this mutation.
+func (m *FinschiaItemTokenActivityMutation) DeletedAtCleared() bool {
+	_, ok := m.clearedFields[finschiaitemtokenactivity.FieldDeletedAt]
+	return ok
+}
+
+// ResetDeletedAt resets all changes to the "deleted_at" field.
+func (m *FinschiaItemTokenActivityMutation) ResetDeletedAt() {
+	m.deleted_at = nil
+	delete(m.clearedFields, finschiaitemtokenactivity.FieldDeletedAt)
+}
+
+// SetTransactionHash sets the "transaction_hash" field.
+func (m *FinschiaItemTokenActivityMutation) SetTransactionHash(s string) {
+	m.transaction_hash = &s
+}
+
+// TransactionHash returns the value of the "transaction_hash" field in the mutation.
+func (m *FinschiaItemTokenActivityMutation) TransactionHash() (r string, exists bool) {
+	v := m.transaction_hash
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldTransactionHash returns the old "transaction_hash" field's value of the FinschiaItemTokenActivity entity.
+// If the FinschiaItemTokenActivity object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *FinschiaItemTokenActivityMutation) OldTransactionHash(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldTransactionHash is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldTransactionHash requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldTransactionHash: %w", err)
+	}
+	return oldValue.TransactionHash, nil
+}
+
+// ResetTransactionHash resets all changes to the "transaction_hash" field.
+func (m *FinschiaItemTokenActivityMutation) ResetTransactionHash() {
+	m.transaction_hash = nil
+}
+
+// SetFinschiaItemTokenID sets the "finschia_item_token_id" field.
+func (m *FinschiaItemTokenActivityMutation) SetFinschiaItemTokenID(u uint32) {
+	m.finschia_item_token = &u
+}
+
+// FinschiaItemTokenID returns the value of the "finschia_item_token_id" field in the mutation.
+func (m *FinschiaItemTokenActivityMutation) FinschiaItemTokenID() (r uint32, exists bool) {
+	v := m.finschia_item_token
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldFinschiaItemTokenID returns the old "finschia_item_token_id" field's value of the FinschiaItemTokenActivity entity.
+// If the FinschiaItemTokenActivity object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *FinschiaItemTokenActivityMutation) OldFinschiaItemTokenID(ctx context.Context) (v uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldFinschiaItemTokenID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldFinschiaItemTokenID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldFinschiaItemTokenID: %w", err)
+	}
+	return oldValue.FinschiaItemTokenID, nil
+}
+
+// ResetFinschiaItemTokenID resets all changes to the "finschia_item_token_id" field.
+func (m *FinschiaItemTokenActivityMutation) ResetFinschiaItemTokenID() {
+	m.finschia_item_token = nil
+}
+
+// SetActivityType sets the "activity_type" field.
+func (m *FinschiaItemTokenActivityMutation) SetActivityType(s string) {
+	m.activity_type = &s
+}
+
+// ActivityType returns the value of the "activity_type" field in the mutation.
+func (m *FinschiaItemTokenActivityMutation) ActivityType() (r string, exists bool) {
+	v := m.activity_type
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldActivityType returns the old "activity_type" field's value of the FinschiaItemTokenActivity entity.
+// If the FinschiaItemTokenActivity object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *FinschiaItemTokenActivityMutation) OldActivityType(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldActivityType is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldActivityType requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldActivityType: %w", err)
+	}
+	return oldValue.ActivityType, nil
+}
+
+// ResetActivityType resets all changes to the "activity_type" field.
+func (m *FinschiaItemTokenActivityMutation) ResetActivityType() {
+	m.activity_type = nil
+}
+
+// SetActivatedAt sets the "activated_at" field.
+func (m *FinschiaItemTokenActivityMutation) SetActivatedAt(t time.Time) {
+	m.activated_at = &t
+}
+
+// ActivatedAt returns the value of the "activated_at" field in the mutation.
+func (m *FinschiaItemTokenActivityMutation) ActivatedAt() (r time.Time, exists bool) {
+	v := m.activated_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldActivatedAt returns the old "activated_at" field's value of the FinschiaItemTokenActivity entity.
+// If the FinschiaItemTokenActivity object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *FinschiaItemTokenActivityMutation) OldActivatedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldActivatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldActivatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldActivatedAt: %w", err)
+	}
+	return oldValue.ActivatedAt, nil
+}
+
+// ResetActivatedAt resets all changes to the "activated_at" field.
+func (m *FinschiaItemTokenActivityMutation) ResetActivatedAt() {
+	m.activated_at = nil
+}
+
+// ClearFinschiaItemToken clears the "finschia_item_token" edge to the FinschiaItemToken entity.
+func (m *FinschiaItemTokenActivityMutation) ClearFinschiaItemToken() {
+	m.clearedfinschia_item_token = true
+	m.clearedFields[finschiaitemtokenactivity.FieldFinschiaItemTokenID] = struct{}{}
+}
+
+// FinschiaItemTokenCleared reports if the "finschia_item_token" edge to the FinschiaItemToken entity was cleared.
+func (m *FinschiaItemTokenActivityMutation) FinschiaItemTokenCleared() bool {
+	return m.clearedfinschia_item_token
+}
+
+// FinschiaItemTokenIDs returns the "finschia_item_token" edge IDs in the mutation.
+// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
+// FinschiaItemTokenID instead. It exists only for internal usage by the builders.
+func (m *FinschiaItemTokenActivityMutation) FinschiaItemTokenIDs() (ids []uint32) {
+	if id := m.finschia_item_token; id != nil {
+		ids = append(ids, *id)
+	}
+	return
+}
+
+// ResetFinschiaItemToken resets all changes to the "finschia_item_token" edge.
+func (m *FinschiaItemTokenActivityMutation) ResetFinschiaItemToken() {
+	m.finschia_item_token = nil
+	m.clearedfinschia_item_token = false
+}
+
+// Where appends a list predicates to the FinschiaItemTokenActivityMutation builder.
+func (m *FinschiaItemTokenActivityMutation) Where(ps ...predicate.FinschiaItemTokenActivity) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// WhereP appends storage-level predicates to the FinschiaItemTokenActivityMutation builder. Using this method,
+// users can use type-assertion to append predicates that do not depend on any generated package.
+func (m *FinschiaItemTokenActivityMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.FinschiaItemTokenActivity, len(ps))
+	for i := range ps {
+		p[i] = ps[i]
+	}
+	m.Where(p...)
+}
+
+// Op returns the operation name.
+func (m *FinschiaItemTokenActivityMutation) Op() Op {
+	return m.op
+}
+
+// SetOp allows setting the mutation operation.
+func (m *FinschiaItemTokenActivityMutation) SetOp(op Op) {
+	m.op = op
+}
+
+// Type returns the node type of this mutation (FinschiaItemTokenActivity).
+func (m *FinschiaItemTokenActivityMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *FinschiaItemTokenActivityMutation) Fields() []string {
+	fields := make([]string, 0, 7)
+	if m.created_at != nil {
+		fields = append(fields, finschiaitemtokenactivity.FieldCreatedAt)
+	}
+	if m.updated_at != nil {
+		fields = append(fields, finschiaitemtokenactivity.FieldUpdatedAt)
+	}
+	if m.deleted_at != nil {
+		fields = append(fields, finschiaitemtokenactivity.FieldDeletedAt)
+	}
+	if m.transaction_hash != nil {
+		fields = append(fields, finschiaitemtokenactivity.FieldTransactionHash)
+	}
+	if m.finschia_item_token != nil {
+		fields = append(fields, finschiaitemtokenactivity.FieldFinschiaItemTokenID)
+	}
+	if m.activity_type != nil {
+		fields = append(fields, finschiaitemtokenactivity.FieldActivityType)
+	}
+	if m.activated_at != nil {
+		fields = append(fields, finschiaitemtokenactivity.FieldActivatedAt)
+	}
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *FinschiaItemTokenActivityMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case finschiaitemtokenactivity.FieldCreatedAt:
+		return m.CreatedAt()
+	case finschiaitemtokenactivity.FieldUpdatedAt:
+		return m.UpdatedAt()
+	case finschiaitemtokenactivity.FieldDeletedAt:
+		return m.DeletedAt()
+	case finschiaitemtokenactivity.FieldTransactionHash:
+		return m.TransactionHash()
+	case finschiaitemtokenactivity.FieldFinschiaItemTokenID:
+		return m.FinschiaItemTokenID()
+	case finschiaitemtokenactivity.FieldActivityType:
+		return m.ActivityType()
+	case finschiaitemtokenactivity.FieldActivatedAt:
+		return m.ActivatedAt()
+	}
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *FinschiaItemTokenActivityMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case finschiaitemtokenactivity.FieldCreatedAt:
+		return m.OldCreatedAt(ctx)
+	case finschiaitemtokenactivity.FieldUpdatedAt:
+		return m.OldUpdatedAt(ctx)
+	case finschiaitemtokenactivity.FieldDeletedAt:
+		return m.OldDeletedAt(ctx)
+	case finschiaitemtokenactivity.FieldTransactionHash:
+		return m.OldTransactionHash(ctx)
+	case finschiaitemtokenactivity.FieldFinschiaItemTokenID:
+		return m.OldFinschiaItemTokenID(ctx)
+	case finschiaitemtokenactivity.FieldActivityType:
+		return m.OldActivityType(ctx)
+	case finschiaitemtokenactivity.FieldActivatedAt:
+		return m.OldActivatedAt(ctx)
+	}
+	return nil, fmt.Errorf("unknown FinschiaItemTokenActivity field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *FinschiaItemTokenActivityMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	case finschiaitemtokenactivity.FieldCreatedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCreatedAt(v)
+		return nil
+	case finschiaitemtokenactivity.FieldUpdatedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUpdatedAt(v)
+		return nil
+	case finschiaitemtokenactivity.FieldDeletedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDeletedAt(v)
+		return nil
+	case finschiaitemtokenactivity.FieldTransactionHash:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetTransactionHash(v)
+		return nil
+	case finschiaitemtokenactivity.FieldFinschiaItemTokenID:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetFinschiaItemTokenID(v)
+		return nil
+	case finschiaitemtokenactivity.FieldActivityType:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetActivityType(v)
+		return nil
+	case finschiaitemtokenactivity.FieldActivatedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetActivatedAt(v)
+		return nil
+	}
+	return fmt.Errorf("unknown FinschiaItemTokenActivity field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *FinschiaItemTokenActivityMutation) AddedFields() []string {
+	var fields []string
+	return fields
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *FinschiaItemTokenActivityMutation) AddedField(name string) (ent.Value, bool) {
+	switch name {
+	}
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *FinschiaItemTokenActivityMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	}
+	return fmt.Errorf("unknown FinschiaItemTokenActivity numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *FinschiaItemTokenActivityMutation) ClearedFields() []string {
+	var fields []string
+	if m.FieldCleared(finschiaitemtokenactivity.FieldDeletedAt) {
+		fields = append(fields, finschiaitemtokenactivity.FieldDeletedAt)
+	}
+	return fields
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *FinschiaItemTokenActivityMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *FinschiaItemTokenActivityMutation) ClearField(name string) error {
+	switch name {
+	case finschiaitemtokenactivity.FieldDeletedAt:
+		m.ClearDeletedAt()
+		return nil
+	}
+	return fmt.Errorf("unknown FinschiaItemTokenActivity nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *FinschiaItemTokenActivityMutation) ResetField(name string) error {
+	switch name {
+	case finschiaitemtokenactivity.FieldCreatedAt:
+		m.ResetCreatedAt()
+		return nil
+	case finschiaitemtokenactivity.FieldUpdatedAt:
+		m.ResetUpdatedAt()
+		return nil
+	case finschiaitemtokenactivity.FieldDeletedAt:
+		m.ResetDeletedAt()
+		return nil
+	case finschiaitemtokenactivity.FieldTransactionHash:
+		m.ResetTransactionHash()
+		return nil
+	case finschiaitemtokenactivity.FieldFinschiaItemTokenID:
+		m.ResetFinschiaItemTokenID()
+		return nil
+	case finschiaitemtokenactivity.FieldActivityType:
+		m.ResetActivityType()
+		return nil
+	case finschiaitemtokenactivity.FieldActivatedAt:
+		m.ResetActivatedAt()
+		return nil
+	}
+	return fmt.Errorf("unknown FinschiaItemTokenActivity field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *FinschiaItemTokenActivityMutation) AddedEdges() []string {
+	edges := make([]string, 0, 1)
+	if m.finschia_item_token != nil {
+		edges = append(edges, finschiaitemtokenactivity.EdgeFinschiaItemToken)
+	}
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *FinschiaItemTokenActivityMutation) AddedIDs(name string) []ent.Value {
+	switch name {
+	case finschiaitemtokenactivity.EdgeFinschiaItemToken:
+		if id := m.finschia_item_token; id != nil {
+			return []ent.Value{*id}
+		}
+	}
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *FinschiaItemTokenActivityMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 1)
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *FinschiaItemTokenActivityMutation) RemovedIDs(name string) []ent.Value {
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *FinschiaItemTokenActivityMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 1)
+	if m.clearedfinschia_item_token {
+		edges = append(edges, finschiaitemtokenactivity.EdgeFinschiaItemToken)
+	}
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *FinschiaItemTokenActivityMutation) EdgeCleared(name string) bool {
+	switch name {
+	case finschiaitemtokenactivity.EdgeFinschiaItemToken:
+		return m.clearedfinschia_item_token
+	}
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *FinschiaItemTokenActivityMutation) ClearEdge(name string) error {
+	switch name {
+	case finschiaitemtokenactivity.EdgeFinschiaItemToken:
+		m.ClearFinschiaItemToken()
+		return nil
+	}
+	return fmt.Errorf("unknown FinschiaItemTokenActivity unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *FinschiaItemTokenActivityMutation) ResetEdge(name string) error {
+	switch name {
+	case finschiaitemtokenactivity.EdgeFinschiaItemToken:
+		m.ResetFinschiaItemToken()
+		return nil
+	}
+	return fmt.Errorf("unknown FinschiaItemTokenActivity edge %s", name)
+}
+
+// FinschiaItemTokenMillionArthursPropertyMutation represents an operation that mutates the FinschiaItemTokenMillionArthursProperty nodes in the graph.
+type FinschiaItemTokenMillionArthursPropertyMutation struct {
+	config
+	op                         Op
+	typ                        string
+	id                         *uint32
+	created_at                 *time.Time
+	updated_at                 *time.Time
+	deleted_at                 *time.Time
+	series                     *string
+	gear_category              *string
+	gear_rarity                *string
+	clearedFields              map[string]struct{}
+	finschia_item_token        *uint32
+	clearedfinschia_item_token bool
+	done                       bool
+	oldValue                   func(context.Context) (*FinschiaItemTokenMillionArthursProperty, error)
+	predicates                 []predicate.FinschiaItemTokenMillionArthursProperty
+}
+
+var _ ent.Mutation = (*FinschiaItemTokenMillionArthursPropertyMutation)(nil)
+
+// finschiaitemtokenmillionarthurspropertyOption allows management of the mutation configuration using functional options.
+type finschiaitemtokenmillionarthurspropertyOption func(*FinschiaItemTokenMillionArthursPropertyMutation)
+
+// newFinschiaItemTokenMillionArthursPropertyMutation creates new mutation for the FinschiaItemTokenMillionArthursProperty entity.
+func newFinschiaItemTokenMillionArthursPropertyMutation(c config, op Op, opts ...finschiaitemtokenmillionarthurspropertyOption) *FinschiaItemTokenMillionArthursPropertyMutation {
+	m := &FinschiaItemTokenMillionArthursPropertyMutation{
+		config:        c,
+		op:            op,
+		typ:           TypeFinschiaItemTokenMillionArthursProperty,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withFinschiaItemTokenMillionArthursPropertyID sets the ID field of the mutation.
+func withFinschiaItemTokenMillionArthursPropertyID(id uint32) finschiaitemtokenmillionarthurspropertyOption {
+	return func(m *FinschiaItemTokenMillionArthursPropertyMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *FinschiaItemTokenMillionArthursProperty
+		)
+		m.oldValue = func(ctx context.Context) (*FinschiaItemTokenMillionArthursProperty, error) {
+			once.Do(func() {
+				if m.done {
+					err = errors.New("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().FinschiaItemTokenMillionArthursProperty.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withFinschiaItemTokenMillionArthursProperty sets the old FinschiaItemTokenMillionArthursProperty of the mutation.
+func withFinschiaItemTokenMillionArthursProperty(node *FinschiaItemTokenMillionArthursProperty) finschiaitemtokenmillionarthurspropertyOption {
+	return func(m *FinschiaItemTokenMillionArthursPropertyMutation) {
+		m.oldValue = func(context.Context) (*FinschiaItemTokenMillionArthursProperty, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m FinschiaItemTokenMillionArthursPropertyMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m FinschiaItemTokenMillionArthursPropertyMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, errors.New("ent: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// SetID sets the value of the id field. Note that this
+// operation is only accepted on creation of FinschiaItemTokenMillionArthursProperty entities.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) SetID(id uint32) {
+	m.id = &id
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) ID() (id uint32, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) IDs(ctx context.Context) ([]uint32, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []uint32{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().FinschiaItemTokenMillionArthursProperty.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
+}
+
+// SetCreatedAt sets the "created_at" field.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) SetCreatedAt(t time.Time) {
+	m.created_at = &t
+}
+
+// CreatedAt returns the value of the "created_at" field in the mutation.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) CreatedAt() (r time.Time, exists bool) {
+	v := m.created_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCreatedAt returns the old "created_at" field's value of the FinschiaItemTokenMillionArthursProperty entity.
+// If the FinschiaItemTokenMillionArthursProperty object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) OldCreatedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCreatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCreatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCreatedAt: %w", err)
+	}
+	return oldValue.CreatedAt, nil
+}
+
+// ResetCreatedAt resets all changes to the "created_at" field.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) ResetCreatedAt() {
+	m.created_at = nil
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) SetUpdatedAt(t time.Time) {
+	m.updated_at = &t
+}
+
+// UpdatedAt returns the value of the "updated_at" field in the mutation.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) UpdatedAt() (r time.Time, exists bool) {
+	v := m.updated_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUpdatedAt returns the old "updated_at" field's value of the FinschiaItemTokenMillionArthursProperty entity.
+// If the FinschiaItemTokenMillionArthursProperty object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUpdatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUpdatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUpdatedAt: %w", err)
+	}
+	return oldValue.UpdatedAt, nil
+}
+
+// ResetUpdatedAt resets all changes to the "updated_at" field.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) ResetUpdatedAt() {
+	m.updated_at = nil
+}
+
+// SetDeletedAt sets the "deleted_at" field.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) SetDeletedAt(t time.Time) {
+	m.deleted_at = &t
+}
+
+// DeletedAt returns the value of the "deleted_at" field in the mutation.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) DeletedAt() (r time.Time, exists bool) {
+	v := m.deleted_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDeletedAt returns the old "deleted_at" field's value of the FinschiaItemTokenMillionArthursProperty entity.
+// If the FinschiaItemTokenMillionArthursProperty object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) OldDeletedAt(ctx context.Context) (v *time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldDeletedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldDeletedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDeletedAt: %w", err)
+	}
+	return oldValue.DeletedAt, nil
+}
+
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) ClearDeletedAt() {
+	m.deleted_at = nil
+	m.clearedFields[finschiaitemtokenmillionarthursproperty.FieldDeletedAt] = struct{}{}
+}
+
+// DeletedAtCleared returns if the "deleted_at" field was cleared in this mutation.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) DeletedAtCleared() bool {
+	_, ok := m.clearedFields[finschiaitemtokenmillionarthursproperty.FieldDeletedAt]
+	return ok
+}
+
+// ResetDeletedAt resets all changes to the "deleted_at" field.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) ResetDeletedAt() {
+	m.deleted_at = nil
+	delete(m.clearedFields, finschiaitemtokenmillionarthursproperty.FieldDeletedAt)
+}
+
+// SetFinschiaItemTokenID sets the "finschia_item_token_id" field.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) SetFinschiaItemTokenID(u uint32) {
+	m.finschia_item_token = &u
+}
+
+// FinschiaItemTokenID returns the value of the "finschia_item_token_id" field in the mutation.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) FinschiaItemTokenID() (r uint32, exists bool) {
+	v := m.finschia_item_token
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldFinschiaItemTokenID returns the old "finschia_item_token_id" field's value of the FinschiaItemTokenMillionArthursProperty entity.
+// If the FinschiaItemTokenMillionArthursProperty object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) OldFinschiaItemTokenID(ctx context.Context) (v uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldFinschiaItemTokenID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldFinschiaItemTokenID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldFinschiaItemTokenID: %w", err)
+	}
+	return oldValue.FinschiaItemTokenID, nil
+}
+
+// ResetFinschiaItemTokenID resets all changes to the "finschia_item_token_id" field.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) ResetFinschiaItemTokenID() {
+	m.finschia_item_token = nil
+}
+
+// SetSeries sets the "series" field.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) SetSeries(s string) {
+	m.series = &s
+}
+
+// Series returns the value of the "series" field in the mutation.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) Series() (r string, exists bool) {
+	v := m.series
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldSeries returns the old "series" field's value of the FinschiaItemTokenMillionArthursProperty entity.
+// If the FinschiaItemTokenMillionArthursProperty object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) OldSeries(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldSeries is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldSeries requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldSeries: %w", err)
+	}
+	return oldValue.Series, nil
+}
+
+// ClearSeries clears the value of the "series" field.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) ClearSeries() {
+	m.series = nil
+	m.clearedFields[finschiaitemtokenmillionarthursproperty.FieldSeries] = struct{}{}
+}
+
+// SeriesCleared returns if the "series" field was cleared in this mutation.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) SeriesCleared() bool {
+	_, ok := m.clearedFields[finschiaitemtokenmillionarthursproperty.FieldSeries]
+	return ok
+}
+
+// ResetSeries resets all changes to the "series" field.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) ResetSeries() {
+	m.series = nil
+	delete(m.clearedFields, finschiaitemtokenmillionarthursproperty.FieldSeries)
+}
+
+// SetGearCategory sets the "gear_category" field.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) SetGearCategory(s string) {
+	m.gear_category = &s
+}
+
+// GearCategory returns the value of the "gear_category" field in the mutation.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) GearCategory() (r string, exists bool) {
+	v := m.gear_category
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldGearCategory returns the old "gear_category" field's value of the FinschiaItemTokenMillionArthursProperty entity.
+// If the FinschiaItemTokenMillionArthursProperty object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) OldGearCategory(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldGearCategory is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldGearCategory requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldGearCategory: %w", err)
+	}
+	return oldValue.GearCategory, nil
+}
+
+// ClearGearCategory clears the value of the "gear_category" field.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) ClearGearCategory() {
+	m.gear_category = nil
+	m.clearedFields[finschiaitemtokenmillionarthursproperty.FieldGearCategory] = struct{}{}
+}
+
+// GearCategoryCleared returns if the "gear_category" field was cleared in this mutation.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) GearCategoryCleared() bool {
+	_, ok := m.clearedFields[finschiaitemtokenmillionarthursproperty.FieldGearCategory]
+	return ok
+}
+
+// ResetGearCategory resets all changes to the "gear_category" field.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) ResetGearCategory() {
+	m.gear_category = nil
+	delete(m.clearedFields, finschiaitemtokenmillionarthursproperty.FieldGearCategory)
+}
+
+// SetGearRarity sets the "gear_rarity" field.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) SetGearRarity(s string) {
+	m.gear_rarity = &s
+}
+
+// GearRarity returns the value of the "gear_rarity" field in the mutation.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) GearRarity() (r string, exists bool) {
+	v := m.gear_rarity
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldGearRarity returns the old "gear_rarity" field's value of the FinschiaItemTokenMillionArthursProperty entity.
+// If the FinschiaItemTokenMillionArthursProperty object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) OldGearRarity(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldGearRarity is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldGearRarity requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldGearRarity: %w", err)
+	}
+	return oldValue.GearRarity, nil
+}
+
+// ClearGearRarity clears the value of the "gear_rarity" field.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) ClearGearRarity() {
+	m.gear_rarity = nil
+	m.clearedFields[finschiaitemtokenmillionarthursproperty.FieldGearRarity] = struct{}{}
+}
+
+// GearRarityCleared returns if the "gear_rarity" field was cleared in this mutation.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) GearRarityCleared() bool {
+	_, ok := m.clearedFields[finschiaitemtokenmillionarthursproperty.FieldGearRarity]
+	return ok
+}
+
+// ResetGearRarity resets all changes to the "gear_rarity" field.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) ResetGearRarity() {
+	m.gear_rarity = nil
+	delete(m.clearedFields, finschiaitemtokenmillionarthursproperty.FieldGearRarity)
+}
+
+// ClearFinschiaItemToken clears the "finschia_item_token" edge to the FinschiaItemToken entity.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) ClearFinschiaItemToken() {
+	m.clearedfinschia_item_token = true
+	m.clearedFields[finschiaitemtokenmillionarthursproperty.FieldFinschiaItemTokenID] = struct{}{}
+}
+
+// FinschiaItemTokenCleared reports if the "finschia_item_token" edge to the FinschiaItemToken entity was cleared.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) FinschiaItemTokenCleared() bool {
+	return m.clearedfinschia_item_token
+}
+
+// FinschiaItemTokenIDs returns the "finschia_item_token" edge IDs in the mutation.
+// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
+// FinschiaItemTokenID instead. It exists only for internal usage by the builders.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) FinschiaItemTokenIDs() (ids []uint32) {
+	if id := m.finschia_item_token; id != nil {
+		ids = append(ids, *id)
+	}
+	return
+}
+
+// ResetFinschiaItemToken resets all changes to the "finschia_item_token" edge.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) ResetFinschiaItemToken() {
+	m.finschia_item_token = nil
+	m.clearedfinschia_item_token = false
+}
+
+// Where appends a list predicates to the FinschiaItemTokenMillionArthursPropertyMutation builder.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) Where(ps ...predicate.FinschiaItemTokenMillionArthursProperty) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// WhereP appends storage-level predicates to the FinschiaItemTokenMillionArthursPropertyMutation builder. Using this method,
+// users can use type-assertion to append predicates that do not depend on any generated package.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.FinschiaItemTokenMillionArthursProperty, len(ps))
+	for i := range ps {
+		p[i] = ps[i]
+	}
+	m.Where(p...)
+}
+
+// Op returns the operation name.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) Op() Op {
+	return m.op
+}
+
+// SetOp allows setting the mutation operation.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) SetOp(op Op) {
+	m.op = op
+}
+
+// Type returns the node type of this mutation (FinschiaItemTokenMillionArthursProperty).
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) Fields() []string {
+	fields := make([]string, 0, 7)
+	if m.created_at != nil {
+		fields = append(fields, finschiaitemtokenmillionarthursproperty.FieldCreatedAt)
+	}
+	if m.updated_at != nil {
+		fields = append(fields, finschiaitemtokenmillionarthursproperty.FieldUpdatedAt)
+	}
+	if m.deleted_at != nil {
+		fields = append(fields, finschiaitemtokenmillionarthursproperty.FieldDeletedAt)
+	}
+	if m.finschia_item_token != nil {
+		fields = append(fields, finschiaitemtokenmillionarthursproperty.FieldFinschiaItemTokenID)
+	}
+	if m.series != nil {
+		fields = append(fields, finschiaitemtokenmillionarthursproperty.FieldSeries)
+	}
+	if m.gear_category != nil {
+		fields = append(fields, finschiaitemtokenmillionarthursproperty.FieldGearCategory)
+	}
+	if m.gear_rarity != nil {
+		fields = append(fields, finschiaitemtokenmillionarthursproperty.FieldGearRarity)
+	}
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case finschiaitemtokenmillionarthursproperty.FieldCreatedAt:
+		return m.CreatedAt()
+	case finschiaitemtokenmillionarthursproperty.FieldUpdatedAt:
+		return m.UpdatedAt()
+	case finschiaitemtokenmillionarthursproperty.FieldDeletedAt:
+		return m.DeletedAt()
+	case finschiaitemtokenmillionarthursproperty.FieldFinschiaItemTokenID:
+		return m.FinschiaItemTokenID()
+	case finschiaitemtokenmillionarthursproperty.FieldSeries:
+		return m.Series()
+	case finschiaitemtokenmillionarthursproperty.FieldGearCategory:
+		return m.GearCategory()
+	case finschiaitemtokenmillionarthursproperty.FieldGearRarity:
+		return m.GearRarity()
+	}
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case finschiaitemtokenmillionarthursproperty.FieldCreatedAt:
+		return m.OldCreatedAt(ctx)
+	case finschiaitemtokenmillionarthursproperty.FieldUpdatedAt:
+		return m.OldUpdatedAt(ctx)
+	case finschiaitemtokenmillionarthursproperty.FieldDeletedAt:
+		return m.OldDeletedAt(ctx)
+	case finschiaitemtokenmillionarthursproperty.FieldFinschiaItemTokenID:
+		return m.OldFinschiaItemTokenID(ctx)
+	case finschiaitemtokenmillionarthursproperty.FieldSeries:
+		return m.OldSeries(ctx)
+	case finschiaitemtokenmillionarthursproperty.FieldGearCategory:
+		return m.OldGearCategory(ctx)
+	case finschiaitemtokenmillionarthursproperty.FieldGearRarity:
+		return m.OldGearRarity(ctx)
+	}
+	return nil, fmt.Errorf("unknown FinschiaItemTokenMillionArthursProperty field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	case finschiaitemtokenmillionarthursproperty.FieldCreatedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCreatedAt(v)
+		return nil
+	case finschiaitemtokenmillionarthursproperty.FieldUpdatedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUpdatedAt(v)
+		return nil
+	case finschiaitemtokenmillionarthursproperty.FieldDeletedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDeletedAt(v)
+		return nil
+	case finschiaitemtokenmillionarthursproperty.FieldFinschiaItemTokenID:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetFinschiaItemTokenID(v)
+		return nil
+	case finschiaitemtokenmillionarthursproperty.FieldSeries:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetSeries(v)
+		return nil
+	case finschiaitemtokenmillionarthursproperty.FieldGearCategory:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetGearCategory(v)
+		return nil
+	case finschiaitemtokenmillionarthursproperty.FieldGearRarity:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetGearRarity(v)
+		return nil
+	}
+	return fmt.Errorf("unknown FinschiaItemTokenMillionArthursProperty field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) AddedFields() []string {
+	var fields []string
+	return fields
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) AddedField(name string) (ent.Value, bool) {
+	switch name {
+	}
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	}
+	return fmt.Errorf("unknown FinschiaItemTokenMillionArthursProperty numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) ClearedFields() []string {
+	var fields []string
+	if m.FieldCleared(finschiaitemtokenmillionarthursproperty.FieldDeletedAt) {
+		fields = append(fields, finschiaitemtokenmillionarthursproperty.FieldDeletedAt)
+	}
+	if m.FieldCleared(finschiaitemtokenmillionarthursproperty.FieldSeries) {
+		fields = append(fields, finschiaitemtokenmillionarthursproperty.FieldSeries)
+	}
+	if m.FieldCleared(finschiaitemtokenmillionarthursproperty.FieldGearCategory) {
+		fields = append(fields, finschiaitemtokenmillionarthursproperty.FieldGearCategory)
+	}
+	if m.FieldCleared(finschiaitemtokenmillionarthursproperty.FieldGearRarity) {
+		fields = append(fields, finschiaitemtokenmillionarthursproperty.FieldGearRarity)
+	}
+	return fields
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) ClearField(name string) error {
+	switch name {
+	case finschiaitemtokenmillionarthursproperty.FieldDeletedAt:
+		m.ClearDeletedAt()
+		return nil
+	case finschiaitemtokenmillionarthursproperty.FieldSeries:
+		m.ClearSeries()
+		return nil
+	case finschiaitemtokenmillionarthursproperty.FieldGearCategory:
+		m.ClearGearCategory()
+		return nil
+	case finschiaitemtokenmillionarthursproperty.FieldGearRarity:
+		m.ClearGearRarity()
+		return nil
+	}
+	return fmt.Errorf("unknown FinschiaItemTokenMillionArthursProperty nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) ResetField(name string) error {
+	switch name {
+	case finschiaitemtokenmillionarthursproperty.FieldCreatedAt:
+		m.ResetCreatedAt()
+		return nil
+	case finschiaitemtokenmillionarthursproperty.FieldUpdatedAt:
+		m.ResetUpdatedAt()
+		return nil
+	case finschiaitemtokenmillionarthursproperty.FieldDeletedAt:
+		m.ResetDeletedAt()
+		return nil
+	case finschiaitemtokenmillionarthursproperty.FieldFinschiaItemTokenID:
+		m.ResetFinschiaItemTokenID()
+		return nil
+	case finschiaitemtokenmillionarthursproperty.FieldSeries:
+		m.ResetSeries()
+		return nil
+	case finschiaitemtokenmillionarthursproperty.FieldGearCategory:
+		m.ResetGearCategory()
+		return nil
+	case finschiaitemtokenmillionarthursproperty.FieldGearRarity:
+		m.ResetGearRarity()
+		return nil
+	}
+	return fmt.Errorf("unknown FinschiaItemTokenMillionArthursProperty field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) AddedEdges() []string {
+	edges := make([]string, 0, 1)
+	if m.finschia_item_token != nil {
+		edges = append(edges, finschiaitemtokenmillionarthursproperty.EdgeFinschiaItemToken)
+	}
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) AddedIDs(name string) []ent.Value {
+	switch name {
+	case finschiaitemtokenmillionarthursproperty.EdgeFinschiaItemToken:
+		if id := m.finschia_item_token; id != nil {
+			return []ent.Value{*id}
+		}
+	}
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 1)
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) RemovedIDs(name string) []ent.Value {
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 1)
+	if m.clearedfinschia_item_token {
+		edges = append(edges, finschiaitemtokenmillionarthursproperty.EdgeFinschiaItemToken)
+	}
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) EdgeCleared(name string) bool {
+	switch name {
+	case finschiaitemtokenmillionarthursproperty.EdgeFinschiaItemToken:
+		return m.clearedfinschia_item_token
+	}
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) ClearEdge(name string) error {
+	switch name {
+	case finschiaitemtokenmillionarthursproperty.EdgeFinschiaItemToken:
+		m.ClearFinschiaItemToken()
+		return nil
+	}
+	return fmt.Errorf("unknown FinschiaItemTokenMillionArthursProperty unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *FinschiaItemTokenMillionArthursPropertyMutation) ResetEdge(name string) error {
+	switch name {
+	case finschiaitemtokenmillionarthursproperty.EdgeFinschiaItemToken:
+		m.ResetFinschiaItemToken()
+		return nil
+	}
+	return fmt.Errorf("unknown FinschiaItemTokenMillionArthursProperty edge %s", name)
+}
 
 // LINENFTMutation represents an operation that mutates the LINENFT nodes in the graph.
 type LINENFTMutation struct {

@@ -9,6 +9,75 @@ import (
 )
 
 var (
+	// FinschiaItemTokensColumns holds the columns for the "finschia_item_tokens" table.
+	FinschiaItemTokensColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUint32, Increment: true},
+		{Name: "created_at", Type: field.TypeTime, SchemaType: map[string]string{"mysql": "datetime"}},
+		{Name: "updated_at", Type: field.TypeTime, SchemaType: map[string]string{"mysql": "datetime"}},
+		{Name: "deleted_at", Type: field.TypeTime, Nullable: true, SchemaType: map[string]string{"mysql": "datetime"}},
+		{Name: "contract_id", Type: field.TypeString},
+		{Name: "token_type", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString},
+	}
+	// FinschiaItemTokensTable holds the schema information for the "finschia_item_tokens" table.
+	FinschiaItemTokensTable = &schema.Table{
+		Name:       "finschia_item_tokens",
+		Comment:    "Finschia Item Tokens",
+		Columns:    FinschiaItemTokensColumns,
+		PrimaryKey: []*schema.Column{FinschiaItemTokensColumns[0]},
+	}
+	// FinschiaItemTokenActivitiesColumns holds the columns for the "finschia_item_token_activities" table.
+	FinschiaItemTokenActivitiesColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUint32, Increment: true},
+		{Name: "created_at", Type: field.TypeTime, SchemaType: map[string]string{"mysql": "datetime"}},
+		{Name: "updated_at", Type: field.TypeTime, SchemaType: map[string]string{"mysql": "datetime"}},
+		{Name: "deleted_at", Type: field.TypeTime, Nullable: true, SchemaType: map[string]string{"mysql": "datetime"}},
+		{Name: "transaction_hash", Type: field.TypeString},
+		{Name: "activity_type", Type: field.TypeString},
+		{Name: "activated_at", Type: field.TypeTime, SchemaType: map[string]string{"mysql": "datetime"}},
+		{Name: "finschia_item_token_id", Type: field.TypeUint32},
+	}
+	// FinschiaItemTokenActivitiesTable holds the schema information for the "finschia_item_token_activities" table.
+	FinschiaItemTokenActivitiesTable = &schema.Table{
+		Name:       "finschia_item_token_activities",
+		Comment:    "Activity Records for Finschia Item Tokens",
+		Columns:    FinschiaItemTokenActivitiesColumns,
+		PrimaryKey: []*schema.Column{FinschiaItemTokenActivitiesColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "finschia_item_token_activities_finschia_item_tokens_activities",
+				Columns:    []*schema.Column{FinschiaItemTokenActivitiesColumns[7]},
+				RefColumns: []*schema.Column{FinschiaItemTokensColumns[0]},
+				OnDelete:   schema.NoAction,
+			},
+		},
+	}
+	// FinschiaItemTokenMillionArthursPropertiesColumns holds the columns for the "finschia_item_token_million_arthurs_properties" table.
+	FinschiaItemTokenMillionArthursPropertiesColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUint32, Increment: true},
+		{Name: "created_at", Type: field.TypeTime, SchemaType: map[string]string{"mysql": "datetime"}},
+		{Name: "updated_at", Type: field.TypeTime, SchemaType: map[string]string{"mysql": "datetime"}},
+		{Name: "deleted_at", Type: field.TypeTime, Nullable: true, SchemaType: map[string]string{"mysql": "datetime"}},
+		{Name: "series", Type: field.TypeString, Nullable: true},
+		{Name: "gear_category", Type: field.TypeString, Nullable: true},
+		{Name: "gear_rarity", Type: field.TypeString, Nullable: true},
+		{Name: "finschia_item_token_id", Type: field.TypeUint32},
+	}
+	// FinschiaItemTokenMillionArthursPropertiesTable holds the schema information for the "finschia_item_token_million_arthurs_properties" table.
+	FinschiaItemTokenMillionArthursPropertiesTable = &schema.Table{
+		Name:       "finschia_item_token_million_arthurs_properties",
+		Comment:    "Million Arthurs' Properties for Finschia Item Tokens",
+		Columns:    FinschiaItemTokenMillionArthursPropertiesColumns,
+		PrimaryKey: []*schema.Column{FinschiaItemTokenMillionArthursPropertiesColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "finschia_item_token_million_arthurs_properties_finschia_item_tokens_million_arthurs_properties",
+				Columns:    []*schema.Column{FinschiaItemTokenMillionArthursPropertiesColumns[7]},
+				RefColumns: []*schema.Column{FinschiaItemTokensColumns[0]},
+				OnDelete:   schema.NoAction,
+			},
+		},
+	}
 	// LineNftsColumns holds the columns for the "line_nfts" table.
 	LineNftsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUint32, Increment: true},
@@ -88,6 +157,9 @@ var (
 	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
+		FinschiaItemTokensTable,
+		FinschiaItemTokenActivitiesTable,
+		FinschiaItemTokenMillionArthursPropertiesTable,
 		LineNftsTable,
 		LineNftActivitiesTable,
 		LineNftMillionArthursPropertiesTable,
@@ -95,6 +167,17 @@ var (
 )
 
 func init() {
+	FinschiaItemTokensTable.Annotation = &entsql.Annotation{
+		Table: "finschia_item_tokens",
+	}
+	FinschiaItemTokenActivitiesTable.ForeignKeys[0].RefTable = FinschiaItemTokensTable
+	FinschiaItemTokenActivitiesTable.Annotation = &entsql.Annotation{
+		Table: "finschia_item_token_activities",
+	}
+	FinschiaItemTokenMillionArthursPropertiesTable.ForeignKeys[0].RefTable = FinschiaItemTokensTable
+	FinschiaItemTokenMillionArthursPropertiesTable.Annotation = &entsql.Annotation{
+		Table: "finschia_item_token_million_arthurs_properties",
+	}
 	LineNftsTable.Annotation = &entsql.Annotation{
 		Table: "line_nfts",
 	}
