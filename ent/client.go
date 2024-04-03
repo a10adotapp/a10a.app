@@ -18,6 +18,8 @@ import (
 	"github.com/a10adotapp/a10a.app/ent/finschiaitemtoken"
 	"github.com/a10adotapp/a10a.app/ent/finschiaitemtokenactivity"
 	"github.com/a10adotapp/a10a.app/ent/finschiaitemtokenmillionarthursproperty"
+	"github.com/a10adotapp/a10a.app/ent/kusogeeeeeenft"
+	"github.com/a10adotapp/a10a.app/ent/kusogeeeeeenftchangelog"
 	"github.com/a10adotapp/a10a.app/ent/linenft"
 	"github.com/a10adotapp/a10a.app/ent/linenftactivity"
 	"github.com/a10adotapp/a10a.app/ent/linenftmillionarthursproperty"
@@ -34,6 +36,10 @@ type Client struct {
 	FinschiaItemTokenActivity *FinschiaItemTokenActivityClient
 	// FinschiaItemTokenMillionArthursProperty is the client for interacting with the FinschiaItemTokenMillionArthursProperty builders.
 	FinschiaItemTokenMillionArthursProperty *FinschiaItemTokenMillionArthursPropertyClient
+	// KusogeeeeeeNFT is the client for interacting with the KusogeeeeeeNFT builders.
+	KusogeeeeeeNFT *KusogeeeeeeNFTClient
+	// KusogeeeeeeNFTChangeLog is the client for interacting with the KusogeeeeeeNFTChangeLog builders.
+	KusogeeeeeeNFTChangeLog *KusogeeeeeeNFTChangeLogClient
 	// LINENFT is the client for interacting with the LINENFT builders.
 	LINENFT *LINENFTClient
 	// LINENFTActivity is the client for interacting with the LINENFTActivity builders.
@@ -54,6 +60,8 @@ func (c *Client) init() {
 	c.FinschiaItemToken = NewFinschiaItemTokenClient(c.config)
 	c.FinschiaItemTokenActivity = NewFinschiaItemTokenActivityClient(c.config)
 	c.FinschiaItemTokenMillionArthursProperty = NewFinschiaItemTokenMillionArthursPropertyClient(c.config)
+	c.KusogeeeeeeNFT = NewKusogeeeeeeNFTClient(c.config)
+	c.KusogeeeeeeNFTChangeLog = NewKusogeeeeeeNFTChangeLogClient(c.config)
 	c.LINENFT = NewLINENFTClient(c.config)
 	c.LINENFTActivity = NewLINENFTActivityClient(c.config)
 	c.LINENFTMillionArthursProperty = NewLINENFTMillionArthursPropertyClient(c.config)
@@ -152,6 +160,8 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		FinschiaItemToken:                       NewFinschiaItemTokenClient(cfg),
 		FinschiaItemTokenActivity:               NewFinschiaItemTokenActivityClient(cfg),
 		FinschiaItemTokenMillionArthursProperty: NewFinschiaItemTokenMillionArthursPropertyClient(cfg),
+		KusogeeeeeeNFT:                          NewKusogeeeeeeNFTClient(cfg),
+		KusogeeeeeeNFTChangeLog:                 NewKusogeeeeeeNFTChangeLogClient(cfg),
 		LINENFT:                                 NewLINENFTClient(cfg),
 		LINENFTActivity:                         NewLINENFTActivityClient(cfg),
 		LINENFTMillionArthursProperty:           NewLINENFTMillionArthursPropertyClient(cfg),
@@ -177,6 +187,8 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		FinschiaItemToken:                       NewFinschiaItemTokenClient(cfg),
 		FinschiaItemTokenActivity:               NewFinschiaItemTokenActivityClient(cfg),
 		FinschiaItemTokenMillionArthursProperty: NewFinschiaItemTokenMillionArthursPropertyClient(cfg),
+		KusogeeeeeeNFT:                          NewKusogeeeeeeNFTClient(cfg),
+		KusogeeeeeeNFTChangeLog:                 NewKusogeeeeeeNFTChangeLogClient(cfg),
 		LINENFT:                                 NewLINENFTClient(cfg),
 		LINENFTActivity:                         NewLINENFTActivityClient(cfg),
 		LINENFTMillionArthursProperty:           NewLINENFTMillionArthursPropertyClient(cfg),
@@ -210,7 +222,8 @@ func (c *Client) Close() error {
 func (c *Client) Use(hooks ...Hook) {
 	for _, n := range []interface{ Use(...Hook) }{
 		c.FinschiaItemToken, c.FinschiaItemTokenActivity,
-		c.FinschiaItemTokenMillionArthursProperty, c.LINENFT, c.LINENFTActivity,
+		c.FinschiaItemTokenMillionArthursProperty, c.KusogeeeeeeNFT,
+		c.KusogeeeeeeNFTChangeLog, c.LINENFT, c.LINENFTActivity,
 		c.LINENFTMillionArthursProperty,
 	} {
 		n.Use(hooks...)
@@ -222,7 +235,8 @@ func (c *Client) Use(hooks ...Hook) {
 func (c *Client) Intercept(interceptors ...Interceptor) {
 	for _, n := range []interface{ Intercept(...Interceptor) }{
 		c.FinschiaItemToken, c.FinschiaItemTokenActivity,
-		c.FinschiaItemTokenMillionArthursProperty, c.LINENFT, c.LINENFTActivity,
+		c.FinschiaItemTokenMillionArthursProperty, c.KusogeeeeeeNFT,
+		c.KusogeeeeeeNFTChangeLog, c.LINENFT, c.LINENFTActivity,
 		c.LINENFTMillionArthursProperty,
 	} {
 		n.Intercept(interceptors...)
@@ -238,6 +252,10 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.FinschiaItemTokenActivity.mutate(ctx, m)
 	case *FinschiaItemTokenMillionArthursPropertyMutation:
 		return c.FinschiaItemTokenMillionArthursProperty.mutate(ctx, m)
+	case *KusogeeeeeeNFTMutation:
+		return c.KusogeeeeeeNFT.mutate(ctx, m)
+	case *KusogeeeeeeNFTChangeLogMutation:
+		return c.KusogeeeeeeNFTChangeLog.mutate(ctx, m)
 	case *LINENFTMutation:
 		return c.LINENFT.mutate(ctx, m)
 	case *LINENFTActivityMutation:
@@ -718,6 +736,308 @@ func (c *FinschiaItemTokenMillionArthursPropertyClient) mutate(ctx context.Conte
 	}
 }
 
+// KusogeeeeeeNFTClient is a client for the KusogeeeeeeNFT schema.
+type KusogeeeeeeNFTClient struct {
+	config
+}
+
+// NewKusogeeeeeeNFTClient returns a client for the KusogeeeeeeNFT from the given config.
+func NewKusogeeeeeeNFTClient(c config) *KusogeeeeeeNFTClient {
+	return &KusogeeeeeeNFTClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `kusogeeeeeenft.Hooks(f(g(h())))`.
+func (c *KusogeeeeeeNFTClient) Use(hooks ...Hook) {
+	c.hooks.KusogeeeeeeNFT = append(c.hooks.KusogeeeeeeNFT, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `kusogeeeeeenft.Intercept(f(g(h())))`.
+func (c *KusogeeeeeeNFTClient) Intercept(interceptors ...Interceptor) {
+	c.inters.KusogeeeeeeNFT = append(c.inters.KusogeeeeeeNFT, interceptors...)
+}
+
+// Create returns a builder for creating a KusogeeeeeeNFT entity.
+func (c *KusogeeeeeeNFTClient) Create() *KusogeeeeeeNFTCreate {
+	mutation := newKusogeeeeeeNFTMutation(c.config, OpCreate)
+	return &KusogeeeeeeNFTCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of KusogeeeeeeNFT entities.
+func (c *KusogeeeeeeNFTClient) CreateBulk(builders ...*KusogeeeeeeNFTCreate) *KusogeeeeeeNFTCreateBulk {
+	return &KusogeeeeeeNFTCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *KusogeeeeeeNFTClient) MapCreateBulk(slice any, setFunc func(*KusogeeeeeeNFTCreate, int)) *KusogeeeeeeNFTCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &KusogeeeeeeNFTCreateBulk{err: fmt.Errorf("calling to KusogeeeeeeNFTClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*KusogeeeeeeNFTCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &KusogeeeeeeNFTCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for KusogeeeeeeNFT.
+func (c *KusogeeeeeeNFTClient) Update() *KusogeeeeeeNFTUpdate {
+	mutation := newKusogeeeeeeNFTMutation(c.config, OpUpdate)
+	return &KusogeeeeeeNFTUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *KusogeeeeeeNFTClient) UpdateOne(kn *KusogeeeeeeNFT) *KusogeeeeeeNFTUpdateOne {
+	mutation := newKusogeeeeeeNFTMutation(c.config, OpUpdateOne, withKusogeeeeeeNFT(kn))
+	return &KusogeeeeeeNFTUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *KusogeeeeeeNFTClient) UpdateOneID(id uint32) *KusogeeeeeeNFTUpdateOne {
+	mutation := newKusogeeeeeeNFTMutation(c.config, OpUpdateOne, withKusogeeeeeeNFTID(id))
+	return &KusogeeeeeeNFTUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for KusogeeeeeeNFT.
+func (c *KusogeeeeeeNFTClient) Delete() *KusogeeeeeeNFTDelete {
+	mutation := newKusogeeeeeeNFTMutation(c.config, OpDelete)
+	return &KusogeeeeeeNFTDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *KusogeeeeeeNFTClient) DeleteOne(kn *KusogeeeeeeNFT) *KusogeeeeeeNFTDeleteOne {
+	return c.DeleteOneID(kn.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *KusogeeeeeeNFTClient) DeleteOneID(id uint32) *KusogeeeeeeNFTDeleteOne {
+	builder := c.Delete().Where(kusogeeeeeenft.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &KusogeeeeeeNFTDeleteOne{builder}
+}
+
+// Query returns a query builder for KusogeeeeeeNFT.
+func (c *KusogeeeeeeNFTClient) Query() *KusogeeeeeeNFTQuery {
+	return &KusogeeeeeeNFTQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeKusogeeeeeeNFT},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a KusogeeeeeeNFT entity by its id.
+func (c *KusogeeeeeeNFTClient) Get(ctx context.Context, id uint32) (*KusogeeeeeeNFT, error) {
+	return c.Query().Where(kusogeeeeeenft.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *KusogeeeeeeNFTClient) GetX(ctx context.Context, id uint32) *KusogeeeeeeNFT {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryChangeLogs queries the change_logs edge of a KusogeeeeeeNFT.
+func (c *KusogeeeeeeNFTClient) QueryChangeLogs(kn *KusogeeeeeeNFT) *KusogeeeeeeNFTChangeLogQuery {
+	query := (&KusogeeeeeeNFTChangeLogClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := kn.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(kusogeeeeeenft.Table, kusogeeeeeenft.FieldID, id),
+			sqlgraph.To(kusogeeeeeenftchangelog.Table, kusogeeeeeenftchangelog.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, kusogeeeeeenft.ChangeLogsTable, kusogeeeeeenft.ChangeLogsColumn),
+		)
+		fromV = sqlgraph.Neighbors(kn.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *KusogeeeeeeNFTClient) Hooks() []Hook {
+	hooks := c.hooks.KusogeeeeeeNFT
+	return append(hooks[:len(hooks):len(hooks)], kusogeeeeeenft.Hooks[:]...)
+}
+
+// Interceptors returns the client interceptors.
+func (c *KusogeeeeeeNFTClient) Interceptors() []Interceptor {
+	inters := c.inters.KusogeeeeeeNFT
+	return append(inters[:len(inters):len(inters)], kusogeeeeeenft.Interceptors[:]...)
+}
+
+func (c *KusogeeeeeeNFTClient) mutate(ctx context.Context, m *KusogeeeeeeNFTMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&KusogeeeeeeNFTCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&KusogeeeeeeNFTUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&KusogeeeeeeNFTUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&KusogeeeeeeNFTDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown KusogeeeeeeNFT mutation op: %q", m.Op())
+	}
+}
+
+// KusogeeeeeeNFTChangeLogClient is a client for the KusogeeeeeeNFTChangeLog schema.
+type KusogeeeeeeNFTChangeLogClient struct {
+	config
+}
+
+// NewKusogeeeeeeNFTChangeLogClient returns a client for the KusogeeeeeeNFTChangeLog from the given config.
+func NewKusogeeeeeeNFTChangeLogClient(c config) *KusogeeeeeeNFTChangeLogClient {
+	return &KusogeeeeeeNFTChangeLogClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `kusogeeeeeenftchangelog.Hooks(f(g(h())))`.
+func (c *KusogeeeeeeNFTChangeLogClient) Use(hooks ...Hook) {
+	c.hooks.KusogeeeeeeNFTChangeLog = append(c.hooks.KusogeeeeeeNFTChangeLog, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `kusogeeeeeenftchangelog.Intercept(f(g(h())))`.
+func (c *KusogeeeeeeNFTChangeLogClient) Intercept(interceptors ...Interceptor) {
+	c.inters.KusogeeeeeeNFTChangeLog = append(c.inters.KusogeeeeeeNFTChangeLog, interceptors...)
+}
+
+// Create returns a builder for creating a KusogeeeeeeNFTChangeLog entity.
+func (c *KusogeeeeeeNFTChangeLogClient) Create() *KusogeeeeeeNFTChangeLogCreate {
+	mutation := newKusogeeeeeeNFTChangeLogMutation(c.config, OpCreate)
+	return &KusogeeeeeeNFTChangeLogCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of KusogeeeeeeNFTChangeLog entities.
+func (c *KusogeeeeeeNFTChangeLogClient) CreateBulk(builders ...*KusogeeeeeeNFTChangeLogCreate) *KusogeeeeeeNFTChangeLogCreateBulk {
+	return &KusogeeeeeeNFTChangeLogCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *KusogeeeeeeNFTChangeLogClient) MapCreateBulk(slice any, setFunc func(*KusogeeeeeeNFTChangeLogCreate, int)) *KusogeeeeeeNFTChangeLogCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &KusogeeeeeeNFTChangeLogCreateBulk{err: fmt.Errorf("calling to KusogeeeeeeNFTChangeLogClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*KusogeeeeeeNFTChangeLogCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &KusogeeeeeeNFTChangeLogCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for KusogeeeeeeNFTChangeLog.
+func (c *KusogeeeeeeNFTChangeLogClient) Update() *KusogeeeeeeNFTChangeLogUpdate {
+	mutation := newKusogeeeeeeNFTChangeLogMutation(c.config, OpUpdate)
+	return &KusogeeeeeeNFTChangeLogUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *KusogeeeeeeNFTChangeLogClient) UpdateOne(kncl *KusogeeeeeeNFTChangeLog) *KusogeeeeeeNFTChangeLogUpdateOne {
+	mutation := newKusogeeeeeeNFTChangeLogMutation(c.config, OpUpdateOne, withKusogeeeeeeNFTChangeLog(kncl))
+	return &KusogeeeeeeNFTChangeLogUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *KusogeeeeeeNFTChangeLogClient) UpdateOneID(id uint32) *KusogeeeeeeNFTChangeLogUpdateOne {
+	mutation := newKusogeeeeeeNFTChangeLogMutation(c.config, OpUpdateOne, withKusogeeeeeeNFTChangeLogID(id))
+	return &KusogeeeeeeNFTChangeLogUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for KusogeeeeeeNFTChangeLog.
+func (c *KusogeeeeeeNFTChangeLogClient) Delete() *KusogeeeeeeNFTChangeLogDelete {
+	mutation := newKusogeeeeeeNFTChangeLogMutation(c.config, OpDelete)
+	return &KusogeeeeeeNFTChangeLogDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *KusogeeeeeeNFTChangeLogClient) DeleteOne(kncl *KusogeeeeeeNFTChangeLog) *KusogeeeeeeNFTChangeLogDeleteOne {
+	return c.DeleteOneID(kncl.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *KusogeeeeeeNFTChangeLogClient) DeleteOneID(id uint32) *KusogeeeeeeNFTChangeLogDeleteOne {
+	builder := c.Delete().Where(kusogeeeeeenftchangelog.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &KusogeeeeeeNFTChangeLogDeleteOne{builder}
+}
+
+// Query returns a query builder for KusogeeeeeeNFTChangeLog.
+func (c *KusogeeeeeeNFTChangeLogClient) Query() *KusogeeeeeeNFTChangeLogQuery {
+	return &KusogeeeeeeNFTChangeLogQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeKusogeeeeeeNFTChangeLog},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a KusogeeeeeeNFTChangeLog entity by its id.
+func (c *KusogeeeeeeNFTChangeLogClient) Get(ctx context.Context, id uint32) (*KusogeeeeeeNFTChangeLog, error) {
+	return c.Query().Where(kusogeeeeeenftchangelog.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *KusogeeeeeeNFTChangeLogClient) GetX(ctx context.Context, id uint32) *KusogeeeeeeNFTChangeLog {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryKusogeeeeeeNft queries the kusogeeeeee_nft edge of a KusogeeeeeeNFTChangeLog.
+func (c *KusogeeeeeeNFTChangeLogClient) QueryKusogeeeeeeNft(kncl *KusogeeeeeeNFTChangeLog) *KusogeeeeeeNFTQuery {
+	query := (&KusogeeeeeeNFTClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := kncl.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(kusogeeeeeenftchangelog.Table, kusogeeeeeenftchangelog.FieldID, id),
+			sqlgraph.To(kusogeeeeeenft.Table, kusogeeeeeenft.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, kusogeeeeeenftchangelog.KusogeeeeeeNftTable, kusogeeeeeenftchangelog.KusogeeeeeeNftColumn),
+		)
+		fromV = sqlgraph.Neighbors(kncl.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *KusogeeeeeeNFTChangeLogClient) Hooks() []Hook {
+	hooks := c.hooks.KusogeeeeeeNFTChangeLog
+	return append(hooks[:len(hooks):len(hooks)], kusogeeeeeenftchangelog.Hooks[:]...)
+}
+
+// Interceptors returns the client interceptors.
+func (c *KusogeeeeeeNFTChangeLogClient) Interceptors() []Interceptor {
+	inters := c.inters.KusogeeeeeeNFTChangeLog
+	return append(inters[:len(inters):len(inters)], kusogeeeeeenftchangelog.Interceptors[:]...)
+}
+
+func (c *KusogeeeeeeNFTChangeLogClient) mutate(ctx context.Context, m *KusogeeeeeeNFTChangeLogMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&KusogeeeeeeNFTChangeLogCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&KusogeeeeeeNFTChangeLogUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&KusogeeeeeeNFTChangeLogUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&KusogeeeeeeNFTChangeLogDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown KusogeeeeeeNFTChangeLog mutation op: %q", m.Op())
+	}
+}
+
 // LINENFTClient is a client for the LINENFT schema.
 type LINENFTClient struct {
 	config
@@ -1191,12 +1511,14 @@ func (c *LINENFTMillionArthursPropertyClient) mutate(ctx context.Context, m *LIN
 type (
 	hooks struct {
 		FinschiaItemToken, FinschiaItemTokenActivity,
-		FinschiaItemTokenMillionArthursProperty, LINENFT, LINENFTActivity,
+		FinschiaItemTokenMillionArthursProperty, KusogeeeeeeNFT,
+		KusogeeeeeeNFTChangeLog, LINENFT, LINENFTActivity,
 		LINENFTMillionArthursProperty []ent.Hook
 	}
 	inters struct {
 		FinschiaItemToken, FinschiaItemTokenActivity,
-		FinschiaItemTokenMillionArthursProperty, LINENFT, LINENFTActivity,
+		FinschiaItemTokenMillionArthursProperty, KusogeeeeeeNFT,
+		KusogeeeeeeNFTChangeLog, LINENFT, LINENFTActivity,
 		LINENFTMillionArthursProperty []ent.Interceptor
 	}
 )

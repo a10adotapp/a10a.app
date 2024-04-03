@@ -11,6 +11,8 @@ import (
 	"github.com/a10adotapp/a10a.app/ent/finschiaitemtoken"
 	"github.com/a10adotapp/a10a.app/ent/finschiaitemtokenactivity"
 	"github.com/a10adotapp/a10a.app/ent/finschiaitemtokenmillionarthursproperty"
+	"github.com/a10adotapp/a10a.app/ent/kusogeeeeeenft"
+	"github.com/a10adotapp/a10a.app/ent/kusogeeeeeenftchangelog"
 	"github.com/a10adotapp/a10a.app/ent/linenft"
 	"github.com/a10adotapp/a10a.app/ent/linenftactivity"
 	"github.com/a10adotapp/a10a.app/ent/linenftmillionarthursproperty"
@@ -154,6 +156,60 @@ func (f TraverseFinschiaItemTokenMillionArthursProperty) Traverse(ctx context.Co
 	return fmt.Errorf("unexpected query type %T. expect *ent.FinschiaItemTokenMillionArthursPropertyQuery", q)
 }
 
+// The KusogeeeeeeNFTFunc type is an adapter to allow the use of ordinary function as a Querier.
+type KusogeeeeeeNFTFunc func(context.Context, *ent.KusogeeeeeeNFTQuery) (ent.Value, error)
+
+// Query calls f(ctx, q).
+func (f KusogeeeeeeNFTFunc) Query(ctx context.Context, q ent.Query) (ent.Value, error) {
+	if q, ok := q.(*ent.KusogeeeeeeNFTQuery); ok {
+		return f(ctx, q)
+	}
+	return nil, fmt.Errorf("unexpected query type %T. expect *ent.KusogeeeeeeNFTQuery", q)
+}
+
+// The TraverseKusogeeeeeeNFT type is an adapter to allow the use of ordinary function as Traverser.
+type TraverseKusogeeeeeeNFT func(context.Context, *ent.KusogeeeeeeNFTQuery) error
+
+// Intercept is a dummy implementation of Intercept that returns the next Querier in the pipeline.
+func (f TraverseKusogeeeeeeNFT) Intercept(next ent.Querier) ent.Querier {
+	return next
+}
+
+// Traverse calls f(ctx, q).
+func (f TraverseKusogeeeeeeNFT) Traverse(ctx context.Context, q ent.Query) error {
+	if q, ok := q.(*ent.KusogeeeeeeNFTQuery); ok {
+		return f(ctx, q)
+	}
+	return fmt.Errorf("unexpected query type %T. expect *ent.KusogeeeeeeNFTQuery", q)
+}
+
+// The KusogeeeeeeNFTChangeLogFunc type is an adapter to allow the use of ordinary function as a Querier.
+type KusogeeeeeeNFTChangeLogFunc func(context.Context, *ent.KusogeeeeeeNFTChangeLogQuery) (ent.Value, error)
+
+// Query calls f(ctx, q).
+func (f KusogeeeeeeNFTChangeLogFunc) Query(ctx context.Context, q ent.Query) (ent.Value, error) {
+	if q, ok := q.(*ent.KusogeeeeeeNFTChangeLogQuery); ok {
+		return f(ctx, q)
+	}
+	return nil, fmt.Errorf("unexpected query type %T. expect *ent.KusogeeeeeeNFTChangeLogQuery", q)
+}
+
+// The TraverseKusogeeeeeeNFTChangeLog type is an adapter to allow the use of ordinary function as Traverser.
+type TraverseKusogeeeeeeNFTChangeLog func(context.Context, *ent.KusogeeeeeeNFTChangeLogQuery) error
+
+// Intercept is a dummy implementation of Intercept that returns the next Querier in the pipeline.
+func (f TraverseKusogeeeeeeNFTChangeLog) Intercept(next ent.Querier) ent.Querier {
+	return next
+}
+
+// Traverse calls f(ctx, q).
+func (f TraverseKusogeeeeeeNFTChangeLog) Traverse(ctx context.Context, q ent.Query) error {
+	if q, ok := q.(*ent.KusogeeeeeeNFTChangeLogQuery); ok {
+		return f(ctx, q)
+	}
+	return fmt.Errorf("unexpected query type %T. expect *ent.KusogeeeeeeNFTChangeLogQuery", q)
+}
+
 // The LINENFTFunc type is an adapter to allow the use of ordinary function as a Querier.
 type LINENFTFunc func(context.Context, *ent.LINENFTQuery) (ent.Value, error)
 
@@ -244,6 +300,10 @@ func NewQuery(q ent.Query) (Query, error) {
 		return &query[*ent.FinschiaItemTokenActivityQuery, predicate.FinschiaItemTokenActivity, finschiaitemtokenactivity.OrderOption]{typ: ent.TypeFinschiaItemTokenActivity, tq: q}, nil
 	case *ent.FinschiaItemTokenMillionArthursPropertyQuery:
 		return &query[*ent.FinschiaItemTokenMillionArthursPropertyQuery, predicate.FinschiaItemTokenMillionArthursProperty, finschiaitemtokenmillionarthursproperty.OrderOption]{typ: ent.TypeFinschiaItemTokenMillionArthursProperty, tq: q}, nil
+	case *ent.KusogeeeeeeNFTQuery:
+		return &query[*ent.KusogeeeeeeNFTQuery, predicate.KusogeeeeeeNFT, kusogeeeeeenft.OrderOption]{typ: ent.TypeKusogeeeeeeNFT, tq: q}, nil
+	case *ent.KusogeeeeeeNFTChangeLogQuery:
+		return &query[*ent.KusogeeeeeeNFTChangeLogQuery, predicate.KusogeeeeeeNFTChangeLog, kusogeeeeeenftchangelog.OrderOption]{typ: ent.TypeKusogeeeeeeNFTChangeLog, tq: q}, nil
 	case *ent.LINENFTQuery:
 		return &query[*ent.LINENFTQuery, predicate.LINENFT, linenft.OrderOption]{typ: ent.TypeLINENFT, tq: q}, nil
 	case *ent.LINENFTActivityQuery:

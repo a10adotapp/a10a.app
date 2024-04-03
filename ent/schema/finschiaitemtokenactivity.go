@@ -7,6 +7,7 @@ import (
 	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/edge"
 	"entgo.io/ent/schema/field"
+	"github.com/a10adotapp/entfw/v1"
 )
 
 // FinschiaItemTokenActivity holds the schema definition for the FinschiaItemTokenActivity entity.
@@ -31,7 +32,7 @@ func (FinschiaItemTokenActivity) Mixin() []ent.Mixin {
 
 // Fields of the FinschiaItemTokenActivity.
 func (FinschiaItemTokenActivity) Fields() []ent.Field {
-	return WrapFields(
+	return entfw.Fields(
 		field.Uint32("id"),
 
 		field.String("transaction_hash"),

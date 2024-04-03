@@ -15,6 +15,8 @@ import (
 	"github.com/a10adotapp/a10a.app/ent/finschiaitemtoken"
 	"github.com/a10adotapp/a10a.app/ent/finschiaitemtokenactivity"
 	"github.com/a10adotapp/a10a.app/ent/finschiaitemtokenmillionarthursproperty"
+	"github.com/a10adotapp/a10a.app/ent/kusogeeeeeenft"
+	"github.com/a10adotapp/a10a.app/ent/kusogeeeeeenftchangelog"
 	"github.com/a10adotapp/a10a.app/ent/linenft"
 	"github.com/a10adotapp/a10a.app/ent/linenftactivity"
 	"github.com/a10adotapp/a10a.app/ent/linenftmillionarthursproperty"
@@ -81,6 +83,8 @@ func checkColumn(table, column string) error {
 			finschiaitemtoken.Table:                       finschiaitemtoken.ValidColumn,
 			finschiaitemtokenactivity.Table:               finschiaitemtokenactivity.ValidColumn,
 			finschiaitemtokenmillionarthursproperty.Table: finschiaitemtokenmillionarthursproperty.ValidColumn,
+			kusogeeeeeenft.Table:                          kusogeeeeeenft.ValidColumn,
+			kusogeeeeeenftchangelog.Table:                 kusogeeeeeenftchangelog.ValidColumn,
 			linenft.Table:                                 linenft.ValidColumn,
 			linenftactivity.Table:                         linenftactivity.ValidColumn,
 			linenftmillionarthursproperty.Table:           linenftmillionarthursproperty.ValidColumn,

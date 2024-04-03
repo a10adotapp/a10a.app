@@ -18,6 +18,10 @@ type Tx struct {
 	FinschiaItemTokenActivity *FinschiaItemTokenActivityClient
 	// FinschiaItemTokenMillionArthursProperty is the client for interacting with the FinschiaItemTokenMillionArthursProperty builders.
 	FinschiaItemTokenMillionArthursProperty *FinschiaItemTokenMillionArthursPropertyClient
+	// KusogeeeeeeNFT is the client for interacting with the KusogeeeeeeNFT builders.
+	KusogeeeeeeNFT *KusogeeeeeeNFTClient
+	// KusogeeeeeeNFTChangeLog is the client for interacting with the KusogeeeeeeNFTChangeLog builders.
+	KusogeeeeeeNFTChangeLog *KusogeeeeeeNFTChangeLogClient
 	// LINENFT is the client for interacting with the LINENFT builders.
 	LINENFT *LINENFTClient
 	// LINENFTActivity is the client for interacting with the LINENFTActivity builders.
@@ -158,6 +162,8 @@ func (tx *Tx) init() {
 	tx.FinschiaItemToken = NewFinschiaItemTokenClient(tx.config)
 	tx.FinschiaItemTokenActivity = NewFinschiaItemTokenActivityClient(tx.config)
 	tx.FinschiaItemTokenMillionArthursProperty = NewFinschiaItemTokenMillionArthursPropertyClient(tx.config)
+	tx.KusogeeeeeeNFT = NewKusogeeeeeeNFTClient(tx.config)
+	tx.KusogeeeeeeNFTChangeLog = NewKusogeeeeeeNFTChangeLogClient(tx.config)
 	tx.LINENFT = NewLINENFTClient(tx.config)
 	tx.LINENFTActivity = NewLINENFTActivityClient(tx.config)
 	tx.LINENFTMillionArthursProperty = NewLINENFTMillionArthursPropertyClient(tx.config)

@@ -45,6 +45,30 @@ func (f FinschiaItemTokenMillionArthursPropertyFunc) Mutate(ctx context.Context,
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.FinschiaItemTokenMillionArthursPropertyMutation", m)
 }
 
+// The KusogeeeeeeNFTFunc type is an adapter to allow the use of ordinary
+// function as KusogeeeeeeNFT mutator.
+type KusogeeeeeeNFTFunc func(context.Context, *ent.KusogeeeeeeNFTMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f KusogeeeeeeNFTFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.KusogeeeeeeNFTMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.KusogeeeeeeNFTMutation", m)
+}
+
+// The KusogeeeeeeNFTChangeLogFunc type is an adapter to allow the use of ordinary
+// function as KusogeeeeeeNFTChangeLog mutator.
+type KusogeeeeeeNFTChangeLogFunc func(context.Context, *ent.KusogeeeeeeNFTChangeLogMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f KusogeeeeeeNFTChangeLogFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.KusogeeeeeeNFTChangeLogMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.KusogeeeeeeNFTChangeLogMutation", m)
+}
+
 // The LINENFTFunc type is an adapter to allow the use of ordinary
 // function as LINENFT mutator.
 type LINENFTFunc func(context.Context, *ent.LINENFTMutation) (ent.Value, error)

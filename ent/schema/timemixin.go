@@ -7,6 +7,7 @@ import (
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/schema/field"
 	"entgo.io/ent/schema/mixin"
+	"github.com/a10adotapp/entfw/v1"
 )
 
 type TimeMixin struct {
@@ -19,7 +20,7 @@ const (
 )
 
 func (TimeMixin) Fields() []ent.Field {
-	return WrapFields(
+	return entfw.Fields(
 		field.Time(FieldCreatedAt).
 			SchemaType(map[string]string{
 				dialect.MySQL: "datetime",

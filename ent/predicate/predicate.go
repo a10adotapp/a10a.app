@@ -15,6 +15,12 @@ type FinschiaItemTokenActivity func(*sql.Selector)
 // FinschiaItemTokenMillionArthursProperty is the predicate function for finschiaitemtokenmillionarthursproperty builders.
 type FinschiaItemTokenMillionArthursProperty func(*sql.Selector)
 
+// KusogeeeeeeNFT is the predicate function for kusogeeeeeenft builders.
+type KusogeeeeeeNFT func(*sql.Selector)
+
+// KusogeeeeeeNFTChangeLog is the predicate function for kusogeeeeeenftchangelog builders.
+type KusogeeeeeeNFTChangeLog func(*sql.Selector)
+
 // LINENFT is the predicate function for linenft builders.
 type LINENFT func(*sql.Selector)
 

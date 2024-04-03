@@ -78,6 +78,60 @@ var (
 			},
 		},
 	}
+	// KusogeeeeeeNftsColumns holds the columns for the "kusogeeeeee_nfts" table.
+	KusogeeeeeeNftsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUint32, Increment: true},
+		{Name: "created_at", Type: field.TypeTime, SchemaType: map[string]string{"mysql": "datetime"}},
+		{Name: "updated_at", Type: field.TypeTime, SchemaType: map[string]string{"mysql": "datetime"}},
+		{Name: "deleted_at", Type: field.TypeTime, Nullable: true, SchemaType: map[string]string{"mysql": "datetime"}},
+		{Name: "uri", Type: field.TypeString},
+		{Name: "type", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString},
+		{Name: "status", Type: field.TypeString},
+		{Name: "price", Type: field.TypeInt},
+		{Name: "published_at", Type: field.TypeTime, SchemaType: map[string]string{"mysql": "datetime"}},
+		{Name: "weapon_rank", Type: field.TypeInt, Nullable: true},
+		{Name: "weapon_type", Type: field.TypeString, Nullable: true},
+		{Name: "weapon_vitality", Type: field.TypeInt, Nullable: true},
+		{Name: "weapon_strength", Type: field.TypeInt, Nullable: true},
+		{Name: "weapon_physical_defense", Type: field.TypeInt, Nullable: true},
+		{Name: "weapon_magical_defense", Type: field.TypeInt, Nullable: true},
+		{Name: "weapon_agility", Type: field.TypeInt, Nullable: true},
+		{Name: "character_rank", Type: field.TypeString, Nullable: true},
+		{Name: "character_total_supply", Type: field.TypeInt, Nullable: true},
+	}
+	// KusogeeeeeeNftsTable holds the schema information for the "kusogeeeeee_nfts" table.
+	KusogeeeeeeNftsTable = &schema.Table{
+		Name:       "kusogeeeeee_nfts",
+		Comment:    "Kusogeeeeee NFT",
+		Columns:    KusogeeeeeeNftsColumns,
+		PrimaryKey: []*schema.Column{KusogeeeeeeNftsColumns[0]},
+	}
+	// KusogeeeeeeNftChangeLogsColumns holds the columns for the "kusogeeeeee_nft_change_logs" table.
+	KusogeeeeeeNftChangeLogsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUint32, Increment: true},
+		{Name: "created_at", Type: field.TypeTime, SchemaType: map[string]string{"mysql": "datetime"}},
+		{Name: "updated_at", Type: field.TypeTime, SchemaType: map[string]string{"mysql": "datetime"}},
+		{Name: "deleted_at", Type: field.TypeTime, Nullable: true, SchemaType: map[string]string{"mysql": "datetime"}},
+		{Name: "status", Type: field.TypeString},
+		{Name: "price", Type: field.TypeInt},
+		{Name: "kusogeeeeee_nft_id", Type: field.TypeUint32},
+	}
+	// KusogeeeeeeNftChangeLogsTable holds the schema information for the "kusogeeeeee_nft_change_logs" table.
+	KusogeeeeeeNftChangeLogsTable = &schema.Table{
+		Name:       "kusogeeeeee_nft_change_logs",
+		Comment:    "Kusogeeeeee NFT Change Log",
+		Columns:    KusogeeeeeeNftChangeLogsColumns,
+		PrimaryKey: []*schema.Column{KusogeeeeeeNftChangeLogsColumns[0]},
+		ForeignKeys: []*schema.ForeignKey{
+			{
+				Symbol:     "kusogeeeeee_nft_change_logs_kusogeeeeee_nfts_change_logs",
+				Columns:    []*schema.Column{KusogeeeeeeNftChangeLogsColumns[6]},
+				RefColumns: []*schema.Column{KusogeeeeeeNftsColumns[0]},
+				OnDelete:   schema.NoAction,
+			},
+		},
+	}
 	// LineNftsColumns holds the columns for the "line_nfts" table.
 	LineNftsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUint32, Increment: true},
@@ -160,6 +214,8 @@ var (
 		FinschiaItemTokensTable,
 		FinschiaItemTokenActivitiesTable,
 		FinschiaItemTokenMillionArthursPropertiesTable,
+		KusogeeeeeeNftsTable,
+		KusogeeeeeeNftChangeLogsTable,
 		LineNftsTable,
 		LineNftActivitiesTable,
 		LineNftMillionArthursPropertiesTable,
@@ -177,6 +233,13 @@ func init() {
 	FinschiaItemTokenMillionArthursPropertiesTable.ForeignKeys[0].RefTable = FinschiaItemTokensTable
 	FinschiaItemTokenMillionArthursPropertiesTable.Annotation = &entsql.Annotation{
 		Table: "finschia_item_token_million_arthurs_properties",
+	}
+	KusogeeeeeeNftsTable.Annotation = &entsql.Annotation{
+		Table: "kusogeeeeee_nfts",
+	}
+	KusogeeeeeeNftChangeLogsTable.ForeignKeys[0].RefTable = KusogeeeeeeNftsTable
+	KusogeeeeeeNftChangeLogsTable.Annotation = &entsql.Annotation{
+		Table: "kusogeeeeee_nft_change_logs",
 	}
 	LineNftsTable.Annotation = &entsql.Annotation{
 		Table: "line_nfts",

@@ -8,6 +8,8 @@ import (
 	"github.com/a10adotapp/a10a.app/ent/finschiaitemtoken"
 	"github.com/a10adotapp/a10a.app/ent/finschiaitemtokenactivity"
 	"github.com/a10adotapp/a10a.app/ent/finschiaitemtokenmillionarthursproperty"
+	"github.com/a10adotapp/a10a.app/ent/kusogeeeeeenft"
+	"github.com/a10adotapp/a10a.app/ent/kusogeeeeeenftchangelog"
 	"github.com/a10adotapp/a10a.app/ent/linenft"
 	"github.com/a10adotapp/a10a.app/ent/linenftactivity"
 	"github.com/a10adotapp/a10a.app/ent/linenftmillionarthursproperty"
@@ -75,6 +77,44 @@ func init() {
 	finschiaitemtokenmillionarthursproperty.DefaultUpdatedAt = finschiaitemtokenmillionarthurspropertyDescUpdatedAt.Default.(func() time.Time)
 	// finschiaitemtokenmillionarthursproperty.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
 	finschiaitemtokenmillionarthursproperty.UpdateDefaultUpdatedAt = finschiaitemtokenmillionarthurspropertyDescUpdatedAt.UpdateDefault.(func() time.Time)
+	kusogeeeeeenftMixin := schema.KusogeeeeeeNFT{}.Mixin()
+	kusogeeeeeenftMixinHooks1 := kusogeeeeeenftMixin[1].Hooks()
+	kusogeeeeeenft.Hooks[0] = kusogeeeeeenftMixinHooks1[0]
+	kusogeeeeeenftMixinInters1 := kusogeeeeeenftMixin[1].Interceptors()
+	kusogeeeeeenft.Interceptors[0] = kusogeeeeeenftMixinInters1[0]
+	kusogeeeeeenftMixinFields0 := kusogeeeeeenftMixin[0].Fields()
+	_ = kusogeeeeeenftMixinFields0
+	kusogeeeeeenftFields := schema.KusogeeeeeeNFT{}.Fields()
+	_ = kusogeeeeeenftFields
+	// kusogeeeeeenftDescCreatedAt is the schema descriptor for created_at field.
+	kusogeeeeeenftDescCreatedAt := kusogeeeeeenftMixinFields0[0].Descriptor()
+	// kusogeeeeeenft.DefaultCreatedAt holds the default value on creation for the created_at field.
+	kusogeeeeeenft.DefaultCreatedAt = kusogeeeeeenftDescCreatedAt.Default.(func() time.Time)
+	// kusogeeeeeenftDescUpdatedAt is the schema descriptor for updated_at field.
+	kusogeeeeeenftDescUpdatedAt := kusogeeeeeenftMixinFields0[1].Descriptor()
+	// kusogeeeeeenft.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	kusogeeeeeenft.DefaultUpdatedAt = kusogeeeeeenftDescUpdatedAt.Default.(func() time.Time)
+	// kusogeeeeeenft.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	kusogeeeeeenft.UpdateDefaultUpdatedAt = kusogeeeeeenftDescUpdatedAt.UpdateDefault.(func() time.Time)
+	kusogeeeeeenftchangelogMixin := schema.KusogeeeeeeNFTChangeLog{}.Mixin()
+	kusogeeeeeenftchangelogMixinHooks1 := kusogeeeeeenftchangelogMixin[1].Hooks()
+	kusogeeeeeenftchangelog.Hooks[0] = kusogeeeeeenftchangelogMixinHooks1[0]
+	kusogeeeeeenftchangelogMixinInters1 := kusogeeeeeenftchangelogMixin[1].Interceptors()
+	kusogeeeeeenftchangelog.Interceptors[0] = kusogeeeeeenftchangelogMixinInters1[0]
+	kusogeeeeeenftchangelogMixinFields0 := kusogeeeeeenftchangelogMixin[0].Fields()
+	_ = kusogeeeeeenftchangelogMixinFields0
+	kusogeeeeeenftchangelogFields := schema.KusogeeeeeeNFTChangeLog{}.Fields()
+	_ = kusogeeeeeenftchangelogFields
+	// kusogeeeeeenftchangelogDescCreatedAt is the schema descriptor for created_at field.
+	kusogeeeeeenftchangelogDescCreatedAt := kusogeeeeeenftchangelogMixinFields0[0].Descriptor()
+	// kusogeeeeeenftchangelog.DefaultCreatedAt holds the default value on creation for the created_at field.
+	kusogeeeeeenftchangelog.DefaultCreatedAt = kusogeeeeeenftchangelogDescCreatedAt.Default.(func() time.Time)
+	// kusogeeeeeenftchangelogDescUpdatedAt is the schema descriptor for updated_at field.
+	kusogeeeeeenftchangelogDescUpdatedAt := kusogeeeeeenftchangelogMixinFields0[1].Descriptor()
+	// kusogeeeeeenftchangelog.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	kusogeeeeeenftchangelog.DefaultUpdatedAt = kusogeeeeeenftchangelogDescUpdatedAt.Default.(func() time.Time)
+	// kusogeeeeeenftchangelog.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	kusogeeeeeenftchangelog.UpdateDefaultUpdatedAt = kusogeeeeeenftchangelogDescUpdatedAt.UpdateDefault.(func() time.Time)
 	linenftMixin := schema.LINENFT{}.Mixin()
 	linenftMixinHooks1 := linenftMixin[1].Hooks()
 	linenft.Hooks[0] = linenftMixinHooks1[0]

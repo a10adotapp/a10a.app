@@ -6,6 +6,7 @@ import (
 	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/edge"
 	"entgo.io/ent/schema/field"
+	"github.com/a10adotapp/entfw/v1"
 )
 
 // LINENFTMillionArthursProperty holds the schema definition for the LINENFTProperty entity.
@@ -30,7 +31,7 @@ func (LINENFTMillionArthursProperty) Mixin() []ent.Mixin {
 
 // Fields of the LINENFTMillionArthursProperty.
 func (LINENFTMillionArthursProperty) Fields() []ent.Field {
-	return WrapFields(
+	return entfw.Fields(
 		field.Uint32("id"),
 
 		field.String("series").

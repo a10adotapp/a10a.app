@@ -14,6 +14,8 @@ import (
 	"github.com/a10adotapp/a10a.app/ent/finschiaitemtoken"
 	"github.com/a10adotapp/a10a.app/ent/finschiaitemtokenactivity"
 	"github.com/a10adotapp/a10a.app/ent/finschiaitemtokenmillionarthursproperty"
+	"github.com/a10adotapp/a10a.app/ent/kusogeeeeeenft"
+	"github.com/a10adotapp/a10a.app/ent/kusogeeeeeenftchangelog"
 	"github.com/a10adotapp/a10a.app/ent/linenft"
 	"github.com/a10adotapp/a10a.app/ent/linenftactivity"
 	"github.com/a10adotapp/a10a.app/ent/linenftmillionarthursproperty"
@@ -32,6 +34,8 @@ const (
 	TypeFinschiaItemToken                       = "FinschiaItemToken"
 	TypeFinschiaItemTokenActivity               = "FinschiaItemTokenActivity"
 	TypeFinschiaItemTokenMillionArthursProperty = "FinschiaItemTokenMillionArthursProperty"
+	TypeKusogeeeeeeNFT                          = "KusogeeeeeeNFT"
+	TypeKusogeeeeeeNFTChangeLog                 = "KusogeeeeeeNFTChangeLog"
 	TypeLINENFT                                 = "LINENFT"
 	TypeLINENFTActivity                         = "LINENFTActivity"
 	TypeLINENFTMillionArthursProperty           = "LINENFTMillionArthursProperty"
@@ -2362,6 +2366,2530 @@ func (m *FinschiaItemTokenMillionArthursPropertyMutation) ResetEdge(name string)
 		return nil
 	}
 	return fmt.Errorf("unknown FinschiaItemTokenMillionArthursProperty edge %s", name)
+}
+
+// KusogeeeeeeNFTMutation represents an operation that mutates the KusogeeeeeeNFT nodes in the graph.
+type KusogeeeeeeNFTMutation struct {
+	config
+	op                         Op
+	typ                        string
+	id                         *uint32
+	created_at                 *time.Time
+	updated_at                 *time.Time
+	deleted_at                 *time.Time
+	uri                        *string
+	_type                      *string
+	name                       *string
+	status                     *string
+	price                      *int
+	addprice                   *int
+	published_at               *time.Time
+	weapon_rank                *int
+	addweapon_rank             *int
+	weapon_type                *string
+	weapon_vitality            *int
+	addweapon_vitality         *int
+	weapon_strength            *int
+	addweapon_strength         *int
+	weapon_physical_defense    *int
+	addweapon_physical_defense *int
+	weapon_magical_defense     *int
+	addweapon_magical_defense  *int
+	weapon_agility             *int
+	addweapon_agility          *int
+	character_rank             *string
+	character_total_supply     *int
+	addcharacter_total_supply  *int
+	clearedFields              map[string]struct{}
+	change_logs                map[uint32]struct{}
+	removedchange_logs         map[uint32]struct{}
+	clearedchange_logs         bool
+	done                       bool
+	oldValue                   func(context.Context) (*KusogeeeeeeNFT, error)
+	predicates                 []predicate.KusogeeeeeeNFT
+}
+
+var _ ent.Mutation = (*KusogeeeeeeNFTMutation)(nil)
+
+// kusogeeeeeenftOption allows management of the mutation configuration using functional options.
+type kusogeeeeeenftOption func(*KusogeeeeeeNFTMutation)
+
+// newKusogeeeeeeNFTMutation creates new mutation for the KusogeeeeeeNFT entity.
+func newKusogeeeeeeNFTMutation(c config, op Op, opts ...kusogeeeeeenftOption) *KusogeeeeeeNFTMutation {
+	m := &KusogeeeeeeNFTMutation{
+		config:        c,
+		op:            op,
+		typ:           TypeKusogeeeeeeNFT,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withKusogeeeeeeNFTID sets the ID field of the mutation.
+func withKusogeeeeeeNFTID(id uint32) kusogeeeeeenftOption {
+	return func(m *KusogeeeeeeNFTMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *KusogeeeeeeNFT
+		)
+		m.oldValue = func(ctx context.Context) (*KusogeeeeeeNFT, error) {
+			once.Do(func() {
+				if m.done {
+					err = errors.New("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().KusogeeeeeeNFT.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withKusogeeeeeeNFT sets the old KusogeeeeeeNFT of the mutation.
+func withKusogeeeeeeNFT(node *KusogeeeeeeNFT) kusogeeeeeenftOption {
+	return func(m *KusogeeeeeeNFTMutation) {
+		m.oldValue = func(context.Context) (*KusogeeeeeeNFT, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m KusogeeeeeeNFTMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m KusogeeeeeeNFTMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, errors.New("ent: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// SetID sets the value of the id field. Note that this
+// operation is only accepted on creation of KusogeeeeeeNFT entities.
+func (m *KusogeeeeeeNFTMutation) SetID(id uint32) {
+	m.id = &id
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *KusogeeeeeeNFTMutation) ID() (id uint32, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *KusogeeeeeeNFTMutation) IDs(ctx context.Context) ([]uint32, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []uint32{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().KusogeeeeeeNFT.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
+}
+
+// SetCreatedAt sets the "created_at" field.
+func (m *KusogeeeeeeNFTMutation) SetCreatedAt(t time.Time) {
+	m.created_at = &t
+}
+
+// CreatedAt returns the value of the "created_at" field in the mutation.
+func (m *KusogeeeeeeNFTMutation) CreatedAt() (r time.Time, exists bool) {
+	v := m.created_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCreatedAt returns the old "created_at" field's value of the KusogeeeeeeNFT entity.
+// If the KusogeeeeeeNFT object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *KusogeeeeeeNFTMutation) OldCreatedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCreatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCreatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCreatedAt: %w", err)
+	}
+	return oldValue.CreatedAt, nil
+}
+
+// ResetCreatedAt resets all changes to the "created_at" field.
+func (m *KusogeeeeeeNFTMutation) ResetCreatedAt() {
+	m.created_at = nil
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (m *KusogeeeeeeNFTMutation) SetUpdatedAt(t time.Time) {
+	m.updated_at = &t
+}
+
+// UpdatedAt returns the value of the "updated_at" field in the mutation.
+func (m *KusogeeeeeeNFTMutation) UpdatedAt() (r time.Time, exists bool) {
+	v := m.updated_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUpdatedAt returns the old "updated_at" field's value of the KusogeeeeeeNFT entity.
+// If the KusogeeeeeeNFT object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *KusogeeeeeeNFTMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUpdatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUpdatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUpdatedAt: %w", err)
+	}
+	return oldValue.UpdatedAt, nil
+}
+
+// ResetUpdatedAt resets all changes to the "updated_at" field.
+func (m *KusogeeeeeeNFTMutation) ResetUpdatedAt() {
+	m.updated_at = nil
+}
+
+// SetDeletedAt sets the "deleted_at" field.
+func (m *KusogeeeeeeNFTMutation) SetDeletedAt(t time.Time) {
+	m.deleted_at = &t
+}
+
+// DeletedAt returns the value of the "deleted_at" field in the mutation.
+func (m *KusogeeeeeeNFTMutation) DeletedAt() (r time.Time, exists bool) {
+	v := m.deleted_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDeletedAt returns the old "deleted_at" field's value of the KusogeeeeeeNFT entity.
+// If the KusogeeeeeeNFT object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *KusogeeeeeeNFTMutation) OldDeletedAt(ctx context.Context) (v *time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldDeletedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldDeletedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDeletedAt: %w", err)
+	}
+	return oldValue.DeletedAt, nil
+}
+
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (m *KusogeeeeeeNFTMutation) ClearDeletedAt() {
+	m.deleted_at = nil
+	m.clearedFields[kusogeeeeeenft.FieldDeletedAt] = struct{}{}
+}
+
+// DeletedAtCleared returns if the "deleted_at" field was cleared in this mutation.
+func (m *KusogeeeeeeNFTMutation) DeletedAtCleared() bool {
+	_, ok := m.clearedFields[kusogeeeeeenft.FieldDeletedAt]
+	return ok
+}
+
+// ResetDeletedAt resets all changes to the "deleted_at" field.
+func (m *KusogeeeeeeNFTMutation) ResetDeletedAt() {
+	m.deleted_at = nil
+	delete(m.clearedFields, kusogeeeeeenft.FieldDeletedAt)
+}
+
+// SetURI sets the "uri" field.
+func (m *KusogeeeeeeNFTMutation) SetURI(s string) {
+	m.uri = &s
+}
+
+// URI returns the value of the "uri" field in the mutation.
+func (m *KusogeeeeeeNFTMutation) URI() (r string, exists bool) {
+	v := m.uri
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldURI returns the old "uri" field's value of the KusogeeeeeeNFT entity.
+// If the KusogeeeeeeNFT object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *KusogeeeeeeNFTMutation) OldURI(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldURI is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldURI requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldURI: %w", err)
+	}
+	return oldValue.URI, nil
+}
+
+// ResetURI resets all changes to the "uri" field.
+func (m *KusogeeeeeeNFTMutation) ResetURI() {
+	m.uri = nil
+}
+
+// SetType sets the "type" field.
+func (m *KusogeeeeeeNFTMutation) SetType(s string) {
+	m._type = &s
+}
+
+// GetType returns the value of the "type" field in the mutation.
+func (m *KusogeeeeeeNFTMutation) GetType() (r string, exists bool) {
+	v := m._type
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldType returns the old "type" field's value of the KusogeeeeeeNFT entity.
+// If the KusogeeeeeeNFT object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *KusogeeeeeeNFTMutation) OldType(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldType is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldType requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldType: %w", err)
+	}
+	return oldValue.Type, nil
+}
+
+// ResetType resets all changes to the "type" field.
+func (m *KusogeeeeeeNFTMutation) ResetType() {
+	m._type = nil
+}
+
+// SetName sets the "name" field.
+func (m *KusogeeeeeeNFTMutation) SetName(s string) {
+	m.name = &s
+}
+
+// Name returns the value of the "name" field in the mutation.
+func (m *KusogeeeeeeNFTMutation) Name() (r string, exists bool) {
+	v := m.name
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldName returns the old "name" field's value of the KusogeeeeeeNFT entity.
+// If the KusogeeeeeeNFT object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *KusogeeeeeeNFTMutation) OldName(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldName is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldName: %w", err)
+	}
+	return oldValue.Name, nil
+}
+
+// ResetName resets all changes to the "name" field.
+func (m *KusogeeeeeeNFTMutation) ResetName() {
+	m.name = nil
+}
+
+// SetStatus sets the "status" field.
+func (m *KusogeeeeeeNFTMutation) SetStatus(s string) {
+	m.status = &s
+}
+
+// Status returns the value of the "status" field in the mutation.
+func (m *KusogeeeeeeNFTMutation) Status() (r string, exists bool) {
+	v := m.status
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldStatus returns the old "status" field's value of the KusogeeeeeeNFT entity.
+// If the KusogeeeeeeNFT object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *KusogeeeeeeNFTMutation) OldStatus(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldStatus is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldStatus requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldStatus: %w", err)
+	}
+	return oldValue.Status, nil
+}
+
+// ResetStatus resets all changes to the "status" field.
+func (m *KusogeeeeeeNFTMutation) ResetStatus() {
+	m.status = nil
+}
+
+// SetPrice sets the "price" field.
+func (m *KusogeeeeeeNFTMutation) SetPrice(i int) {
+	m.price = &i
+	m.addprice = nil
+}
+
+// Price returns the value of the "price" field in the mutation.
+func (m *KusogeeeeeeNFTMutation) Price() (r int, exists bool) {
+	v := m.price
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldPrice returns the old "price" field's value of the KusogeeeeeeNFT entity.
+// If the KusogeeeeeeNFT object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *KusogeeeeeeNFTMutation) OldPrice(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldPrice is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldPrice requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldPrice: %w", err)
+	}
+	return oldValue.Price, nil
+}
+
+// AddPrice adds i to the "price" field.
+func (m *KusogeeeeeeNFTMutation) AddPrice(i int) {
+	if m.addprice != nil {
+		*m.addprice += i
+	} else {
+		m.addprice = &i
+	}
+}
+
+// AddedPrice returns the value that was added to the "price" field in this mutation.
+func (m *KusogeeeeeeNFTMutation) AddedPrice() (r int, exists bool) {
+	v := m.addprice
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetPrice resets all changes to the "price" field.
+func (m *KusogeeeeeeNFTMutation) ResetPrice() {
+	m.price = nil
+	m.addprice = nil
+}
+
+// SetPublishedAt sets the "published_at" field.
+func (m *KusogeeeeeeNFTMutation) SetPublishedAt(t time.Time) {
+	m.published_at = &t
+}
+
+// PublishedAt returns the value of the "published_at" field in the mutation.
+func (m *KusogeeeeeeNFTMutation) PublishedAt() (r time.Time, exists bool) {
+	v := m.published_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldPublishedAt returns the old "published_at" field's value of the KusogeeeeeeNFT entity.
+// If the KusogeeeeeeNFT object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *KusogeeeeeeNFTMutation) OldPublishedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldPublishedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldPublishedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldPublishedAt: %w", err)
+	}
+	return oldValue.PublishedAt, nil
+}
+
+// ResetPublishedAt resets all changes to the "published_at" field.
+func (m *KusogeeeeeeNFTMutation) ResetPublishedAt() {
+	m.published_at = nil
+}
+
+// SetWeaponRank sets the "weapon_rank" field.
+func (m *KusogeeeeeeNFTMutation) SetWeaponRank(i int) {
+	m.weapon_rank = &i
+	m.addweapon_rank = nil
+}
+
+// WeaponRank returns the value of the "weapon_rank" field in the mutation.
+func (m *KusogeeeeeeNFTMutation) WeaponRank() (r int, exists bool) {
+	v := m.weapon_rank
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldWeaponRank returns the old "weapon_rank" field's value of the KusogeeeeeeNFT entity.
+// If the KusogeeeeeeNFT object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *KusogeeeeeeNFTMutation) OldWeaponRank(ctx context.Context) (v *int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldWeaponRank is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldWeaponRank requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldWeaponRank: %w", err)
+	}
+	return oldValue.WeaponRank, nil
+}
+
+// AddWeaponRank adds i to the "weapon_rank" field.
+func (m *KusogeeeeeeNFTMutation) AddWeaponRank(i int) {
+	if m.addweapon_rank != nil {
+		*m.addweapon_rank += i
+	} else {
+		m.addweapon_rank = &i
+	}
+}
+
+// AddedWeaponRank returns the value that was added to the "weapon_rank" field in this mutation.
+func (m *KusogeeeeeeNFTMutation) AddedWeaponRank() (r int, exists bool) {
+	v := m.addweapon_rank
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearWeaponRank clears the value of the "weapon_rank" field.
+func (m *KusogeeeeeeNFTMutation) ClearWeaponRank() {
+	m.weapon_rank = nil
+	m.addweapon_rank = nil
+	m.clearedFields[kusogeeeeeenft.FieldWeaponRank] = struct{}{}
+}
+
+// WeaponRankCleared returns if the "weapon_rank" field was cleared in this mutation.
+func (m *KusogeeeeeeNFTMutation) WeaponRankCleared() bool {
+	_, ok := m.clearedFields[kusogeeeeeenft.FieldWeaponRank]
+	return ok
+}
+
+// ResetWeaponRank resets all changes to the "weapon_rank" field.
+func (m *KusogeeeeeeNFTMutation) ResetWeaponRank() {
+	m.weapon_rank = nil
+	m.addweapon_rank = nil
+	delete(m.clearedFields, kusogeeeeeenft.FieldWeaponRank)
+}
+
+// SetWeaponType sets the "weapon_type" field.
+func (m *KusogeeeeeeNFTMutation) SetWeaponType(s string) {
+	m.weapon_type = &s
+}
+
+// WeaponType returns the value of the "weapon_type" field in the mutation.
+func (m *KusogeeeeeeNFTMutation) WeaponType() (r string, exists bool) {
+	v := m.weapon_type
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldWeaponType returns the old "weapon_type" field's value of the KusogeeeeeeNFT entity.
+// If the KusogeeeeeeNFT object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *KusogeeeeeeNFTMutation) OldWeaponType(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldWeaponType is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldWeaponType requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldWeaponType: %w", err)
+	}
+	return oldValue.WeaponType, nil
+}
+
+// ClearWeaponType clears the value of the "weapon_type" field.
+func (m *KusogeeeeeeNFTMutation) ClearWeaponType() {
+	m.weapon_type = nil
+	m.clearedFields[kusogeeeeeenft.FieldWeaponType] = struct{}{}
+}
+
+// WeaponTypeCleared returns if the "weapon_type" field was cleared in this mutation.
+func (m *KusogeeeeeeNFTMutation) WeaponTypeCleared() bool {
+	_, ok := m.clearedFields[kusogeeeeeenft.FieldWeaponType]
+	return ok
+}
+
+// ResetWeaponType resets all changes to the "weapon_type" field.
+func (m *KusogeeeeeeNFTMutation) ResetWeaponType() {
+	m.weapon_type = nil
+	delete(m.clearedFields, kusogeeeeeenft.FieldWeaponType)
+}
+
+// SetWeaponVitality sets the "weapon_vitality" field.
+func (m *KusogeeeeeeNFTMutation) SetWeaponVitality(i int) {
+	m.weapon_vitality = &i
+	m.addweapon_vitality = nil
+}
+
+// WeaponVitality returns the value of the "weapon_vitality" field in the mutation.
+func (m *KusogeeeeeeNFTMutation) WeaponVitality() (r int, exists bool) {
+	v := m.weapon_vitality
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldWeaponVitality returns the old "weapon_vitality" field's value of the KusogeeeeeeNFT entity.
+// If the KusogeeeeeeNFT object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *KusogeeeeeeNFTMutation) OldWeaponVitality(ctx context.Context) (v *int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldWeaponVitality is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldWeaponVitality requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldWeaponVitality: %w", err)
+	}
+	return oldValue.WeaponVitality, nil
+}
+
+// AddWeaponVitality adds i to the "weapon_vitality" field.
+func (m *KusogeeeeeeNFTMutation) AddWeaponVitality(i int) {
+	if m.addweapon_vitality != nil {
+		*m.addweapon_vitality += i
+	} else {
+		m.addweapon_vitality = &i
+	}
+}
+
+// AddedWeaponVitality returns the value that was added to the "weapon_vitality" field in this mutation.
+func (m *KusogeeeeeeNFTMutation) AddedWeaponVitality() (r int, exists bool) {
+	v := m.addweapon_vitality
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearWeaponVitality clears the value of the "weapon_vitality" field.
+func (m *KusogeeeeeeNFTMutation) ClearWeaponVitality() {
+	m.weapon_vitality = nil
+	m.addweapon_vitality = nil
+	m.clearedFields[kusogeeeeeenft.FieldWeaponVitality] = struct{}{}
+}
+
+// WeaponVitalityCleared returns if the "weapon_vitality" field was cleared in this mutation.
+func (m *KusogeeeeeeNFTMutation) WeaponVitalityCleared() bool {
+	_, ok := m.clearedFields[kusogeeeeeenft.FieldWeaponVitality]
+	return ok
+}
+
+// ResetWeaponVitality resets all changes to the "weapon_vitality" field.
+func (m *KusogeeeeeeNFTMutation) ResetWeaponVitality() {
+	m.weapon_vitality = nil
+	m.addweapon_vitality = nil
+	delete(m.clearedFields, kusogeeeeeenft.FieldWeaponVitality)
+}
+
+// SetWeaponStrength sets the "weapon_strength" field.
+func (m *KusogeeeeeeNFTMutation) SetWeaponStrength(i int) {
+	m.weapon_strength = &i
+	m.addweapon_strength = nil
+}
+
+// WeaponStrength returns the value of the "weapon_strength" field in the mutation.
+func (m *KusogeeeeeeNFTMutation) WeaponStrength() (r int, exists bool) {
+	v := m.weapon_strength
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldWeaponStrength returns the old "weapon_strength" field's value of the KusogeeeeeeNFT entity.
+// If the KusogeeeeeeNFT object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *KusogeeeeeeNFTMutation) OldWeaponStrength(ctx context.Context) (v *int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldWeaponStrength is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldWeaponStrength requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldWeaponStrength: %w", err)
+	}
+	return oldValue.WeaponStrength, nil
+}
+
+// AddWeaponStrength adds i to the "weapon_strength" field.
+func (m *KusogeeeeeeNFTMutation) AddWeaponStrength(i int) {
+	if m.addweapon_strength != nil {
+		*m.addweapon_strength += i
+	} else {
+		m.addweapon_strength = &i
+	}
+}
+
+// AddedWeaponStrength returns the value that was added to the "weapon_strength" field in this mutation.
+func (m *KusogeeeeeeNFTMutation) AddedWeaponStrength() (r int, exists bool) {
+	v := m.addweapon_strength
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearWeaponStrength clears the value of the "weapon_strength" field.
+func (m *KusogeeeeeeNFTMutation) ClearWeaponStrength() {
+	m.weapon_strength = nil
+	m.addweapon_strength = nil
+	m.clearedFields[kusogeeeeeenft.FieldWeaponStrength] = struct{}{}
+}
+
+// WeaponStrengthCleared returns if the "weapon_strength" field was cleared in this mutation.
+func (m *KusogeeeeeeNFTMutation) WeaponStrengthCleared() bool {
+	_, ok := m.clearedFields[kusogeeeeeenft.FieldWeaponStrength]
+	return ok
+}
+
+// ResetWeaponStrength resets all changes to the "weapon_strength" field.
+func (m *KusogeeeeeeNFTMutation) ResetWeaponStrength() {
+	m.weapon_strength = nil
+	m.addweapon_strength = nil
+	delete(m.clearedFields, kusogeeeeeenft.FieldWeaponStrength)
+}
+
+// SetWeaponPhysicalDefense sets the "weapon_physical_defense" field.
+func (m *KusogeeeeeeNFTMutation) SetWeaponPhysicalDefense(i int) {
+	m.weapon_physical_defense = &i
+	m.addweapon_physical_defense = nil
+}
+
+// WeaponPhysicalDefense returns the value of the "weapon_physical_defense" field in the mutation.
+func (m *KusogeeeeeeNFTMutation) WeaponPhysicalDefense() (r int, exists bool) {
+	v := m.weapon_physical_defense
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldWeaponPhysicalDefense returns the old "weapon_physical_defense" field's value of the KusogeeeeeeNFT entity.
+// If the KusogeeeeeeNFT object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *KusogeeeeeeNFTMutation) OldWeaponPhysicalDefense(ctx context.Context) (v *int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldWeaponPhysicalDefense is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldWeaponPhysicalDefense requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldWeaponPhysicalDefense: %w", err)
+	}
+	return oldValue.WeaponPhysicalDefense, nil
+}
+
+// AddWeaponPhysicalDefense adds i to the "weapon_physical_defense" field.
+func (m *KusogeeeeeeNFTMutation) AddWeaponPhysicalDefense(i int) {
+	if m.addweapon_physical_defense != nil {
+		*m.addweapon_physical_defense += i
+	} else {
+		m.addweapon_physical_defense = &i
+	}
+}
+
+// AddedWeaponPhysicalDefense returns the value that was added to the "weapon_physical_defense" field in this mutation.
+func (m *KusogeeeeeeNFTMutation) AddedWeaponPhysicalDefense() (r int, exists bool) {
+	v := m.addweapon_physical_defense
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearWeaponPhysicalDefense clears the value of the "weapon_physical_defense" field.
+func (m *KusogeeeeeeNFTMutation) ClearWeaponPhysicalDefense() {
+	m.weapon_physical_defense = nil
+	m.addweapon_physical_defense = nil
+	m.clearedFields[kusogeeeeeenft.FieldWeaponPhysicalDefense] = struct{}{}
+}
+
+// WeaponPhysicalDefenseCleared returns if the "weapon_physical_defense" field was cleared in this mutation.
+func (m *KusogeeeeeeNFTMutation) WeaponPhysicalDefenseCleared() bool {
+	_, ok := m.clearedFields[kusogeeeeeenft.FieldWeaponPhysicalDefense]
+	return ok
+}
+
+// ResetWeaponPhysicalDefense resets all changes to the "weapon_physical_defense" field.
+func (m *KusogeeeeeeNFTMutation) ResetWeaponPhysicalDefense() {
+	m.weapon_physical_defense = nil
+	m.addweapon_physical_defense = nil
+	delete(m.clearedFields, kusogeeeeeenft.FieldWeaponPhysicalDefense)
+}
+
+// SetWeaponMagicalDefense sets the "weapon_magical_defense" field.
+func (m *KusogeeeeeeNFTMutation) SetWeaponMagicalDefense(i int) {
+	m.weapon_magical_defense = &i
+	m.addweapon_magical_defense = nil
+}
+
+// WeaponMagicalDefense returns the value of the "weapon_magical_defense" field in the mutation.
+func (m *KusogeeeeeeNFTMutation) WeaponMagicalDefense() (r int, exists bool) {
+	v := m.weapon_magical_defense
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldWeaponMagicalDefense returns the old "weapon_magical_defense" field's value of the KusogeeeeeeNFT entity.
+// If the KusogeeeeeeNFT object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *KusogeeeeeeNFTMutation) OldWeaponMagicalDefense(ctx context.Context) (v *int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldWeaponMagicalDefense is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldWeaponMagicalDefense requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldWeaponMagicalDefense: %w", err)
+	}
+	return oldValue.WeaponMagicalDefense, nil
+}
+
+// AddWeaponMagicalDefense adds i to the "weapon_magical_defense" field.
+func (m *KusogeeeeeeNFTMutation) AddWeaponMagicalDefense(i int) {
+	if m.addweapon_magical_defense != nil {
+		*m.addweapon_magical_defense += i
+	} else {
+		m.addweapon_magical_defense = &i
+	}
+}
+
+// AddedWeaponMagicalDefense returns the value that was added to the "weapon_magical_defense" field in this mutation.
+func (m *KusogeeeeeeNFTMutation) AddedWeaponMagicalDefense() (r int, exists bool) {
+	v := m.addweapon_magical_defense
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearWeaponMagicalDefense clears the value of the "weapon_magical_defense" field.
+func (m *KusogeeeeeeNFTMutation) ClearWeaponMagicalDefense() {
+	m.weapon_magical_defense = nil
+	m.addweapon_magical_defense = nil
+	m.clearedFields[kusogeeeeeenft.FieldWeaponMagicalDefense] = struct{}{}
+}
+
+// WeaponMagicalDefenseCleared returns if the "weapon_magical_defense" field was cleared in this mutation.
+func (m *KusogeeeeeeNFTMutation) WeaponMagicalDefenseCleared() bool {
+	_, ok := m.clearedFields[kusogeeeeeenft.FieldWeaponMagicalDefense]
+	return ok
+}
+
+// ResetWeaponMagicalDefense resets all changes to the "weapon_magical_defense" field.
+func (m *KusogeeeeeeNFTMutation) ResetWeaponMagicalDefense() {
+	m.weapon_magical_defense = nil
+	m.addweapon_magical_defense = nil
+	delete(m.clearedFields, kusogeeeeeenft.FieldWeaponMagicalDefense)
+}
+
+// SetWeaponAgility sets the "weapon_agility" field.
+func (m *KusogeeeeeeNFTMutation) SetWeaponAgility(i int) {
+	m.weapon_agility = &i
+	m.addweapon_agility = nil
+}
+
+// WeaponAgility returns the value of the "weapon_agility" field in the mutation.
+func (m *KusogeeeeeeNFTMutation) WeaponAgility() (r int, exists bool) {
+	v := m.weapon_agility
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldWeaponAgility returns the old "weapon_agility" field's value of the KusogeeeeeeNFT entity.
+// If the KusogeeeeeeNFT object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *KusogeeeeeeNFTMutation) OldWeaponAgility(ctx context.Context) (v *int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldWeaponAgility is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldWeaponAgility requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldWeaponAgility: %w", err)
+	}
+	return oldValue.WeaponAgility, nil
+}
+
+// AddWeaponAgility adds i to the "weapon_agility" field.
+func (m *KusogeeeeeeNFTMutation) AddWeaponAgility(i int) {
+	if m.addweapon_agility != nil {
+		*m.addweapon_agility += i
+	} else {
+		m.addweapon_agility = &i
+	}
+}
+
+// AddedWeaponAgility returns the value that was added to the "weapon_agility" field in this mutation.
+func (m *KusogeeeeeeNFTMutation) AddedWeaponAgility() (r int, exists bool) {
+	v := m.addweapon_agility
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearWeaponAgility clears the value of the "weapon_agility" field.
+func (m *KusogeeeeeeNFTMutation) ClearWeaponAgility() {
+	m.weapon_agility = nil
+	m.addweapon_agility = nil
+	m.clearedFields[kusogeeeeeenft.FieldWeaponAgility] = struct{}{}
+}
+
+// WeaponAgilityCleared returns if the "weapon_agility" field was cleared in this mutation.
+func (m *KusogeeeeeeNFTMutation) WeaponAgilityCleared() bool {
+	_, ok := m.clearedFields[kusogeeeeeenft.FieldWeaponAgility]
+	return ok
+}
+
+// ResetWeaponAgility resets all changes to the "weapon_agility" field.
+func (m *KusogeeeeeeNFTMutation) ResetWeaponAgility() {
+	m.weapon_agility = nil
+	m.addweapon_agility = nil
+	delete(m.clearedFields, kusogeeeeeenft.FieldWeaponAgility)
+}
+
+// SetCharacterRank sets the "character_rank" field.
+func (m *KusogeeeeeeNFTMutation) SetCharacterRank(s string) {
+	m.character_rank = &s
+}
+
+// CharacterRank returns the value of the "character_rank" field in the mutation.
+func (m *KusogeeeeeeNFTMutation) CharacterRank() (r string, exists bool) {
+	v := m.character_rank
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCharacterRank returns the old "character_rank" field's value of the KusogeeeeeeNFT entity.
+// If the KusogeeeeeeNFT object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *KusogeeeeeeNFTMutation) OldCharacterRank(ctx context.Context) (v *string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCharacterRank is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCharacterRank requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCharacterRank: %w", err)
+	}
+	return oldValue.CharacterRank, nil
+}
+
+// ClearCharacterRank clears the value of the "character_rank" field.
+func (m *KusogeeeeeeNFTMutation) ClearCharacterRank() {
+	m.character_rank = nil
+	m.clearedFields[kusogeeeeeenft.FieldCharacterRank] = struct{}{}
+}
+
+// CharacterRankCleared returns if the "character_rank" field was cleared in this mutation.
+func (m *KusogeeeeeeNFTMutation) CharacterRankCleared() bool {
+	_, ok := m.clearedFields[kusogeeeeeenft.FieldCharacterRank]
+	return ok
+}
+
+// ResetCharacterRank resets all changes to the "character_rank" field.
+func (m *KusogeeeeeeNFTMutation) ResetCharacterRank() {
+	m.character_rank = nil
+	delete(m.clearedFields, kusogeeeeeenft.FieldCharacterRank)
+}
+
+// SetCharacterTotalSupply sets the "character_total_supply" field.
+func (m *KusogeeeeeeNFTMutation) SetCharacterTotalSupply(i int) {
+	m.character_total_supply = &i
+	m.addcharacter_total_supply = nil
+}
+
+// CharacterTotalSupply returns the value of the "character_total_supply" field in the mutation.
+func (m *KusogeeeeeeNFTMutation) CharacterTotalSupply() (r int, exists bool) {
+	v := m.character_total_supply
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCharacterTotalSupply returns the old "character_total_supply" field's value of the KusogeeeeeeNFT entity.
+// If the KusogeeeeeeNFT object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *KusogeeeeeeNFTMutation) OldCharacterTotalSupply(ctx context.Context) (v *int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCharacterTotalSupply is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCharacterTotalSupply requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCharacterTotalSupply: %w", err)
+	}
+	return oldValue.CharacterTotalSupply, nil
+}
+
+// AddCharacterTotalSupply adds i to the "character_total_supply" field.
+func (m *KusogeeeeeeNFTMutation) AddCharacterTotalSupply(i int) {
+	if m.addcharacter_total_supply != nil {
+		*m.addcharacter_total_supply += i
+	} else {
+		m.addcharacter_total_supply = &i
+	}
+}
+
+// AddedCharacterTotalSupply returns the value that was added to the "character_total_supply" field in this mutation.
+func (m *KusogeeeeeeNFTMutation) AddedCharacterTotalSupply() (r int, exists bool) {
+	v := m.addcharacter_total_supply
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearCharacterTotalSupply clears the value of the "character_total_supply" field.
+func (m *KusogeeeeeeNFTMutation) ClearCharacterTotalSupply() {
+	m.character_total_supply = nil
+	m.addcharacter_total_supply = nil
+	m.clearedFields[kusogeeeeeenft.FieldCharacterTotalSupply] = struct{}{}
+}
+
+// CharacterTotalSupplyCleared returns if the "character_total_supply" field was cleared in this mutation.
+func (m *KusogeeeeeeNFTMutation) CharacterTotalSupplyCleared() bool {
+	_, ok := m.clearedFields[kusogeeeeeenft.FieldCharacterTotalSupply]
+	return ok
+}
+
+// ResetCharacterTotalSupply resets all changes to the "character_total_supply" field.
+func (m *KusogeeeeeeNFTMutation) ResetCharacterTotalSupply() {
+	m.character_total_supply = nil
+	m.addcharacter_total_supply = nil
+	delete(m.clearedFields, kusogeeeeeenft.FieldCharacterTotalSupply)
+}
+
+// AddChangeLogIDs adds the "change_logs" edge to the KusogeeeeeeNFTChangeLog entity by ids.
+func (m *KusogeeeeeeNFTMutation) AddChangeLogIDs(ids ...uint32) {
+	if m.change_logs == nil {
+		m.change_logs = make(map[uint32]struct{})
+	}
+	for i := range ids {
+		m.change_logs[ids[i]] = struct{}{}
+	}
+}
+
+// ClearChangeLogs clears the "change_logs" edge to the KusogeeeeeeNFTChangeLog entity.
+func (m *KusogeeeeeeNFTMutation) ClearChangeLogs() {
+	m.clearedchange_logs = true
+}
+
+// ChangeLogsCleared reports if the "change_logs" edge to the KusogeeeeeeNFTChangeLog entity was cleared.
+func (m *KusogeeeeeeNFTMutation) ChangeLogsCleared() bool {
+	return m.clearedchange_logs
+}
+
+// RemoveChangeLogIDs removes the "change_logs" edge to the KusogeeeeeeNFTChangeLog entity by IDs.
+func (m *KusogeeeeeeNFTMutation) RemoveChangeLogIDs(ids ...uint32) {
+	if m.removedchange_logs == nil {
+		m.removedchange_logs = make(map[uint32]struct{})
+	}
+	for i := range ids {
+		delete(m.change_logs, ids[i])
+		m.removedchange_logs[ids[i]] = struct{}{}
+	}
+}
+
+// RemovedChangeLogs returns the removed IDs of the "change_logs" edge to the KusogeeeeeeNFTChangeLog entity.
+func (m *KusogeeeeeeNFTMutation) RemovedChangeLogsIDs() (ids []uint32) {
+	for id := range m.removedchange_logs {
+		ids = append(ids, id)
+	}
+	return
+}
+
+// ChangeLogsIDs returns the "change_logs" edge IDs in the mutation.
+func (m *KusogeeeeeeNFTMutation) ChangeLogsIDs() (ids []uint32) {
+	for id := range m.change_logs {
+		ids = append(ids, id)
+	}
+	return
+}
+
+// ResetChangeLogs resets all changes to the "change_logs" edge.
+func (m *KusogeeeeeeNFTMutation) ResetChangeLogs() {
+	m.change_logs = nil
+	m.clearedchange_logs = false
+	m.removedchange_logs = nil
+}
+
+// Where appends a list predicates to the KusogeeeeeeNFTMutation builder.
+func (m *KusogeeeeeeNFTMutation) Where(ps ...predicate.KusogeeeeeeNFT) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// WhereP appends storage-level predicates to the KusogeeeeeeNFTMutation builder. Using this method,
+// users can use type-assertion to append predicates that do not depend on any generated package.
+func (m *KusogeeeeeeNFTMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.KusogeeeeeeNFT, len(ps))
+	for i := range ps {
+		p[i] = ps[i]
+	}
+	m.Where(p...)
+}
+
+// Op returns the operation name.
+func (m *KusogeeeeeeNFTMutation) Op() Op {
+	return m.op
+}
+
+// SetOp allows setting the mutation operation.
+func (m *KusogeeeeeeNFTMutation) SetOp(op Op) {
+	m.op = op
+}
+
+// Type returns the node type of this mutation (KusogeeeeeeNFT).
+func (m *KusogeeeeeeNFTMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *KusogeeeeeeNFTMutation) Fields() []string {
+	fields := make([]string, 0, 18)
+	if m.created_at != nil {
+		fields = append(fields, kusogeeeeeenft.FieldCreatedAt)
+	}
+	if m.updated_at != nil {
+		fields = append(fields, kusogeeeeeenft.FieldUpdatedAt)
+	}
+	if m.deleted_at != nil {
+		fields = append(fields, kusogeeeeeenft.FieldDeletedAt)
+	}
+	if m.uri != nil {
+		fields = append(fields, kusogeeeeeenft.FieldURI)
+	}
+	if m._type != nil {
+		fields = append(fields, kusogeeeeeenft.FieldType)
+	}
+	if m.name != nil {
+		fields = append(fields, kusogeeeeeenft.FieldName)
+	}
+	if m.status != nil {
+		fields = append(fields, kusogeeeeeenft.FieldStatus)
+	}
+	if m.price != nil {
+		fields = append(fields, kusogeeeeeenft.FieldPrice)
+	}
+	if m.published_at != nil {
+		fields = append(fields, kusogeeeeeenft.FieldPublishedAt)
+	}
+	if m.weapon_rank != nil {
+		fields = append(fields, kusogeeeeeenft.FieldWeaponRank)
+	}
+	if m.weapon_type != nil {
+		fields = append(fields, kusogeeeeeenft.FieldWeaponType)
+	}
+	if m.weapon_vitality != nil {
+		fields = append(fields, kusogeeeeeenft.FieldWeaponVitality)
+	}
+	if m.weapon_strength != nil {
+		fields = append(fields, kusogeeeeeenft.FieldWeaponStrength)
+	}
+	if m.weapon_physical_defense != nil {
+		fields = append(fields, kusogeeeeeenft.FieldWeaponPhysicalDefense)
+	}
+	if m.weapon_magical_defense != nil {
+		fields = append(fields, kusogeeeeeenft.FieldWeaponMagicalDefense)
+	}
+	if m.weapon_agility != nil {
+		fields = append(fields, kusogeeeeeenft.FieldWeaponAgility)
+	}
+	if m.character_rank != nil {
+		fields = append(fields, kusogeeeeeenft.FieldCharacterRank)
+	}
+	if m.character_total_supply != nil {
+		fields = append(fields, kusogeeeeeenft.FieldCharacterTotalSupply)
+	}
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *KusogeeeeeeNFTMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case kusogeeeeeenft.FieldCreatedAt:
+		return m.CreatedAt()
+	case kusogeeeeeenft.FieldUpdatedAt:
+		return m.UpdatedAt()
+	case kusogeeeeeenft.FieldDeletedAt:
+		return m.DeletedAt()
+	case kusogeeeeeenft.FieldURI:
+		return m.URI()
+	case kusogeeeeeenft.FieldType:
+		return m.GetType()
+	case kusogeeeeeenft.FieldName:
+		return m.Name()
+	case kusogeeeeeenft.FieldStatus:
+		return m.Status()
+	case kusogeeeeeenft.FieldPrice:
+		return m.Price()
+	case kusogeeeeeenft.FieldPublishedAt:
+		return m.PublishedAt()
+	case kusogeeeeeenft.FieldWeaponRank:
+		return m.WeaponRank()
+	case kusogeeeeeenft.FieldWeaponType:
+		return m.WeaponType()
+	case kusogeeeeeenft.FieldWeaponVitality:
+		return m.WeaponVitality()
+	case kusogeeeeeenft.FieldWeaponStrength:
+		return m.WeaponStrength()
+	case kusogeeeeeenft.FieldWeaponPhysicalDefense:
+		return m.WeaponPhysicalDefense()
+	case kusogeeeeeenft.FieldWeaponMagicalDefense:
+		return m.WeaponMagicalDefense()
+	case kusogeeeeeenft.FieldWeaponAgility:
+		return m.WeaponAgility()
+	case kusogeeeeeenft.FieldCharacterRank:
+		return m.CharacterRank()
+	case kusogeeeeeenft.FieldCharacterTotalSupply:
+		return m.CharacterTotalSupply()
+	}
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *KusogeeeeeeNFTMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case kusogeeeeeenft.FieldCreatedAt:
+		return m.OldCreatedAt(ctx)
+	case kusogeeeeeenft.FieldUpdatedAt:
+		return m.OldUpdatedAt(ctx)
+	case kusogeeeeeenft.FieldDeletedAt:
+		return m.OldDeletedAt(ctx)
+	case kusogeeeeeenft.FieldURI:
+		return m.OldURI(ctx)
+	case kusogeeeeeenft.FieldType:
+		return m.OldType(ctx)
+	case kusogeeeeeenft.FieldName:
+		return m.OldName(ctx)
+	case kusogeeeeeenft.FieldStatus:
+		return m.OldStatus(ctx)
+	case kusogeeeeeenft.FieldPrice:
+		return m.OldPrice(ctx)
+	case kusogeeeeeenft.FieldPublishedAt:
+		return m.OldPublishedAt(ctx)
+	case kusogeeeeeenft.FieldWeaponRank:
+		return m.OldWeaponRank(ctx)
+	case kusogeeeeeenft.FieldWeaponType:
+		return m.OldWeaponType(ctx)
+	case kusogeeeeeenft.FieldWeaponVitality:
+		return m.OldWeaponVitality(ctx)
+	case kusogeeeeeenft.FieldWeaponStrength:
+		return m.OldWeaponStrength(ctx)
+	case kusogeeeeeenft.FieldWeaponPhysicalDefense:
+		return m.OldWeaponPhysicalDefense(ctx)
+	case kusogeeeeeenft.FieldWeaponMagicalDefense:
+		return m.OldWeaponMagicalDefense(ctx)
+	case kusogeeeeeenft.FieldWeaponAgility:
+		return m.OldWeaponAgility(ctx)
+	case kusogeeeeeenft.FieldCharacterRank:
+		return m.OldCharacterRank(ctx)
+	case kusogeeeeeenft.FieldCharacterTotalSupply:
+		return m.OldCharacterTotalSupply(ctx)
+	}
+	return nil, fmt.Errorf("unknown KusogeeeeeeNFT field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *KusogeeeeeeNFTMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	case kusogeeeeeenft.FieldCreatedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCreatedAt(v)
+		return nil
+	case kusogeeeeeenft.FieldUpdatedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUpdatedAt(v)
+		return nil
+	case kusogeeeeeenft.FieldDeletedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDeletedAt(v)
+		return nil
+	case kusogeeeeeenft.FieldURI:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetURI(v)
+		return nil
+	case kusogeeeeeenft.FieldType:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetType(v)
+		return nil
+	case kusogeeeeeenft.FieldName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetName(v)
+		return nil
+	case kusogeeeeeenft.FieldStatus:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetStatus(v)
+		return nil
+	case kusogeeeeeenft.FieldPrice:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetPrice(v)
+		return nil
+	case kusogeeeeeenft.FieldPublishedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetPublishedAt(v)
+		return nil
+	case kusogeeeeeenft.FieldWeaponRank:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetWeaponRank(v)
+		return nil
+	case kusogeeeeeenft.FieldWeaponType:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetWeaponType(v)
+		return nil
+	case kusogeeeeeenft.FieldWeaponVitality:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetWeaponVitality(v)
+		return nil
+	case kusogeeeeeenft.FieldWeaponStrength:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetWeaponStrength(v)
+		return nil
+	case kusogeeeeeenft.FieldWeaponPhysicalDefense:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetWeaponPhysicalDefense(v)
+		return nil
+	case kusogeeeeeenft.FieldWeaponMagicalDefense:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetWeaponMagicalDefense(v)
+		return nil
+	case kusogeeeeeenft.FieldWeaponAgility:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetWeaponAgility(v)
+		return nil
+	case kusogeeeeeenft.FieldCharacterRank:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCharacterRank(v)
+		return nil
+	case kusogeeeeeenft.FieldCharacterTotalSupply:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCharacterTotalSupply(v)
+		return nil
+	}
+	return fmt.Errorf("unknown KusogeeeeeeNFT field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *KusogeeeeeeNFTMutation) AddedFields() []string {
+	var fields []string
+	if m.addprice != nil {
+		fields = append(fields, kusogeeeeeenft.FieldPrice)
+	}
+	if m.addweapon_rank != nil {
+		fields = append(fields, kusogeeeeeenft.FieldWeaponRank)
+	}
+	if m.addweapon_vitality != nil {
+		fields = append(fields, kusogeeeeeenft.FieldWeaponVitality)
+	}
+	if m.addweapon_strength != nil {
+		fields = append(fields, kusogeeeeeenft.FieldWeaponStrength)
+	}
+	if m.addweapon_physical_defense != nil {
+		fields = append(fields, kusogeeeeeenft.FieldWeaponPhysicalDefense)
+	}
+	if m.addweapon_magical_defense != nil {
+		fields = append(fields, kusogeeeeeenft.FieldWeaponMagicalDefense)
+	}
+	if m.addweapon_agility != nil {
+		fields = append(fields, kusogeeeeeenft.FieldWeaponAgility)
+	}
+	if m.addcharacter_total_supply != nil {
+		fields = append(fields, kusogeeeeeenft.FieldCharacterTotalSupply)
+	}
+	return fields
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *KusogeeeeeeNFTMutation) AddedField(name string) (ent.Value, bool) {
+	switch name {
+	case kusogeeeeeenft.FieldPrice:
+		return m.AddedPrice()
+	case kusogeeeeeenft.FieldWeaponRank:
+		return m.AddedWeaponRank()
+	case kusogeeeeeenft.FieldWeaponVitality:
+		return m.AddedWeaponVitality()
+	case kusogeeeeeenft.FieldWeaponStrength:
+		return m.AddedWeaponStrength()
+	case kusogeeeeeenft.FieldWeaponPhysicalDefense:
+		return m.AddedWeaponPhysicalDefense()
+	case kusogeeeeeenft.FieldWeaponMagicalDefense:
+		return m.AddedWeaponMagicalDefense()
+	case kusogeeeeeenft.FieldWeaponAgility:
+		return m.AddedWeaponAgility()
+	case kusogeeeeeenft.FieldCharacterTotalSupply:
+		return m.AddedCharacterTotalSupply()
+	}
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *KusogeeeeeeNFTMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	case kusogeeeeeenft.FieldPrice:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddPrice(v)
+		return nil
+	case kusogeeeeeenft.FieldWeaponRank:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddWeaponRank(v)
+		return nil
+	case kusogeeeeeenft.FieldWeaponVitality:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddWeaponVitality(v)
+		return nil
+	case kusogeeeeeenft.FieldWeaponStrength:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddWeaponStrength(v)
+		return nil
+	case kusogeeeeeenft.FieldWeaponPhysicalDefense:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddWeaponPhysicalDefense(v)
+		return nil
+	case kusogeeeeeenft.FieldWeaponMagicalDefense:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddWeaponMagicalDefense(v)
+		return nil
+	case kusogeeeeeenft.FieldWeaponAgility:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddWeaponAgility(v)
+		return nil
+	case kusogeeeeeenft.FieldCharacterTotalSupply:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddCharacterTotalSupply(v)
+		return nil
+	}
+	return fmt.Errorf("unknown KusogeeeeeeNFT numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *KusogeeeeeeNFTMutation) ClearedFields() []string {
+	var fields []string
+	if m.FieldCleared(kusogeeeeeenft.FieldDeletedAt) {
+		fields = append(fields, kusogeeeeeenft.FieldDeletedAt)
+	}
+	if m.FieldCleared(kusogeeeeeenft.FieldWeaponRank) {
+		fields = append(fields, kusogeeeeeenft.FieldWeaponRank)
+	}
+	if m.FieldCleared(kusogeeeeeenft.FieldWeaponType) {
+		fields = append(fields, kusogeeeeeenft.FieldWeaponType)
+	}
+	if m.FieldCleared(kusogeeeeeenft.FieldWeaponVitality) {
+		fields = append(fields, kusogeeeeeenft.FieldWeaponVitality)
+	}
+	if m.FieldCleared(kusogeeeeeenft.FieldWeaponStrength) {
+		fields = append(fields, kusogeeeeeenft.FieldWeaponStrength)
+	}
+	if m.FieldCleared(kusogeeeeeenft.FieldWeaponPhysicalDefense) {
+		fields = append(fields, kusogeeeeeenft.FieldWeaponPhysicalDefense)
+	}
+	if m.FieldCleared(kusogeeeeeenft.FieldWeaponMagicalDefense) {
+		fields = append(fields, kusogeeeeeenft.FieldWeaponMagicalDefense)
+	}
+	if m.FieldCleared(kusogeeeeeenft.FieldWeaponAgility) {
+		fields = append(fields, kusogeeeeeenft.FieldWeaponAgility)
+	}
+	if m.FieldCleared(kusogeeeeeenft.FieldCharacterRank) {
+		fields = append(fields, kusogeeeeeenft.FieldCharacterRank)
+	}
+	if m.FieldCleared(kusogeeeeeenft.FieldCharacterTotalSupply) {
+		fields = append(fields, kusogeeeeeenft.FieldCharacterTotalSupply)
+	}
+	return fields
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *KusogeeeeeeNFTMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *KusogeeeeeeNFTMutation) ClearField(name string) error {
+	switch name {
+	case kusogeeeeeenft.FieldDeletedAt:
+		m.ClearDeletedAt()
+		return nil
+	case kusogeeeeeenft.FieldWeaponRank:
+		m.ClearWeaponRank()
+		return nil
+	case kusogeeeeeenft.FieldWeaponType:
+		m.ClearWeaponType()
+		return nil
+	case kusogeeeeeenft.FieldWeaponVitality:
+		m.ClearWeaponVitality()
+		return nil
+	case kusogeeeeeenft.FieldWeaponStrength:
+		m.ClearWeaponStrength()
+		return nil
+	case kusogeeeeeenft.FieldWeaponPhysicalDefense:
+		m.ClearWeaponPhysicalDefense()
+		return nil
+	case kusogeeeeeenft.FieldWeaponMagicalDefense:
+		m.ClearWeaponMagicalDefense()
+		return nil
+	case kusogeeeeeenft.FieldWeaponAgility:
+		m.ClearWeaponAgility()
+		return nil
+	case kusogeeeeeenft.FieldCharacterRank:
+		m.ClearCharacterRank()
+		return nil
+	case kusogeeeeeenft.FieldCharacterTotalSupply:
+		m.ClearCharacterTotalSupply()
+		return nil
+	}
+	return fmt.Errorf("unknown KusogeeeeeeNFT nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *KusogeeeeeeNFTMutation) ResetField(name string) error {
+	switch name {
+	case kusogeeeeeenft.FieldCreatedAt:
+		m.ResetCreatedAt()
+		return nil
+	case kusogeeeeeenft.FieldUpdatedAt:
+		m.ResetUpdatedAt()
+		return nil
+	case kusogeeeeeenft.FieldDeletedAt:
+		m.ResetDeletedAt()
+		return nil
+	case kusogeeeeeenft.FieldURI:
+		m.ResetURI()
+		return nil
+	case kusogeeeeeenft.FieldType:
+		m.ResetType()
+		return nil
+	case kusogeeeeeenft.FieldName:
+		m.ResetName()
+		return nil
+	case kusogeeeeeenft.FieldStatus:
+		m.ResetStatus()
+		return nil
+	case kusogeeeeeenft.FieldPrice:
+		m.ResetPrice()
+		return nil
+	case kusogeeeeeenft.FieldPublishedAt:
+		m.ResetPublishedAt()
+		return nil
+	case kusogeeeeeenft.FieldWeaponRank:
+		m.ResetWeaponRank()
+		return nil
+	case kusogeeeeeenft.FieldWeaponType:
+		m.ResetWeaponType()
+		return nil
+	case kusogeeeeeenft.FieldWeaponVitality:
+		m.ResetWeaponVitality()
+		return nil
+	case kusogeeeeeenft.FieldWeaponStrength:
+		m.ResetWeaponStrength()
+		return nil
+	case kusogeeeeeenft.FieldWeaponPhysicalDefense:
+		m.ResetWeaponPhysicalDefense()
+		return nil
+	case kusogeeeeeenft.FieldWeaponMagicalDefense:
+		m.ResetWeaponMagicalDefense()
+		return nil
+	case kusogeeeeeenft.FieldWeaponAgility:
+		m.ResetWeaponAgility()
+		return nil
+	case kusogeeeeeenft.FieldCharacterRank:
+		m.ResetCharacterRank()
+		return nil
+	case kusogeeeeeenft.FieldCharacterTotalSupply:
+		m.ResetCharacterTotalSupply()
+		return nil
+	}
+	return fmt.Errorf("unknown KusogeeeeeeNFT field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *KusogeeeeeeNFTMutation) AddedEdges() []string {
+	edges := make([]string, 0, 1)
+	if m.change_logs != nil {
+		edges = append(edges, kusogeeeeeenft.EdgeChangeLogs)
+	}
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *KusogeeeeeeNFTMutation) AddedIDs(name string) []ent.Value {
+	switch name {
+	case kusogeeeeeenft.EdgeChangeLogs:
+		ids := make([]ent.Value, 0, len(m.change_logs))
+		for id := range m.change_logs {
+			ids = append(ids, id)
+		}
+		return ids
+	}
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *KusogeeeeeeNFTMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 1)
+	if m.removedchange_logs != nil {
+		edges = append(edges, kusogeeeeeenft.EdgeChangeLogs)
+	}
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *KusogeeeeeeNFTMutation) RemovedIDs(name string) []ent.Value {
+	switch name {
+	case kusogeeeeeenft.EdgeChangeLogs:
+		ids := make([]ent.Value, 0, len(m.removedchange_logs))
+		for id := range m.removedchange_logs {
+			ids = append(ids, id)
+		}
+		return ids
+	}
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *KusogeeeeeeNFTMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 1)
+	if m.clearedchange_logs {
+		edges = append(edges, kusogeeeeeenft.EdgeChangeLogs)
+	}
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *KusogeeeeeeNFTMutation) EdgeCleared(name string) bool {
+	switch name {
+	case kusogeeeeeenft.EdgeChangeLogs:
+		return m.clearedchange_logs
+	}
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *KusogeeeeeeNFTMutation) ClearEdge(name string) error {
+	switch name {
+	}
+	return fmt.Errorf("unknown KusogeeeeeeNFT unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *KusogeeeeeeNFTMutation) ResetEdge(name string) error {
+	switch name {
+	case kusogeeeeeenft.EdgeChangeLogs:
+		m.ResetChangeLogs()
+		return nil
+	}
+	return fmt.Errorf("unknown KusogeeeeeeNFT edge %s", name)
+}
+
+// KusogeeeeeeNFTChangeLogMutation represents an operation that mutates the KusogeeeeeeNFTChangeLog nodes in the graph.
+type KusogeeeeeeNFTChangeLogMutation struct {
+	config
+	op                     Op
+	typ                    string
+	id                     *uint32
+	created_at             *time.Time
+	updated_at             *time.Time
+	deleted_at             *time.Time
+	status                 *string
+	price                  *int
+	addprice               *int
+	clearedFields          map[string]struct{}
+	kusogeeeeee_nft        *uint32
+	clearedkusogeeeeee_nft bool
+	done                   bool
+	oldValue               func(context.Context) (*KusogeeeeeeNFTChangeLog, error)
+	predicates             []predicate.KusogeeeeeeNFTChangeLog
+}
+
+var _ ent.Mutation = (*KusogeeeeeeNFTChangeLogMutation)(nil)
+
+// kusogeeeeeenftchangelogOption allows management of the mutation configuration using functional options.
+type kusogeeeeeenftchangelogOption func(*KusogeeeeeeNFTChangeLogMutation)
+
+// newKusogeeeeeeNFTChangeLogMutation creates new mutation for the KusogeeeeeeNFTChangeLog entity.
+func newKusogeeeeeeNFTChangeLogMutation(c config, op Op, opts ...kusogeeeeeenftchangelogOption) *KusogeeeeeeNFTChangeLogMutation {
+	m := &KusogeeeeeeNFTChangeLogMutation{
+		config:        c,
+		op:            op,
+		typ:           TypeKusogeeeeeeNFTChangeLog,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withKusogeeeeeeNFTChangeLogID sets the ID field of the mutation.
+func withKusogeeeeeeNFTChangeLogID(id uint32) kusogeeeeeenftchangelogOption {
+	return func(m *KusogeeeeeeNFTChangeLogMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *KusogeeeeeeNFTChangeLog
+		)
+		m.oldValue = func(ctx context.Context) (*KusogeeeeeeNFTChangeLog, error) {
+			once.Do(func() {
+				if m.done {
+					err = errors.New("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().KusogeeeeeeNFTChangeLog.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withKusogeeeeeeNFTChangeLog sets the old KusogeeeeeeNFTChangeLog of the mutation.
+func withKusogeeeeeeNFTChangeLog(node *KusogeeeeeeNFTChangeLog) kusogeeeeeenftchangelogOption {
+	return func(m *KusogeeeeeeNFTChangeLogMutation) {
+		m.oldValue = func(context.Context) (*KusogeeeeeeNFTChangeLog, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m KusogeeeeeeNFTChangeLogMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m KusogeeeeeeNFTChangeLogMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, errors.New("ent: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// SetID sets the value of the id field. Note that this
+// operation is only accepted on creation of KusogeeeeeeNFTChangeLog entities.
+func (m *KusogeeeeeeNFTChangeLogMutation) SetID(id uint32) {
+	m.id = &id
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *KusogeeeeeeNFTChangeLogMutation) ID() (id uint32, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *KusogeeeeeeNFTChangeLogMutation) IDs(ctx context.Context) ([]uint32, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []uint32{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().KusogeeeeeeNFTChangeLog.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
+}
+
+// SetCreatedAt sets the "created_at" field.
+func (m *KusogeeeeeeNFTChangeLogMutation) SetCreatedAt(t time.Time) {
+	m.created_at = &t
+}
+
+// CreatedAt returns the value of the "created_at" field in the mutation.
+func (m *KusogeeeeeeNFTChangeLogMutation) CreatedAt() (r time.Time, exists bool) {
+	v := m.created_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCreatedAt returns the old "created_at" field's value of the KusogeeeeeeNFTChangeLog entity.
+// If the KusogeeeeeeNFTChangeLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *KusogeeeeeeNFTChangeLogMutation) OldCreatedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCreatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCreatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCreatedAt: %w", err)
+	}
+	return oldValue.CreatedAt, nil
+}
+
+// ResetCreatedAt resets all changes to the "created_at" field.
+func (m *KusogeeeeeeNFTChangeLogMutation) ResetCreatedAt() {
+	m.created_at = nil
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (m *KusogeeeeeeNFTChangeLogMutation) SetUpdatedAt(t time.Time) {
+	m.updated_at = &t
+}
+
+// UpdatedAt returns the value of the "updated_at" field in the mutation.
+func (m *KusogeeeeeeNFTChangeLogMutation) UpdatedAt() (r time.Time, exists bool) {
+	v := m.updated_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUpdatedAt returns the old "updated_at" field's value of the KusogeeeeeeNFTChangeLog entity.
+// If the KusogeeeeeeNFTChangeLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *KusogeeeeeeNFTChangeLogMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUpdatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUpdatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUpdatedAt: %w", err)
+	}
+	return oldValue.UpdatedAt, nil
+}
+
+// ResetUpdatedAt resets all changes to the "updated_at" field.
+func (m *KusogeeeeeeNFTChangeLogMutation) ResetUpdatedAt() {
+	m.updated_at = nil
+}
+
+// SetDeletedAt sets the "deleted_at" field.
+func (m *KusogeeeeeeNFTChangeLogMutation) SetDeletedAt(t time.Time) {
+	m.deleted_at = &t
+}
+
+// DeletedAt returns the value of the "deleted_at" field in the mutation.
+func (m *KusogeeeeeeNFTChangeLogMutation) DeletedAt() (r time.Time, exists bool) {
+	v := m.deleted_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDeletedAt returns the old "deleted_at" field's value of the KusogeeeeeeNFTChangeLog entity.
+// If the KusogeeeeeeNFTChangeLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *KusogeeeeeeNFTChangeLogMutation) OldDeletedAt(ctx context.Context) (v *time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldDeletedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldDeletedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDeletedAt: %w", err)
+	}
+	return oldValue.DeletedAt, nil
+}
+
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (m *KusogeeeeeeNFTChangeLogMutation) ClearDeletedAt() {
+	m.deleted_at = nil
+	m.clearedFields[kusogeeeeeenftchangelog.FieldDeletedAt] = struct{}{}
+}
+
+// DeletedAtCleared returns if the "deleted_at" field was cleared in this mutation.
+func (m *KusogeeeeeeNFTChangeLogMutation) DeletedAtCleared() bool {
+	_, ok := m.clearedFields[kusogeeeeeenftchangelog.FieldDeletedAt]
+	return ok
+}
+
+// ResetDeletedAt resets all changes to the "deleted_at" field.
+func (m *KusogeeeeeeNFTChangeLogMutation) ResetDeletedAt() {
+	m.deleted_at = nil
+	delete(m.clearedFields, kusogeeeeeenftchangelog.FieldDeletedAt)
+}
+
+// SetKusogeeeeeeNftID sets the "kusogeeeeee_nft_id" field.
+func (m *KusogeeeeeeNFTChangeLogMutation) SetKusogeeeeeeNftID(u uint32) {
+	m.kusogeeeeee_nft = &u
+}
+
+// KusogeeeeeeNftID returns the value of the "kusogeeeeee_nft_id" field in the mutation.
+func (m *KusogeeeeeeNFTChangeLogMutation) KusogeeeeeeNftID() (r uint32, exists bool) {
+	v := m.kusogeeeeee_nft
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldKusogeeeeeeNftID returns the old "kusogeeeeee_nft_id" field's value of the KusogeeeeeeNFTChangeLog entity.
+// If the KusogeeeeeeNFTChangeLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *KusogeeeeeeNFTChangeLogMutation) OldKusogeeeeeeNftID(ctx context.Context) (v uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldKusogeeeeeeNftID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldKusogeeeeeeNftID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldKusogeeeeeeNftID: %w", err)
+	}
+	return oldValue.KusogeeeeeeNftID, nil
+}
+
+// ResetKusogeeeeeeNftID resets all changes to the "kusogeeeeee_nft_id" field.
+func (m *KusogeeeeeeNFTChangeLogMutation) ResetKusogeeeeeeNftID() {
+	m.kusogeeeeee_nft = nil
+}
+
+// SetStatus sets the "status" field.
+func (m *KusogeeeeeeNFTChangeLogMutation) SetStatus(s string) {
+	m.status = &s
+}
+
+// Status returns the value of the "status" field in the mutation.
+func (m *KusogeeeeeeNFTChangeLogMutation) Status() (r string, exists bool) {
+	v := m.status
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldStatus returns the old "status" field's value of the KusogeeeeeeNFTChangeLog entity.
+// If the KusogeeeeeeNFTChangeLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *KusogeeeeeeNFTChangeLogMutation) OldStatus(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldStatus is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldStatus requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldStatus: %w", err)
+	}
+	return oldValue.Status, nil
+}
+
+// ResetStatus resets all changes to the "status" field.
+func (m *KusogeeeeeeNFTChangeLogMutation) ResetStatus() {
+	m.status = nil
+}
+
+// SetPrice sets the "price" field.
+func (m *KusogeeeeeeNFTChangeLogMutation) SetPrice(i int) {
+	m.price = &i
+	m.addprice = nil
+}
+
+// Price returns the value of the "price" field in the mutation.
+func (m *KusogeeeeeeNFTChangeLogMutation) Price() (r int, exists bool) {
+	v := m.price
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldPrice returns the old "price" field's value of the KusogeeeeeeNFTChangeLog entity.
+// If the KusogeeeeeeNFTChangeLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *KusogeeeeeeNFTChangeLogMutation) OldPrice(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldPrice is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldPrice requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldPrice: %w", err)
+	}
+	return oldValue.Price, nil
+}
+
+// AddPrice adds i to the "price" field.
+func (m *KusogeeeeeeNFTChangeLogMutation) AddPrice(i int) {
+	if m.addprice != nil {
+		*m.addprice += i
+	} else {
+		m.addprice = &i
+	}
+}
+
+// AddedPrice returns the value that was added to the "price" field in this mutation.
+func (m *KusogeeeeeeNFTChangeLogMutation) AddedPrice() (r int, exists bool) {
+	v := m.addprice
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetPrice resets all changes to the "price" field.
+func (m *KusogeeeeeeNFTChangeLogMutation) ResetPrice() {
+	m.price = nil
+	m.addprice = nil
+}
+
+// ClearKusogeeeeeeNft clears the "kusogeeeeee_nft" edge to the KusogeeeeeeNFT entity.
+func (m *KusogeeeeeeNFTChangeLogMutation) ClearKusogeeeeeeNft() {
+	m.clearedkusogeeeeee_nft = true
+	m.clearedFields[kusogeeeeeenftchangelog.FieldKusogeeeeeeNftID] = struct{}{}
+}
+
+// KusogeeeeeeNftCleared reports if the "kusogeeeeee_nft" edge to the KusogeeeeeeNFT entity was cleared.
+func (m *KusogeeeeeeNFTChangeLogMutation) KusogeeeeeeNftCleared() bool {
+	return m.clearedkusogeeeeee_nft
+}
+
+// KusogeeeeeeNftIDs returns the "kusogeeeeee_nft" edge IDs in the mutation.
+// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
+// KusogeeeeeeNftID instead. It exists only for internal usage by the builders.
+func (m *KusogeeeeeeNFTChangeLogMutation) KusogeeeeeeNftIDs() (ids []uint32) {
+	if id := m.kusogeeeeee_nft; id != nil {
+		ids = append(ids, *id)
+	}
+	return
+}
+
+// ResetKusogeeeeeeNft resets all changes to the "kusogeeeeee_nft" edge.
+func (m *KusogeeeeeeNFTChangeLogMutation) ResetKusogeeeeeeNft() {
+	m.kusogeeeeee_nft = nil
+	m.clearedkusogeeeeee_nft = false
+}
+
+// Where appends a list predicates to the KusogeeeeeeNFTChangeLogMutation builder.
+func (m *KusogeeeeeeNFTChangeLogMutation) Where(ps ...predicate.KusogeeeeeeNFTChangeLog) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// WhereP appends storage-level predicates to the KusogeeeeeeNFTChangeLogMutation builder. Using this method,
+// users can use type-assertion to append predicates that do not depend on any generated package.
+func (m *KusogeeeeeeNFTChangeLogMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.KusogeeeeeeNFTChangeLog, len(ps))
+	for i := range ps {
+		p[i] = ps[i]
+	}
+	m.Where(p...)
+}
+
+// Op returns the operation name.
+func (m *KusogeeeeeeNFTChangeLogMutation) Op() Op {
+	return m.op
+}
+
+// SetOp allows setting the mutation operation.
+func (m *KusogeeeeeeNFTChangeLogMutation) SetOp(op Op) {
+	m.op = op
+}
+
+// Type returns the node type of this mutation (KusogeeeeeeNFTChangeLog).
+func (m *KusogeeeeeeNFTChangeLogMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *KusogeeeeeeNFTChangeLogMutation) Fields() []string {
+	fields := make([]string, 0, 6)
+	if m.created_at != nil {
+		fields = append(fields, kusogeeeeeenftchangelog.FieldCreatedAt)
+	}
+	if m.updated_at != nil {
+		fields = append(fields, kusogeeeeeenftchangelog.FieldUpdatedAt)
+	}
+	if m.deleted_at != nil {
+		fields = append(fields, kusogeeeeeenftchangelog.FieldDeletedAt)
+	}
+	if m.kusogeeeeee_nft != nil {
+		fields = append(fields, kusogeeeeeenftchangelog.FieldKusogeeeeeeNftID)
+	}
+	if m.status != nil {
+		fields = append(fields, kusogeeeeeenftchangelog.FieldStatus)
+	}
+	if m.price != nil {
+		fields = append(fields, kusogeeeeeenftchangelog.FieldPrice)
+	}
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *KusogeeeeeeNFTChangeLogMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case kusogeeeeeenftchangelog.FieldCreatedAt:
+		return m.CreatedAt()
+	case kusogeeeeeenftchangelog.FieldUpdatedAt:
+		return m.UpdatedAt()
+	case kusogeeeeeenftchangelog.FieldDeletedAt:
+		return m.DeletedAt()
+	case kusogeeeeeenftchangelog.FieldKusogeeeeeeNftID:
+		return m.KusogeeeeeeNftID()
+	case kusogeeeeeenftchangelog.FieldStatus:
+		return m.Status()
+	case kusogeeeeeenftchangelog.FieldPrice:
+		return m.Price()
+	}
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *KusogeeeeeeNFTChangeLogMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case kusogeeeeeenftchangelog.FieldCreatedAt:
+		return m.OldCreatedAt(ctx)
+	case kusogeeeeeenftchangelog.FieldUpdatedAt:
+		return m.OldUpdatedAt(ctx)
+	case kusogeeeeeenftchangelog.FieldDeletedAt:
+		return m.OldDeletedAt(ctx)
+	case kusogeeeeeenftchangelog.FieldKusogeeeeeeNftID:
+		return m.OldKusogeeeeeeNftID(ctx)
+	case kusogeeeeeenftchangelog.FieldStatus:
+		return m.OldStatus(ctx)
+	case kusogeeeeeenftchangelog.FieldPrice:
+		return m.OldPrice(ctx)
+	}
+	return nil, fmt.Errorf("unknown KusogeeeeeeNFTChangeLog field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *KusogeeeeeeNFTChangeLogMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	case kusogeeeeeenftchangelog.FieldCreatedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCreatedAt(v)
+		return nil
+	case kusogeeeeeenftchangelog.FieldUpdatedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUpdatedAt(v)
+		return nil
+	case kusogeeeeeenftchangelog.FieldDeletedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDeletedAt(v)
+		return nil
+	case kusogeeeeeenftchangelog.FieldKusogeeeeeeNftID:
+		v, ok := value.(uint32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetKusogeeeeeeNftID(v)
+		return nil
+	case kusogeeeeeenftchangelog.FieldStatus:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetStatus(v)
+		return nil
+	case kusogeeeeeenftchangelog.FieldPrice:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetPrice(v)
+		return nil
+	}
+	return fmt.Errorf("unknown KusogeeeeeeNFTChangeLog field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *KusogeeeeeeNFTChangeLogMutation) AddedFields() []string {
+	var fields []string
+	if m.addprice != nil {
+		fields = append(fields, kusogeeeeeenftchangelog.FieldPrice)
+	}
+	return fields
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *KusogeeeeeeNFTChangeLogMutation) AddedField(name string) (ent.Value, bool) {
+	switch name {
+	case kusogeeeeeenftchangelog.FieldPrice:
+		return m.AddedPrice()
+	}
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *KusogeeeeeeNFTChangeLogMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	case kusogeeeeeenftchangelog.FieldPrice:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddPrice(v)
+		return nil
+	}
+	return fmt.Errorf("unknown KusogeeeeeeNFTChangeLog numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *KusogeeeeeeNFTChangeLogMutation) ClearedFields() []string {
+	var fields []string
+	if m.FieldCleared(kusogeeeeeenftchangelog.FieldDeletedAt) {
+		fields = append(fields, kusogeeeeeenftchangelog.FieldDeletedAt)
+	}
+	return fields
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *KusogeeeeeeNFTChangeLogMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *KusogeeeeeeNFTChangeLogMutation) ClearField(name string) error {
+	switch name {
+	case kusogeeeeeenftchangelog.FieldDeletedAt:
+		m.ClearDeletedAt()
+		return nil
+	}
+	return fmt.Errorf("unknown KusogeeeeeeNFTChangeLog nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *KusogeeeeeeNFTChangeLogMutation) ResetField(name string) error {
+	switch name {
+	case kusogeeeeeenftchangelog.FieldCreatedAt:
+		m.ResetCreatedAt()
+		return nil
+	case kusogeeeeeenftchangelog.FieldUpdatedAt:
+		m.ResetUpdatedAt()
+		return nil
+	case kusogeeeeeenftchangelog.FieldDeletedAt:
+		m.ResetDeletedAt()
+		return nil
+	case kusogeeeeeenftchangelog.FieldKusogeeeeeeNftID:
+		m.ResetKusogeeeeeeNftID()
+		return nil
+	case kusogeeeeeenftchangelog.FieldStatus:
+		m.ResetStatus()
+		return nil
+	case kusogeeeeeenftchangelog.FieldPrice:
+		m.ResetPrice()
+		return nil
+	}
+	return fmt.Errorf("unknown KusogeeeeeeNFTChangeLog field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *KusogeeeeeeNFTChangeLogMutation) AddedEdges() []string {
+	edges := make([]string, 0, 1)
+	if m.kusogeeeeee_nft != nil {
+		edges = append(edges, kusogeeeeeenftchangelog.EdgeKusogeeeeeeNft)
+	}
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *KusogeeeeeeNFTChangeLogMutation) AddedIDs(name string) []ent.Value {
+	switch name {
+	case kusogeeeeeenftchangelog.EdgeKusogeeeeeeNft:
+		if id := m.kusogeeeeee_nft; id != nil {
+			return []ent.Value{*id}
+		}
+	}
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *KusogeeeeeeNFTChangeLogMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 1)
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *KusogeeeeeeNFTChangeLogMutation) RemovedIDs(name string) []ent.Value {
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *KusogeeeeeeNFTChangeLogMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 1)
+	if m.clearedkusogeeeeee_nft {
+		edges = append(edges, kusogeeeeeenftchangelog.EdgeKusogeeeeeeNft)
+	}
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *KusogeeeeeeNFTChangeLogMutation) EdgeCleared(name string) bool {
+	switch name {
+	case kusogeeeeeenftchangelog.EdgeKusogeeeeeeNft:
+		return m.clearedkusogeeeeee_nft
+	}
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *KusogeeeeeeNFTChangeLogMutation) ClearEdge(name string) error {
+	switch name {
+	case kusogeeeeeenftchangelog.EdgeKusogeeeeeeNft:
+		m.ClearKusogeeeeeeNft()
+		return nil
+	}
+	return fmt.Errorf("unknown KusogeeeeeeNFTChangeLog unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *KusogeeeeeeNFTChangeLogMutation) ResetEdge(name string) error {
+	switch name {
+	case kusogeeeeeenftchangelog.EdgeKusogeeeeeeNft:
+		m.ResetKusogeeeeeeNft()
+		return nil
+	}
+	return fmt.Errorf("unknown KusogeeeeeeNFTChangeLog edge %s", name)
 }
 
 // LINENFTMutation represents an operation that mutates the LINENFT nodes in the graph.

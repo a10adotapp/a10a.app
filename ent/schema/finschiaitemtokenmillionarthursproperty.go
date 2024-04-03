@@ -6,6 +6,7 @@ import (
 	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/edge"
 	"entgo.io/ent/schema/field"
+	"github.com/a10adotapp/entfw/v1"
 )
 
 // FinschiaItemTokenMillionArthursProperty holds the schema definition for the FinschiaItemTokenMillionArthursProperty entity.
@@ -30,7 +31,7 @@ func (FinschiaItemTokenMillionArthursProperty) Mixin() []ent.Mixin {
 
 // Fields of the FinschiaItemTokenMillionArthursProperty.
 func (FinschiaItemTokenMillionArthursProperty) Fields() []ent.Field {
-	return WrapFields(
+	return entfw.Fields(
 		field.Uint32("id"),
 
 		field.Uint32("finschia_item_token_id"),

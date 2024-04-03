@@ -6,6 +6,7 @@ import (
 
 	"github.com/a10adotapp/a10a.app/ent"
 	"github.com/a10adotapp/a10a.app/service/finschia"
+	"github.com/a10adotapp/a10a.app/service/kusogeeeeeenft"
 	"github.com/a10adotapp/a10a.app/service/linenft"
 	"github.com/go-chi/chi/v5"
 	chimiddleware "github.com/go-chi/chi/v5/middleware"
@@ -31,6 +32,7 @@ func NewRouter(entClient *ent.Client) *chi.Mux {
 	})
 
 	router.Route("/finschia", FinschiaRoute(finschia.NewFinschiaService(entClient)))
+	router.Route("/kusogeeeeeenft", KusogeeeeeeNFTRoute(kusogeeeeeenft.NewKusogeeeeeeNFTService(entClient)))
 	router.Route("/line-nft", LINENFTRoute(linenft.NewLINENFTService(entClient)))
 
 	return router
