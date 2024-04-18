@@ -15,14 +15,8 @@ import (
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
-	"github.com/a10adotapp/a10a.app/ent/finschiaitemtoken"
-	"github.com/a10adotapp/a10a.app/ent/finschiaitemtokenactivity"
-	"github.com/a10adotapp/a10a.app/ent/finschiaitemtokenmillionarthursproperty"
-	"github.com/a10adotapp/a10a.app/ent/kusogeeeeeenft"
-	"github.com/a10adotapp/a10a.app/ent/kusogeeeeeenftchangelog"
-	"github.com/a10adotapp/a10a.app/ent/linenft"
-	"github.com/a10adotapp/a10a.app/ent/linenftactivity"
-	"github.com/a10adotapp/a10a.app/ent/linenftmillionarthursproperty"
+	"github.com/a10adotapp/a10a.app/ent/changokushiweapon"
+	"github.com/a10adotapp/a10a.app/ent/changokushiweaponchangelog"
 )
 
 // Client is the client that holds all ent builders.
@@ -30,22 +24,10 @@ type Client struct {
 	config
 	// Schema is the client for creating, migrating and dropping schema.
 	Schema *migrate.Schema
-	// FinschiaItemToken is the client for interacting with the FinschiaItemToken builders.
-	FinschiaItemToken *FinschiaItemTokenClient
-	// FinschiaItemTokenActivity is the client for interacting with the FinschiaItemTokenActivity builders.
-	FinschiaItemTokenActivity *FinschiaItemTokenActivityClient
-	// FinschiaItemTokenMillionArthursProperty is the client for interacting with the FinschiaItemTokenMillionArthursProperty builders.
-	FinschiaItemTokenMillionArthursProperty *FinschiaItemTokenMillionArthursPropertyClient
-	// KusogeeeeeeNFT is the client for interacting with the KusogeeeeeeNFT builders.
-	KusogeeeeeeNFT *KusogeeeeeeNFTClient
-	// KusogeeeeeeNFTChangeLog is the client for interacting with the KusogeeeeeeNFTChangeLog builders.
-	KusogeeeeeeNFTChangeLog *KusogeeeeeeNFTChangeLogClient
-	// LINENFT is the client for interacting with the LINENFT builders.
-	LINENFT *LINENFTClient
-	// LINENFTActivity is the client for interacting with the LINENFTActivity builders.
-	LINENFTActivity *LINENFTActivityClient
-	// LINENFTMillionArthursProperty is the client for interacting with the LINENFTMillionArthursProperty builders.
-	LINENFTMillionArthursProperty *LINENFTMillionArthursPropertyClient
+	// ChangokushiWeapon is the client for interacting with the ChangokushiWeapon builders.
+	ChangokushiWeapon *ChangokushiWeaponClient
+	// ChangokushiWeaponChangeLog is the client for interacting with the ChangokushiWeaponChangeLog builders.
+	ChangokushiWeaponChangeLog *ChangokushiWeaponChangeLogClient
 }
 
 // NewClient creates a new client configured with the given options.
@@ -57,14 +39,8 @@ func NewClient(opts ...Option) *Client {
 
 func (c *Client) init() {
 	c.Schema = migrate.NewSchema(c.driver)
-	c.FinschiaItemToken = NewFinschiaItemTokenClient(c.config)
-	c.FinschiaItemTokenActivity = NewFinschiaItemTokenActivityClient(c.config)
-	c.FinschiaItemTokenMillionArthursProperty = NewFinschiaItemTokenMillionArthursPropertyClient(c.config)
-	c.KusogeeeeeeNFT = NewKusogeeeeeeNFTClient(c.config)
-	c.KusogeeeeeeNFTChangeLog = NewKusogeeeeeeNFTChangeLogClient(c.config)
-	c.LINENFT = NewLINENFTClient(c.config)
-	c.LINENFTActivity = NewLINENFTActivityClient(c.config)
-	c.LINENFTMillionArthursProperty = NewLINENFTMillionArthursPropertyClient(c.config)
+	c.ChangokushiWeapon = NewChangokushiWeaponClient(c.config)
+	c.ChangokushiWeaponChangeLog = NewChangokushiWeaponChangeLogClient(c.config)
 }
 
 type (
@@ -155,16 +131,10 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 	cfg := c.config
 	cfg.driver = tx
 	return &Tx{
-		ctx:                                     ctx,
-		config:                                  cfg,
-		FinschiaItemToken:                       NewFinschiaItemTokenClient(cfg),
-		FinschiaItemTokenActivity:               NewFinschiaItemTokenActivityClient(cfg),
-		FinschiaItemTokenMillionArthursProperty: NewFinschiaItemTokenMillionArthursPropertyClient(cfg),
-		KusogeeeeeeNFT:                          NewKusogeeeeeeNFTClient(cfg),
-		KusogeeeeeeNFTChangeLog:                 NewKusogeeeeeeNFTChangeLogClient(cfg),
-		LINENFT:                                 NewLINENFTClient(cfg),
-		LINENFTActivity:                         NewLINENFTActivityClient(cfg),
-		LINENFTMillionArthursProperty:           NewLINENFTMillionArthursPropertyClient(cfg),
+		ctx:                        ctx,
+		config:                     cfg,
+		ChangokushiWeapon:          NewChangokushiWeaponClient(cfg),
+		ChangokushiWeaponChangeLog: NewChangokushiWeaponChangeLogClient(cfg),
 	}, nil
 }
 
@@ -182,23 +152,17 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 	cfg := c.config
 	cfg.driver = &txDriver{tx: tx, drv: c.driver}
 	return &Tx{
-		ctx:                                     ctx,
-		config:                                  cfg,
-		FinschiaItemToken:                       NewFinschiaItemTokenClient(cfg),
-		FinschiaItemTokenActivity:               NewFinschiaItemTokenActivityClient(cfg),
-		FinschiaItemTokenMillionArthursProperty: NewFinschiaItemTokenMillionArthursPropertyClient(cfg),
-		KusogeeeeeeNFT:                          NewKusogeeeeeeNFTClient(cfg),
-		KusogeeeeeeNFTChangeLog:                 NewKusogeeeeeeNFTChangeLogClient(cfg),
-		LINENFT:                                 NewLINENFTClient(cfg),
-		LINENFTActivity:                         NewLINENFTActivityClient(cfg),
-		LINENFTMillionArthursProperty:           NewLINENFTMillionArthursPropertyClient(cfg),
+		ctx:                        ctx,
+		config:                     cfg,
+		ChangokushiWeapon:          NewChangokushiWeaponClient(cfg),
+		ChangokushiWeaponChangeLog: NewChangokushiWeaponChangeLogClient(cfg),
 	}, nil
 }
 
 // Debug returns a new debug-client. It's used to get verbose logging on specific operations.
 //
 //	client.Debug().
-//		FinschiaItemToken.
+//		ChangokushiWeapon.
 //		Query().
 //		Count(ctx)
 func (c *Client) Debug() *Client {
@@ -220,154 +184,130 @@ func (c *Client) Close() error {
 // Use adds the mutation hooks to all the entity clients.
 // In order to add hooks to a specific client, call: `client.Node.Use(...)`.
 func (c *Client) Use(hooks ...Hook) {
-	for _, n := range []interface{ Use(...Hook) }{
-		c.FinschiaItemToken, c.FinschiaItemTokenActivity,
-		c.FinschiaItemTokenMillionArthursProperty, c.KusogeeeeeeNFT,
-		c.KusogeeeeeeNFTChangeLog, c.LINENFT, c.LINENFTActivity,
-		c.LINENFTMillionArthursProperty,
-	} {
-		n.Use(hooks...)
-	}
+	c.ChangokushiWeapon.Use(hooks...)
+	c.ChangokushiWeaponChangeLog.Use(hooks...)
 }
 
 // Intercept adds the query interceptors to all the entity clients.
 // In order to add interceptors to a specific client, call: `client.Node.Intercept(...)`.
 func (c *Client) Intercept(interceptors ...Interceptor) {
-	for _, n := range []interface{ Intercept(...Interceptor) }{
-		c.FinschiaItemToken, c.FinschiaItemTokenActivity,
-		c.FinschiaItemTokenMillionArthursProperty, c.KusogeeeeeeNFT,
-		c.KusogeeeeeeNFTChangeLog, c.LINENFT, c.LINENFTActivity,
-		c.LINENFTMillionArthursProperty,
-	} {
-		n.Intercept(interceptors...)
-	}
+	c.ChangokushiWeapon.Intercept(interceptors...)
+	c.ChangokushiWeaponChangeLog.Intercept(interceptors...)
 }
 
 // Mutate implements the ent.Mutator interface.
 func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 	switch m := m.(type) {
-	case *FinschiaItemTokenMutation:
-		return c.FinschiaItemToken.mutate(ctx, m)
-	case *FinschiaItemTokenActivityMutation:
-		return c.FinschiaItemTokenActivity.mutate(ctx, m)
-	case *FinschiaItemTokenMillionArthursPropertyMutation:
-		return c.FinschiaItemTokenMillionArthursProperty.mutate(ctx, m)
-	case *KusogeeeeeeNFTMutation:
-		return c.KusogeeeeeeNFT.mutate(ctx, m)
-	case *KusogeeeeeeNFTChangeLogMutation:
-		return c.KusogeeeeeeNFTChangeLog.mutate(ctx, m)
-	case *LINENFTMutation:
-		return c.LINENFT.mutate(ctx, m)
-	case *LINENFTActivityMutation:
-		return c.LINENFTActivity.mutate(ctx, m)
-	case *LINENFTMillionArthursPropertyMutation:
-		return c.LINENFTMillionArthursProperty.mutate(ctx, m)
+	case *ChangokushiWeaponMutation:
+		return c.ChangokushiWeapon.mutate(ctx, m)
+	case *ChangokushiWeaponChangeLogMutation:
+		return c.ChangokushiWeaponChangeLog.mutate(ctx, m)
 	default:
 		return nil, fmt.Errorf("ent: unknown mutation type %T", m)
 	}
 }
 
-// FinschiaItemTokenClient is a client for the FinschiaItemToken schema.
-type FinschiaItemTokenClient struct {
+// ChangokushiWeaponClient is a client for the ChangokushiWeapon schema.
+type ChangokushiWeaponClient struct {
 	config
 }
 
-// NewFinschiaItemTokenClient returns a client for the FinschiaItemToken from the given config.
-func NewFinschiaItemTokenClient(c config) *FinschiaItemTokenClient {
-	return &FinschiaItemTokenClient{config: c}
+// NewChangokushiWeaponClient returns a client for the ChangokushiWeapon from the given config.
+func NewChangokushiWeaponClient(c config) *ChangokushiWeaponClient {
+	return &ChangokushiWeaponClient{config: c}
 }
 
 // Use adds a list of mutation hooks to the hooks stack.
-// A call to `Use(f, g, h)` equals to `finschiaitemtoken.Hooks(f(g(h())))`.
-func (c *FinschiaItemTokenClient) Use(hooks ...Hook) {
-	c.hooks.FinschiaItemToken = append(c.hooks.FinschiaItemToken, hooks...)
+// A call to `Use(f, g, h)` equals to `changokushiweapon.Hooks(f(g(h())))`.
+func (c *ChangokushiWeaponClient) Use(hooks ...Hook) {
+	c.hooks.ChangokushiWeapon = append(c.hooks.ChangokushiWeapon, hooks...)
 }
 
 // Intercept adds a list of query interceptors to the interceptors stack.
-// A call to `Intercept(f, g, h)` equals to `finschiaitemtoken.Intercept(f(g(h())))`.
-func (c *FinschiaItemTokenClient) Intercept(interceptors ...Interceptor) {
-	c.inters.FinschiaItemToken = append(c.inters.FinschiaItemToken, interceptors...)
+// A call to `Intercept(f, g, h)` equals to `changokushiweapon.Intercept(f(g(h())))`.
+func (c *ChangokushiWeaponClient) Intercept(interceptors ...Interceptor) {
+	c.inters.ChangokushiWeapon = append(c.inters.ChangokushiWeapon, interceptors...)
 }
 
-// Create returns a builder for creating a FinschiaItemToken entity.
-func (c *FinschiaItemTokenClient) Create() *FinschiaItemTokenCreate {
-	mutation := newFinschiaItemTokenMutation(c.config, OpCreate)
-	return &FinschiaItemTokenCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Create returns a builder for creating a ChangokushiWeapon entity.
+func (c *ChangokushiWeaponClient) Create() *ChangokushiWeaponCreate {
+	mutation := newChangokushiWeaponMutation(c.config, OpCreate)
+	return &ChangokushiWeaponCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
-// CreateBulk returns a builder for creating a bulk of FinschiaItemToken entities.
-func (c *FinschiaItemTokenClient) CreateBulk(builders ...*FinschiaItemTokenCreate) *FinschiaItemTokenCreateBulk {
-	return &FinschiaItemTokenCreateBulk{config: c.config, builders: builders}
+// CreateBulk returns a builder for creating a bulk of ChangokushiWeapon entities.
+func (c *ChangokushiWeaponClient) CreateBulk(builders ...*ChangokushiWeaponCreate) *ChangokushiWeaponCreateBulk {
+	return &ChangokushiWeaponCreateBulk{config: c.config, builders: builders}
 }
 
 // MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
 // a builder and applies setFunc on it.
-func (c *FinschiaItemTokenClient) MapCreateBulk(slice any, setFunc func(*FinschiaItemTokenCreate, int)) *FinschiaItemTokenCreateBulk {
+func (c *ChangokushiWeaponClient) MapCreateBulk(slice any, setFunc func(*ChangokushiWeaponCreate, int)) *ChangokushiWeaponCreateBulk {
 	rv := reflect.ValueOf(slice)
 	if rv.Kind() != reflect.Slice {
-		return &FinschiaItemTokenCreateBulk{err: fmt.Errorf("calling to FinschiaItemTokenClient.MapCreateBulk with wrong type %T, need slice", slice)}
+		return &ChangokushiWeaponCreateBulk{err: fmt.Errorf("calling to ChangokushiWeaponClient.MapCreateBulk with wrong type %T, need slice", slice)}
 	}
-	builders := make([]*FinschiaItemTokenCreate, rv.Len())
+	builders := make([]*ChangokushiWeaponCreate, rv.Len())
 	for i := 0; i < rv.Len(); i++ {
 		builders[i] = c.Create()
 		setFunc(builders[i], i)
 	}
-	return &FinschiaItemTokenCreateBulk{config: c.config, builders: builders}
+	return &ChangokushiWeaponCreateBulk{config: c.config, builders: builders}
 }
 
-// Update returns an update builder for FinschiaItemToken.
-func (c *FinschiaItemTokenClient) Update() *FinschiaItemTokenUpdate {
-	mutation := newFinschiaItemTokenMutation(c.config, OpUpdate)
-	return &FinschiaItemTokenUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Update returns an update builder for ChangokushiWeapon.
+func (c *ChangokushiWeaponClient) Update() *ChangokushiWeaponUpdate {
+	mutation := newChangokushiWeaponMutation(c.config, OpUpdate)
+	return &ChangokushiWeaponUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *FinschiaItemTokenClient) UpdateOne(fit *FinschiaItemToken) *FinschiaItemTokenUpdateOne {
-	mutation := newFinschiaItemTokenMutation(c.config, OpUpdateOne, withFinschiaItemToken(fit))
-	return &FinschiaItemTokenUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+func (c *ChangokushiWeaponClient) UpdateOne(cw *ChangokushiWeapon) *ChangokushiWeaponUpdateOne {
+	mutation := newChangokushiWeaponMutation(c.config, OpUpdateOne, withChangokushiWeapon(cw))
+	return &ChangokushiWeaponUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *FinschiaItemTokenClient) UpdateOneID(id uint32) *FinschiaItemTokenUpdateOne {
-	mutation := newFinschiaItemTokenMutation(c.config, OpUpdateOne, withFinschiaItemTokenID(id))
-	return &FinschiaItemTokenUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+func (c *ChangokushiWeaponClient) UpdateOneID(id uint32) *ChangokushiWeaponUpdateOne {
+	mutation := newChangokushiWeaponMutation(c.config, OpUpdateOne, withChangokushiWeaponID(id))
+	return &ChangokushiWeaponUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
-// Delete returns a delete builder for FinschiaItemToken.
-func (c *FinschiaItemTokenClient) Delete() *FinschiaItemTokenDelete {
-	mutation := newFinschiaItemTokenMutation(c.config, OpDelete)
-	return &FinschiaItemTokenDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Delete returns a delete builder for ChangokushiWeapon.
+func (c *ChangokushiWeaponClient) Delete() *ChangokushiWeaponDelete {
+	mutation := newChangokushiWeaponMutation(c.config, OpDelete)
+	return &ChangokushiWeaponDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *FinschiaItemTokenClient) DeleteOne(fit *FinschiaItemToken) *FinschiaItemTokenDeleteOne {
-	return c.DeleteOneID(fit.ID)
+func (c *ChangokushiWeaponClient) DeleteOne(cw *ChangokushiWeapon) *ChangokushiWeaponDeleteOne {
+	return c.DeleteOneID(cw.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *FinschiaItemTokenClient) DeleteOneID(id uint32) *FinschiaItemTokenDeleteOne {
-	builder := c.Delete().Where(finschiaitemtoken.ID(id))
+func (c *ChangokushiWeaponClient) DeleteOneID(id uint32) *ChangokushiWeaponDeleteOne {
+	builder := c.Delete().Where(changokushiweapon.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
-	return &FinschiaItemTokenDeleteOne{builder}
+	return &ChangokushiWeaponDeleteOne{builder}
 }
 
-// Query returns a query builder for FinschiaItemToken.
-func (c *FinschiaItemTokenClient) Query() *FinschiaItemTokenQuery {
-	return &FinschiaItemTokenQuery{
+// Query returns a query builder for ChangokushiWeapon.
+func (c *ChangokushiWeaponClient) Query() *ChangokushiWeaponQuery {
+	return &ChangokushiWeaponQuery{
 		config: c.config,
-		ctx:    &QueryContext{Type: TypeFinschiaItemToken},
+		ctx:    &QueryContext{Type: TypeChangokushiWeapon},
 		inters: c.Interceptors(),
 	}
 }
 
-// Get returns a FinschiaItemToken entity by its id.
-func (c *FinschiaItemTokenClient) Get(ctx context.Context, id uint32) (*FinschiaItemToken, error) {
-	return c.Query().Where(finschiaitemtoken.ID(id)).Only(ctx)
+// Get returns a ChangokushiWeapon entity by its id.
+func (c *ChangokushiWeaponClient) Get(ctx context.Context, id uint32) (*ChangokushiWeapon, error) {
+	return c.Query().Where(changokushiweapon.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *FinschiaItemTokenClient) GetX(ctx context.Context, id uint32) *FinschiaItemToken {
+func (c *ChangokushiWeaponClient) GetX(ctx context.Context, id uint32) *ChangokushiWeapon {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -375,166 +315,150 @@ func (c *FinschiaItemTokenClient) GetX(ctx context.Context, id uint32) *Finschia
 	return obj
 }
 
-// QueryActivities queries the activities edge of a FinschiaItemToken.
-func (c *FinschiaItemTokenClient) QueryActivities(fit *FinschiaItemToken) *FinschiaItemTokenActivityQuery {
-	query := (&FinschiaItemTokenActivityClient{config: c.config}).Query()
+// QueryChangeLogs queries the change_logs edge of a ChangokushiWeapon.
+func (c *ChangokushiWeaponClient) QueryChangeLogs(cw *ChangokushiWeapon) *ChangokushiWeaponChangeLogQuery {
+	query := (&ChangokushiWeaponChangeLogClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := fit.ID
+		id := cw.ID
 		step := sqlgraph.NewStep(
-			sqlgraph.From(finschiaitemtoken.Table, finschiaitemtoken.FieldID, id),
-			sqlgraph.To(finschiaitemtokenactivity.Table, finschiaitemtokenactivity.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, finschiaitemtoken.ActivitiesTable, finschiaitemtoken.ActivitiesColumn),
+			sqlgraph.From(changokushiweapon.Table, changokushiweapon.FieldID, id),
+			sqlgraph.To(changokushiweaponchangelog.Table, changokushiweaponchangelog.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, false, changokushiweapon.ChangeLogsTable, changokushiweapon.ChangeLogsColumn),
 		)
-		fromV = sqlgraph.Neighbors(fit.driver.Dialect(), step)
-		return fromV, nil
-	}
-	return query
-}
-
-// QueryMillionArthursProperties queries the million_arthurs_properties edge of a FinschiaItemToken.
-func (c *FinschiaItemTokenClient) QueryMillionArthursProperties(fit *FinschiaItemToken) *FinschiaItemTokenMillionArthursPropertyQuery {
-	query := (&FinschiaItemTokenMillionArthursPropertyClient{config: c.config}).Query()
-	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := fit.ID
-		step := sqlgraph.NewStep(
-			sqlgraph.From(finschiaitemtoken.Table, finschiaitemtoken.FieldID, id),
-			sqlgraph.To(finschiaitemtokenmillionarthursproperty.Table, finschiaitemtokenmillionarthursproperty.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, finschiaitemtoken.MillionArthursPropertiesTable, finschiaitemtoken.MillionArthursPropertiesColumn),
-		)
-		fromV = sqlgraph.Neighbors(fit.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(cw.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
 }
 
 // Hooks returns the client hooks.
-func (c *FinschiaItemTokenClient) Hooks() []Hook {
-	hooks := c.hooks.FinschiaItemToken
-	return append(hooks[:len(hooks):len(hooks)], finschiaitemtoken.Hooks[:]...)
+func (c *ChangokushiWeaponClient) Hooks() []Hook {
+	hooks := c.hooks.ChangokushiWeapon
+	return append(hooks[:len(hooks):len(hooks)], changokushiweapon.Hooks[:]...)
 }
 
 // Interceptors returns the client interceptors.
-func (c *FinschiaItemTokenClient) Interceptors() []Interceptor {
-	inters := c.inters.FinschiaItemToken
-	return append(inters[:len(inters):len(inters)], finschiaitemtoken.Interceptors[:]...)
+func (c *ChangokushiWeaponClient) Interceptors() []Interceptor {
+	inters := c.inters.ChangokushiWeapon
+	return append(inters[:len(inters):len(inters)], changokushiweapon.Interceptors[:]...)
 }
 
-func (c *FinschiaItemTokenClient) mutate(ctx context.Context, m *FinschiaItemTokenMutation) (Value, error) {
+func (c *ChangokushiWeaponClient) mutate(ctx context.Context, m *ChangokushiWeaponMutation) (Value, error) {
 	switch m.Op() {
 	case OpCreate:
-		return (&FinschiaItemTokenCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&ChangokushiWeaponCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpUpdate:
-		return (&FinschiaItemTokenUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&ChangokushiWeaponUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpUpdateOne:
-		return (&FinschiaItemTokenUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&ChangokushiWeaponUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpDelete, OpDeleteOne:
-		return (&FinschiaItemTokenDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+		return (&ChangokushiWeaponDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
-		return nil, fmt.Errorf("ent: unknown FinschiaItemToken mutation op: %q", m.Op())
+		return nil, fmt.Errorf("ent: unknown ChangokushiWeapon mutation op: %q", m.Op())
 	}
 }
 
-// FinschiaItemTokenActivityClient is a client for the FinschiaItemTokenActivity schema.
-type FinschiaItemTokenActivityClient struct {
+// ChangokushiWeaponChangeLogClient is a client for the ChangokushiWeaponChangeLog schema.
+type ChangokushiWeaponChangeLogClient struct {
 	config
 }
 
-// NewFinschiaItemTokenActivityClient returns a client for the FinschiaItemTokenActivity from the given config.
-func NewFinschiaItemTokenActivityClient(c config) *FinschiaItemTokenActivityClient {
-	return &FinschiaItemTokenActivityClient{config: c}
+// NewChangokushiWeaponChangeLogClient returns a client for the ChangokushiWeaponChangeLog from the given config.
+func NewChangokushiWeaponChangeLogClient(c config) *ChangokushiWeaponChangeLogClient {
+	return &ChangokushiWeaponChangeLogClient{config: c}
 }
 
 // Use adds a list of mutation hooks to the hooks stack.
-// A call to `Use(f, g, h)` equals to `finschiaitemtokenactivity.Hooks(f(g(h())))`.
-func (c *FinschiaItemTokenActivityClient) Use(hooks ...Hook) {
-	c.hooks.FinschiaItemTokenActivity = append(c.hooks.FinschiaItemTokenActivity, hooks...)
+// A call to `Use(f, g, h)` equals to `changokushiweaponchangelog.Hooks(f(g(h())))`.
+func (c *ChangokushiWeaponChangeLogClient) Use(hooks ...Hook) {
+	c.hooks.ChangokushiWeaponChangeLog = append(c.hooks.ChangokushiWeaponChangeLog, hooks...)
 }
 
 // Intercept adds a list of query interceptors to the interceptors stack.
-// A call to `Intercept(f, g, h)` equals to `finschiaitemtokenactivity.Intercept(f(g(h())))`.
-func (c *FinschiaItemTokenActivityClient) Intercept(interceptors ...Interceptor) {
-	c.inters.FinschiaItemTokenActivity = append(c.inters.FinschiaItemTokenActivity, interceptors...)
+// A call to `Intercept(f, g, h)` equals to `changokushiweaponchangelog.Intercept(f(g(h())))`.
+func (c *ChangokushiWeaponChangeLogClient) Intercept(interceptors ...Interceptor) {
+	c.inters.ChangokushiWeaponChangeLog = append(c.inters.ChangokushiWeaponChangeLog, interceptors...)
 }
 
-// Create returns a builder for creating a FinschiaItemTokenActivity entity.
-func (c *FinschiaItemTokenActivityClient) Create() *FinschiaItemTokenActivityCreate {
-	mutation := newFinschiaItemTokenActivityMutation(c.config, OpCreate)
-	return &FinschiaItemTokenActivityCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Create returns a builder for creating a ChangokushiWeaponChangeLog entity.
+func (c *ChangokushiWeaponChangeLogClient) Create() *ChangokushiWeaponChangeLogCreate {
+	mutation := newChangokushiWeaponChangeLogMutation(c.config, OpCreate)
+	return &ChangokushiWeaponChangeLogCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
-// CreateBulk returns a builder for creating a bulk of FinschiaItemTokenActivity entities.
-func (c *FinschiaItemTokenActivityClient) CreateBulk(builders ...*FinschiaItemTokenActivityCreate) *FinschiaItemTokenActivityCreateBulk {
-	return &FinschiaItemTokenActivityCreateBulk{config: c.config, builders: builders}
+// CreateBulk returns a builder for creating a bulk of ChangokushiWeaponChangeLog entities.
+func (c *ChangokushiWeaponChangeLogClient) CreateBulk(builders ...*ChangokushiWeaponChangeLogCreate) *ChangokushiWeaponChangeLogCreateBulk {
+	return &ChangokushiWeaponChangeLogCreateBulk{config: c.config, builders: builders}
 }
 
 // MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
 // a builder and applies setFunc on it.
-func (c *FinschiaItemTokenActivityClient) MapCreateBulk(slice any, setFunc func(*FinschiaItemTokenActivityCreate, int)) *FinschiaItemTokenActivityCreateBulk {
+func (c *ChangokushiWeaponChangeLogClient) MapCreateBulk(slice any, setFunc func(*ChangokushiWeaponChangeLogCreate, int)) *ChangokushiWeaponChangeLogCreateBulk {
 	rv := reflect.ValueOf(slice)
 	if rv.Kind() != reflect.Slice {
-		return &FinschiaItemTokenActivityCreateBulk{err: fmt.Errorf("calling to FinschiaItemTokenActivityClient.MapCreateBulk with wrong type %T, need slice", slice)}
+		return &ChangokushiWeaponChangeLogCreateBulk{err: fmt.Errorf("calling to ChangokushiWeaponChangeLogClient.MapCreateBulk with wrong type %T, need slice", slice)}
 	}
-	builders := make([]*FinschiaItemTokenActivityCreate, rv.Len())
+	builders := make([]*ChangokushiWeaponChangeLogCreate, rv.Len())
 	for i := 0; i < rv.Len(); i++ {
 		builders[i] = c.Create()
 		setFunc(builders[i], i)
 	}
-	return &FinschiaItemTokenActivityCreateBulk{config: c.config, builders: builders}
+	return &ChangokushiWeaponChangeLogCreateBulk{config: c.config, builders: builders}
 }
 
-// Update returns an update builder for FinschiaItemTokenActivity.
-func (c *FinschiaItemTokenActivityClient) Update() *FinschiaItemTokenActivityUpdate {
-	mutation := newFinschiaItemTokenActivityMutation(c.config, OpUpdate)
-	return &FinschiaItemTokenActivityUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Update returns an update builder for ChangokushiWeaponChangeLog.
+func (c *ChangokushiWeaponChangeLogClient) Update() *ChangokushiWeaponChangeLogUpdate {
+	mutation := newChangokushiWeaponChangeLogMutation(c.config, OpUpdate)
+	return &ChangokushiWeaponChangeLogUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *FinschiaItemTokenActivityClient) UpdateOne(fita *FinschiaItemTokenActivity) *FinschiaItemTokenActivityUpdateOne {
-	mutation := newFinschiaItemTokenActivityMutation(c.config, OpUpdateOne, withFinschiaItemTokenActivity(fita))
-	return &FinschiaItemTokenActivityUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+func (c *ChangokushiWeaponChangeLogClient) UpdateOne(cwcl *ChangokushiWeaponChangeLog) *ChangokushiWeaponChangeLogUpdateOne {
+	mutation := newChangokushiWeaponChangeLogMutation(c.config, OpUpdateOne, withChangokushiWeaponChangeLog(cwcl))
+	return &ChangokushiWeaponChangeLogUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *FinschiaItemTokenActivityClient) UpdateOneID(id uint32) *FinschiaItemTokenActivityUpdateOne {
-	mutation := newFinschiaItemTokenActivityMutation(c.config, OpUpdateOne, withFinschiaItemTokenActivityID(id))
-	return &FinschiaItemTokenActivityUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+func (c *ChangokushiWeaponChangeLogClient) UpdateOneID(id uint32) *ChangokushiWeaponChangeLogUpdateOne {
+	mutation := newChangokushiWeaponChangeLogMutation(c.config, OpUpdateOne, withChangokushiWeaponChangeLogID(id))
+	return &ChangokushiWeaponChangeLogUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
-// Delete returns a delete builder for FinschiaItemTokenActivity.
-func (c *FinschiaItemTokenActivityClient) Delete() *FinschiaItemTokenActivityDelete {
-	mutation := newFinschiaItemTokenActivityMutation(c.config, OpDelete)
-	return &FinschiaItemTokenActivityDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Delete returns a delete builder for ChangokushiWeaponChangeLog.
+func (c *ChangokushiWeaponChangeLogClient) Delete() *ChangokushiWeaponChangeLogDelete {
+	mutation := newChangokushiWeaponChangeLogMutation(c.config, OpDelete)
+	return &ChangokushiWeaponChangeLogDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *FinschiaItemTokenActivityClient) DeleteOne(fita *FinschiaItemTokenActivity) *FinschiaItemTokenActivityDeleteOne {
-	return c.DeleteOneID(fita.ID)
+func (c *ChangokushiWeaponChangeLogClient) DeleteOne(cwcl *ChangokushiWeaponChangeLog) *ChangokushiWeaponChangeLogDeleteOne {
+	return c.DeleteOneID(cwcl.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *FinschiaItemTokenActivityClient) DeleteOneID(id uint32) *FinschiaItemTokenActivityDeleteOne {
-	builder := c.Delete().Where(finschiaitemtokenactivity.ID(id))
+func (c *ChangokushiWeaponChangeLogClient) DeleteOneID(id uint32) *ChangokushiWeaponChangeLogDeleteOne {
+	builder := c.Delete().Where(changokushiweaponchangelog.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
-	return &FinschiaItemTokenActivityDeleteOne{builder}
+	return &ChangokushiWeaponChangeLogDeleteOne{builder}
 }
 
-// Query returns a query builder for FinschiaItemTokenActivity.
-func (c *FinschiaItemTokenActivityClient) Query() *FinschiaItemTokenActivityQuery {
-	return &FinschiaItemTokenActivityQuery{
+// Query returns a query builder for ChangokushiWeaponChangeLog.
+func (c *ChangokushiWeaponChangeLogClient) Query() *ChangokushiWeaponChangeLogQuery {
+	return &ChangokushiWeaponChangeLogQuery{
 		config: c.config,
-		ctx:    &QueryContext{Type: TypeFinschiaItemTokenActivity},
+		ctx:    &QueryContext{Type: TypeChangokushiWeaponChangeLog},
 		inters: c.Interceptors(),
 	}
 }
 
-// Get returns a FinschiaItemTokenActivity entity by its id.
-func (c *FinschiaItemTokenActivityClient) Get(ctx context.Context, id uint32) (*FinschiaItemTokenActivity, error) {
-	return c.Query().Where(finschiaitemtokenactivity.ID(id)).Only(ctx)
+// Get returns a ChangokushiWeaponChangeLog entity by its id.
+func (c *ChangokushiWeaponChangeLogClient) Get(ctx context.Context, id uint32) (*ChangokushiWeaponChangeLog, error) {
+	return c.Query().Where(changokushiweaponchangelog.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *FinschiaItemTokenActivityClient) GetX(ctx context.Context, id uint32) *FinschiaItemTokenActivity {
+func (c *ChangokushiWeaponChangeLogClient) GetX(ctx context.Context, id uint32) *ChangokushiWeaponChangeLog {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -542,983 +466,55 @@ func (c *FinschiaItemTokenActivityClient) GetX(ctx context.Context, id uint32) *
 	return obj
 }
 
-// QueryFinschiaItemToken queries the finschia_item_token edge of a FinschiaItemTokenActivity.
-func (c *FinschiaItemTokenActivityClient) QueryFinschiaItemToken(fita *FinschiaItemTokenActivity) *FinschiaItemTokenQuery {
-	query := (&FinschiaItemTokenClient{config: c.config}).Query()
+// QueryChangokushiWeapon queries the changokushi_weapon edge of a ChangokushiWeaponChangeLog.
+func (c *ChangokushiWeaponChangeLogClient) QueryChangokushiWeapon(cwcl *ChangokushiWeaponChangeLog) *ChangokushiWeaponQuery {
+	query := (&ChangokushiWeaponClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := fita.ID
+		id := cwcl.ID
 		step := sqlgraph.NewStep(
-			sqlgraph.From(finschiaitemtokenactivity.Table, finschiaitemtokenactivity.FieldID, id),
-			sqlgraph.To(finschiaitemtoken.Table, finschiaitemtoken.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, finschiaitemtokenactivity.FinschiaItemTokenTable, finschiaitemtokenactivity.FinschiaItemTokenColumn),
+			sqlgraph.From(changokushiweaponchangelog.Table, changokushiweaponchangelog.FieldID, id),
+			sqlgraph.To(changokushiweapon.Table, changokushiweapon.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, true, changokushiweaponchangelog.ChangokushiWeaponTable, changokushiweaponchangelog.ChangokushiWeaponColumn),
 		)
-		fromV = sqlgraph.Neighbors(fita.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(cwcl.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
 }
 
 // Hooks returns the client hooks.
-func (c *FinschiaItemTokenActivityClient) Hooks() []Hook {
-	hooks := c.hooks.FinschiaItemTokenActivity
-	return append(hooks[:len(hooks):len(hooks)], finschiaitemtokenactivity.Hooks[:]...)
+func (c *ChangokushiWeaponChangeLogClient) Hooks() []Hook {
+	hooks := c.hooks.ChangokushiWeaponChangeLog
+	return append(hooks[:len(hooks):len(hooks)], changokushiweaponchangelog.Hooks[:]...)
 }
 
 // Interceptors returns the client interceptors.
-func (c *FinschiaItemTokenActivityClient) Interceptors() []Interceptor {
-	inters := c.inters.FinschiaItemTokenActivity
-	return append(inters[:len(inters):len(inters)], finschiaitemtokenactivity.Interceptors[:]...)
+func (c *ChangokushiWeaponChangeLogClient) Interceptors() []Interceptor {
+	inters := c.inters.ChangokushiWeaponChangeLog
+	return append(inters[:len(inters):len(inters)], changokushiweaponchangelog.Interceptors[:]...)
 }
 
-func (c *FinschiaItemTokenActivityClient) mutate(ctx context.Context, m *FinschiaItemTokenActivityMutation) (Value, error) {
+func (c *ChangokushiWeaponChangeLogClient) mutate(ctx context.Context, m *ChangokushiWeaponChangeLogMutation) (Value, error) {
 	switch m.Op() {
 	case OpCreate:
-		return (&FinschiaItemTokenActivityCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&ChangokushiWeaponChangeLogCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpUpdate:
-		return (&FinschiaItemTokenActivityUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&ChangokushiWeaponChangeLogUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpUpdateOne:
-		return (&FinschiaItemTokenActivityUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&ChangokushiWeaponChangeLogUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpDelete, OpDeleteOne:
-		return (&FinschiaItemTokenActivityDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+		return (&ChangokushiWeaponChangeLogDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
-		return nil, fmt.Errorf("ent: unknown FinschiaItemTokenActivity mutation op: %q", m.Op())
-	}
-}
-
-// FinschiaItemTokenMillionArthursPropertyClient is a client for the FinschiaItemTokenMillionArthursProperty schema.
-type FinschiaItemTokenMillionArthursPropertyClient struct {
-	config
-}
-
-// NewFinschiaItemTokenMillionArthursPropertyClient returns a client for the FinschiaItemTokenMillionArthursProperty from the given config.
-func NewFinschiaItemTokenMillionArthursPropertyClient(c config) *FinschiaItemTokenMillionArthursPropertyClient {
-	return &FinschiaItemTokenMillionArthursPropertyClient{config: c}
-}
-
-// Use adds a list of mutation hooks to the hooks stack.
-// A call to `Use(f, g, h)` equals to `finschiaitemtokenmillionarthursproperty.Hooks(f(g(h())))`.
-func (c *FinschiaItemTokenMillionArthursPropertyClient) Use(hooks ...Hook) {
-	c.hooks.FinschiaItemTokenMillionArthursProperty = append(c.hooks.FinschiaItemTokenMillionArthursProperty, hooks...)
-}
-
-// Intercept adds a list of query interceptors to the interceptors stack.
-// A call to `Intercept(f, g, h)` equals to `finschiaitemtokenmillionarthursproperty.Intercept(f(g(h())))`.
-func (c *FinschiaItemTokenMillionArthursPropertyClient) Intercept(interceptors ...Interceptor) {
-	c.inters.FinschiaItemTokenMillionArthursProperty = append(c.inters.FinschiaItemTokenMillionArthursProperty, interceptors...)
-}
-
-// Create returns a builder for creating a FinschiaItemTokenMillionArthursProperty entity.
-func (c *FinschiaItemTokenMillionArthursPropertyClient) Create() *FinschiaItemTokenMillionArthursPropertyCreate {
-	mutation := newFinschiaItemTokenMillionArthursPropertyMutation(c.config, OpCreate)
-	return &FinschiaItemTokenMillionArthursPropertyCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// CreateBulk returns a builder for creating a bulk of FinschiaItemTokenMillionArthursProperty entities.
-func (c *FinschiaItemTokenMillionArthursPropertyClient) CreateBulk(builders ...*FinschiaItemTokenMillionArthursPropertyCreate) *FinschiaItemTokenMillionArthursPropertyCreateBulk {
-	return &FinschiaItemTokenMillionArthursPropertyCreateBulk{config: c.config, builders: builders}
-}
-
-// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
-// a builder and applies setFunc on it.
-func (c *FinschiaItemTokenMillionArthursPropertyClient) MapCreateBulk(slice any, setFunc func(*FinschiaItemTokenMillionArthursPropertyCreate, int)) *FinschiaItemTokenMillionArthursPropertyCreateBulk {
-	rv := reflect.ValueOf(slice)
-	if rv.Kind() != reflect.Slice {
-		return &FinschiaItemTokenMillionArthursPropertyCreateBulk{err: fmt.Errorf("calling to FinschiaItemTokenMillionArthursPropertyClient.MapCreateBulk with wrong type %T, need slice", slice)}
-	}
-	builders := make([]*FinschiaItemTokenMillionArthursPropertyCreate, rv.Len())
-	for i := 0; i < rv.Len(); i++ {
-		builders[i] = c.Create()
-		setFunc(builders[i], i)
-	}
-	return &FinschiaItemTokenMillionArthursPropertyCreateBulk{config: c.config, builders: builders}
-}
-
-// Update returns an update builder for FinschiaItemTokenMillionArthursProperty.
-func (c *FinschiaItemTokenMillionArthursPropertyClient) Update() *FinschiaItemTokenMillionArthursPropertyUpdate {
-	mutation := newFinschiaItemTokenMillionArthursPropertyMutation(c.config, OpUpdate)
-	return &FinschiaItemTokenMillionArthursPropertyUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOne returns an update builder for the given entity.
-func (c *FinschiaItemTokenMillionArthursPropertyClient) UpdateOne(fitmap *FinschiaItemTokenMillionArthursProperty) *FinschiaItemTokenMillionArthursPropertyUpdateOne {
-	mutation := newFinschiaItemTokenMillionArthursPropertyMutation(c.config, OpUpdateOne, withFinschiaItemTokenMillionArthursProperty(fitmap))
-	return &FinschiaItemTokenMillionArthursPropertyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOneID returns an update builder for the given id.
-func (c *FinschiaItemTokenMillionArthursPropertyClient) UpdateOneID(id uint32) *FinschiaItemTokenMillionArthursPropertyUpdateOne {
-	mutation := newFinschiaItemTokenMillionArthursPropertyMutation(c.config, OpUpdateOne, withFinschiaItemTokenMillionArthursPropertyID(id))
-	return &FinschiaItemTokenMillionArthursPropertyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// Delete returns a delete builder for FinschiaItemTokenMillionArthursProperty.
-func (c *FinschiaItemTokenMillionArthursPropertyClient) Delete() *FinschiaItemTokenMillionArthursPropertyDelete {
-	mutation := newFinschiaItemTokenMillionArthursPropertyMutation(c.config, OpDelete)
-	return &FinschiaItemTokenMillionArthursPropertyDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// DeleteOne returns a builder for deleting the given entity.
-func (c *FinschiaItemTokenMillionArthursPropertyClient) DeleteOne(fitmap *FinschiaItemTokenMillionArthursProperty) *FinschiaItemTokenMillionArthursPropertyDeleteOne {
-	return c.DeleteOneID(fitmap.ID)
-}
-
-// DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *FinschiaItemTokenMillionArthursPropertyClient) DeleteOneID(id uint32) *FinschiaItemTokenMillionArthursPropertyDeleteOne {
-	builder := c.Delete().Where(finschiaitemtokenmillionarthursproperty.ID(id))
-	builder.mutation.id = &id
-	builder.mutation.op = OpDeleteOne
-	return &FinschiaItemTokenMillionArthursPropertyDeleteOne{builder}
-}
-
-// Query returns a query builder for FinschiaItemTokenMillionArthursProperty.
-func (c *FinschiaItemTokenMillionArthursPropertyClient) Query() *FinschiaItemTokenMillionArthursPropertyQuery {
-	return &FinschiaItemTokenMillionArthursPropertyQuery{
-		config: c.config,
-		ctx:    &QueryContext{Type: TypeFinschiaItemTokenMillionArthursProperty},
-		inters: c.Interceptors(),
-	}
-}
-
-// Get returns a FinschiaItemTokenMillionArthursProperty entity by its id.
-func (c *FinschiaItemTokenMillionArthursPropertyClient) Get(ctx context.Context, id uint32) (*FinschiaItemTokenMillionArthursProperty, error) {
-	return c.Query().Where(finschiaitemtokenmillionarthursproperty.ID(id)).Only(ctx)
-}
-
-// GetX is like Get, but panics if an error occurs.
-func (c *FinschiaItemTokenMillionArthursPropertyClient) GetX(ctx context.Context, id uint32) *FinschiaItemTokenMillionArthursProperty {
-	obj, err := c.Get(ctx, id)
-	if err != nil {
-		panic(err)
-	}
-	return obj
-}
-
-// QueryFinschiaItemToken queries the finschia_item_token edge of a FinschiaItemTokenMillionArthursProperty.
-func (c *FinschiaItemTokenMillionArthursPropertyClient) QueryFinschiaItemToken(fitmap *FinschiaItemTokenMillionArthursProperty) *FinschiaItemTokenQuery {
-	query := (&FinschiaItemTokenClient{config: c.config}).Query()
-	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := fitmap.ID
-		step := sqlgraph.NewStep(
-			sqlgraph.From(finschiaitemtokenmillionarthursproperty.Table, finschiaitemtokenmillionarthursproperty.FieldID, id),
-			sqlgraph.To(finschiaitemtoken.Table, finschiaitemtoken.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, finschiaitemtokenmillionarthursproperty.FinschiaItemTokenTable, finschiaitemtokenmillionarthursproperty.FinschiaItemTokenColumn),
-		)
-		fromV = sqlgraph.Neighbors(fitmap.driver.Dialect(), step)
-		return fromV, nil
-	}
-	return query
-}
-
-// Hooks returns the client hooks.
-func (c *FinschiaItemTokenMillionArthursPropertyClient) Hooks() []Hook {
-	hooks := c.hooks.FinschiaItemTokenMillionArthursProperty
-	return append(hooks[:len(hooks):len(hooks)], finschiaitemtokenmillionarthursproperty.Hooks[:]...)
-}
-
-// Interceptors returns the client interceptors.
-func (c *FinschiaItemTokenMillionArthursPropertyClient) Interceptors() []Interceptor {
-	inters := c.inters.FinschiaItemTokenMillionArthursProperty
-	return append(inters[:len(inters):len(inters)], finschiaitemtokenmillionarthursproperty.Interceptors[:]...)
-}
-
-func (c *FinschiaItemTokenMillionArthursPropertyClient) mutate(ctx context.Context, m *FinschiaItemTokenMillionArthursPropertyMutation) (Value, error) {
-	switch m.Op() {
-	case OpCreate:
-		return (&FinschiaItemTokenMillionArthursPropertyCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpUpdate:
-		return (&FinschiaItemTokenMillionArthursPropertyUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpUpdateOne:
-		return (&FinschiaItemTokenMillionArthursPropertyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpDelete, OpDeleteOne:
-		return (&FinschiaItemTokenMillionArthursPropertyDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
-	default:
-		return nil, fmt.Errorf("ent: unknown FinschiaItemTokenMillionArthursProperty mutation op: %q", m.Op())
-	}
-}
-
-// KusogeeeeeeNFTClient is a client for the KusogeeeeeeNFT schema.
-type KusogeeeeeeNFTClient struct {
-	config
-}
-
-// NewKusogeeeeeeNFTClient returns a client for the KusogeeeeeeNFT from the given config.
-func NewKusogeeeeeeNFTClient(c config) *KusogeeeeeeNFTClient {
-	return &KusogeeeeeeNFTClient{config: c}
-}
-
-// Use adds a list of mutation hooks to the hooks stack.
-// A call to `Use(f, g, h)` equals to `kusogeeeeeenft.Hooks(f(g(h())))`.
-func (c *KusogeeeeeeNFTClient) Use(hooks ...Hook) {
-	c.hooks.KusogeeeeeeNFT = append(c.hooks.KusogeeeeeeNFT, hooks...)
-}
-
-// Intercept adds a list of query interceptors to the interceptors stack.
-// A call to `Intercept(f, g, h)` equals to `kusogeeeeeenft.Intercept(f(g(h())))`.
-func (c *KusogeeeeeeNFTClient) Intercept(interceptors ...Interceptor) {
-	c.inters.KusogeeeeeeNFT = append(c.inters.KusogeeeeeeNFT, interceptors...)
-}
-
-// Create returns a builder for creating a KusogeeeeeeNFT entity.
-func (c *KusogeeeeeeNFTClient) Create() *KusogeeeeeeNFTCreate {
-	mutation := newKusogeeeeeeNFTMutation(c.config, OpCreate)
-	return &KusogeeeeeeNFTCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// CreateBulk returns a builder for creating a bulk of KusogeeeeeeNFT entities.
-func (c *KusogeeeeeeNFTClient) CreateBulk(builders ...*KusogeeeeeeNFTCreate) *KusogeeeeeeNFTCreateBulk {
-	return &KusogeeeeeeNFTCreateBulk{config: c.config, builders: builders}
-}
-
-// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
-// a builder and applies setFunc on it.
-func (c *KusogeeeeeeNFTClient) MapCreateBulk(slice any, setFunc func(*KusogeeeeeeNFTCreate, int)) *KusogeeeeeeNFTCreateBulk {
-	rv := reflect.ValueOf(slice)
-	if rv.Kind() != reflect.Slice {
-		return &KusogeeeeeeNFTCreateBulk{err: fmt.Errorf("calling to KusogeeeeeeNFTClient.MapCreateBulk with wrong type %T, need slice", slice)}
-	}
-	builders := make([]*KusogeeeeeeNFTCreate, rv.Len())
-	for i := 0; i < rv.Len(); i++ {
-		builders[i] = c.Create()
-		setFunc(builders[i], i)
-	}
-	return &KusogeeeeeeNFTCreateBulk{config: c.config, builders: builders}
-}
-
-// Update returns an update builder for KusogeeeeeeNFT.
-func (c *KusogeeeeeeNFTClient) Update() *KusogeeeeeeNFTUpdate {
-	mutation := newKusogeeeeeeNFTMutation(c.config, OpUpdate)
-	return &KusogeeeeeeNFTUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOne returns an update builder for the given entity.
-func (c *KusogeeeeeeNFTClient) UpdateOne(kn *KusogeeeeeeNFT) *KusogeeeeeeNFTUpdateOne {
-	mutation := newKusogeeeeeeNFTMutation(c.config, OpUpdateOne, withKusogeeeeeeNFT(kn))
-	return &KusogeeeeeeNFTUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOneID returns an update builder for the given id.
-func (c *KusogeeeeeeNFTClient) UpdateOneID(id uint32) *KusogeeeeeeNFTUpdateOne {
-	mutation := newKusogeeeeeeNFTMutation(c.config, OpUpdateOne, withKusogeeeeeeNFTID(id))
-	return &KusogeeeeeeNFTUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// Delete returns a delete builder for KusogeeeeeeNFT.
-func (c *KusogeeeeeeNFTClient) Delete() *KusogeeeeeeNFTDelete {
-	mutation := newKusogeeeeeeNFTMutation(c.config, OpDelete)
-	return &KusogeeeeeeNFTDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// DeleteOne returns a builder for deleting the given entity.
-func (c *KusogeeeeeeNFTClient) DeleteOne(kn *KusogeeeeeeNFT) *KusogeeeeeeNFTDeleteOne {
-	return c.DeleteOneID(kn.ID)
-}
-
-// DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *KusogeeeeeeNFTClient) DeleteOneID(id uint32) *KusogeeeeeeNFTDeleteOne {
-	builder := c.Delete().Where(kusogeeeeeenft.ID(id))
-	builder.mutation.id = &id
-	builder.mutation.op = OpDeleteOne
-	return &KusogeeeeeeNFTDeleteOne{builder}
-}
-
-// Query returns a query builder for KusogeeeeeeNFT.
-func (c *KusogeeeeeeNFTClient) Query() *KusogeeeeeeNFTQuery {
-	return &KusogeeeeeeNFTQuery{
-		config: c.config,
-		ctx:    &QueryContext{Type: TypeKusogeeeeeeNFT},
-		inters: c.Interceptors(),
-	}
-}
-
-// Get returns a KusogeeeeeeNFT entity by its id.
-func (c *KusogeeeeeeNFTClient) Get(ctx context.Context, id uint32) (*KusogeeeeeeNFT, error) {
-	return c.Query().Where(kusogeeeeeenft.ID(id)).Only(ctx)
-}
-
-// GetX is like Get, but panics if an error occurs.
-func (c *KusogeeeeeeNFTClient) GetX(ctx context.Context, id uint32) *KusogeeeeeeNFT {
-	obj, err := c.Get(ctx, id)
-	if err != nil {
-		panic(err)
-	}
-	return obj
-}
-
-// QueryChangeLogs queries the change_logs edge of a KusogeeeeeeNFT.
-func (c *KusogeeeeeeNFTClient) QueryChangeLogs(kn *KusogeeeeeeNFT) *KusogeeeeeeNFTChangeLogQuery {
-	query := (&KusogeeeeeeNFTChangeLogClient{config: c.config}).Query()
-	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := kn.ID
-		step := sqlgraph.NewStep(
-			sqlgraph.From(kusogeeeeeenft.Table, kusogeeeeeenft.FieldID, id),
-			sqlgraph.To(kusogeeeeeenftchangelog.Table, kusogeeeeeenftchangelog.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, kusogeeeeeenft.ChangeLogsTable, kusogeeeeeenft.ChangeLogsColumn),
-		)
-		fromV = sqlgraph.Neighbors(kn.driver.Dialect(), step)
-		return fromV, nil
-	}
-	return query
-}
-
-// Hooks returns the client hooks.
-func (c *KusogeeeeeeNFTClient) Hooks() []Hook {
-	hooks := c.hooks.KusogeeeeeeNFT
-	return append(hooks[:len(hooks):len(hooks)], kusogeeeeeenft.Hooks[:]...)
-}
-
-// Interceptors returns the client interceptors.
-func (c *KusogeeeeeeNFTClient) Interceptors() []Interceptor {
-	inters := c.inters.KusogeeeeeeNFT
-	return append(inters[:len(inters):len(inters)], kusogeeeeeenft.Interceptors[:]...)
-}
-
-func (c *KusogeeeeeeNFTClient) mutate(ctx context.Context, m *KusogeeeeeeNFTMutation) (Value, error) {
-	switch m.Op() {
-	case OpCreate:
-		return (&KusogeeeeeeNFTCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpUpdate:
-		return (&KusogeeeeeeNFTUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpUpdateOne:
-		return (&KusogeeeeeeNFTUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpDelete, OpDeleteOne:
-		return (&KusogeeeeeeNFTDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
-	default:
-		return nil, fmt.Errorf("ent: unknown KusogeeeeeeNFT mutation op: %q", m.Op())
-	}
-}
-
-// KusogeeeeeeNFTChangeLogClient is a client for the KusogeeeeeeNFTChangeLog schema.
-type KusogeeeeeeNFTChangeLogClient struct {
-	config
-}
-
-// NewKusogeeeeeeNFTChangeLogClient returns a client for the KusogeeeeeeNFTChangeLog from the given config.
-func NewKusogeeeeeeNFTChangeLogClient(c config) *KusogeeeeeeNFTChangeLogClient {
-	return &KusogeeeeeeNFTChangeLogClient{config: c}
-}
-
-// Use adds a list of mutation hooks to the hooks stack.
-// A call to `Use(f, g, h)` equals to `kusogeeeeeenftchangelog.Hooks(f(g(h())))`.
-func (c *KusogeeeeeeNFTChangeLogClient) Use(hooks ...Hook) {
-	c.hooks.KusogeeeeeeNFTChangeLog = append(c.hooks.KusogeeeeeeNFTChangeLog, hooks...)
-}
-
-// Intercept adds a list of query interceptors to the interceptors stack.
-// A call to `Intercept(f, g, h)` equals to `kusogeeeeeenftchangelog.Intercept(f(g(h())))`.
-func (c *KusogeeeeeeNFTChangeLogClient) Intercept(interceptors ...Interceptor) {
-	c.inters.KusogeeeeeeNFTChangeLog = append(c.inters.KusogeeeeeeNFTChangeLog, interceptors...)
-}
-
-// Create returns a builder for creating a KusogeeeeeeNFTChangeLog entity.
-func (c *KusogeeeeeeNFTChangeLogClient) Create() *KusogeeeeeeNFTChangeLogCreate {
-	mutation := newKusogeeeeeeNFTChangeLogMutation(c.config, OpCreate)
-	return &KusogeeeeeeNFTChangeLogCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// CreateBulk returns a builder for creating a bulk of KusogeeeeeeNFTChangeLog entities.
-func (c *KusogeeeeeeNFTChangeLogClient) CreateBulk(builders ...*KusogeeeeeeNFTChangeLogCreate) *KusogeeeeeeNFTChangeLogCreateBulk {
-	return &KusogeeeeeeNFTChangeLogCreateBulk{config: c.config, builders: builders}
-}
-
-// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
-// a builder and applies setFunc on it.
-func (c *KusogeeeeeeNFTChangeLogClient) MapCreateBulk(slice any, setFunc func(*KusogeeeeeeNFTChangeLogCreate, int)) *KusogeeeeeeNFTChangeLogCreateBulk {
-	rv := reflect.ValueOf(slice)
-	if rv.Kind() != reflect.Slice {
-		return &KusogeeeeeeNFTChangeLogCreateBulk{err: fmt.Errorf("calling to KusogeeeeeeNFTChangeLogClient.MapCreateBulk with wrong type %T, need slice", slice)}
-	}
-	builders := make([]*KusogeeeeeeNFTChangeLogCreate, rv.Len())
-	for i := 0; i < rv.Len(); i++ {
-		builders[i] = c.Create()
-		setFunc(builders[i], i)
-	}
-	return &KusogeeeeeeNFTChangeLogCreateBulk{config: c.config, builders: builders}
-}
-
-// Update returns an update builder for KusogeeeeeeNFTChangeLog.
-func (c *KusogeeeeeeNFTChangeLogClient) Update() *KusogeeeeeeNFTChangeLogUpdate {
-	mutation := newKusogeeeeeeNFTChangeLogMutation(c.config, OpUpdate)
-	return &KusogeeeeeeNFTChangeLogUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOne returns an update builder for the given entity.
-func (c *KusogeeeeeeNFTChangeLogClient) UpdateOne(kncl *KusogeeeeeeNFTChangeLog) *KusogeeeeeeNFTChangeLogUpdateOne {
-	mutation := newKusogeeeeeeNFTChangeLogMutation(c.config, OpUpdateOne, withKusogeeeeeeNFTChangeLog(kncl))
-	return &KusogeeeeeeNFTChangeLogUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOneID returns an update builder for the given id.
-func (c *KusogeeeeeeNFTChangeLogClient) UpdateOneID(id uint32) *KusogeeeeeeNFTChangeLogUpdateOne {
-	mutation := newKusogeeeeeeNFTChangeLogMutation(c.config, OpUpdateOne, withKusogeeeeeeNFTChangeLogID(id))
-	return &KusogeeeeeeNFTChangeLogUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// Delete returns a delete builder for KusogeeeeeeNFTChangeLog.
-func (c *KusogeeeeeeNFTChangeLogClient) Delete() *KusogeeeeeeNFTChangeLogDelete {
-	mutation := newKusogeeeeeeNFTChangeLogMutation(c.config, OpDelete)
-	return &KusogeeeeeeNFTChangeLogDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// DeleteOne returns a builder for deleting the given entity.
-func (c *KusogeeeeeeNFTChangeLogClient) DeleteOne(kncl *KusogeeeeeeNFTChangeLog) *KusogeeeeeeNFTChangeLogDeleteOne {
-	return c.DeleteOneID(kncl.ID)
-}
-
-// DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *KusogeeeeeeNFTChangeLogClient) DeleteOneID(id uint32) *KusogeeeeeeNFTChangeLogDeleteOne {
-	builder := c.Delete().Where(kusogeeeeeenftchangelog.ID(id))
-	builder.mutation.id = &id
-	builder.mutation.op = OpDeleteOne
-	return &KusogeeeeeeNFTChangeLogDeleteOne{builder}
-}
-
-// Query returns a query builder for KusogeeeeeeNFTChangeLog.
-func (c *KusogeeeeeeNFTChangeLogClient) Query() *KusogeeeeeeNFTChangeLogQuery {
-	return &KusogeeeeeeNFTChangeLogQuery{
-		config: c.config,
-		ctx:    &QueryContext{Type: TypeKusogeeeeeeNFTChangeLog},
-		inters: c.Interceptors(),
-	}
-}
-
-// Get returns a KusogeeeeeeNFTChangeLog entity by its id.
-func (c *KusogeeeeeeNFTChangeLogClient) Get(ctx context.Context, id uint32) (*KusogeeeeeeNFTChangeLog, error) {
-	return c.Query().Where(kusogeeeeeenftchangelog.ID(id)).Only(ctx)
-}
-
-// GetX is like Get, but panics if an error occurs.
-func (c *KusogeeeeeeNFTChangeLogClient) GetX(ctx context.Context, id uint32) *KusogeeeeeeNFTChangeLog {
-	obj, err := c.Get(ctx, id)
-	if err != nil {
-		panic(err)
-	}
-	return obj
-}
-
-// QueryKusogeeeeeeNft queries the kusogeeeeee_nft edge of a KusogeeeeeeNFTChangeLog.
-func (c *KusogeeeeeeNFTChangeLogClient) QueryKusogeeeeeeNft(kncl *KusogeeeeeeNFTChangeLog) *KusogeeeeeeNFTQuery {
-	query := (&KusogeeeeeeNFTClient{config: c.config}).Query()
-	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := kncl.ID
-		step := sqlgraph.NewStep(
-			sqlgraph.From(kusogeeeeeenftchangelog.Table, kusogeeeeeenftchangelog.FieldID, id),
-			sqlgraph.To(kusogeeeeeenft.Table, kusogeeeeeenft.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, kusogeeeeeenftchangelog.KusogeeeeeeNftTable, kusogeeeeeenftchangelog.KusogeeeeeeNftColumn),
-		)
-		fromV = sqlgraph.Neighbors(kncl.driver.Dialect(), step)
-		return fromV, nil
-	}
-	return query
-}
-
-// Hooks returns the client hooks.
-func (c *KusogeeeeeeNFTChangeLogClient) Hooks() []Hook {
-	hooks := c.hooks.KusogeeeeeeNFTChangeLog
-	return append(hooks[:len(hooks):len(hooks)], kusogeeeeeenftchangelog.Hooks[:]...)
-}
-
-// Interceptors returns the client interceptors.
-func (c *KusogeeeeeeNFTChangeLogClient) Interceptors() []Interceptor {
-	inters := c.inters.KusogeeeeeeNFTChangeLog
-	return append(inters[:len(inters):len(inters)], kusogeeeeeenftchangelog.Interceptors[:]...)
-}
-
-func (c *KusogeeeeeeNFTChangeLogClient) mutate(ctx context.Context, m *KusogeeeeeeNFTChangeLogMutation) (Value, error) {
-	switch m.Op() {
-	case OpCreate:
-		return (&KusogeeeeeeNFTChangeLogCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpUpdate:
-		return (&KusogeeeeeeNFTChangeLogUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpUpdateOne:
-		return (&KusogeeeeeeNFTChangeLogUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpDelete, OpDeleteOne:
-		return (&KusogeeeeeeNFTChangeLogDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
-	default:
-		return nil, fmt.Errorf("ent: unknown KusogeeeeeeNFTChangeLog mutation op: %q", m.Op())
-	}
-}
-
-// LINENFTClient is a client for the LINENFT schema.
-type LINENFTClient struct {
-	config
-}
-
-// NewLINENFTClient returns a client for the LINENFT from the given config.
-func NewLINENFTClient(c config) *LINENFTClient {
-	return &LINENFTClient{config: c}
-}
-
-// Use adds a list of mutation hooks to the hooks stack.
-// A call to `Use(f, g, h)` equals to `linenft.Hooks(f(g(h())))`.
-func (c *LINENFTClient) Use(hooks ...Hook) {
-	c.hooks.LINENFT = append(c.hooks.LINENFT, hooks...)
-}
-
-// Intercept adds a list of query interceptors to the interceptors stack.
-// A call to `Intercept(f, g, h)` equals to `linenft.Intercept(f(g(h())))`.
-func (c *LINENFTClient) Intercept(interceptors ...Interceptor) {
-	c.inters.LINENFT = append(c.inters.LINENFT, interceptors...)
-}
-
-// Create returns a builder for creating a LINENFT entity.
-func (c *LINENFTClient) Create() *LINENFTCreate {
-	mutation := newLINENFTMutation(c.config, OpCreate)
-	return &LINENFTCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// CreateBulk returns a builder for creating a bulk of LINENFT entities.
-func (c *LINENFTClient) CreateBulk(builders ...*LINENFTCreate) *LINENFTCreateBulk {
-	return &LINENFTCreateBulk{config: c.config, builders: builders}
-}
-
-// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
-// a builder and applies setFunc on it.
-func (c *LINENFTClient) MapCreateBulk(slice any, setFunc func(*LINENFTCreate, int)) *LINENFTCreateBulk {
-	rv := reflect.ValueOf(slice)
-	if rv.Kind() != reflect.Slice {
-		return &LINENFTCreateBulk{err: fmt.Errorf("calling to LINENFTClient.MapCreateBulk with wrong type %T, need slice", slice)}
-	}
-	builders := make([]*LINENFTCreate, rv.Len())
-	for i := 0; i < rv.Len(); i++ {
-		builders[i] = c.Create()
-		setFunc(builders[i], i)
-	}
-	return &LINENFTCreateBulk{config: c.config, builders: builders}
-}
-
-// Update returns an update builder for LINENFT.
-func (c *LINENFTClient) Update() *LINENFTUpdate {
-	mutation := newLINENFTMutation(c.config, OpUpdate)
-	return &LINENFTUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOne returns an update builder for the given entity.
-func (c *LINENFTClient) UpdateOne(l *LINENFT) *LINENFTUpdateOne {
-	mutation := newLINENFTMutation(c.config, OpUpdateOne, withLINENFT(l))
-	return &LINENFTUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOneID returns an update builder for the given id.
-func (c *LINENFTClient) UpdateOneID(id uint32) *LINENFTUpdateOne {
-	mutation := newLINENFTMutation(c.config, OpUpdateOne, withLINENFTID(id))
-	return &LINENFTUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// Delete returns a delete builder for LINENFT.
-func (c *LINENFTClient) Delete() *LINENFTDelete {
-	mutation := newLINENFTMutation(c.config, OpDelete)
-	return &LINENFTDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// DeleteOne returns a builder for deleting the given entity.
-func (c *LINENFTClient) DeleteOne(l *LINENFT) *LINENFTDeleteOne {
-	return c.DeleteOneID(l.ID)
-}
-
-// DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *LINENFTClient) DeleteOneID(id uint32) *LINENFTDeleteOne {
-	builder := c.Delete().Where(linenft.ID(id))
-	builder.mutation.id = &id
-	builder.mutation.op = OpDeleteOne
-	return &LINENFTDeleteOne{builder}
-}
-
-// Query returns a query builder for LINENFT.
-func (c *LINENFTClient) Query() *LINENFTQuery {
-	return &LINENFTQuery{
-		config: c.config,
-		ctx:    &QueryContext{Type: TypeLINENFT},
-		inters: c.Interceptors(),
-	}
-}
-
-// Get returns a LINENFT entity by its id.
-func (c *LINENFTClient) Get(ctx context.Context, id uint32) (*LINENFT, error) {
-	return c.Query().Where(linenft.ID(id)).Only(ctx)
-}
-
-// GetX is like Get, but panics if an error occurs.
-func (c *LINENFTClient) GetX(ctx context.Context, id uint32) *LINENFT {
-	obj, err := c.Get(ctx, id)
-	if err != nil {
-		panic(err)
-	}
-	return obj
-}
-
-// QueryActivities queries the activities edge of a LINENFT.
-func (c *LINENFTClient) QueryActivities(l *LINENFT) *LINENFTActivityQuery {
-	query := (&LINENFTActivityClient{config: c.config}).Query()
-	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := l.ID
-		step := sqlgraph.NewStep(
-			sqlgraph.From(linenft.Table, linenft.FieldID, id),
-			sqlgraph.To(linenftactivity.Table, linenftactivity.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, linenft.ActivitiesTable, linenft.ActivitiesColumn),
-		)
-		fromV = sqlgraph.Neighbors(l.driver.Dialect(), step)
-		return fromV, nil
-	}
-	return query
-}
-
-// QueryMillionArthursProperty queries the million_arthurs_property edge of a LINENFT.
-func (c *LINENFTClient) QueryMillionArthursProperty(l *LINENFT) *LINENFTMillionArthursPropertyQuery {
-	query := (&LINENFTMillionArthursPropertyClient{config: c.config}).Query()
-	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := l.ID
-		step := sqlgraph.NewStep(
-			sqlgraph.From(linenft.Table, linenft.FieldID, id),
-			sqlgraph.To(linenftmillionarthursproperty.Table, linenftmillionarthursproperty.FieldID),
-			sqlgraph.Edge(sqlgraph.O2O, false, linenft.MillionArthursPropertyTable, linenft.MillionArthursPropertyColumn),
-		)
-		fromV = sqlgraph.Neighbors(l.driver.Dialect(), step)
-		return fromV, nil
-	}
-	return query
-}
-
-// Hooks returns the client hooks.
-func (c *LINENFTClient) Hooks() []Hook {
-	hooks := c.hooks.LINENFT
-	return append(hooks[:len(hooks):len(hooks)], linenft.Hooks[:]...)
-}
-
-// Interceptors returns the client interceptors.
-func (c *LINENFTClient) Interceptors() []Interceptor {
-	inters := c.inters.LINENFT
-	return append(inters[:len(inters):len(inters)], linenft.Interceptors[:]...)
-}
-
-func (c *LINENFTClient) mutate(ctx context.Context, m *LINENFTMutation) (Value, error) {
-	switch m.Op() {
-	case OpCreate:
-		return (&LINENFTCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpUpdate:
-		return (&LINENFTUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpUpdateOne:
-		return (&LINENFTUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpDelete, OpDeleteOne:
-		return (&LINENFTDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
-	default:
-		return nil, fmt.Errorf("ent: unknown LINENFT mutation op: %q", m.Op())
-	}
-}
-
-// LINENFTActivityClient is a client for the LINENFTActivity schema.
-type LINENFTActivityClient struct {
-	config
-}
-
-// NewLINENFTActivityClient returns a client for the LINENFTActivity from the given config.
-func NewLINENFTActivityClient(c config) *LINENFTActivityClient {
-	return &LINENFTActivityClient{config: c}
-}
-
-// Use adds a list of mutation hooks to the hooks stack.
-// A call to `Use(f, g, h)` equals to `linenftactivity.Hooks(f(g(h())))`.
-func (c *LINENFTActivityClient) Use(hooks ...Hook) {
-	c.hooks.LINENFTActivity = append(c.hooks.LINENFTActivity, hooks...)
-}
-
-// Intercept adds a list of query interceptors to the interceptors stack.
-// A call to `Intercept(f, g, h)` equals to `linenftactivity.Intercept(f(g(h())))`.
-func (c *LINENFTActivityClient) Intercept(interceptors ...Interceptor) {
-	c.inters.LINENFTActivity = append(c.inters.LINENFTActivity, interceptors...)
-}
-
-// Create returns a builder for creating a LINENFTActivity entity.
-func (c *LINENFTActivityClient) Create() *LINENFTActivityCreate {
-	mutation := newLINENFTActivityMutation(c.config, OpCreate)
-	return &LINENFTActivityCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// CreateBulk returns a builder for creating a bulk of LINENFTActivity entities.
-func (c *LINENFTActivityClient) CreateBulk(builders ...*LINENFTActivityCreate) *LINENFTActivityCreateBulk {
-	return &LINENFTActivityCreateBulk{config: c.config, builders: builders}
-}
-
-// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
-// a builder and applies setFunc on it.
-func (c *LINENFTActivityClient) MapCreateBulk(slice any, setFunc func(*LINENFTActivityCreate, int)) *LINENFTActivityCreateBulk {
-	rv := reflect.ValueOf(slice)
-	if rv.Kind() != reflect.Slice {
-		return &LINENFTActivityCreateBulk{err: fmt.Errorf("calling to LINENFTActivityClient.MapCreateBulk with wrong type %T, need slice", slice)}
-	}
-	builders := make([]*LINENFTActivityCreate, rv.Len())
-	for i := 0; i < rv.Len(); i++ {
-		builders[i] = c.Create()
-		setFunc(builders[i], i)
-	}
-	return &LINENFTActivityCreateBulk{config: c.config, builders: builders}
-}
-
-// Update returns an update builder for LINENFTActivity.
-func (c *LINENFTActivityClient) Update() *LINENFTActivityUpdate {
-	mutation := newLINENFTActivityMutation(c.config, OpUpdate)
-	return &LINENFTActivityUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOne returns an update builder for the given entity.
-func (c *LINENFTActivityClient) UpdateOne(la *LINENFTActivity) *LINENFTActivityUpdateOne {
-	mutation := newLINENFTActivityMutation(c.config, OpUpdateOne, withLINENFTActivity(la))
-	return &LINENFTActivityUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOneID returns an update builder for the given id.
-func (c *LINENFTActivityClient) UpdateOneID(id uint32) *LINENFTActivityUpdateOne {
-	mutation := newLINENFTActivityMutation(c.config, OpUpdateOne, withLINENFTActivityID(id))
-	return &LINENFTActivityUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// Delete returns a delete builder for LINENFTActivity.
-func (c *LINENFTActivityClient) Delete() *LINENFTActivityDelete {
-	mutation := newLINENFTActivityMutation(c.config, OpDelete)
-	return &LINENFTActivityDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// DeleteOne returns a builder for deleting the given entity.
-func (c *LINENFTActivityClient) DeleteOne(la *LINENFTActivity) *LINENFTActivityDeleteOne {
-	return c.DeleteOneID(la.ID)
-}
-
-// DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *LINENFTActivityClient) DeleteOneID(id uint32) *LINENFTActivityDeleteOne {
-	builder := c.Delete().Where(linenftactivity.ID(id))
-	builder.mutation.id = &id
-	builder.mutation.op = OpDeleteOne
-	return &LINENFTActivityDeleteOne{builder}
-}
-
-// Query returns a query builder for LINENFTActivity.
-func (c *LINENFTActivityClient) Query() *LINENFTActivityQuery {
-	return &LINENFTActivityQuery{
-		config: c.config,
-		ctx:    &QueryContext{Type: TypeLINENFTActivity},
-		inters: c.Interceptors(),
-	}
-}
-
-// Get returns a LINENFTActivity entity by its id.
-func (c *LINENFTActivityClient) Get(ctx context.Context, id uint32) (*LINENFTActivity, error) {
-	return c.Query().Where(linenftactivity.ID(id)).Only(ctx)
-}
-
-// GetX is like Get, but panics if an error occurs.
-func (c *LINENFTActivityClient) GetX(ctx context.Context, id uint32) *LINENFTActivity {
-	obj, err := c.Get(ctx, id)
-	if err != nil {
-		panic(err)
-	}
-	return obj
-}
-
-// QueryLineNft queries the line_nft edge of a LINENFTActivity.
-func (c *LINENFTActivityClient) QueryLineNft(la *LINENFTActivity) *LINENFTQuery {
-	query := (&LINENFTClient{config: c.config}).Query()
-	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := la.ID
-		step := sqlgraph.NewStep(
-			sqlgraph.From(linenftactivity.Table, linenftactivity.FieldID, id),
-			sqlgraph.To(linenft.Table, linenft.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, true, linenftactivity.LineNftTable, linenftactivity.LineNftColumn),
-		)
-		fromV = sqlgraph.Neighbors(la.driver.Dialect(), step)
-		return fromV, nil
-	}
-	return query
-}
-
-// Hooks returns the client hooks.
-func (c *LINENFTActivityClient) Hooks() []Hook {
-	hooks := c.hooks.LINENFTActivity
-	return append(hooks[:len(hooks):len(hooks)], linenftactivity.Hooks[:]...)
-}
-
-// Interceptors returns the client interceptors.
-func (c *LINENFTActivityClient) Interceptors() []Interceptor {
-	inters := c.inters.LINENFTActivity
-	return append(inters[:len(inters):len(inters)], linenftactivity.Interceptors[:]...)
-}
-
-func (c *LINENFTActivityClient) mutate(ctx context.Context, m *LINENFTActivityMutation) (Value, error) {
-	switch m.Op() {
-	case OpCreate:
-		return (&LINENFTActivityCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpUpdate:
-		return (&LINENFTActivityUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpUpdateOne:
-		return (&LINENFTActivityUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpDelete, OpDeleteOne:
-		return (&LINENFTActivityDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
-	default:
-		return nil, fmt.Errorf("ent: unknown LINENFTActivity mutation op: %q", m.Op())
-	}
-}
-
-// LINENFTMillionArthursPropertyClient is a client for the LINENFTMillionArthursProperty schema.
-type LINENFTMillionArthursPropertyClient struct {
-	config
-}
-
-// NewLINENFTMillionArthursPropertyClient returns a client for the LINENFTMillionArthursProperty from the given config.
-func NewLINENFTMillionArthursPropertyClient(c config) *LINENFTMillionArthursPropertyClient {
-	return &LINENFTMillionArthursPropertyClient{config: c}
-}
-
-// Use adds a list of mutation hooks to the hooks stack.
-// A call to `Use(f, g, h)` equals to `linenftmillionarthursproperty.Hooks(f(g(h())))`.
-func (c *LINENFTMillionArthursPropertyClient) Use(hooks ...Hook) {
-	c.hooks.LINENFTMillionArthursProperty = append(c.hooks.LINENFTMillionArthursProperty, hooks...)
-}
-
-// Intercept adds a list of query interceptors to the interceptors stack.
-// A call to `Intercept(f, g, h)` equals to `linenftmillionarthursproperty.Intercept(f(g(h())))`.
-func (c *LINENFTMillionArthursPropertyClient) Intercept(interceptors ...Interceptor) {
-	c.inters.LINENFTMillionArthursProperty = append(c.inters.LINENFTMillionArthursProperty, interceptors...)
-}
-
-// Create returns a builder for creating a LINENFTMillionArthursProperty entity.
-func (c *LINENFTMillionArthursPropertyClient) Create() *LINENFTMillionArthursPropertyCreate {
-	mutation := newLINENFTMillionArthursPropertyMutation(c.config, OpCreate)
-	return &LINENFTMillionArthursPropertyCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// CreateBulk returns a builder for creating a bulk of LINENFTMillionArthursProperty entities.
-func (c *LINENFTMillionArthursPropertyClient) CreateBulk(builders ...*LINENFTMillionArthursPropertyCreate) *LINENFTMillionArthursPropertyCreateBulk {
-	return &LINENFTMillionArthursPropertyCreateBulk{config: c.config, builders: builders}
-}
-
-// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
-// a builder and applies setFunc on it.
-func (c *LINENFTMillionArthursPropertyClient) MapCreateBulk(slice any, setFunc func(*LINENFTMillionArthursPropertyCreate, int)) *LINENFTMillionArthursPropertyCreateBulk {
-	rv := reflect.ValueOf(slice)
-	if rv.Kind() != reflect.Slice {
-		return &LINENFTMillionArthursPropertyCreateBulk{err: fmt.Errorf("calling to LINENFTMillionArthursPropertyClient.MapCreateBulk with wrong type %T, need slice", slice)}
-	}
-	builders := make([]*LINENFTMillionArthursPropertyCreate, rv.Len())
-	for i := 0; i < rv.Len(); i++ {
-		builders[i] = c.Create()
-		setFunc(builders[i], i)
-	}
-	return &LINENFTMillionArthursPropertyCreateBulk{config: c.config, builders: builders}
-}
-
-// Update returns an update builder for LINENFTMillionArthursProperty.
-func (c *LINENFTMillionArthursPropertyClient) Update() *LINENFTMillionArthursPropertyUpdate {
-	mutation := newLINENFTMillionArthursPropertyMutation(c.config, OpUpdate)
-	return &LINENFTMillionArthursPropertyUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOne returns an update builder for the given entity.
-func (c *LINENFTMillionArthursPropertyClient) UpdateOne(lmap *LINENFTMillionArthursProperty) *LINENFTMillionArthursPropertyUpdateOne {
-	mutation := newLINENFTMillionArthursPropertyMutation(c.config, OpUpdateOne, withLINENFTMillionArthursProperty(lmap))
-	return &LINENFTMillionArthursPropertyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// UpdateOneID returns an update builder for the given id.
-func (c *LINENFTMillionArthursPropertyClient) UpdateOneID(id uint32) *LINENFTMillionArthursPropertyUpdateOne {
-	mutation := newLINENFTMillionArthursPropertyMutation(c.config, OpUpdateOne, withLINENFTMillionArthursPropertyID(id))
-	return &LINENFTMillionArthursPropertyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// Delete returns a delete builder for LINENFTMillionArthursProperty.
-func (c *LINENFTMillionArthursPropertyClient) Delete() *LINENFTMillionArthursPropertyDelete {
-	mutation := newLINENFTMillionArthursPropertyMutation(c.config, OpDelete)
-	return &LINENFTMillionArthursPropertyDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
-}
-
-// DeleteOne returns a builder for deleting the given entity.
-func (c *LINENFTMillionArthursPropertyClient) DeleteOne(lmap *LINENFTMillionArthursProperty) *LINENFTMillionArthursPropertyDeleteOne {
-	return c.DeleteOneID(lmap.ID)
-}
-
-// DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *LINENFTMillionArthursPropertyClient) DeleteOneID(id uint32) *LINENFTMillionArthursPropertyDeleteOne {
-	builder := c.Delete().Where(linenftmillionarthursproperty.ID(id))
-	builder.mutation.id = &id
-	builder.mutation.op = OpDeleteOne
-	return &LINENFTMillionArthursPropertyDeleteOne{builder}
-}
-
-// Query returns a query builder for LINENFTMillionArthursProperty.
-func (c *LINENFTMillionArthursPropertyClient) Query() *LINENFTMillionArthursPropertyQuery {
-	return &LINENFTMillionArthursPropertyQuery{
-		config: c.config,
-		ctx:    &QueryContext{Type: TypeLINENFTMillionArthursProperty},
-		inters: c.Interceptors(),
-	}
-}
-
-// Get returns a LINENFTMillionArthursProperty entity by its id.
-func (c *LINENFTMillionArthursPropertyClient) Get(ctx context.Context, id uint32) (*LINENFTMillionArthursProperty, error) {
-	return c.Query().Where(linenftmillionarthursproperty.ID(id)).Only(ctx)
-}
-
-// GetX is like Get, but panics if an error occurs.
-func (c *LINENFTMillionArthursPropertyClient) GetX(ctx context.Context, id uint32) *LINENFTMillionArthursProperty {
-	obj, err := c.Get(ctx, id)
-	if err != nil {
-		panic(err)
-	}
-	return obj
-}
-
-// QueryLineNft queries the line_nft edge of a LINENFTMillionArthursProperty.
-func (c *LINENFTMillionArthursPropertyClient) QueryLineNft(lmap *LINENFTMillionArthursProperty) *LINENFTQuery {
-	query := (&LINENFTClient{config: c.config}).Query()
-	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := lmap.ID
-		step := sqlgraph.NewStep(
-			sqlgraph.From(linenftmillionarthursproperty.Table, linenftmillionarthursproperty.FieldID, id),
-			sqlgraph.To(linenft.Table, linenft.FieldID),
-			sqlgraph.Edge(sqlgraph.O2O, true, linenftmillionarthursproperty.LineNftTable, linenftmillionarthursproperty.LineNftColumn),
-		)
-		fromV = sqlgraph.Neighbors(lmap.driver.Dialect(), step)
-		return fromV, nil
-	}
-	return query
-}
-
-// Hooks returns the client hooks.
-func (c *LINENFTMillionArthursPropertyClient) Hooks() []Hook {
-	hooks := c.hooks.LINENFTMillionArthursProperty
-	return append(hooks[:len(hooks):len(hooks)], linenftmillionarthursproperty.Hooks[:]...)
-}
-
-// Interceptors returns the client interceptors.
-func (c *LINENFTMillionArthursPropertyClient) Interceptors() []Interceptor {
-	inters := c.inters.LINENFTMillionArthursProperty
-	return append(inters[:len(inters):len(inters)], linenftmillionarthursproperty.Interceptors[:]...)
-}
-
-func (c *LINENFTMillionArthursPropertyClient) mutate(ctx context.Context, m *LINENFTMillionArthursPropertyMutation) (Value, error) {
-	switch m.Op() {
-	case OpCreate:
-		return (&LINENFTMillionArthursPropertyCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpUpdate:
-		return (&LINENFTMillionArthursPropertyUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpUpdateOne:
-		return (&LINENFTMillionArthursPropertyUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
-	case OpDelete, OpDeleteOne:
-		return (&LINENFTMillionArthursPropertyDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
-	default:
-		return nil, fmt.Errorf("ent: unknown LINENFTMillionArthursProperty mutation op: %q", m.Op())
+		return nil, fmt.Errorf("ent: unknown ChangokushiWeaponChangeLog mutation op: %q", m.Op())
 	}
 }
 
 // hooks and interceptors per client, for fast access.
 type (
 	hooks struct {
-		FinschiaItemToken, FinschiaItemTokenActivity,
-		FinschiaItemTokenMillionArthursProperty, KusogeeeeeeNFT,
-		KusogeeeeeeNFTChangeLog, LINENFT, LINENFTActivity,
-		LINENFTMillionArthursProperty []ent.Hook
+		ChangokushiWeapon, ChangokushiWeaponChangeLog []ent.Hook
 	}
 	inters struct {
-		FinschiaItemToken, FinschiaItemTokenActivity,
-		FinschiaItemTokenMillionArthursProperty, KusogeeeeeeNFT,
-		KusogeeeeeeNFTChangeLog, LINENFT, LINENFTActivity,
-		LINENFTMillionArthursProperty []ent.Interceptor
+		ChangokushiWeapon, ChangokushiWeaponChangeLog []ent.Interceptor
 	}
 )

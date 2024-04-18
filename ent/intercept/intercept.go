@@ -8,14 +8,8 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/a10adotapp/a10a.app/ent"
-	"github.com/a10adotapp/a10a.app/ent/finschiaitemtoken"
-	"github.com/a10adotapp/a10a.app/ent/finschiaitemtokenactivity"
-	"github.com/a10adotapp/a10a.app/ent/finschiaitemtokenmillionarthursproperty"
-	"github.com/a10adotapp/a10a.app/ent/kusogeeeeeenft"
-	"github.com/a10adotapp/a10a.app/ent/kusogeeeeeenftchangelog"
-	"github.com/a10adotapp/a10a.app/ent/linenft"
-	"github.com/a10adotapp/a10a.app/ent/linenftactivity"
-	"github.com/a10adotapp/a10a.app/ent/linenftmillionarthursproperty"
+	"github.com/a10adotapp/a10a.app/ent/changokushiweapon"
+	"github.com/a10adotapp/a10a.app/ent/changokushiweaponchangelog"
 	"github.com/a10adotapp/a10a.app/ent/predicate"
 )
 
@@ -75,241 +69,67 @@ func (f TraverseFunc) Traverse(ctx context.Context, q ent.Query) error {
 	return f(ctx, query)
 }
 
-// The FinschiaItemTokenFunc type is an adapter to allow the use of ordinary function as a Querier.
-type FinschiaItemTokenFunc func(context.Context, *ent.FinschiaItemTokenQuery) (ent.Value, error)
+// The ChangokushiWeaponFunc type is an adapter to allow the use of ordinary function as a Querier.
+type ChangokushiWeaponFunc func(context.Context, *ent.ChangokushiWeaponQuery) (ent.Value, error)
 
 // Query calls f(ctx, q).
-func (f FinschiaItemTokenFunc) Query(ctx context.Context, q ent.Query) (ent.Value, error) {
-	if q, ok := q.(*ent.FinschiaItemTokenQuery); ok {
+func (f ChangokushiWeaponFunc) Query(ctx context.Context, q ent.Query) (ent.Value, error) {
+	if q, ok := q.(*ent.ChangokushiWeaponQuery); ok {
 		return f(ctx, q)
 	}
-	return nil, fmt.Errorf("unexpected query type %T. expect *ent.FinschiaItemTokenQuery", q)
+	return nil, fmt.Errorf("unexpected query type %T. expect *ent.ChangokushiWeaponQuery", q)
 }
 
-// The TraverseFinschiaItemToken type is an adapter to allow the use of ordinary function as Traverser.
-type TraverseFinschiaItemToken func(context.Context, *ent.FinschiaItemTokenQuery) error
+// The TraverseChangokushiWeapon type is an adapter to allow the use of ordinary function as Traverser.
+type TraverseChangokushiWeapon func(context.Context, *ent.ChangokushiWeaponQuery) error
 
 // Intercept is a dummy implementation of Intercept that returns the next Querier in the pipeline.
-func (f TraverseFinschiaItemToken) Intercept(next ent.Querier) ent.Querier {
+func (f TraverseChangokushiWeapon) Intercept(next ent.Querier) ent.Querier {
 	return next
 }
 
 // Traverse calls f(ctx, q).
-func (f TraverseFinschiaItemToken) Traverse(ctx context.Context, q ent.Query) error {
-	if q, ok := q.(*ent.FinschiaItemTokenQuery); ok {
+func (f TraverseChangokushiWeapon) Traverse(ctx context.Context, q ent.Query) error {
+	if q, ok := q.(*ent.ChangokushiWeaponQuery); ok {
 		return f(ctx, q)
 	}
-	return fmt.Errorf("unexpected query type %T. expect *ent.FinschiaItemTokenQuery", q)
+	return fmt.Errorf("unexpected query type %T. expect *ent.ChangokushiWeaponQuery", q)
 }
 
-// The FinschiaItemTokenActivityFunc type is an adapter to allow the use of ordinary function as a Querier.
-type FinschiaItemTokenActivityFunc func(context.Context, *ent.FinschiaItemTokenActivityQuery) (ent.Value, error)
+// The ChangokushiWeaponChangeLogFunc type is an adapter to allow the use of ordinary function as a Querier.
+type ChangokushiWeaponChangeLogFunc func(context.Context, *ent.ChangokushiWeaponChangeLogQuery) (ent.Value, error)
 
 // Query calls f(ctx, q).
-func (f FinschiaItemTokenActivityFunc) Query(ctx context.Context, q ent.Query) (ent.Value, error) {
-	if q, ok := q.(*ent.FinschiaItemTokenActivityQuery); ok {
+func (f ChangokushiWeaponChangeLogFunc) Query(ctx context.Context, q ent.Query) (ent.Value, error) {
+	if q, ok := q.(*ent.ChangokushiWeaponChangeLogQuery); ok {
 		return f(ctx, q)
 	}
-	return nil, fmt.Errorf("unexpected query type %T. expect *ent.FinschiaItemTokenActivityQuery", q)
+	return nil, fmt.Errorf("unexpected query type %T. expect *ent.ChangokushiWeaponChangeLogQuery", q)
 }
 
-// The TraverseFinschiaItemTokenActivity type is an adapter to allow the use of ordinary function as Traverser.
-type TraverseFinschiaItemTokenActivity func(context.Context, *ent.FinschiaItemTokenActivityQuery) error
+// The TraverseChangokushiWeaponChangeLog type is an adapter to allow the use of ordinary function as Traverser.
+type TraverseChangokushiWeaponChangeLog func(context.Context, *ent.ChangokushiWeaponChangeLogQuery) error
 
 // Intercept is a dummy implementation of Intercept that returns the next Querier in the pipeline.
-func (f TraverseFinschiaItemTokenActivity) Intercept(next ent.Querier) ent.Querier {
+func (f TraverseChangokushiWeaponChangeLog) Intercept(next ent.Querier) ent.Querier {
 	return next
 }
 
 // Traverse calls f(ctx, q).
-func (f TraverseFinschiaItemTokenActivity) Traverse(ctx context.Context, q ent.Query) error {
-	if q, ok := q.(*ent.FinschiaItemTokenActivityQuery); ok {
+func (f TraverseChangokushiWeaponChangeLog) Traverse(ctx context.Context, q ent.Query) error {
+	if q, ok := q.(*ent.ChangokushiWeaponChangeLogQuery); ok {
 		return f(ctx, q)
 	}
-	return fmt.Errorf("unexpected query type %T. expect *ent.FinschiaItemTokenActivityQuery", q)
-}
-
-// The FinschiaItemTokenMillionArthursPropertyFunc type is an adapter to allow the use of ordinary function as a Querier.
-type FinschiaItemTokenMillionArthursPropertyFunc func(context.Context, *ent.FinschiaItemTokenMillionArthursPropertyQuery) (ent.Value, error)
-
-// Query calls f(ctx, q).
-func (f FinschiaItemTokenMillionArthursPropertyFunc) Query(ctx context.Context, q ent.Query) (ent.Value, error) {
-	if q, ok := q.(*ent.FinschiaItemTokenMillionArthursPropertyQuery); ok {
-		return f(ctx, q)
-	}
-	return nil, fmt.Errorf("unexpected query type %T. expect *ent.FinschiaItemTokenMillionArthursPropertyQuery", q)
-}
-
-// The TraverseFinschiaItemTokenMillionArthursProperty type is an adapter to allow the use of ordinary function as Traverser.
-type TraverseFinschiaItemTokenMillionArthursProperty func(context.Context, *ent.FinschiaItemTokenMillionArthursPropertyQuery) error
-
-// Intercept is a dummy implementation of Intercept that returns the next Querier in the pipeline.
-func (f TraverseFinschiaItemTokenMillionArthursProperty) Intercept(next ent.Querier) ent.Querier {
-	return next
-}
-
-// Traverse calls f(ctx, q).
-func (f TraverseFinschiaItemTokenMillionArthursProperty) Traverse(ctx context.Context, q ent.Query) error {
-	if q, ok := q.(*ent.FinschiaItemTokenMillionArthursPropertyQuery); ok {
-		return f(ctx, q)
-	}
-	return fmt.Errorf("unexpected query type %T. expect *ent.FinschiaItemTokenMillionArthursPropertyQuery", q)
-}
-
-// The KusogeeeeeeNFTFunc type is an adapter to allow the use of ordinary function as a Querier.
-type KusogeeeeeeNFTFunc func(context.Context, *ent.KusogeeeeeeNFTQuery) (ent.Value, error)
-
-// Query calls f(ctx, q).
-func (f KusogeeeeeeNFTFunc) Query(ctx context.Context, q ent.Query) (ent.Value, error) {
-	if q, ok := q.(*ent.KusogeeeeeeNFTQuery); ok {
-		return f(ctx, q)
-	}
-	return nil, fmt.Errorf("unexpected query type %T. expect *ent.KusogeeeeeeNFTQuery", q)
-}
-
-// The TraverseKusogeeeeeeNFT type is an adapter to allow the use of ordinary function as Traverser.
-type TraverseKusogeeeeeeNFT func(context.Context, *ent.KusogeeeeeeNFTQuery) error
-
-// Intercept is a dummy implementation of Intercept that returns the next Querier in the pipeline.
-func (f TraverseKusogeeeeeeNFT) Intercept(next ent.Querier) ent.Querier {
-	return next
-}
-
-// Traverse calls f(ctx, q).
-func (f TraverseKusogeeeeeeNFT) Traverse(ctx context.Context, q ent.Query) error {
-	if q, ok := q.(*ent.KusogeeeeeeNFTQuery); ok {
-		return f(ctx, q)
-	}
-	return fmt.Errorf("unexpected query type %T. expect *ent.KusogeeeeeeNFTQuery", q)
-}
-
-// The KusogeeeeeeNFTChangeLogFunc type is an adapter to allow the use of ordinary function as a Querier.
-type KusogeeeeeeNFTChangeLogFunc func(context.Context, *ent.KusogeeeeeeNFTChangeLogQuery) (ent.Value, error)
-
-// Query calls f(ctx, q).
-func (f KusogeeeeeeNFTChangeLogFunc) Query(ctx context.Context, q ent.Query) (ent.Value, error) {
-	if q, ok := q.(*ent.KusogeeeeeeNFTChangeLogQuery); ok {
-		return f(ctx, q)
-	}
-	return nil, fmt.Errorf("unexpected query type %T. expect *ent.KusogeeeeeeNFTChangeLogQuery", q)
-}
-
-// The TraverseKusogeeeeeeNFTChangeLog type is an adapter to allow the use of ordinary function as Traverser.
-type TraverseKusogeeeeeeNFTChangeLog func(context.Context, *ent.KusogeeeeeeNFTChangeLogQuery) error
-
-// Intercept is a dummy implementation of Intercept that returns the next Querier in the pipeline.
-func (f TraverseKusogeeeeeeNFTChangeLog) Intercept(next ent.Querier) ent.Querier {
-	return next
-}
-
-// Traverse calls f(ctx, q).
-func (f TraverseKusogeeeeeeNFTChangeLog) Traverse(ctx context.Context, q ent.Query) error {
-	if q, ok := q.(*ent.KusogeeeeeeNFTChangeLogQuery); ok {
-		return f(ctx, q)
-	}
-	return fmt.Errorf("unexpected query type %T. expect *ent.KusogeeeeeeNFTChangeLogQuery", q)
-}
-
-// The LINENFTFunc type is an adapter to allow the use of ordinary function as a Querier.
-type LINENFTFunc func(context.Context, *ent.LINENFTQuery) (ent.Value, error)
-
-// Query calls f(ctx, q).
-func (f LINENFTFunc) Query(ctx context.Context, q ent.Query) (ent.Value, error) {
-	if q, ok := q.(*ent.LINENFTQuery); ok {
-		return f(ctx, q)
-	}
-	return nil, fmt.Errorf("unexpected query type %T. expect *ent.LINENFTQuery", q)
-}
-
-// The TraverseLINENFT type is an adapter to allow the use of ordinary function as Traverser.
-type TraverseLINENFT func(context.Context, *ent.LINENFTQuery) error
-
-// Intercept is a dummy implementation of Intercept that returns the next Querier in the pipeline.
-func (f TraverseLINENFT) Intercept(next ent.Querier) ent.Querier {
-	return next
-}
-
-// Traverse calls f(ctx, q).
-func (f TraverseLINENFT) Traverse(ctx context.Context, q ent.Query) error {
-	if q, ok := q.(*ent.LINENFTQuery); ok {
-		return f(ctx, q)
-	}
-	return fmt.Errorf("unexpected query type %T. expect *ent.LINENFTQuery", q)
-}
-
-// The LINENFTActivityFunc type is an adapter to allow the use of ordinary function as a Querier.
-type LINENFTActivityFunc func(context.Context, *ent.LINENFTActivityQuery) (ent.Value, error)
-
-// Query calls f(ctx, q).
-func (f LINENFTActivityFunc) Query(ctx context.Context, q ent.Query) (ent.Value, error) {
-	if q, ok := q.(*ent.LINENFTActivityQuery); ok {
-		return f(ctx, q)
-	}
-	return nil, fmt.Errorf("unexpected query type %T. expect *ent.LINENFTActivityQuery", q)
-}
-
-// The TraverseLINENFTActivity type is an adapter to allow the use of ordinary function as Traverser.
-type TraverseLINENFTActivity func(context.Context, *ent.LINENFTActivityQuery) error
-
-// Intercept is a dummy implementation of Intercept that returns the next Querier in the pipeline.
-func (f TraverseLINENFTActivity) Intercept(next ent.Querier) ent.Querier {
-	return next
-}
-
-// Traverse calls f(ctx, q).
-func (f TraverseLINENFTActivity) Traverse(ctx context.Context, q ent.Query) error {
-	if q, ok := q.(*ent.LINENFTActivityQuery); ok {
-		return f(ctx, q)
-	}
-	return fmt.Errorf("unexpected query type %T. expect *ent.LINENFTActivityQuery", q)
-}
-
-// The LINENFTMillionArthursPropertyFunc type is an adapter to allow the use of ordinary function as a Querier.
-type LINENFTMillionArthursPropertyFunc func(context.Context, *ent.LINENFTMillionArthursPropertyQuery) (ent.Value, error)
-
-// Query calls f(ctx, q).
-func (f LINENFTMillionArthursPropertyFunc) Query(ctx context.Context, q ent.Query) (ent.Value, error) {
-	if q, ok := q.(*ent.LINENFTMillionArthursPropertyQuery); ok {
-		return f(ctx, q)
-	}
-	return nil, fmt.Errorf("unexpected query type %T. expect *ent.LINENFTMillionArthursPropertyQuery", q)
-}
-
-// The TraverseLINENFTMillionArthursProperty type is an adapter to allow the use of ordinary function as Traverser.
-type TraverseLINENFTMillionArthursProperty func(context.Context, *ent.LINENFTMillionArthursPropertyQuery) error
-
-// Intercept is a dummy implementation of Intercept that returns the next Querier in the pipeline.
-func (f TraverseLINENFTMillionArthursProperty) Intercept(next ent.Querier) ent.Querier {
-	return next
-}
-
-// Traverse calls f(ctx, q).
-func (f TraverseLINENFTMillionArthursProperty) Traverse(ctx context.Context, q ent.Query) error {
-	if q, ok := q.(*ent.LINENFTMillionArthursPropertyQuery); ok {
-		return f(ctx, q)
-	}
-	return fmt.Errorf("unexpected query type %T. expect *ent.LINENFTMillionArthursPropertyQuery", q)
+	return fmt.Errorf("unexpected query type %T. expect *ent.ChangokushiWeaponChangeLogQuery", q)
 }
 
 // NewQuery returns the generic Query interface for the given typed query.
 func NewQuery(q ent.Query) (Query, error) {
 	switch q := q.(type) {
-	case *ent.FinschiaItemTokenQuery:
-		return &query[*ent.FinschiaItemTokenQuery, predicate.FinschiaItemToken, finschiaitemtoken.OrderOption]{typ: ent.TypeFinschiaItemToken, tq: q}, nil
-	case *ent.FinschiaItemTokenActivityQuery:
-		return &query[*ent.FinschiaItemTokenActivityQuery, predicate.FinschiaItemTokenActivity, finschiaitemtokenactivity.OrderOption]{typ: ent.TypeFinschiaItemTokenActivity, tq: q}, nil
-	case *ent.FinschiaItemTokenMillionArthursPropertyQuery:
-		return &query[*ent.FinschiaItemTokenMillionArthursPropertyQuery, predicate.FinschiaItemTokenMillionArthursProperty, finschiaitemtokenmillionarthursproperty.OrderOption]{typ: ent.TypeFinschiaItemTokenMillionArthursProperty, tq: q}, nil
-	case *ent.KusogeeeeeeNFTQuery:
-		return &query[*ent.KusogeeeeeeNFTQuery, predicate.KusogeeeeeeNFT, kusogeeeeeenft.OrderOption]{typ: ent.TypeKusogeeeeeeNFT, tq: q}, nil
-	case *ent.KusogeeeeeeNFTChangeLogQuery:
-		return &query[*ent.KusogeeeeeeNFTChangeLogQuery, predicate.KusogeeeeeeNFTChangeLog, kusogeeeeeenftchangelog.OrderOption]{typ: ent.TypeKusogeeeeeeNFTChangeLog, tq: q}, nil
-	case *ent.LINENFTQuery:
-		return &query[*ent.LINENFTQuery, predicate.LINENFT, linenft.OrderOption]{typ: ent.TypeLINENFT, tq: q}, nil
-	case *ent.LINENFTActivityQuery:
-		return &query[*ent.LINENFTActivityQuery, predicate.LINENFTActivity, linenftactivity.OrderOption]{typ: ent.TypeLINENFTActivity, tq: q}, nil
-	case *ent.LINENFTMillionArthursPropertyQuery:
-		return &query[*ent.LINENFTMillionArthursPropertyQuery, predicate.LINENFTMillionArthursProperty, linenftmillionarthursproperty.OrderOption]{typ: ent.TypeLINENFTMillionArthursProperty, tq: q}, nil
+	case *ent.ChangokushiWeaponQuery:
+		return &query[*ent.ChangokushiWeaponQuery, predicate.ChangokushiWeapon, changokushiweapon.OrderOption]{typ: ent.TypeChangokushiWeapon, tq: q}, nil
+	case *ent.ChangokushiWeaponChangeLogQuery:
+		return &query[*ent.ChangokushiWeaponChangeLogQuery, predicate.ChangokushiWeaponChangeLog, changokushiweaponchangelog.OrderOption]{typ: ent.TypeChangokushiWeaponChangeLog, tq: q}, nil
 	default:
 		return nil, fmt.Errorf("unknown query type %T", q)
 	}

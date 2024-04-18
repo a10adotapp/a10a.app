@@ -9,247 +9,69 @@ import (
 )
 
 var (
-	// FinschiaItemTokensColumns holds the columns for the "finschia_item_tokens" table.
-	FinschiaItemTokensColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeUint32, Increment: true},
-		{Name: "created_at", Type: field.TypeTime, SchemaType: map[string]string{"mysql": "datetime"}},
-		{Name: "updated_at", Type: field.TypeTime, SchemaType: map[string]string{"mysql": "datetime"}},
-		{Name: "deleted_at", Type: field.TypeTime, Nullable: true, SchemaType: map[string]string{"mysql": "datetime"}},
-		{Name: "contract_id", Type: field.TypeString},
-		{Name: "token_type", Type: field.TypeString},
-		{Name: "name", Type: field.TypeString},
-	}
-	// FinschiaItemTokensTable holds the schema information for the "finschia_item_tokens" table.
-	FinschiaItemTokensTable = &schema.Table{
-		Name:       "finschia_item_tokens",
-		Comment:    "Finschia Item Tokens",
-		Columns:    FinschiaItemTokensColumns,
-		PrimaryKey: []*schema.Column{FinschiaItemTokensColumns[0]},
-	}
-	// FinschiaItemTokenActivitiesColumns holds the columns for the "finschia_item_token_activities" table.
-	FinschiaItemTokenActivitiesColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeUint32, Increment: true},
-		{Name: "created_at", Type: field.TypeTime, SchemaType: map[string]string{"mysql": "datetime"}},
-		{Name: "updated_at", Type: field.TypeTime, SchemaType: map[string]string{"mysql": "datetime"}},
-		{Name: "deleted_at", Type: field.TypeTime, Nullable: true, SchemaType: map[string]string{"mysql": "datetime"}},
-		{Name: "transaction_hash", Type: field.TypeString},
-		{Name: "activity_type", Type: field.TypeString},
-		{Name: "activated_at", Type: field.TypeTime, SchemaType: map[string]string{"mysql": "datetime"}},
-		{Name: "finschia_item_token_id", Type: field.TypeUint32},
-	}
-	// FinschiaItemTokenActivitiesTable holds the schema information for the "finschia_item_token_activities" table.
-	FinschiaItemTokenActivitiesTable = &schema.Table{
-		Name:       "finschia_item_token_activities",
-		Comment:    "Activity Records for Finschia Item Tokens",
-		Columns:    FinschiaItemTokenActivitiesColumns,
-		PrimaryKey: []*schema.Column{FinschiaItemTokenActivitiesColumns[0]},
-		ForeignKeys: []*schema.ForeignKey{
-			{
-				Symbol:     "finschia_item_token_activities_finschia_item_tokens_activities",
-				Columns:    []*schema.Column{FinschiaItemTokenActivitiesColumns[7]},
-				RefColumns: []*schema.Column{FinschiaItemTokensColumns[0]},
-				OnDelete:   schema.NoAction,
-			},
-		},
-	}
-	// FinschiaItemTokenMillionArthursPropertiesColumns holds the columns for the "finschia_item_token_million_arthurs_properties" table.
-	FinschiaItemTokenMillionArthursPropertiesColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeUint32, Increment: true},
-		{Name: "created_at", Type: field.TypeTime, SchemaType: map[string]string{"mysql": "datetime"}},
-		{Name: "updated_at", Type: field.TypeTime, SchemaType: map[string]string{"mysql": "datetime"}},
-		{Name: "deleted_at", Type: field.TypeTime, Nullable: true, SchemaType: map[string]string{"mysql": "datetime"}},
-		{Name: "series", Type: field.TypeString, Nullable: true},
-		{Name: "gear_category", Type: field.TypeString, Nullable: true},
-		{Name: "gear_rarity", Type: field.TypeString, Nullable: true},
-		{Name: "finschia_item_token_id", Type: field.TypeUint32},
-	}
-	// FinschiaItemTokenMillionArthursPropertiesTable holds the schema information for the "finschia_item_token_million_arthurs_properties" table.
-	FinschiaItemTokenMillionArthursPropertiesTable = &schema.Table{
-		Name:       "finschia_item_token_million_arthurs_properties",
-		Comment:    "Million Arthurs' Properties for Finschia Item Tokens",
-		Columns:    FinschiaItemTokenMillionArthursPropertiesColumns,
-		PrimaryKey: []*schema.Column{FinschiaItemTokenMillionArthursPropertiesColumns[0]},
-		ForeignKeys: []*schema.ForeignKey{
-			{
-				Symbol:     "finschia_item_token_million_arthurs_properties_finschia_item_tokens_million_arthurs_properties",
-				Columns:    []*schema.Column{FinschiaItemTokenMillionArthursPropertiesColumns[7]},
-				RefColumns: []*schema.Column{FinschiaItemTokensColumns[0]},
-				OnDelete:   schema.NoAction,
-			},
-		},
-	}
-	// KusogeeeeeeNftsColumns holds the columns for the "kusogeeeeee_nfts" table.
-	KusogeeeeeeNftsColumns = []*schema.Column{
+	// ChangokushiWeaponColumns holds the columns for the "changokushi_weapon" table.
+	ChangokushiWeaponColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUint32, Increment: true},
 		{Name: "created_at", Type: field.TypeTime, SchemaType: map[string]string{"mysql": "datetime"}},
 		{Name: "updated_at", Type: field.TypeTime, SchemaType: map[string]string{"mysql": "datetime"}},
 		{Name: "deleted_at", Type: field.TypeTime, Nullable: true, SchemaType: map[string]string{"mysql": "datetime"}},
 		{Name: "uri", Type: field.TypeString},
-		{Name: "type", Type: field.TypeString},
 		{Name: "name", Type: field.TypeString},
+		{Name: "rank", Type: field.TypeInt},
+		{Name: "type", Type: field.TypeString},
+		{Name: "skill", Type: field.TypeString},
+		{Name: "vitality", Type: field.TypeInt},
+		{Name: "strength", Type: field.TypeInt},
+		{Name: "physical_defense", Type: field.TypeInt},
+		{Name: "magical_defense", Type: field.TypeInt},
+		{Name: "agility", Type: field.TypeInt},
+	}
+	// ChangokushiWeaponTable holds the schema information for the "changokushi_weapon" table.
+	ChangokushiWeaponTable = &schema.Table{
+		Name:       "changokushi_weapon",
+		Comment:    "Changokushi weapons",
+		Columns:    ChangokushiWeaponColumns,
+		PrimaryKey: []*schema.Column{ChangokushiWeaponColumns[0]},
+	}
+	// ChangokushiWeaponChangeLogsColumns holds the columns for the "changokushi_weapon_change_logs" table.
+	ChangokushiWeaponChangeLogsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUint32, Increment: true},
+		{Name: "created_at", Type: field.TypeTime, SchemaType: map[string]string{"mysql": "datetime"}},
+		{Name: "updated_at", Type: field.TypeTime, SchemaType: map[string]string{"mysql": "datetime"}},
+		{Name: "deleted_at", Type: field.TypeTime, Nullable: true, SchemaType: map[string]string{"mysql": "datetime"}},
 		{Name: "status", Type: field.TypeString},
 		{Name: "price", Type: field.TypeInt},
 		{Name: "published_at", Type: field.TypeTime, SchemaType: map[string]string{"mysql": "datetime"}},
-		{Name: "weapon_rank", Type: field.TypeInt, Nullable: true},
-		{Name: "weapon_type", Type: field.TypeString, Nullable: true},
-		{Name: "weapon_vitality", Type: field.TypeInt, Nullable: true},
-		{Name: "weapon_strength", Type: field.TypeInt, Nullable: true},
-		{Name: "weapon_physical_defense", Type: field.TypeInt, Nullable: true},
-		{Name: "weapon_magical_defense", Type: field.TypeInt, Nullable: true},
-		{Name: "weapon_agility", Type: field.TypeInt, Nullable: true},
-		{Name: "character_rank", Type: field.TypeString, Nullable: true},
-		{Name: "character_total_supply", Type: field.TypeInt, Nullable: true},
+		{Name: "changokushi_weapon_id", Type: field.TypeUint32},
 	}
-	// KusogeeeeeeNftsTable holds the schema information for the "kusogeeeeee_nfts" table.
-	KusogeeeeeeNftsTable = &schema.Table{
-		Name:       "kusogeeeeee_nfts",
-		Comment:    "Kusogeeeeee NFT",
-		Columns:    KusogeeeeeeNftsColumns,
-		PrimaryKey: []*schema.Column{KusogeeeeeeNftsColumns[0]},
-	}
-	// KusogeeeeeeNftChangeLogsColumns holds the columns for the "kusogeeeeee_nft_change_logs" table.
-	KusogeeeeeeNftChangeLogsColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeUint32, Increment: true},
-		{Name: "created_at", Type: field.TypeTime, SchemaType: map[string]string{"mysql": "datetime"}},
-		{Name: "updated_at", Type: field.TypeTime, SchemaType: map[string]string{"mysql": "datetime"}},
-		{Name: "deleted_at", Type: field.TypeTime, Nullable: true, SchemaType: map[string]string{"mysql": "datetime"}},
-		{Name: "status", Type: field.TypeString},
-		{Name: "price", Type: field.TypeInt},
-		{Name: "kusogeeeeee_nft_id", Type: field.TypeUint32},
-	}
-	// KusogeeeeeeNftChangeLogsTable holds the schema information for the "kusogeeeeee_nft_change_logs" table.
-	KusogeeeeeeNftChangeLogsTable = &schema.Table{
-		Name:       "kusogeeeeee_nft_change_logs",
-		Comment:    "Kusogeeeeee NFT Change Log",
-		Columns:    KusogeeeeeeNftChangeLogsColumns,
-		PrimaryKey: []*schema.Column{KusogeeeeeeNftChangeLogsColumns[0]},
+	// ChangokushiWeaponChangeLogsTable holds the schema information for the "changokushi_weapon_change_logs" table.
+	ChangokushiWeaponChangeLogsTable = &schema.Table{
+		Name:       "changokushi_weapon_change_logs",
+		Comment:    "Changokushi weapon change log",
+		Columns:    ChangokushiWeaponChangeLogsColumns,
+		PrimaryKey: []*schema.Column{ChangokushiWeaponChangeLogsColumns[0]},
 		ForeignKeys: []*schema.ForeignKey{
 			{
-				Symbol:     "kusogeeeeee_nft_change_logs_kusogeeeeee_nfts_change_logs",
-				Columns:    []*schema.Column{KusogeeeeeeNftChangeLogsColumns[6]},
-				RefColumns: []*schema.Column{KusogeeeeeeNftsColumns[0]},
-				OnDelete:   schema.NoAction,
-			},
-		},
-	}
-	// LineNftsColumns holds the columns for the "line_nfts" table.
-	LineNftsColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeUint32, Increment: true},
-		{Name: "created_at", Type: field.TypeTime, SchemaType: map[string]string{"mysql": "datetime"}},
-		{Name: "updated_at", Type: field.TypeTime, SchemaType: map[string]string{"mysql": "datetime"}},
-		{Name: "deleted_at", Type: field.TypeTime, Nullable: true, SchemaType: map[string]string{"mysql": "datetime"}},
-		{Name: "line_nft_id", Type: field.TypeUint32},
-		{Name: "contract_id", Type: field.TypeString},
-		{Name: "token_type", Type: field.TypeString},
-		{Name: "token_index", Type: field.TypeString},
-		{Name: "token_name", Type: field.TypeString},
-		{Name: "token_description", Type: field.TypeString, Size: 2147483647},
-		{Name: "token_content_url", Type: field.TypeString},
-	}
-	// LineNftsTable holds the schema information for the "line_nfts" table.
-	LineNftsTable = &schema.Table{
-		Name:       "line_nfts",
-		Comment:    "LINE NFT",
-		Columns:    LineNftsColumns,
-		PrimaryKey: []*schema.Column{LineNftsColumns[0]},
-	}
-	// LineNftActivitiesColumns holds the columns for the "line_nft_activities" table.
-	LineNftActivitiesColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeUint32, Increment: true},
-		{Name: "created_at", Type: field.TypeTime, SchemaType: map[string]string{"mysql": "datetime"}},
-		{Name: "updated_at", Type: field.TypeTime, SchemaType: map[string]string{"mysql": "datetime"}},
-		{Name: "deleted_at", Type: field.TypeTime, Nullable: true, SchemaType: map[string]string{"mysql": "datetime"}},
-		{Name: "activity_type", Type: field.TypeString},
-		{Name: "sale_id", Type: field.TypeUint32},
-		{Name: "sale_type", Type: field.TypeString},
-		{Name: "currency_type", Type: field.TypeString},
-		{Name: "price", Type: field.TypeFloat32},
-		{Name: "activated_at", Type: field.TypeTime, SchemaType: map[string]string{"mysql": "datetime"}},
-		{Name: "linenft_activities", Type: field.TypeUint32},
-	}
-	// LineNftActivitiesTable holds the schema information for the "line_nft_activities" table.
-	LineNftActivitiesTable = &schema.Table{
-		Name:       "line_nft_activities",
-		Comment:    "LINE NFT 売買履歴",
-		Columns:    LineNftActivitiesColumns,
-		PrimaryKey: []*schema.Column{LineNftActivitiesColumns[0]},
-		ForeignKeys: []*schema.ForeignKey{
-			{
-				Symbol:     "line_nft_activities_line_nfts_activities",
-				Columns:    []*schema.Column{LineNftActivitiesColumns[10]},
-				RefColumns: []*schema.Column{LineNftsColumns[0]},
-				OnDelete:   schema.NoAction,
-			},
-		},
-	}
-	// LineNftMillionArthursPropertiesColumns holds the columns for the "line_nft_million_arthurs_properties" table.
-	LineNftMillionArthursPropertiesColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeUint32, Increment: true},
-		{Name: "created_at", Type: field.TypeTime, SchemaType: map[string]string{"mysql": "datetime"}},
-		{Name: "updated_at", Type: field.TypeTime, SchemaType: map[string]string{"mysql": "datetime"}},
-		{Name: "deleted_at", Type: field.TypeTime, Nullable: true, SchemaType: map[string]string{"mysql": "datetime"}},
-		{Name: "series", Type: field.TypeString, Nullable: true},
-		{Name: "gear_category", Type: field.TypeString, Nullable: true},
-		{Name: "gear_rarity", Type: field.TypeString, Nullable: true},
-		{Name: "omj", Type: field.TypeString, Nullable: true},
-		{Name: "linenft_million_arthurs_property", Type: field.TypeUint32, Unique: true},
-	}
-	// LineNftMillionArthursPropertiesTable holds the schema information for the "line_nft_million_arthurs_properties" table.
-	LineNftMillionArthursPropertiesTable = &schema.Table{
-		Name:       "line_nft_million_arthurs_properties",
-		Comment:    "LINE NFT 資産性ミリオンアーサーズのプロパティ",
-		Columns:    LineNftMillionArthursPropertiesColumns,
-		PrimaryKey: []*schema.Column{LineNftMillionArthursPropertiesColumns[0]},
-		ForeignKeys: []*schema.ForeignKey{
-			{
-				Symbol:     "line_nft_million_arthurs_properties_line_nfts_million_arthurs_property",
-				Columns:    []*schema.Column{LineNftMillionArthursPropertiesColumns[8]},
-				RefColumns: []*schema.Column{LineNftsColumns[0]},
+				Symbol:     "changokushi_weapon_change_logs_changokushi_weapon_change_logs",
+				Columns:    []*schema.Column{ChangokushiWeaponChangeLogsColumns[7]},
+				RefColumns: []*schema.Column{ChangokushiWeaponColumns[0]},
 				OnDelete:   schema.NoAction,
 			},
 		},
 	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
-		FinschiaItemTokensTable,
-		FinschiaItemTokenActivitiesTable,
-		FinschiaItemTokenMillionArthursPropertiesTable,
-		KusogeeeeeeNftsTable,
-		KusogeeeeeeNftChangeLogsTable,
-		LineNftsTable,
-		LineNftActivitiesTable,
-		LineNftMillionArthursPropertiesTable,
+		ChangokushiWeaponTable,
+		ChangokushiWeaponChangeLogsTable,
 	}
 )
 
 func init() {
-	FinschiaItemTokensTable.Annotation = &entsql.Annotation{
-		Table: "finschia_item_tokens",
+	ChangokushiWeaponTable.Annotation = &entsql.Annotation{
+		Table: "changokushi_weapon",
 	}
-	FinschiaItemTokenActivitiesTable.ForeignKeys[0].RefTable = FinschiaItemTokensTable
-	FinschiaItemTokenActivitiesTable.Annotation = &entsql.Annotation{
-		Table: "finschia_item_token_activities",
-	}
-	FinschiaItemTokenMillionArthursPropertiesTable.ForeignKeys[0].RefTable = FinschiaItemTokensTable
-	FinschiaItemTokenMillionArthursPropertiesTable.Annotation = &entsql.Annotation{
-		Table: "finschia_item_token_million_arthurs_properties",
-	}
-	KusogeeeeeeNftsTable.Annotation = &entsql.Annotation{
-		Table: "kusogeeeeee_nfts",
-	}
-	KusogeeeeeeNftChangeLogsTable.ForeignKeys[0].RefTable = KusogeeeeeeNftsTable
-	KusogeeeeeeNftChangeLogsTable.Annotation = &entsql.Annotation{
-		Table: "kusogeeeeee_nft_change_logs",
-	}
-	LineNftsTable.Annotation = &entsql.Annotation{
-		Table: "line_nfts",
-	}
-	LineNftActivitiesTable.ForeignKeys[0].RefTable = LineNftsTable
-	LineNftActivitiesTable.Annotation = &entsql.Annotation{
-		Table: "line_nft_activities",
-	}
-	LineNftMillionArthursPropertiesTable.ForeignKeys[0].RefTable = LineNftsTable
-	LineNftMillionArthursPropertiesTable.Annotation = &entsql.Annotation{
-		Table: "line_nft_million_arthurs_properties",
+	ChangokushiWeaponChangeLogsTable.ForeignKeys[0].RefTable = ChangokushiWeaponTable
+	ChangokushiWeaponChangeLogsTable.Annotation = &entsql.Annotation{
+		Table: "changokushi_weapon_change_logs",
 	}
 }

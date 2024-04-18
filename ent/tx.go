@@ -12,22 +12,10 @@ import (
 // Tx is a transactional client that is created by calling Client.Tx().
 type Tx struct {
 	config
-	// FinschiaItemToken is the client for interacting with the FinschiaItemToken builders.
-	FinschiaItemToken *FinschiaItemTokenClient
-	// FinschiaItemTokenActivity is the client for interacting with the FinschiaItemTokenActivity builders.
-	FinschiaItemTokenActivity *FinschiaItemTokenActivityClient
-	// FinschiaItemTokenMillionArthursProperty is the client for interacting with the FinschiaItemTokenMillionArthursProperty builders.
-	FinschiaItemTokenMillionArthursProperty *FinschiaItemTokenMillionArthursPropertyClient
-	// KusogeeeeeeNFT is the client for interacting with the KusogeeeeeeNFT builders.
-	KusogeeeeeeNFT *KusogeeeeeeNFTClient
-	// KusogeeeeeeNFTChangeLog is the client for interacting with the KusogeeeeeeNFTChangeLog builders.
-	KusogeeeeeeNFTChangeLog *KusogeeeeeeNFTChangeLogClient
-	// LINENFT is the client for interacting with the LINENFT builders.
-	LINENFT *LINENFTClient
-	// LINENFTActivity is the client for interacting with the LINENFTActivity builders.
-	LINENFTActivity *LINENFTActivityClient
-	// LINENFTMillionArthursProperty is the client for interacting with the LINENFTMillionArthursProperty builders.
-	LINENFTMillionArthursProperty *LINENFTMillionArthursPropertyClient
+	// ChangokushiWeapon is the client for interacting with the ChangokushiWeapon builders.
+	ChangokushiWeapon *ChangokushiWeaponClient
+	// ChangokushiWeaponChangeLog is the client for interacting with the ChangokushiWeaponChangeLog builders.
+	ChangokushiWeaponChangeLog *ChangokushiWeaponChangeLogClient
 
 	// lazily loaded.
 	client     *Client
@@ -159,14 +147,8 @@ func (tx *Tx) Client() *Client {
 }
 
 func (tx *Tx) init() {
-	tx.FinschiaItemToken = NewFinschiaItemTokenClient(tx.config)
-	tx.FinschiaItemTokenActivity = NewFinschiaItemTokenActivityClient(tx.config)
-	tx.FinschiaItemTokenMillionArthursProperty = NewFinschiaItemTokenMillionArthursPropertyClient(tx.config)
-	tx.KusogeeeeeeNFT = NewKusogeeeeeeNFTClient(tx.config)
-	tx.KusogeeeeeeNFTChangeLog = NewKusogeeeeeeNFTChangeLogClient(tx.config)
-	tx.LINENFT = NewLINENFTClient(tx.config)
-	tx.LINENFTActivity = NewLINENFTActivityClient(tx.config)
-	tx.LINENFTMillionArthursProperty = NewLINENFTMillionArthursPropertyClient(tx.config)
+	tx.ChangokushiWeapon = NewChangokushiWeaponClient(tx.config)
+	tx.ChangokushiWeaponChangeLog = NewChangokushiWeaponChangeLogClient(tx.config)
 }
 
 // txDriver wraps the given dialect.Tx with a nop dialect.Driver implementation.
@@ -176,7 +158,7 @@ func (tx *Tx) init() {
 // of them in order to commit or rollback the transaction.
 //
 // If a closed transaction is embedded in one of the generated entities, and the entity
-// applies a query, for example: FinschiaItemToken.QueryXXX(), the query will be executed
+// applies a query, for example: ChangokushiWeapon.QueryXXX(), the query will be executed
 // through the driver which created this transaction.
 //
 // Note that txDriver is not goroutine safe.

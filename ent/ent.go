@@ -12,14 +12,8 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
-	"github.com/a10adotapp/a10a.app/ent/finschiaitemtoken"
-	"github.com/a10adotapp/a10a.app/ent/finschiaitemtokenactivity"
-	"github.com/a10adotapp/a10a.app/ent/finschiaitemtokenmillionarthursproperty"
-	"github.com/a10adotapp/a10a.app/ent/kusogeeeeeenft"
-	"github.com/a10adotapp/a10a.app/ent/kusogeeeeeenftchangelog"
-	"github.com/a10adotapp/a10a.app/ent/linenft"
-	"github.com/a10adotapp/a10a.app/ent/linenftactivity"
-	"github.com/a10adotapp/a10a.app/ent/linenftmillionarthursproperty"
+	"github.com/a10adotapp/a10a.app/ent/changokushiweapon"
+	"github.com/a10adotapp/a10a.app/ent/changokushiweaponchangelog"
 )
 
 // ent aliases to avoid import conflicts in user's code.
@@ -80,14 +74,8 @@ var (
 func checkColumn(table, column string) error {
 	initCheck.Do(func() {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
-			finschiaitemtoken.Table:                       finschiaitemtoken.ValidColumn,
-			finschiaitemtokenactivity.Table:               finschiaitemtokenactivity.ValidColumn,
-			finschiaitemtokenmillionarthursproperty.Table: finschiaitemtokenmillionarthursproperty.ValidColumn,
-			kusogeeeeeenft.Table:                          kusogeeeeeenft.ValidColumn,
-			kusogeeeeeenftchangelog.Table:                 kusogeeeeeenftchangelog.ValidColumn,
-			linenft.Table:                                 linenft.ValidColumn,
-			linenftactivity.Table:                         linenftactivity.ValidColumn,
-			linenftmillionarthursproperty.Table:           linenftmillionarthursproperty.ValidColumn,
+			changokushiweapon.Table:          changokushiweapon.ValidColumn,
+			changokushiweaponchangelog.Table: changokushiweaponchangelog.ValidColumn,
 		})
 	})
 	return columnCheck(table, column)

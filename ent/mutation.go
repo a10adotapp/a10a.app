@@ -11,14 +11,8 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
-	"github.com/a10adotapp/a10a.app/ent/finschiaitemtoken"
-	"github.com/a10adotapp/a10a.app/ent/finschiaitemtokenactivity"
-	"github.com/a10adotapp/a10a.app/ent/finschiaitemtokenmillionarthursproperty"
-	"github.com/a10adotapp/a10a.app/ent/kusogeeeeeenft"
-	"github.com/a10adotapp/a10a.app/ent/kusogeeeeeenftchangelog"
-	"github.com/a10adotapp/a10a.app/ent/linenft"
-	"github.com/a10adotapp/a10a.app/ent/linenftactivity"
-	"github.com/a10adotapp/a10a.app/ent/linenftmillionarthursproperty"
+	"github.com/a10adotapp/a10a.app/ent/changokushiweapon"
+	"github.com/a10adotapp/a10a.app/ent/changokushiweaponchangelog"
 	"github.com/a10adotapp/a10a.app/ent/predicate"
 )
 
@@ -31,51 +25,55 @@ const (
 	OpUpdateOne = ent.OpUpdateOne
 
 	// Node types.
-	TypeFinschiaItemToken                       = "FinschiaItemToken"
-	TypeFinschiaItemTokenActivity               = "FinschiaItemTokenActivity"
-	TypeFinschiaItemTokenMillionArthursProperty = "FinschiaItemTokenMillionArthursProperty"
-	TypeKusogeeeeeeNFT                          = "KusogeeeeeeNFT"
-	TypeKusogeeeeeeNFTChangeLog                 = "KusogeeeeeeNFTChangeLog"
-	TypeLINENFT                                 = "LINENFT"
-	TypeLINENFTActivity                         = "LINENFTActivity"
-	TypeLINENFTMillionArthursProperty           = "LINENFTMillionArthursProperty"
+	TypeChangokushiWeapon          = "ChangokushiWeapon"
+	TypeChangokushiWeaponChangeLog = "ChangokushiWeaponChangeLog"
 )
 
-// FinschiaItemTokenMutation represents an operation that mutates the FinschiaItemToken nodes in the graph.
-type FinschiaItemTokenMutation struct {
+// ChangokushiWeaponMutation represents an operation that mutates the ChangokushiWeapon nodes in the graph.
+type ChangokushiWeaponMutation struct {
 	config
-	op                                Op
-	typ                               string
-	id                                *uint32
-	created_at                        *time.Time
-	updated_at                        *time.Time
-	deleted_at                        *time.Time
-	contract_id                       *string
-	token_type                        *string
-	name                              *string
-	clearedFields                     map[string]struct{}
-	activities                        map[uint32]struct{}
-	removedactivities                 map[uint32]struct{}
-	clearedactivities                 bool
-	million_arthurs_properties        map[uint32]struct{}
-	removedmillion_arthurs_properties map[uint32]struct{}
-	clearedmillion_arthurs_properties bool
-	done                              bool
-	oldValue                          func(context.Context) (*FinschiaItemToken, error)
-	predicates                        []predicate.FinschiaItemToken
+	op                  Op
+	typ                 string
+	id                  *uint32
+	created_at          *time.Time
+	updated_at          *time.Time
+	deleted_at          *time.Time
+	uri                 *string
+	name                *string
+	rank                *int
+	addrank             *int
+	_type               *string
+	skill               *string
+	vitality            *int
+	addvitality         *int
+	strength            *int
+	addstrength         *int
+	physical_defense    *int
+	addphysical_defense *int
+	magical_defense     *int
+	addmagical_defense  *int
+	agility             *int
+	addagility          *int
+	clearedFields       map[string]struct{}
+	change_logs         map[uint32]struct{}
+	removedchange_logs  map[uint32]struct{}
+	clearedchange_logs  bool
+	done                bool
+	oldValue            func(context.Context) (*ChangokushiWeapon, error)
+	predicates          []predicate.ChangokushiWeapon
 }
 
-var _ ent.Mutation = (*FinschiaItemTokenMutation)(nil)
+var _ ent.Mutation = (*ChangokushiWeaponMutation)(nil)
 
-// finschiaitemtokenOption allows management of the mutation configuration using functional options.
-type finschiaitemtokenOption func(*FinschiaItemTokenMutation)
+// changokushiweaponOption allows management of the mutation configuration using functional options.
+type changokushiweaponOption func(*ChangokushiWeaponMutation)
 
-// newFinschiaItemTokenMutation creates new mutation for the FinschiaItemToken entity.
-func newFinschiaItemTokenMutation(c config, op Op, opts ...finschiaitemtokenOption) *FinschiaItemTokenMutation {
-	m := &FinschiaItemTokenMutation{
+// newChangokushiWeaponMutation creates new mutation for the ChangokushiWeapon entity.
+func newChangokushiWeaponMutation(c config, op Op, opts ...changokushiweaponOption) *ChangokushiWeaponMutation {
+	m := &ChangokushiWeaponMutation{
 		config:        c,
 		op:            op,
-		typ:           TypeFinschiaItemToken,
+		typ:           TypeChangokushiWeapon,
 		clearedFields: make(map[string]struct{}),
 	}
 	for _, opt := range opts {
@@ -84,20 +82,20 @@ func newFinschiaItemTokenMutation(c config, op Op, opts ...finschiaitemtokenOpti
 	return m
 }
 
-// withFinschiaItemTokenID sets the ID field of the mutation.
-func withFinschiaItemTokenID(id uint32) finschiaitemtokenOption {
-	return func(m *FinschiaItemTokenMutation) {
+// withChangokushiWeaponID sets the ID field of the mutation.
+func withChangokushiWeaponID(id uint32) changokushiweaponOption {
+	return func(m *ChangokushiWeaponMutation) {
 		var (
 			err   error
 			once  sync.Once
-			value *FinschiaItemToken
+			value *ChangokushiWeapon
 		)
-		m.oldValue = func(ctx context.Context) (*FinschiaItemToken, error) {
+		m.oldValue = func(ctx context.Context) (*ChangokushiWeapon, error) {
 			once.Do(func() {
 				if m.done {
 					err = errors.New("querying old values post mutation is not allowed")
 				} else {
-					value, err = m.Client().FinschiaItemToken.Get(ctx, id)
+					value, err = m.Client().ChangokushiWeapon.Get(ctx, id)
 				}
 			})
 			return value, err
@@ -106,10 +104,10 @@ func withFinschiaItemTokenID(id uint32) finschiaitemtokenOption {
 	}
 }
 
-// withFinschiaItemToken sets the old FinschiaItemToken of the mutation.
-func withFinschiaItemToken(node *FinschiaItemToken) finschiaitemtokenOption {
-	return func(m *FinschiaItemTokenMutation) {
-		m.oldValue = func(context.Context) (*FinschiaItemToken, error) {
+// withChangokushiWeapon sets the old ChangokushiWeapon of the mutation.
+func withChangokushiWeapon(node *ChangokushiWeapon) changokushiweaponOption {
+	return func(m *ChangokushiWeaponMutation) {
+		m.oldValue = func(context.Context) (*ChangokushiWeapon, error) {
 			return node, nil
 		}
 		m.id = &node.ID
@@ -118,7 +116,7 @@ func withFinschiaItemToken(node *FinschiaItemToken) finschiaitemtokenOption {
 
 // Client returns a new `ent.Client` from the mutation. If the mutation was
 // executed in a transaction (ent.Tx), a transactional client is returned.
-func (m FinschiaItemTokenMutation) Client() *Client {
+func (m ChangokushiWeaponMutation) Client() *Client {
 	client := &Client{config: m.config}
 	client.init()
 	return client
@@ -126,7 +124,7 @@ func (m FinschiaItemTokenMutation) Client() *Client {
 
 // Tx returns an `ent.Tx` for mutations that were executed in transactions;
 // it returns an error otherwise.
-func (m FinschiaItemTokenMutation) Tx() (*Tx, error) {
+func (m ChangokushiWeaponMutation) Tx() (*Tx, error) {
 	if _, ok := m.driver.(*txDriver); !ok {
 		return nil, errors.New("ent: mutation is not running in a transaction")
 	}
@@ -136,14 +134,14 @@ func (m FinschiaItemTokenMutation) Tx() (*Tx, error) {
 }
 
 // SetID sets the value of the id field. Note that this
-// operation is only accepted on creation of FinschiaItemToken entities.
-func (m *FinschiaItemTokenMutation) SetID(id uint32) {
+// operation is only accepted on creation of ChangokushiWeapon entities.
+func (m *ChangokushiWeaponMutation) SetID(id uint32) {
 	m.id = &id
 }
 
 // ID returns the ID value in the mutation. Note that the ID is only available
 // if it was provided to the builder or after it was returned from the database.
-func (m *FinschiaItemTokenMutation) ID() (id uint32, exists bool) {
+func (m *ChangokushiWeaponMutation) ID() (id uint32, exists bool) {
 	if m.id == nil {
 		return
 	}
@@ -154,7 +152,7 @@ func (m *FinschiaItemTokenMutation) ID() (id uint32, exists bool) {
 // That means, if the mutation is applied within a transaction with an isolation level such
 // as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
 // or updated by the mutation.
-func (m *FinschiaItemTokenMutation) IDs(ctx context.Context) ([]uint32, error) {
+func (m *ChangokushiWeaponMutation) IDs(ctx context.Context) ([]uint32, error) {
 	switch {
 	case m.op.Is(OpUpdateOne | OpDeleteOne):
 		id, exists := m.ID()
@@ -163,19 +161,19 @@ func (m *FinschiaItemTokenMutation) IDs(ctx context.Context) ([]uint32, error) {
 		}
 		fallthrough
 	case m.op.Is(OpUpdate | OpDelete):
-		return m.Client().FinschiaItemToken.Query().Where(m.predicates...).IDs(ctx)
+		return m.Client().ChangokushiWeapon.Query().Where(m.predicates...).IDs(ctx)
 	default:
 		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
 	}
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (m *FinschiaItemTokenMutation) SetCreatedAt(t time.Time) {
+func (m *ChangokushiWeaponMutation) SetCreatedAt(t time.Time) {
 	m.created_at = &t
 }
 
 // CreatedAt returns the value of the "created_at" field in the mutation.
-func (m *FinschiaItemTokenMutation) CreatedAt() (r time.Time, exists bool) {
+func (m *ChangokushiWeaponMutation) CreatedAt() (r time.Time, exists bool) {
 	v := m.created_at
 	if v == nil {
 		return
@@ -183,10 +181,10 @@ func (m *FinschiaItemTokenMutation) CreatedAt() (r time.Time, exists bool) {
 	return *v, true
 }
 
-// OldCreatedAt returns the old "created_at" field's value of the FinschiaItemToken entity.
-// If the FinschiaItemToken object wasn't provided to the builder, the object is fetched from the database.
+// OldCreatedAt returns the old "created_at" field's value of the ChangokushiWeapon entity.
+// If the ChangokushiWeapon object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *FinschiaItemTokenMutation) OldCreatedAt(ctx context.Context) (v time.Time, err error) {
+func (m *ChangokushiWeaponMutation) OldCreatedAt(ctx context.Context) (v time.Time, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldCreatedAt is only allowed on UpdateOne operations")
 	}
@@ -201,17 +199,17 @@ func (m *FinschiaItemTokenMutation) OldCreatedAt(ctx context.Context) (v time.Ti
 }
 
 // ResetCreatedAt resets all changes to the "created_at" field.
-func (m *FinschiaItemTokenMutation) ResetCreatedAt() {
+func (m *ChangokushiWeaponMutation) ResetCreatedAt() {
 	m.created_at = nil
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (m *FinschiaItemTokenMutation) SetUpdatedAt(t time.Time) {
+func (m *ChangokushiWeaponMutation) SetUpdatedAt(t time.Time) {
 	m.updated_at = &t
 }
 
 // UpdatedAt returns the value of the "updated_at" field in the mutation.
-func (m *FinschiaItemTokenMutation) UpdatedAt() (r time.Time, exists bool) {
+func (m *ChangokushiWeaponMutation) UpdatedAt() (r time.Time, exists bool) {
 	v := m.updated_at
 	if v == nil {
 		return
@@ -219,10 +217,10 @@ func (m *FinschiaItemTokenMutation) UpdatedAt() (r time.Time, exists bool) {
 	return *v, true
 }
 
-// OldUpdatedAt returns the old "updated_at" field's value of the FinschiaItemToken entity.
-// If the FinschiaItemToken object wasn't provided to the builder, the object is fetched from the database.
+// OldUpdatedAt returns the old "updated_at" field's value of the ChangokushiWeapon entity.
+// If the ChangokushiWeapon object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *FinschiaItemTokenMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err error) {
+func (m *ChangokushiWeaponMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldUpdatedAt is only allowed on UpdateOne operations")
 	}
@@ -237,17 +235,17 @@ func (m *FinschiaItemTokenMutation) OldUpdatedAt(ctx context.Context) (v time.Ti
 }
 
 // ResetUpdatedAt resets all changes to the "updated_at" field.
-func (m *FinschiaItemTokenMutation) ResetUpdatedAt() {
+func (m *ChangokushiWeaponMutation) ResetUpdatedAt() {
 	m.updated_at = nil
 }
 
 // SetDeletedAt sets the "deleted_at" field.
-func (m *FinschiaItemTokenMutation) SetDeletedAt(t time.Time) {
+func (m *ChangokushiWeaponMutation) SetDeletedAt(t time.Time) {
 	m.deleted_at = &t
 }
 
 // DeletedAt returns the value of the "deleted_at" field in the mutation.
-func (m *FinschiaItemTokenMutation) DeletedAt() (r time.Time, exists bool) {
+func (m *ChangokushiWeaponMutation) DeletedAt() (r time.Time, exists bool) {
 	v := m.deleted_at
 	if v == nil {
 		return
@@ -255,10 +253,10 @@ func (m *FinschiaItemTokenMutation) DeletedAt() (r time.Time, exists bool) {
 	return *v, true
 }
 
-// OldDeletedAt returns the old "deleted_at" field's value of the FinschiaItemToken entity.
-// If the FinschiaItemToken object wasn't provided to the builder, the object is fetched from the database.
+// OldDeletedAt returns the old "deleted_at" field's value of the ChangokushiWeapon entity.
+// If the ChangokushiWeapon object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *FinschiaItemTokenMutation) OldDeletedAt(ctx context.Context) (v *time.Time, err error) {
+func (m *ChangokushiWeaponMutation) OldDeletedAt(ctx context.Context) (v *time.Time, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldDeletedAt is only allowed on UpdateOne operations")
 	}
@@ -273,2374 +271,30 @@ func (m *FinschiaItemTokenMutation) OldDeletedAt(ctx context.Context) (v *time.T
 }
 
 // ClearDeletedAt clears the value of the "deleted_at" field.
-func (m *FinschiaItemTokenMutation) ClearDeletedAt() {
+func (m *ChangokushiWeaponMutation) ClearDeletedAt() {
 	m.deleted_at = nil
-	m.clearedFields[finschiaitemtoken.FieldDeletedAt] = struct{}{}
+	m.clearedFields[changokushiweapon.FieldDeletedAt] = struct{}{}
 }
 
 // DeletedAtCleared returns if the "deleted_at" field was cleared in this mutation.
-func (m *FinschiaItemTokenMutation) DeletedAtCleared() bool {
-	_, ok := m.clearedFields[finschiaitemtoken.FieldDeletedAt]
+func (m *ChangokushiWeaponMutation) DeletedAtCleared() bool {
+	_, ok := m.clearedFields[changokushiweapon.FieldDeletedAt]
 	return ok
 }
 
 // ResetDeletedAt resets all changes to the "deleted_at" field.
-func (m *FinschiaItemTokenMutation) ResetDeletedAt() {
+func (m *ChangokushiWeaponMutation) ResetDeletedAt() {
 	m.deleted_at = nil
-	delete(m.clearedFields, finschiaitemtoken.FieldDeletedAt)
-}
-
-// SetContractID sets the "contract_id" field.
-func (m *FinschiaItemTokenMutation) SetContractID(s string) {
-	m.contract_id = &s
-}
-
-// ContractID returns the value of the "contract_id" field in the mutation.
-func (m *FinschiaItemTokenMutation) ContractID() (r string, exists bool) {
-	v := m.contract_id
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldContractID returns the old "contract_id" field's value of the FinschiaItemToken entity.
-// If the FinschiaItemToken object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *FinschiaItemTokenMutation) OldContractID(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldContractID is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldContractID requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldContractID: %w", err)
-	}
-	return oldValue.ContractID, nil
-}
-
-// ResetContractID resets all changes to the "contract_id" field.
-func (m *FinschiaItemTokenMutation) ResetContractID() {
-	m.contract_id = nil
-}
-
-// SetTokenType sets the "token_type" field.
-func (m *FinschiaItemTokenMutation) SetTokenType(s string) {
-	m.token_type = &s
-}
-
-// TokenType returns the value of the "token_type" field in the mutation.
-func (m *FinschiaItemTokenMutation) TokenType() (r string, exists bool) {
-	v := m.token_type
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldTokenType returns the old "token_type" field's value of the FinschiaItemToken entity.
-// If the FinschiaItemToken object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *FinschiaItemTokenMutation) OldTokenType(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldTokenType is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldTokenType requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldTokenType: %w", err)
-	}
-	return oldValue.TokenType, nil
-}
-
-// ResetTokenType resets all changes to the "token_type" field.
-func (m *FinschiaItemTokenMutation) ResetTokenType() {
-	m.token_type = nil
-}
-
-// SetName sets the "name" field.
-func (m *FinschiaItemTokenMutation) SetName(s string) {
-	m.name = &s
-}
-
-// Name returns the value of the "name" field in the mutation.
-func (m *FinschiaItemTokenMutation) Name() (r string, exists bool) {
-	v := m.name
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldName returns the old "name" field's value of the FinschiaItemToken entity.
-// If the FinschiaItemToken object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *FinschiaItemTokenMutation) OldName(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldName is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldName requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldName: %w", err)
-	}
-	return oldValue.Name, nil
-}
-
-// ResetName resets all changes to the "name" field.
-func (m *FinschiaItemTokenMutation) ResetName() {
-	m.name = nil
-}
-
-// AddActivityIDs adds the "activities" edge to the FinschiaItemTokenActivity entity by ids.
-func (m *FinschiaItemTokenMutation) AddActivityIDs(ids ...uint32) {
-	if m.activities == nil {
-		m.activities = make(map[uint32]struct{})
-	}
-	for i := range ids {
-		m.activities[ids[i]] = struct{}{}
-	}
-}
-
-// ClearActivities clears the "activities" edge to the FinschiaItemTokenActivity entity.
-func (m *FinschiaItemTokenMutation) ClearActivities() {
-	m.clearedactivities = true
-}
-
-// ActivitiesCleared reports if the "activities" edge to the FinschiaItemTokenActivity entity was cleared.
-func (m *FinschiaItemTokenMutation) ActivitiesCleared() bool {
-	return m.clearedactivities
-}
-
-// RemoveActivityIDs removes the "activities" edge to the FinschiaItemTokenActivity entity by IDs.
-func (m *FinschiaItemTokenMutation) RemoveActivityIDs(ids ...uint32) {
-	if m.removedactivities == nil {
-		m.removedactivities = make(map[uint32]struct{})
-	}
-	for i := range ids {
-		delete(m.activities, ids[i])
-		m.removedactivities[ids[i]] = struct{}{}
-	}
-}
-
-// RemovedActivities returns the removed IDs of the "activities" edge to the FinschiaItemTokenActivity entity.
-func (m *FinschiaItemTokenMutation) RemovedActivitiesIDs() (ids []uint32) {
-	for id := range m.removedactivities {
-		ids = append(ids, id)
-	}
-	return
-}
-
-// ActivitiesIDs returns the "activities" edge IDs in the mutation.
-func (m *FinschiaItemTokenMutation) ActivitiesIDs() (ids []uint32) {
-	for id := range m.activities {
-		ids = append(ids, id)
-	}
-	return
-}
-
-// ResetActivities resets all changes to the "activities" edge.
-func (m *FinschiaItemTokenMutation) ResetActivities() {
-	m.activities = nil
-	m.clearedactivities = false
-	m.removedactivities = nil
-}
-
-// AddMillionArthursPropertyIDs adds the "million_arthurs_properties" edge to the FinschiaItemTokenMillionArthursProperty entity by ids.
-func (m *FinschiaItemTokenMutation) AddMillionArthursPropertyIDs(ids ...uint32) {
-	if m.million_arthurs_properties == nil {
-		m.million_arthurs_properties = make(map[uint32]struct{})
-	}
-	for i := range ids {
-		m.million_arthurs_properties[ids[i]] = struct{}{}
-	}
-}
-
-// ClearMillionArthursProperties clears the "million_arthurs_properties" edge to the FinschiaItemTokenMillionArthursProperty entity.
-func (m *FinschiaItemTokenMutation) ClearMillionArthursProperties() {
-	m.clearedmillion_arthurs_properties = true
-}
-
-// MillionArthursPropertiesCleared reports if the "million_arthurs_properties" edge to the FinschiaItemTokenMillionArthursProperty entity was cleared.
-func (m *FinschiaItemTokenMutation) MillionArthursPropertiesCleared() bool {
-	return m.clearedmillion_arthurs_properties
-}
-
-// RemoveMillionArthursPropertyIDs removes the "million_arthurs_properties" edge to the FinschiaItemTokenMillionArthursProperty entity by IDs.
-func (m *FinschiaItemTokenMutation) RemoveMillionArthursPropertyIDs(ids ...uint32) {
-	if m.removedmillion_arthurs_properties == nil {
-		m.removedmillion_arthurs_properties = make(map[uint32]struct{})
-	}
-	for i := range ids {
-		delete(m.million_arthurs_properties, ids[i])
-		m.removedmillion_arthurs_properties[ids[i]] = struct{}{}
-	}
-}
-
-// RemovedMillionArthursProperties returns the removed IDs of the "million_arthurs_properties" edge to the FinschiaItemTokenMillionArthursProperty entity.
-func (m *FinschiaItemTokenMutation) RemovedMillionArthursPropertiesIDs() (ids []uint32) {
-	for id := range m.removedmillion_arthurs_properties {
-		ids = append(ids, id)
-	}
-	return
-}
-
-// MillionArthursPropertiesIDs returns the "million_arthurs_properties" edge IDs in the mutation.
-func (m *FinschiaItemTokenMutation) MillionArthursPropertiesIDs() (ids []uint32) {
-	for id := range m.million_arthurs_properties {
-		ids = append(ids, id)
-	}
-	return
-}
-
-// ResetMillionArthursProperties resets all changes to the "million_arthurs_properties" edge.
-func (m *FinschiaItemTokenMutation) ResetMillionArthursProperties() {
-	m.million_arthurs_properties = nil
-	m.clearedmillion_arthurs_properties = false
-	m.removedmillion_arthurs_properties = nil
-}
-
-// Where appends a list predicates to the FinschiaItemTokenMutation builder.
-func (m *FinschiaItemTokenMutation) Where(ps ...predicate.FinschiaItemToken) {
-	m.predicates = append(m.predicates, ps...)
-}
-
-// WhereP appends storage-level predicates to the FinschiaItemTokenMutation builder. Using this method,
-// users can use type-assertion to append predicates that do not depend on any generated package.
-func (m *FinschiaItemTokenMutation) WhereP(ps ...func(*sql.Selector)) {
-	p := make([]predicate.FinschiaItemToken, len(ps))
-	for i := range ps {
-		p[i] = ps[i]
-	}
-	m.Where(p...)
-}
-
-// Op returns the operation name.
-func (m *FinschiaItemTokenMutation) Op() Op {
-	return m.op
-}
-
-// SetOp allows setting the mutation operation.
-func (m *FinschiaItemTokenMutation) SetOp(op Op) {
-	m.op = op
-}
-
-// Type returns the node type of this mutation (FinschiaItemToken).
-func (m *FinschiaItemTokenMutation) Type() string {
-	return m.typ
-}
-
-// Fields returns all fields that were changed during this mutation. Note that in
-// order to get all numeric fields that were incremented/decremented, call
-// AddedFields().
-func (m *FinschiaItemTokenMutation) Fields() []string {
-	fields := make([]string, 0, 6)
-	if m.created_at != nil {
-		fields = append(fields, finschiaitemtoken.FieldCreatedAt)
-	}
-	if m.updated_at != nil {
-		fields = append(fields, finschiaitemtoken.FieldUpdatedAt)
-	}
-	if m.deleted_at != nil {
-		fields = append(fields, finschiaitemtoken.FieldDeletedAt)
-	}
-	if m.contract_id != nil {
-		fields = append(fields, finschiaitemtoken.FieldContractID)
-	}
-	if m.token_type != nil {
-		fields = append(fields, finschiaitemtoken.FieldTokenType)
-	}
-	if m.name != nil {
-		fields = append(fields, finschiaitemtoken.FieldName)
-	}
-	return fields
-}
-
-// Field returns the value of a field with the given name. The second boolean
-// return value indicates that this field was not set, or was not defined in the
-// schema.
-func (m *FinschiaItemTokenMutation) Field(name string) (ent.Value, bool) {
-	switch name {
-	case finschiaitemtoken.FieldCreatedAt:
-		return m.CreatedAt()
-	case finschiaitemtoken.FieldUpdatedAt:
-		return m.UpdatedAt()
-	case finschiaitemtoken.FieldDeletedAt:
-		return m.DeletedAt()
-	case finschiaitemtoken.FieldContractID:
-		return m.ContractID()
-	case finschiaitemtoken.FieldTokenType:
-		return m.TokenType()
-	case finschiaitemtoken.FieldName:
-		return m.Name()
-	}
-	return nil, false
-}
-
-// OldField returns the old value of the field from the database. An error is
-// returned if the mutation operation is not UpdateOne, or the query to the
-// database failed.
-func (m *FinschiaItemTokenMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
-	switch name {
-	case finschiaitemtoken.FieldCreatedAt:
-		return m.OldCreatedAt(ctx)
-	case finschiaitemtoken.FieldUpdatedAt:
-		return m.OldUpdatedAt(ctx)
-	case finschiaitemtoken.FieldDeletedAt:
-		return m.OldDeletedAt(ctx)
-	case finschiaitemtoken.FieldContractID:
-		return m.OldContractID(ctx)
-	case finschiaitemtoken.FieldTokenType:
-		return m.OldTokenType(ctx)
-	case finschiaitemtoken.FieldName:
-		return m.OldName(ctx)
-	}
-	return nil, fmt.Errorf("unknown FinschiaItemToken field %s", name)
-}
-
-// SetField sets the value of a field with the given name. It returns an error if
-// the field is not defined in the schema, or if the type mismatched the field
-// type.
-func (m *FinschiaItemTokenMutation) SetField(name string, value ent.Value) error {
-	switch name {
-	case finschiaitemtoken.FieldCreatedAt:
-		v, ok := value.(time.Time)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetCreatedAt(v)
-		return nil
-	case finschiaitemtoken.FieldUpdatedAt:
-		v, ok := value.(time.Time)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetUpdatedAt(v)
-		return nil
-	case finschiaitemtoken.FieldDeletedAt:
-		v, ok := value.(time.Time)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetDeletedAt(v)
-		return nil
-	case finschiaitemtoken.FieldContractID:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetContractID(v)
-		return nil
-	case finschiaitemtoken.FieldTokenType:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetTokenType(v)
-		return nil
-	case finschiaitemtoken.FieldName:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetName(v)
-		return nil
-	}
-	return fmt.Errorf("unknown FinschiaItemToken field %s", name)
-}
-
-// AddedFields returns all numeric fields that were incremented/decremented during
-// this mutation.
-func (m *FinschiaItemTokenMutation) AddedFields() []string {
-	return nil
-}
-
-// AddedField returns the numeric value that was incremented/decremented on a field
-// with the given name. The second boolean return value indicates that this field
-// was not set, or was not defined in the schema.
-func (m *FinschiaItemTokenMutation) AddedField(name string) (ent.Value, bool) {
-	return nil, false
-}
-
-// AddField adds the value to the field with the given name. It returns an error if
-// the field is not defined in the schema, or if the type mismatched the field
-// type.
-func (m *FinschiaItemTokenMutation) AddField(name string, value ent.Value) error {
-	switch name {
-	}
-	return fmt.Errorf("unknown FinschiaItemToken numeric field %s", name)
-}
-
-// ClearedFields returns all nullable fields that were cleared during this
-// mutation.
-func (m *FinschiaItemTokenMutation) ClearedFields() []string {
-	var fields []string
-	if m.FieldCleared(finschiaitemtoken.FieldDeletedAt) {
-		fields = append(fields, finschiaitemtoken.FieldDeletedAt)
-	}
-	return fields
-}
-
-// FieldCleared returns a boolean indicating if a field with the given name was
-// cleared in this mutation.
-func (m *FinschiaItemTokenMutation) FieldCleared(name string) bool {
-	_, ok := m.clearedFields[name]
-	return ok
-}
-
-// ClearField clears the value of the field with the given name. It returns an
-// error if the field is not defined in the schema.
-func (m *FinschiaItemTokenMutation) ClearField(name string) error {
-	switch name {
-	case finschiaitemtoken.FieldDeletedAt:
-		m.ClearDeletedAt()
-		return nil
-	}
-	return fmt.Errorf("unknown FinschiaItemToken nullable field %s", name)
-}
-
-// ResetField resets all changes in the mutation for the field with the given name.
-// It returns an error if the field is not defined in the schema.
-func (m *FinschiaItemTokenMutation) ResetField(name string) error {
-	switch name {
-	case finschiaitemtoken.FieldCreatedAt:
-		m.ResetCreatedAt()
-		return nil
-	case finschiaitemtoken.FieldUpdatedAt:
-		m.ResetUpdatedAt()
-		return nil
-	case finschiaitemtoken.FieldDeletedAt:
-		m.ResetDeletedAt()
-		return nil
-	case finschiaitemtoken.FieldContractID:
-		m.ResetContractID()
-		return nil
-	case finschiaitemtoken.FieldTokenType:
-		m.ResetTokenType()
-		return nil
-	case finschiaitemtoken.FieldName:
-		m.ResetName()
-		return nil
-	}
-	return fmt.Errorf("unknown FinschiaItemToken field %s", name)
-}
-
-// AddedEdges returns all edge names that were set/added in this mutation.
-func (m *FinschiaItemTokenMutation) AddedEdges() []string {
-	edges := make([]string, 0, 2)
-	if m.activities != nil {
-		edges = append(edges, finschiaitemtoken.EdgeActivities)
-	}
-	if m.million_arthurs_properties != nil {
-		edges = append(edges, finschiaitemtoken.EdgeMillionArthursProperties)
-	}
-	return edges
-}
-
-// AddedIDs returns all IDs (to other nodes) that were added for the given edge
-// name in this mutation.
-func (m *FinschiaItemTokenMutation) AddedIDs(name string) []ent.Value {
-	switch name {
-	case finschiaitemtoken.EdgeActivities:
-		ids := make([]ent.Value, 0, len(m.activities))
-		for id := range m.activities {
-			ids = append(ids, id)
-		}
-		return ids
-	case finschiaitemtoken.EdgeMillionArthursProperties:
-		ids := make([]ent.Value, 0, len(m.million_arthurs_properties))
-		for id := range m.million_arthurs_properties {
-			ids = append(ids, id)
-		}
-		return ids
-	}
-	return nil
-}
-
-// RemovedEdges returns all edge names that were removed in this mutation.
-func (m *FinschiaItemTokenMutation) RemovedEdges() []string {
-	edges := make([]string, 0, 2)
-	if m.removedactivities != nil {
-		edges = append(edges, finschiaitemtoken.EdgeActivities)
-	}
-	if m.removedmillion_arthurs_properties != nil {
-		edges = append(edges, finschiaitemtoken.EdgeMillionArthursProperties)
-	}
-	return edges
-}
-
-// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
-// the given name in this mutation.
-func (m *FinschiaItemTokenMutation) RemovedIDs(name string) []ent.Value {
-	switch name {
-	case finschiaitemtoken.EdgeActivities:
-		ids := make([]ent.Value, 0, len(m.removedactivities))
-		for id := range m.removedactivities {
-			ids = append(ids, id)
-		}
-		return ids
-	case finschiaitemtoken.EdgeMillionArthursProperties:
-		ids := make([]ent.Value, 0, len(m.removedmillion_arthurs_properties))
-		for id := range m.removedmillion_arthurs_properties {
-			ids = append(ids, id)
-		}
-		return ids
-	}
-	return nil
-}
-
-// ClearedEdges returns all edge names that were cleared in this mutation.
-func (m *FinschiaItemTokenMutation) ClearedEdges() []string {
-	edges := make([]string, 0, 2)
-	if m.clearedactivities {
-		edges = append(edges, finschiaitemtoken.EdgeActivities)
-	}
-	if m.clearedmillion_arthurs_properties {
-		edges = append(edges, finschiaitemtoken.EdgeMillionArthursProperties)
-	}
-	return edges
-}
-
-// EdgeCleared returns a boolean which indicates if the edge with the given name
-// was cleared in this mutation.
-func (m *FinschiaItemTokenMutation) EdgeCleared(name string) bool {
-	switch name {
-	case finschiaitemtoken.EdgeActivities:
-		return m.clearedactivities
-	case finschiaitemtoken.EdgeMillionArthursProperties:
-		return m.clearedmillion_arthurs_properties
-	}
-	return false
-}
-
-// ClearEdge clears the value of the edge with the given name. It returns an error
-// if that edge is not defined in the schema.
-func (m *FinschiaItemTokenMutation) ClearEdge(name string) error {
-	switch name {
-	}
-	return fmt.Errorf("unknown FinschiaItemToken unique edge %s", name)
-}
-
-// ResetEdge resets all changes to the edge with the given name in this mutation.
-// It returns an error if the edge is not defined in the schema.
-func (m *FinschiaItemTokenMutation) ResetEdge(name string) error {
-	switch name {
-	case finschiaitemtoken.EdgeActivities:
-		m.ResetActivities()
-		return nil
-	case finschiaitemtoken.EdgeMillionArthursProperties:
-		m.ResetMillionArthursProperties()
-		return nil
-	}
-	return fmt.Errorf("unknown FinschiaItemToken edge %s", name)
-}
-
-// FinschiaItemTokenActivityMutation represents an operation that mutates the FinschiaItemTokenActivity nodes in the graph.
-type FinschiaItemTokenActivityMutation struct {
-	config
-	op                         Op
-	typ                        string
-	id                         *uint32
-	created_at                 *time.Time
-	updated_at                 *time.Time
-	deleted_at                 *time.Time
-	transaction_hash           *string
-	activity_type              *string
-	activated_at               *time.Time
-	clearedFields              map[string]struct{}
-	finschia_item_token        *uint32
-	clearedfinschia_item_token bool
-	done                       bool
-	oldValue                   func(context.Context) (*FinschiaItemTokenActivity, error)
-	predicates                 []predicate.FinschiaItemTokenActivity
-}
-
-var _ ent.Mutation = (*FinschiaItemTokenActivityMutation)(nil)
-
-// finschiaitemtokenactivityOption allows management of the mutation configuration using functional options.
-type finschiaitemtokenactivityOption func(*FinschiaItemTokenActivityMutation)
-
-// newFinschiaItemTokenActivityMutation creates new mutation for the FinschiaItemTokenActivity entity.
-func newFinschiaItemTokenActivityMutation(c config, op Op, opts ...finschiaitemtokenactivityOption) *FinschiaItemTokenActivityMutation {
-	m := &FinschiaItemTokenActivityMutation{
-		config:        c,
-		op:            op,
-		typ:           TypeFinschiaItemTokenActivity,
-		clearedFields: make(map[string]struct{}),
-	}
-	for _, opt := range opts {
-		opt(m)
-	}
-	return m
-}
-
-// withFinschiaItemTokenActivityID sets the ID field of the mutation.
-func withFinschiaItemTokenActivityID(id uint32) finschiaitemtokenactivityOption {
-	return func(m *FinschiaItemTokenActivityMutation) {
-		var (
-			err   error
-			once  sync.Once
-			value *FinschiaItemTokenActivity
-		)
-		m.oldValue = func(ctx context.Context) (*FinschiaItemTokenActivity, error) {
-			once.Do(func() {
-				if m.done {
-					err = errors.New("querying old values post mutation is not allowed")
-				} else {
-					value, err = m.Client().FinschiaItemTokenActivity.Get(ctx, id)
-				}
-			})
-			return value, err
-		}
-		m.id = &id
-	}
-}
-
-// withFinschiaItemTokenActivity sets the old FinschiaItemTokenActivity of the mutation.
-func withFinschiaItemTokenActivity(node *FinschiaItemTokenActivity) finschiaitemtokenactivityOption {
-	return func(m *FinschiaItemTokenActivityMutation) {
-		m.oldValue = func(context.Context) (*FinschiaItemTokenActivity, error) {
-			return node, nil
-		}
-		m.id = &node.ID
-	}
-}
-
-// Client returns a new `ent.Client` from the mutation. If the mutation was
-// executed in a transaction (ent.Tx), a transactional client is returned.
-func (m FinschiaItemTokenActivityMutation) Client() *Client {
-	client := &Client{config: m.config}
-	client.init()
-	return client
-}
-
-// Tx returns an `ent.Tx` for mutations that were executed in transactions;
-// it returns an error otherwise.
-func (m FinschiaItemTokenActivityMutation) Tx() (*Tx, error) {
-	if _, ok := m.driver.(*txDriver); !ok {
-		return nil, errors.New("ent: mutation is not running in a transaction")
-	}
-	tx := &Tx{config: m.config}
-	tx.init()
-	return tx, nil
-}
-
-// SetID sets the value of the id field. Note that this
-// operation is only accepted on creation of FinschiaItemTokenActivity entities.
-func (m *FinschiaItemTokenActivityMutation) SetID(id uint32) {
-	m.id = &id
-}
-
-// ID returns the ID value in the mutation. Note that the ID is only available
-// if it was provided to the builder or after it was returned from the database.
-func (m *FinschiaItemTokenActivityMutation) ID() (id uint32, exists bool) {
-	if m.id == nil {
-		return
-	}
-	return *m.id, true
-}
-
-// IDs queries the database and returns the entity ids that match the mutation's predicate.
-// That means, if the mutation is applied within a transaction with an isolation level such
-// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
-// or updated by the mutation.
-func (m *FinschiaItemTokenActivityMutation) IDs(ctx context.Context) ([]uint32, error) {
-	switch {
-	case m.op.Is(OpUpdateOne | OpDeleteOne):
-		id, exists := m.ID()
-		if exists {
-			return []uint32{id}, nil
-		}
-		fallthrough
-	case m.op.Is(OpUpdate | OpDelete):
-		return m.Client().FinschiaItemTokenActivity.Query().Where(m.predicates...).IDs(ctx)
-	default:
-		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
-	}
-}
-
-// SetCreatedAt sets the "created_at" field.
-func (m *FinschiaItemTokenActivityMutation) SetCreatedAt(t time.Time) {
-	m.created_at = &t
-}
-
-// CreatedAt returns the value of the "created_at" field in the mutation.
-func (m *FinschiaItemTokenActivityMutation) CreatedAt() (r time.Time, exists bool) {
-	v := m.created_at
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldCreatedAt returns the old "created_at" field's value of the FinschiaItemTokenActivity entity.
-// If the FinschiaItemTokenActivity object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *FinschiaItemTokenActivityMutation) OldCreatedAt(ctx context.Context) (v time.Time, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldCreatedAt is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldCreatedAt requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldCreatedAt: %w", err)
-	}
-	return oldValue.CreatedAt, nil
-}
-
-// ResetCreatedAt resets all changes to the "created_at" field.
-func (m *FinschiaItemTokenActivityMutation) ResetCreatedAt() {
-	m.created_at = nil
-}
-
-// SetUpdatedAt sets the "updated_at" field.
-func (m *FinschiaItemTokenActivityMutation) SetUpdatedAt(t time.Time) {
-	m.updated_at = &t
-}
-
-// UpdatedAt returns the value of the "updated_at" field in the mutation.
-func (m *FinschiaItemTokenActivityMutation) UpdatedAt() (r time.Time, exists bool) {
-	v := m.updated_at
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldUpdatedAt returns the old "updated_at" field's value of the FinschiaItemTokenActivity entity.
-// If the FinschiaItemTokenActivity object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *FinschiaItemTokenActivityMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldUpdatedAt is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldUpdatedAt requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldUpdatedAt: %w", err)
-	}
-	return oldValue.UpdatedAt, nil
-}
-
-// ResetUpdatedAt resets all changes to the "updated_at" field.
-func (m *FinschiaItemTokenActivityMutation) ResetUpdatedAt() {
-	m.updated_at = nil
-}
-
-// SetDeletedAt sets the "deleted_at" field.
-func (m *FinschiaItemTokenActivityMutation) SetDeletedAt(t time.Time) {
-	m.deleted_at = &t
-}
-
-// DeletedAt returns the value of the "deleted_at" field in the mutation.
-func (m *FinschiaItemTokenActivityMutation) DeletedAt() (r time.Time, exists bool) {
-	v := m.deleted_at
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldDeletedAt returns the old "deleted_at" field's value of the FinschiaItemTokenActivity entity.
-// If the FinschiaItemTokenActivity object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *FinschiaItemTokenActivityMutation) OldDeletedAt(ctx context.Context) (v *time.Time, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldDeletedAt is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldDeletedAt requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldDeletedAt: %w", err)
-	}
-	return oldValue.DeletedAt, nil
-}
-
-// ClearDeletedAt clears the value of the "deleted_at" field.
-func (m *FinschiaItemTokenActivityMutation) ClearDeletedAt() {
-	m.deleted_at = nil
-	m.clearedFields[finschiaitemtokenactivity.FieldDeletedAt] = struct{}{}
-}
-
-// DeletedAtCleared returns if the "deleted_at" field was cleared in this mutation.
-func (m *FinschiaItemTokenActivityMutation) DeletedAtCleared() bool {
-	_, ok := m.clearedFields[finschiaitemtokenactivity.FieldDeletedAt]
-	return ok
-}
-
-// ResetDeletedAt resets all changes to the "deleted_at" field.
-func (m *FinschiaItemTokenActivityMutation) ResetDeletedAt() {
-	m.deleted_at = nil
-	delete(m.clearedFields, finschiaitemtokenactivity.FieldDeletedAt)
-}
-
-// SetTransactionHash sets the "transaction_hash" field.
-func (m *FinschiaItemTokenActivityMutation) SetTransactionHash(s string) {
-	m.transaction_hash = &s
-}
-
-// TransactionHash returns the value of the "transaction_hash" field in the mutation.
-func (m *FinschiaItemTokenActivityMutation) TransactionHash() (r string, exists bool) {
-	v := m.transaction_hash
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldTransactionHash returns the old "transaction_hash" field's value of the FinschiaItemTokenActivity entity.
-// If the FinschiaItemTokenActivity object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *FinschiaItemTokenActivityMutation) OldTransactionHash(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldTransactionHash is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldTransactionHash requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldTransactionHash: %w", err)
-	}
-	return oldValue.TransactionHash, nil
-}
-
-// ResetTransactionHash resets all changes to the "transaction_hash" field.
-func (m *FinschiaItemTokenActivityMutation) ResetTransactionHash() {
-	m.transaction_hash = nil
-}
-
-// SetFinschiaItemTokenID sets the "finschia_item_token_id" field.
-func (m *FinschiaItemTokenActivityMutation) SetFinschiaItemTokenID(u uint32) {
-	m.finschia_item_token = &u
-}
-
-// FinschiaItemTokenID returns the value of the "finschia_item_token_id" field in the mutation.
-func (m *FinschiaItemTokenActivityMutation) FinschiaItemTokenID() (r uint32, exists bool) {
-	v := m.finschia_item_token
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldFinschiaItemTokenID returns the old "finschia_item_token_id" field's value of the FinschiaItemTokenActivity entity.
-// If the FinschiaItemTokenActivity object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *FinschiaItemTokenActivityMutation) OldFinschiaItemTokenID(ctx context.Context) (v uint32, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldFinschiaItemTokenID is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldFinschiaItemTokenID requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldFinschiaItemTokenID: %w", err)
-	}
-	return oldValue.FinschiaItemTokenID, nil
-}
-
-// ResetFinschiaItemTokenID resets all changes to the "finschia_item_token_id" field.
-func (m *FinschiaItemTokenActivityMutation) ResetFinschiaItemTokenID() {
-	m.finschia_item_token = nil
-}
-
-// SetActivityType sets the "activity_type" field.
-func (m *FinschiaItemTokenActivityMutation) SetActivityType(s string) {
-	m.activity_type = &s
-}
-
-// ActivityType returns the value of the "activity_type" field in the mutation.
-func (m *FinschiaItemTokenActivityMutation) ActivityType() (r string, exists bool) {
-	v := m.activity_type
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldActivityType returns the old "activity_type" field's value of the FinschiaItemTokenActivity entity.
-// If the FinschiaItemTokenActivity object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *FinschiaItemTokenActivityMutation) OldActivityType(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldActivityType is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldActivityType requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldActivityType: %w", err)
-	}
-	return oldValue.ActivityType, nil
-}
-
-// ResetActivityType resets all changes to the "activity_type" field.
-func (m *FinschiaItemTokenActivityMutation) ResetActivityType() {
-	m.activity_type = nil
-}
-
-// SetActivatedAt sets the "activated_at" field.
-func (m *FinschiaItemTokenActivityMutation) SetActivatedAt(t time.Time) {
-	m.activated_at = &t
-}
-
-// ActivatedAt returns the value of the "activated_at" field in the mutation.
-func (m *FinschiaItemTokenActivityMutation) ActivatedAt() (r time.Time, exists bool) {
-	v := m.activated_at
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldActivatedAt returns the old "activated_at" field's value of the FinschiaItemTokenActivity entity.
-// If the FinschiaItemTokenActivity object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *FinschiaItemTokenActivityMutation) OldActivatedAt(ctx context.Context) (v time.Time, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldActivatedAt is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldActivatedAt requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldActivatedAt: %w", err)
-	}
-	return oldValue.ActivatedAt, nil
-}
-
-// ResetActivatedAt resets all changes to the "activated_at" field.
-func (m *FinschiaItemTokenActivityMutation) ResetActivatedAt() {
-	m.activated_at = nil
-}
-
-// ClearFinschiaItemToken clears the "finschia_item_token" edge to the FinschiaItemToken entity.
-func (m *FinschiaItemTokenActivityMutation) ClearFinschiaItemToken() {
-	m.clearedfinschia_item_token = true
-	m.clearedFields[finschiaitemtokenactivity.FieldFinschiaItemTokenID] = struct{}{}
-}
-
-// FinschiaItemTokenCleared reports if the "finschia_item_token" edge to the FinschiaItemToken entity was cleared.
-func (m *FinschiaItemTokenActivityMutation) FinschiaItemTokenCleared() bool {
-	return m.clearedfinschia_item_token
-}
-
-// FinschiaItemTokenIDs returns the "finschia_item_token" edge IDs in the mutation.
-// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
-// FinschiaItemTokenID instead. It exists only for internal usage by the builders.
-func (m *FinschiaItemTokenActivityMutation) FinschiaItemTokenIDs() (ids []uint32) {
-	if id := m.finschia_item_token; id != nil {
-		ids = append(ids, *id)
-	}
-	return
-}
-
-// ResetFinschiaItemToken resets all changes to the "finschia_item_token" edge.
-func (m *FinschiaItemTokenActivityMutation) ResetFinschiaItemToken() {
-	m.finschia_item_token = nil
-	m.clearedfinschia_item_token = false
-}
-
-// Where appends a list predicates to the FinschiaItemTokenActivityMutation builder.
-func (m *FinschiaItemTokenActivityMutation) Where(ps ...predicate.FinschiaItemTokenActivity) {
-	m.predicates = append(m.predicates, ps...)
-}
-
-// WhereP appends storage-level predicates to the FinschiaItemTokenActivityMutation builder. Using this method,
-// users can use type-assertion to append predicates that do not depend on any generated package.
-func (m *FinschiaItemTokenActivityMutation) WhereP(ps ...func(*sql.Selector)) {
-	p := make([]predicate.FinschiaItemTokenActivity, len(ps))
-	for i := range ps {
-		p[i] = ps[i]
-	}
-	m.Where(p...)
-}
-
-// Op returns the operation name.
-func (m *FinschiaItemTokenActivityMutation) Op() Op {
-	return m.op
-}
-
-// SetOp allows setting the mutation operation.
-func (m *FinschiaItemTokenActivityMutation) SetOp(op Op) {
-	m.op = op
-}
-
-// Type returns the node type of this mutation (FinschiaItemTokenActivity).
-func (m *FinschiaItemTokenActivityMutation) Type() string {
-	return m.typ
-}
-
-// Fields returns all fields that were changed during this mutation. Note that in
-// order to get all numeric fields that were incremented/decremented, call
-// AddedFields().
-func (m *FinschiaItemTokenActivityMutation) Fields() []string {
-	fields := make([]string, 0, 7)
-	if m.created_at != nil {
-		fields = append(fields, finschiaitemtokenactivity.FieldCreatedAt)
-	}
-	if m.updated_at != nil {
-		fields = append(fields, finschiaitemtokenactivity.FieldUpdatedAt)
-	}
-	if m.deleted_at != nil {
-		fields = append(fields, finschiaitemtokenactivity.FieldDeletedAt)
-	}
-	if m.transaction_hash != nil {
-		fields = append(fields, finschiaitemtokenactivity.FieldTransactionHash)
-	}
-	if m.finschia_item_token != nil {
-		fields = append(fields, finschiaitemtokenactivity.FieldFinschiaItemTokenID)
-	}
-	if m.activity_type != nil {
-		fields = append(fields, finschiaitemtokenactivity.FieldActivityType)
-	}
-	if m.activated_at != nil {
-		fields = append(fields, finschiaitemtokenactivity.FieldActivatedAt)
-	}
-	return fields
-}
-
-// Field returns the value of a field with the given name. The second boolean
-// return value indicates that this field was not set, or was not defined in the
-// schema.
-func (m *FinschiaItemTokenActivityMutation) Field(name string) (ent.Value, bool) {
-	switch name {
-	case finschiaitemtokenactivity.FieldCreatedAt:
-		return m.CreatedAt()
-	case finschiaitemtokenactivity.FieldUpdatedAt:
-		return m.UpdatedAt()
-	case finschiaitemtokenactivity.FieldDeletedAt:
-		return m.DeletedAt()
-	case finschiaitemtokenactivity.FieldTransactionHash:
-		return m.TransactionHash()
-	case finschiaitemtokenactivity.FieldFinschiaItemTokenID:
-		return m.FinschiaItemTokenID()
-	case finschiaitemtokenactivity.FieldActivityType:
-		return m.ActivityType()
-	case finschiaitemtokenactivity.FieldActivatedAt:
-		return m.ActivatedAt()
-	}
-	return nil, false
-}
-
-// OldField returns the old value of the field from the database. An error is
-// returned if the mutation operation is not UpdateOne, or the query to the
-// database failed.
-func (m *FinschiaItemTokenActivityMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
-	switch name {
-	case finschiaitemtokenactivity.FieldCreatedAt:
-		return m.OldCreatedAt(ctx)
-	case finschiaitemtokenactivity.FieldUpdatedAt:
-		return m.OldUpdatedAt(ctx)
-	case finschiaitemtokenactivity.FieldDeletedAt:
-		return m.OldDeletedAt(ctx)
-	case finschiaitemtokenactivity.FieldTransactionHash:
-		return m.OldTransactionHash(ctx)
-	case finschiaitemtokenactivity.FieldFinschiaItemTokenID:
-		return m.OldFinschiaItemTokenID(ctx)
-	case finschiaitemtokenactivity.FieldActivityType:
-		return m.OldActivityType(ctx)
-	case finschiaitemtokenactivity.FieldActivatedAt:
-		return m.OldActivatedAt(ctx)
-	}
-	return nil, fmt.Errorf("unknown FinschiaItemTokenActivity field %s", name)
-}
-
-// SetField sets the value of a field with the given name. It returns an error if
-// the field is not defined in the schema, or if the type mismatched the field
-// type.
-func (m *FinschiaItemTokenActivityMutation) SetField(name string, value ent.Value) error {
-	switch name {
-	case finschiaitemtokenactivity.FieldCreatedAt:
-		v, ok := value.(time.Time)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetCreatedAt(v)
-		return nil
-	case finschiaitemtokenactivity.FieldUpdatedAt:
-		v, ok := value.(time.Time)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetUpdatedAt(v)
-		return nil
-	case finschiaitemtokenactivity.FieldDeletedAt:
-		v, ok := value.(time.Time)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetDeletedAt(v)
-		return nil
-	case finschiaitemtokenactivity.FieldTransactionHash:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetTransactionHash(v)
-		return nil
-	case finschiaitemtokenactivity.FieldFinschiaItemTokenID:
-		v, ok := value.(uint32)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetFinschiaItemTokenID(v)
-		return nil
-	case finschiaitemtokenactivity.FieldActivityType:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetActivityType(v)
-		return nil
-	case finschiaitemtokenactivity.FieldActivatedAt:
-		v, ok := value.(time.Time)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetActivatedAt(v)
-		return nil
-	}
-	return fmt.Errorf("unknown FinschiaItemTokenActivity field %s", name)
-}
-
-// AddedFields returns all numeric fields that were incremented/decremented during
-// this mutation.
-func (m *FinschiaItemTokenActivityMutation) AddedFields() []string {
-	var fields []string
-	return fields
-}
-
-// AddedField returns the numeric value that was incremented/decremented on a field
-// with the given name. The second boolean return value indicates that this field
-// was not set, or was not defined in the schema.
-func (m *FinschiaItemTokenActivityMutation) AddedField(name string) (ent.Value, bool) {
-	switch name {
-	}
-	return nil, false
-}
-
-// AddField adds the value to the field with the given name. It returns an error if
-// the field is not defined in the schema, or if the type mismatched the field
-// type.
-func (m *FinschiaItemTokenActivityMutation) AddField(name string, value ent.Value) error {
-	switch name {
-	}
-	return fmt.Errorf("unknown FinschiaItemTokenActivity numeric field %s", name)
-}
-
-// ClearedFields returns all nullable fields that were cleared during this
-// mutation.
-func (m *FinschiaItemTokenActivityMutation) ClearedFields() []string {
-	var fields []string
-	if m.FieldCleared(finschiaitemtokenactivity.FieldDeletedAt) {
-		fields = append(fields, finschiaitemtokenactivity.FieldDeletedAt)
-	}
-	return fields
-}
-
-// FieldCleared returns a boolean indicating if a field with the given name was
-// cleared in this mutation.
-func (m *FinschiaItemTokenActivityMutation) FieldCleared(name string) bool {
-	_, ok := m.clearedFields[name]
-	return ok
-}
-
-// ClearField clears the value of the field with the given name. It returns an
-// error if the field is not defined in the schema.
-func (m *FinschiaItemTokenActivityMutation) ClearField(name string) error {
-	switch name {
-	case finschiaitemtokenactivity.FieldDeletedAt:
-		m.ClearDeletedAt()
-		return nil
-	}
-	return fmt.Errorf("unknown FinschiaItemTokenActivity nullable field %s", name)
-}
-
-// ResetField resets all changes in the mutation for the field with the given name.
-// It returns an error if the field is not defined in the schema.
-func (m *FinschiaItemTokenActivityMutation) ResetField(name string) error {
-	switch name {
-	case finschiaitemtokenactivity.FieldCreatedAt:
-		m.ResetCreatedAt()
-		return nil
-	case finschiaitemtokenactivity.FieldUpdatedAt:
-		m.ResetUpdatedAt()
-		return nil
-	case finschiaitemtokenactivity.FieldDeletedAt:
-		m.ResetDeletedAt()
-		return nil
-	case finschiaitemtokenactivity.FieldTransactionHash:
-		m.ResetTransactionHash()
-		return nil
-	case finschiaitemtokenactivity.FieldFinschiaItemTokenID:
-		m.ResetFinschiaItemTokenID()
-		return nil
-	case finschiaitemtokenactivity.FieldActivityType:
-		m.ResetActivityType()
-		return nil
-	case finschiaitemtokenactivity.FieldActivatedAt:
-		m.ResetActivatedAt()
-		return nil
-	}
-	return fmt.Errorf("unknown FinschiaItemTokenActivity field %s", name)
-}
-
-// AddedEdges returns all edge names that were set/added in this mutation.
-func (m *FinschiaItemTokenActivityMutation) AddedEdges() []string {
-	edges := make([]string, 0, 1)
-	if m.finschia_item_token != nil {
-		edges = append(edges, finschiaitemtokenactivity.EdgeFinschiaItemToken)
-	}
-	return edges
-}
-
-// AddedIDs returns all IDs (to other nodes) that were added for the given edge
-// name in this mutation.
-func (m *FinschiaItemTokenActivityMutation) AddedIDs(name string) []ent.Value {
-	switch name {
-	case finschiaitemtokenactivity.EdgeFinschiaItemToken:
-		if id := m.finschia_item_token; id != nil {
-			return []ent.Value{*id}
-		}
-	}
-	return nil
-}
-
-// RemovedEdges returns all edge names that were removed in this mutation.
-func (m *FinschiaItemTokenActivityMutation) RemovedEdges() []string {
-	edges := make([]string, 0, 1)
-	return edges
-}
-
-// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
-// the given name in this mutation.
-func (m *FinschiaItemTokenActivityMutation) RemovedIDs(name string) []ent.Value {
-	return nil
-}
-
-// ClearedEdges returns all edge names that were cleared in this mutation.
-func (m *FinschiaItemTokenActivityMutation) ClearedEdges() []string {
-	edges := make([]string, 0, 1)
-	if m.clearedfinschia_item_token {
-		edges = append(edges, finschiaitemtokenactivity.EdgeFinschiaItemToken)
-	}
-	return edges
-}
-
-// EdgeCleared returns a boolean which indicates if the edge with the given name
-// was cleared in this mutation.
-func (m *FinschiaItemTokenActivityMutation) EdgeCleared(name string) bool {
-	switch name {
-	case finschiaitemtokenactivity.EdgeFinschiaItemToken:
-		return m.clearedfinschia_item_token
-	}
-	return false
-}
-
-// ClearEdge clears the value of the edge with the given name. It returns an error
-// if that edge is not defined in the schema.
-func (m *FinschiaItemTokenActivityMutation) ClearEdge(name string) error {
-	switch name {
-	case finschiaitemtokenactivity.EdgeFinschiaItemToken:
-		m.ClearFinschiaItemToken()
-		return nil
-	}
-	return fmt.Errorf("unknown FinschiaItemTokenActivity unique edge %s", name)
-}
-
-// ResetEdge resets all changes to the edge with the given name in this mutation.
-// It returns an error if the edge is not defined in the schema.
-func (m *FinschiaItemTokenActivityMutation) ResetEdge(name string) error {
-	switch name {
-	case finschiaitemtokenactivity.EdgeFinschiaItemToken:
-		m.ResetFinschiaItemToken()
-		return nil
-	}
-	return fmt.Errorf("unknown FinschiaItemTokenActivity edge %s", name)
-}
-
-// FinschiaItemTokenMillionArthursPropertyMutation represents an operation that mutates the FinschiaItemTokenMillionArthursProperty nodes in the graph.
-type FinschiaItemTokenMillionArthursPropertyMutation struct {
-	config
-	op                         Op
-	typ                        string
-	id                         *uint32
-	created_at                 *time.Time
-	updated_at                 *time.Time
-	deleted_at                 *time.Time
-	series                     *string
-	gear_category              *string
-	gear_rarity                *string
-	clearedFields              map[string]struct{}
-	finschia_item_token        *uint32
-	clearedfinschia_item_token bool
-	done                       bool
-	oldValue                   func(context.Context) (*FinschiaItemTokenMillionArthursProperty, error)
-	predicates                 []predicate.FinschiaItemTokenMillionArthursProperty
-}
-
-var _ ent.Mutation = (*FinschiaItemTokenMillionArthursPropertyMutation)(nil)
-
-// finschiaitemtokenmillionarthurspropertyOption allows management of the mutation configuration using functional options.
-type finschiaitemtokenmillionarthurspropertyOption func(*FinschiaItemTokenMillionArthursPropertyMutation)
-
-// newFinschiaItemTokenMillionArthursPropertyMutation creates new mutation for the FinschiaItemTokenMillionArthursProperty entity.
-func newFinschiaItemTokenMillionArthursPropertyMutation(c config, op Op, opts ...finschiaitemtokenmillionarthurspropertyOption) *FinschiaItemTokenMillionArthursPropertyMutation {
-	m := &FinschiaItemTokenMillionArthursPropertyMutation{
-		config:        c,
-		op:            op,
-		typ:           TypeFinschiaItemTokenMillionArthursProperty,
-		clearedFields: make(map[string]struct{}),
-	}
-	for _, opt := range opts {
-		opt(m)
-	}
-	return m
-}
-
-// withFinschiaItemTokenMillionArthursPropertyID sets the ID field of the mutation.
-func withFinschiaItemTokenMillionArthursPropertyID(id uint32) finschiaitemtokenmillionarthurspropertyOption {
-	return func(m *FinschiaItemTokenMillionArthursPropertyMutation) {
-		var (
-			err   error
-			once  sync.Once
-			value *FinschiaItemTokenMillionArthursProperty
-		)
-		m.oldValue = func(ctx context.Context) (*FinschiaItemTokenMillionArthursProperty, error) {
-			once.Do(func() {
-				if m.done {
-					err = errors.New("querying old values post mutation is not allowed")
-				} else {
-					value, err = m.Client().FinschiaItemTokenMillionArthursProperty.Get(ctx, id)
-				}
-			})
-			return value, err
-		}
-		m.id = &id
-	}
-}
-
-// withFinschiaItemTokenMillionArthursProperty sets the old FinschiaItemTokenMillionArthursProperty of the mutation.
-func withFinschiaItemTokenMillionArthursProperty(node *FinschiaItemTokenMillionArthursProperty) finschiaitemtokenmillionarthurspropertyOption {
-	return func(m *FinschiaItemTokenMillionArthursPropertyMutation) {
-		m.oldValue = func(context.Context) (*FinschiaItemTokenMillionArthursProperty, error) {
-			return node, nil
-		}
-		m.id = &node.ID
-	}
-}
-
-// Client returns a new `ent.Client` from the mutation. If the mutation was
-// executed in a transaction (ent.Tx), a transactional client is returned.
-func (m FinschiaItemTokenMillionArthursPropertyMutation) Client() *Client {
-	client := &Client{config: m.config}
-	client.init()
-	return client
-}
-
-// Tx returns an `ent.Tx` for mutations that were executed in transactions;
-// it returns an error otherwise.
-func (m FinschiaItemTokenMillionArthursPropertyMutation) Tx() (*Tx, error) {
-	if _, ok := m.driver.(*txDriver); !ok {
-		return nil, errors.New("ent: mutation is not running in a transaction")
-	}
-	tx := &Tx{config: m.config}
-	tx.init()
-	return tx, nil
-}
-
-// SetID sets the value of the id field. Note that this
-// operation is only accepted on creation of FinschiaItemTokenMillionArthursProperty entities.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) SetID(id uint32) {
-	m.id = &id
-}
-
-// ID returns the ID value in the mutation. Note that the ID is only available
-// if it was provided to the builder or after it was returned from the database.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) ID() (id uint32, exists bool) {
-	if m.id == nil {
-		return
-	}
-	return *m.id, true
-}
-
-// IDs queries the database and returns the entity ids that match the mutation's predicate.
-// That means, if the mutation is applied within a transaction with an isolation level such
-// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
-// or updated by the mutation.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) IDs(ctx context.Context) ([]uint32, error) {
-	switch {
-	case m.op.Is(OpUpdateOne | OpDeleteOne):
-		id, exists := m.ID()
-		if exists {
-			return []uint32{id}, nil
-		}
-		fallthrough
-	case m.op.Is(OpUpdate | OpDelete):
-		return m.Client().FinschiaItemTokenMillionArthursProperty.Query().Where(m.predicates...).IDs(ctx)
-	default:
-		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
-	}
-}
-
-// SetCreatedAt sets the "created_at" field.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) SetCreatedAt(t time.Time) {
-	m.created_at = &t
-}
-
-// CreatedAt returns the value of the "created_at" field in the mutation.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) CreatedAt() (r time.Time, exists bool) {
-	v := m.created_at
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldCreatedAt returns the old "created_at" field's value of the FinschiaItemTokenMillionArthursProperty entity.
-// If the FinschiaItemTokenMillionArthursProperty object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) OldCreatedAt(ctx context.Context) (v time.Time, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldCreatedAt is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldCreatedAt requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldCreatedAt: %w", err)
-	}
-	return oldValue.CreatedAt, nil
-}
-
-// ResetCreatedAt resets all changes to the "created_at" field.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) ResetCreatedAt() {
-	m.created_at = nil
-}
-
-// SetUpdatedAt sets the "updated_at" field.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) SetUpdatedAt(t time.Time) {
-	m.updated_at = &t
-}
-
-// UpdatedAt returns the value of the "updated_at" field in the mutation.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) UpdatedAt() (r time.Time, exists bool) {
-	v := m.updated_at
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldUpdatedAt returns the old "updated_at" field's value of the FinschiaItemTokenMillionArthursProperty entity.
-// If the FinschiaItemTokenMillionArthursProperty object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldUpdatedAt is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldUpdatedAt requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldUpdatedAt: %w", err)
-	}
-	return oldValue.UpdatedAt, nil
-}
-
-// ResetUpdatedAt resets all changes to the "updated_at" field.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) ResetUpdatedAt() {
-	m.updated_at = nil
-}
-
-// SetDeletedAt sets the "deleted_at" field.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) SetDeletedAt(t time.Time) {
-	m.deleted_at = &t
-}
-
-// DeletedAt returns the value of the "deleted_at" field in the mutation.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) DeletedAt() (r time.Time, exists bool) {
-	v := m.deleted_at
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldDeletedAt returns the old "deleted_at" field's value of the FinschiaItemTokenMillionArthursProperty entity.
-// If the FinschiaItemTokenMillionArthursProperty object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) OldDeletedAt(ctx context.Context) (v *time.Time, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldDeletedAt is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldDeletedAt requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldDeletedAt: %w", err)
-	}
-	return oldValue.DeletedAt, nil
-}
-
-// ClearDeletedAt clears the value of the "deleted_at" field.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) ClearDeletedAt() {
-	m.deleted_at = nil
-	m.clearedFields[finschiaitemtokenmillionarthursproperty.FieldDeletedAt] = struct{}{}
-}
-
-// DeletedAtCleared returns if the "deleted_at" field was cleared in this mutation.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) DeletedAtCleared() bool {
-	_, ok := m.clearedFields[finschiaitemtokenmillionarthursproperty.FieldDeletedAt]
-	return ok
-}
-
-// ResetDeletedAt resets all changes to the "deleted_at" field.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) ResetDeletedAt() {
-	m.deleted_at = nil
-	delete(m.clearedFields, finschiaitemtokenmillionarthursproperty.FieldDeletedAt)
-}
-
-// SetFinschiaItemTokenID sets the "finschia_item_token_id" field.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) SetFinschiaItemTokenID(u uint32) {
-	m.finschia_item_token = &u
-}
-
-// FinschiaItemTokenID returns the value of the "finschia_item_token_id" field in the mutation.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) FinschiaItemTokenID() (r uint32, exists bool) {
-	v := m.finschia_item_token
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldFinschiaItemTokenID returns the old "finschia_item_token_id" field's value of the FinschiaItemTokenMillionArthursProperty entity.
-// If the FinschiaItemTokenMillionArthursProperty object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) OldFinschiaItemTokenID(ctx context.Context) (v uint32, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldFinschiaItemTokenID is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldFinschiaItemTokenID requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldFinschiaItemTokenID: %w", err)
-	}
-	return oldValue.FinschiaItemTokenID, nil
-}
-
-// ResetFinschiaItemTokenID resets all changes to the "finschia_item_token_id" field.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) ResetFinschiaItemTokenID() {
-	m.finschia_item_token = nil
-}
-
-// SetSeries sets the "series" field.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) SetSeries(s string) {
-	m.series = &s
-}
-
-// Series returns the value of the "series" field in the mutation.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) Series() (r string, exists bool) {
-	v := m.series
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldSeries returns the old "series" field's value of the FinschiaItemTokenMillionArthursProperty entity.
-// If the FinschiaItemTokenMillionArthursProperty object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) OldSeries(ctx context.Context) (v *string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldSeries is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldSeries requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldSeries: %w", err)
-	}
-	return oldValue.Series, nil
-}
-
-// ClearSeries clears the value of the "series" field.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) ClearSeries() {
-	m.series = nil
-	m.clearedFields[finschiaitemtokenmillionarthursproperty.FieldSeries] = struct{}{}
-}
-
-// SeriesCleared returns if the "series" field was cleared in this mutation.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) SeriesCleared() bool {
-	_, ok := m.clearedFields[finschiaitemtokenmillionarthursproperty.FieldSeries]
-	return ok
-}
-
-// ResetSeries resets all changes to the "series" field.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) ResetSeries() {
-	m.series = nil
-	delete(m.clearedFields, finschiaitemtokenmillionarthursproperty.FieldSeries)
-}
-
-// SetGearCategory sets the "gear_category" field.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) SetGearCategory(s string) {
-	m.gear_category = &s
-}
-
-// GearCategory returns the value of the "gear_category" field in the mutation.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) GearCategory() (r string, exists bool) {
-	v := m.gear_category
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldGearCategory returns the old "gear_category" field's value of the FinschiaItemTokenMillionArthursProperty entity.
-// If the FinschiaItemTokenMillionArthursProperty object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) OldGearCategory(ctx context.Context) (v *string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldGearCategory is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldGearCategory requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldGearCategory: %w", err)
-	}
-	return oldValue.GearCategory, nil
-}
-
-// ClearGearCategory clears the value of the "gear_category" field.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) ClearGearCategory() {
-	m.gear_category = nil
-	m.clearedFields[finschiaitemtokenmillionarthursproperty.FieldGearCategory] = struct{}{}
-}
-
-// GearCategoryCleared returns if the "gear_category" field was cleared in this mutation.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) GearCategoryCleared() bool {
-	_, ok := m.clearedFields[finschiaitemtokenmillionarthursproperty.FieldGearCategory]
-	return ok
-}
-
-// ResetGearCategory resets all changes to the "gear_category" field.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) ResetGearCategory() {
-	m.gear_category = nil
-	delete(m.clearedFields, finschiaitemtokenmillionarthursproperty.FieldGearCategory)
-}
-
-// SetGearRarity sets the "gear_rarity" field.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) SetGearRarity(s string) {
-	m.gear_rarity = &s
-}
-
-// GearRarity returns the value of the "gear_rarity" field in the mutation.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) GearRarity() (r string, exists bool) {
-	v := m.gear_rarity
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldGearRarity returns the old "gear_rarity" field's value of the FinschiaItemTokenMillionArthursProperty entity.
-// If the FinschiaItemTokenMillionArthursProperty object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) OldGearRarity(ctx context.Context) (v *string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldGearRarity is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldGearRarity requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldGearRarity: %w", err)
-	}
-	return oldValue.GearRarity, nil
-}
-
-// ClearGearRarity clears the value of the "gear_rarity" field.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) ClearGearRarity() {
-	m.gear_rarity = nil
-	m.clearedFields[finschiaitemtokenmillionarthursproperty.FieldGearRarity] = struct{}{}
-}
-
-// GearRarityCleared returns if the "gear_rarity" field was cleared in this mutation.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) GearRarityCleared() bool {
-	_, ok := m.clearedFields[finschiaitemtokenmillionarthursproperty.FieldGearRarity]
-	return ok
-}
-
-// ResetGearRarity resets all changes to the "gear_rarity" field.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) ResetGearRarity() {
-	m.gear_rarity = nil
-	delete(m.clearedFields, finschiaitemtokenmillionarthursproperty.FieldGearRarity)
-}
-
-// ClearFinschiaItemToken clears the "finschia_item_token" edge to the FinschiaItemToken entity.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) ClearFinschiaItemToken() {
-	m.clearedfinschia_item_token = true
-	m.clearedFields[finschiaitemtokenmillionarthursproperty.FieldFinschiaItemTokenID] = struct{}{}
-}
-
-// FinschiaItemTokenCleared reports if the "finschia_item_token" edge to the FinschiaItemToken entity was cleared.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) FinschiaItemTokenCleared() bool {
-	return m.clearedfinschia_item_token
-}
-
-// FinschiaItemTokenIDs returns the "finschia_item_token" edge IDs in the mutation.
-// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
-// FinschiaItemTokenID instead. It exists only for internal usage by the builders.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) FinschiaItemTokenIDs() (ids []uint32) {
-	if id := m.finschia_item_token; id != nil {
-		ids = append(ids, *id)
-	}
-	return
-}
-
-// ResetFinschiaItemToken resets all changes to the "finschia_item_token" edge.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) ResetFinschiaItemToken() {
-	m.finschia_item_token = nil
-	m.clearedfinschia_item_token = false
-}
-
-// Where appends a list predicates to the FinschiaItemTokenMillionArthursPropertyMutation builder.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) Where(ps ...predicate.FinschiaItemTokenMillionArthursProperty) {
-	m.predicates = append(m.predicates, ps...)
-}
-
-// WhereP appends storage-level predicates to the FinschiaItemTokenMillionArthursPropertyMutation builder. Using this method,
-// users can use type-assertion to append predicates that do not depend on any generated package.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) WhereP(ps ...func(*sql.Selector)) {
-	p := make([]predicate.FinschiaItemTokenMillionArthursProperty, len(ps))
-	for i := range ps {
-		p[i] = ps[i]
-	}
-	m.Where(p...)
-}
-
-// Op returns the operation name.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) Op() Op {
-	return m.op
-}
-
-// SetOp allows setting the mutation operation.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) SetOp(op Op) {
-	m.op = op
-}
-
-// Type returns the node type of this mutation (FinschiaItemTokenMillionArthursProperty).
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) Type() string {
-	return m.typ
-}
-
-// Fields returns all fields that were changed during this mutation. Note that in
-// order to get all numeric fields that were incremented/decremented, call
-// AddedFields().
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) Fields() []string {
-	fields := make([]string, 0, 7)
-	if m.created_at != nil {
-		fields = append(fields, finschiaitemtokenmillionarthursproperty.FieldCreatedAt)
-	}
-	if m.updated_at != nil {
-		fields = append(fields, finschiaitemtokenmillionarthursproperty.FieldUpdatedAt)
-	}
-	if m.deleted_at != nil {
-		fields = append(fields, finschiaitemtokenmillionarthursproperty.FieldDeletedAt)
-	}
-	if m.finschia_item_token != nil {
-		fields = append(fields, finschiaitemtokenmillionarthursproperty.FieldFinschiaItemTokenID)
-	}
-	if m.series != nil {
-		fields = append(fields, finschiaitemtokenmillionarthursproperty.FieldSeries)
-	}
-	if m.gear_category != nil {
-		fields = append(fields, finschiaitemtokenmillionarthursproperty.FieldGearCategory)
-	}
-	if m.gear_rarity != nil {
-		fields = append(fields, finschiaitemtokenmillionarthursproperty.FieldGearRarity)
-	}
-	return fields
-}
-
-// Field returns the value of a field with the given name. The second boolean
-// return value indicates that this field was not set, or was not defined in the
-// schema.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) Field(name string) (ent.Value, bool) {
-	switch name {
-	case finschiaitemtokenmillionarthursproperty.FieldCreatedAt:
-		return m.CreatedAt()
-	case finschiaitemtokenmillionarthursproperty.FieldUpdatedAt:
-		return m.UpdatedAt()
-	case finschiaitemtokenmillionarthursproperty.FieldDeletedAt:
-		return m.DeletedAt()
-	case finschiaitemtokenmillionarthursproperty.FieldFinschiaItemTokenID:
-		return m.FinschiaItemTokenID()
-	case finschiaitemtokenmillionarthursproperty.FieldSeries:
-		return m.Series()
-	case finschiaitemtokenmillionarthursproperty.FieldGearCategory:
-		return m.GearCategory()
-	case finschiaitemtokenmillionarthursproperty.FieldGearRarity:
-		return m.GearRarity()
-	}
-	return nil, false
-}
-
-// OldField returns the old value of the field from the database. An error is
-// returned if the mutation operation is not UpdateOne, or the query to the
-// database failed.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
-	switch name {
-	case finschiaitemtokenmillionarthursproperty.FieldCreatedAt:
-		return m.OldCreatedAt(ctx)
-	case finschiaitemtokenmillionarthursproperty.FieldUpdatedAt:
-		return m.OldUpdatedAt(ctx)
-	case finschiaitemtokenmillionarthursproperty.FieldDeletedAt:
-		return m.OldDeletedAt(ctx)
-	case finschiaitemtokenmillionarthursproperty.FieldFinschiaItemTokenID:
-		return m.OldFinschiaItemTokenID(ctx)
-	case finschiaitemtokenmillionarthursproperty.FieldSeries:
-		return m.OldSeries(ctx)
-	case finschiaitemtokenmillionarthursproperty.FieldGearCategory:
-		return m.OldGearCategory(ctx)
-	case finschiaitemtokenmillionarthursproperty.FieldGearRarity:
-		return m.OldGearRarity(ctx)
-	}
-	return nil, fmt.Errorf("unknown FinschiaItemTokenMillionArthursProperty field %s", name)
-}
-
-// SetField sets the value of a field with the given name. It returns an error if
-// the field is not defined in the schema, or if the type mismatched the field
-// type.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) SetField(name string, value ent.Value) error {
-	switch name {
-	case finschiaitemtokenmillionarthursproperty.FieldCreatedAt:
-		v, ok := value.(time.Time)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetCreatedAt(v)
-		return nil
-	case finschiaitemtokenmillionarthursproperty.FieldUpdatedAt:
-		v, ok := value.(time.Time)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetUpdatedAt(v)
-		return nil
-	case finschiaitemtokenmillionarthursproperty.FieldDeletedAt:
-		v, ok := value.(time.Time)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetDeletedAt(v)
-		return nil
-	case finschiaitemtokenmillionarthursproperty.FieldFinschiaItemTokenID:
-		v, ok := value.(uint32)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetFinschiaItemTokenID(v)
-		return nil
-	case finschiaitemtokenmillionarthursproperty.FieldSeries:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetSeries(v)
-		return nil
-	case finschiaitemtokenmillionarthursproperty.FieldGearCategory:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetGearCategory(v)
-		return nil
-	case finschiaitemtokenmillionarthursproperty.FieldGearRarity:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetGearRarity(v)
-		return nil
-	}
-	return fmt.Errorf("unknown FinschiaItemTokenMillionArthursProperty field %s", name)
-}
-
-// AddedFields returns all numeric fields that were incremented/decremented during
-// this mutation.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) AddedFields() []string {
-	var fields []string
-	return fields
-}
-
-// AddedField returns the numeric value that was incremented/decremented on a field
-// with the given name. The second boolean return value indicates that this field
-// was not set, or was not defined in the schema.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) AddedField(name string) (ent.Value, bool) {
-	switch name {
-	}
-	return nil, false
-}
-
-// AddField adds the value to the field with the given name. It returns an error if
-// the field is not defined in the schema, or if the type mismatched the field
-// type.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) AddField(name string, value ent.Value) error {
-	switch name {
-	}
-	return fmt.Errorf("unknown FinschiaItemTokenMillionArthursProperty numeric field %s", name)
-}
-
-// ClearedFields returns all nullable fields that were cleared during this
-// mutation.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) ClearedFields() []string {
-	var fields []string
-	if m.FieldCleared(finschiaitemtokenmillionarthursproperty.FieldDeletedAt) {
-		fields = append(fields, finschiaitemtokenmillionarthursproperty.FieldDeletedAt)
-	}
-	if m.FieldCleared(finschiaitemtokenmillionarthursproperty.FieldSeries) {
-		fields = append(fields, finschiaitemtokenmillionarthursproperty.FieldSeries)
-	}
-	if m.FieldCleared(finschiaitemtokenmillionarthursproperty.FieldGearCategory) {
-		fields = append(fields, finschiaitemtokenmillionarthursproperty.FieldGearCategory)
-	}
-	if m.FieldCleared(finschiaitemtokenmillionarthursproperty.FieldGearRarity) {
-		fields = append(fields, finschiaitemtokenmillionarthursproperty.FieldGearRarity)
-	}
-	return fields
-}
-
-// FieldCleared returns a boolean indicating if a field with the given name was
-// cleared in this mutation.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) FieldCleared(name string) bool {
-	_, ok := m.clearedFields[name]
-	return ok
-}
-
-// ClearField clears the value of the field with the given name. It returns an
-// error if the field is not defined in the schema.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) ClearField(name string) error {
-	switch name {
-	case finschiaitemtokenmillionarthursproperty.FieldDeletedAt:
-		m.ClearDeletedAt()
-		return nil
-	case finschiaitemtokenmillionarthursproperty.FieldSeries:
-		m.ClearSeries()
-		return nil
-	case finschiaitemtokenmillionarthursproperty.FieldGearCategory:
-		m.ClearGearCategory()
-		return nil
-	case finschiaitemtokenmillionarthursproperty.FieldGearRarity:
-		m.ClearGearRarity()
-		return nil
-	}
-	return fmt.Errorf("unknown FinschiaItemTokenMillionArthursProperty nullable field %s", name)
-}
-
-// ResetField resets all changes in the mutation for the field with the given name.
-// It returns an error if the field is not defined in the schema.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) ResetField(name string) error {
-	switch name {
-	case finschiaitemtokenmillionarthursproperty.FieldCreatedAt:
-		m.ResetCreatedAt()
-		return nil
-	case finschiaitemtokenmillionarthursproperty.FieldUpdatedAt:
-		m.ResetUpdatedAt()
-		return nil
-	case finschiaitemtokenmillionarthursproperty.FieldDeletedAt:
-		m.ResetDeletedAt()
-		return nil
-	case finschiaitemtokenmillionarthursproperty.FieldFinschiaItemTokenID:
-		m.ResetFinschiaItemTokenID()
-		return nil
-	case finschiaitemtokenmillionarthursproperty.FieldSeries:
-		m.ResetSeries()
-		return nil
-	case finschiaitemtokenmillionarthursproperty.FieldGearCategory:
-		m.ResetGearCategory()
-		return nil
-	case finschiaitemtokenmillionarthursproperty.FieldGearRarity:
-		m.ResetGearRarity()
-		return nil
-	}
-	return fmt.Errorf("unknown FinschiaItemTokenMillionArthursProperty field %s", name)
-}
-
-// AddedEdges returns all edge names that were set/added in this mutation.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) AddedEdges() []string {
-	edges := make([]string, 0, 1)
-	if m.finschia_item_token != nil {
-		edges = append(edges, finschiaitemtokenmillionarthursproperty.EdgeFinschiaItemToken)
-	}
-	return edges
-}
-
-// AddedIDs returns all IDs (to other nodes) that were added for the given edge
-// name in this mutation.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) AddedIDs(name string) []ent.Value {
-	switch name {
-	case finschiaitemtokenmillionarthursproperty.EdgeFinschiaItemToken:
-		if id := m.finschia_item_token; id != nil {
-			return []ent.Value{*id}
-		}
-	}
-	return nil
-}
-
-// RemovedEdges returns all edge names that were removed in this mutation.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) RemovedEdges() []string {
-	edges := make([]string, 0, 1)
-	return edges
-}
-
-// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
-// the given name in this mutation.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) RemovedIDs(name string) []ent.Value {
-	return nil
-}
-
-// ClearedEdges returns all edge names that were cleared in this mutation.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) ClearedEdges() []string {
-	edges := make([]string, 0, 1)
-	if m.clearedfinschia_item_token {
-		edges = append(edges, finschiaitemtokenmillionarthursproperty.EdgeFinschiaItemToken)
-	}
-	return edges
-}
-
-// EdgeCleared returns a boolean which indicates if the edge with the given name
-// was cleared in this mutation.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) EdgeCleared(name string) bool {
-	switch name {
-	case finschiaitemtokenmillionarthursproperty.EdgeFinschiaItemToken:
-		return m.clearedfinschia_item_token
-	}
-	return false
-}
-
-// ClearEdge clears the value of the edge with the given name. It returns an error
-// if that edge is not defined in the schema.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) ClearEdge(name string) error {
-	switch name {
-	case finschiaitemtokenmillionarthursproperty.EdgeFinschiaItemToken:
-		m.ClearFinschiaItemToken()
-		return nil
-	}
-	return fmt.Errorf("unknown FinschiaItemTokenMillionArthursProperty unique edge %s", name)
-}
-
-// ResetEdge resets all changes to the edge with the given name in this mutation.
-// It returns an error if the edge is not defined in the schema.
-func (m *FinschiaItemTokenMillionArthursPropertyMutation) ResetEdge(name string) error {
-	switch name {
-	case finschiaitemtokenmillionarthursproperty.EdgeFinschiaItemToken:
-		m.ResetFinschiaItemToken()
-		return nil
-	}
-	return fmt.Errorf("unknown FinschiaItemTokenMillionArthursProperty edge %s", name)
-}
-
-// KusogeeeeeeNFTMutation represents an operation that mutates the KusogeeeeeeNFT nodes in the graph.
-type KusogeeeeeeNFTMutation struct {
-	config
-	op                         Op
-	typ                        string
-	id                         *uint32
-	created_at                 *time.Time
-	updated_at                 *time.Time
-	deleted_at                 *time.Time
-	uri                        *string
-	_type                      *string
-	name                       *string
-	status                     *string
-	price                      *int
-	addprice                   *int
-	published_at               *time.Time
-	weapon_rank                *int
-	addweapon_rank             *int
-	weapon_type                *string
-	weapon_vitality            *int
-	addweapon_vitality         *int
-	weapon_strength            *int
-	addweapon_strength         *int
-	weapon_physical_defense    *int
-	addweapon_physical_defense *int
-	weapon_magical_defense     *int
-	addweapon_magical_defense  *int
-	weapon_agility             *int
-	addweapon_agility          *int
-	character_rank             *string
-	character_total_supply     *int
-	addcharacter_total_supply  *int
-	clearedFields              map[string]struct{}
-	change_logs                map[uint32]struct{}
-	removedchange_logs         map[uint32]struct{}
-	clearedchange_logs         bool
-	done                       bool
-	oldValue                   func(context.Context) (*KusogeeeeeeNFT, error)
-	predicates                 []predicate.KusogeeeeeeNFT
-}
-
-var _ ent.Mutation = (*KusogeeeeeeNFTMutation)(nil)
-
-// kusogeeeeeenftOption allows management of the mutation configuration using functional options.
-type kusogeeeeeenftOption func(*KusogeeeeeeNFTMutation)
-
-// newKusogeeeeeeNFTMutation creates new mutation for the KusogeeeeeeNFT entity.
-func newKusogeeeeeeNFTMutation(c config, op Op, opts ...kusogeeeeeenftOption) *KusogeeeeeeNFTMutation {
-	m := &KusogeeeeeeNFTMutation{
-		config:        c,
-		op:            op,
-		typ:           TypeKusogeeeeeeNFT,
-		clearedFields: make(map[string]struct{}),
-	}
-	for _, opt := range opts {
-		opt(m)
-	}
-	return m
-}
-
-// withKusogeeeeeeNFTID sets the ID field of the mutation.
-func withKusogeeeeeeNFTID(id uint32) kusogeeeeeenftOption {
-	return func(m *KusogeeeeeeNFTMutation) {
-		var (
-			err   error
-			once  sync.Once
-			value *KusogeeeeeeNFT
-		)
-		m.oldValue = func(ctx context.Context) (*KusogeeeeeeNFT, error) {
-			once.Do(func() {
-				if m.done {
-					err = errors.New("querying old values post mutation is not allowed")
-				} else {
-					value, err = m.Client().KusogeeeeeeNFT.Get(ctx, id)
-				}
-			})
-			return value, err
-		}
-		m.id = &id
-	}
-}
-
-// withKusogeeeeeeNFT sets the old KusogeeeeeeNFT of the mutation.
-func withKusogeeeeeeNFT(node *KusogeeeeeeNFT) kusogeeeeeenftOption {
-	return func(m *KusogeeeeeeNFTMutation) {
-		m.oldValue = func(context.Context) (*KusogeeeeeeNFT, error) {
-			return node, nil
-		}
-		m.id = &node.ID
-	}
-}
-
-// Client returns a new `ent.Client` from the mutation. If the mutation was
-// executed in a transaction (ent.Tx), a transactional client is returned.
-func (m KusogeeeeeeNFTMutation) Client() *Client {
-	client := &Client{config: m.config}
-	client.init()
-	return client
-}
-
-// Tx returns an `ent.Tx` for mutations that were executed in transactions;
-// it returns an error otherwise.
-func (m KusogeeeeeeNFTMutation) Tx() (*Tx, error) {
-	if _, ok := m.driver.(*txDriver); !ok {
-		return nil, errors.New("ent: mutation is not running in a transaction")
-	}
-	tx := &Tx{config: m.config}
-	tx.init()
-	return tx, nil
-}
-
-// SetID sets the value of the id field. Note that this
-// operation is only accepted on creation of KusogeeeeeeNFT entities.
-func (m *KusogeeeeeeNFTMutation) SetID(id uint32) {
-	m.id = &id
-}
-
-// ID returns the ID value in the mutation. Note that the ID is only available
-// if it was provided to the builder or after it was returned from the database.
-func (m *KusogeeeeeeNFTMutation) ID() (id uint32, exists bool) {
-	if m.id == nil {
-		return
-	}
-	return *m.id, true
-}
-
-// IDs queries the database and returns the entity ids that match the mutation's predicate.
-// That means, if the mutation is applied within a transaction with an isolation level such
-// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
-// or updated by the mutation.
-func (m *KusogeeeeeeNFTMutation) IDs(ctx context.Context) ([]uint32, error) {
-	switch {
-	case m.op.Is(OpUpdateOne | OpDeleteOne):
-		id, exists := m.ID()
-		if exists {
-			return []uint32{id}, nil
-		}
-		fallthrough
-	case m.op.Is(OpUpdate | OpDelete):
-		return m.Client().KusogeeeeeeNFT.Query().Where(m.predicates...).IDs(ctx)
-	default:
-		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
-	}
-}
-
-// SetCreatedAt sets the "created_at" field.
-func (m *KusogeeeeeeNFTMutation) SetCreatedAt(t time.Time) {
-	m.created_at = &t
-}
-
-// CreatedAt returns the value of the "created_at" field in the mutation.
-func (m *KusogeeeeeeNFTMutation) CreatedAt() (r time.Time, exists bool) {
-	v := m.created_at
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldCreatedAt returns the old "created_at" field's value of the KusogeeeeeeNFT entity.
-// If the KusogeeeeeeNFT object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *KusogeeeeeeNFTMutation) OldCreatedAt(ctx context.Context) (v time.Time, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldCreatedAt is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldCreatedAt requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldCreatedAt: %w", err)
-	}
-	return oldValue.CreatedAt, nil
-}
-
-// ResetCreatedAt resets all changes to the "created_at" field.
-func (m *KusogeeeeeeNFTMutation) ResetCreatedAt() {
-	m.created_at = nil
-}
-
-// SetUpdatedAt sets the "updated_at" field.
-func (m *KusogeeeeeeNFTMutation) SetUpdatedAt(t time.Time) {
-	m.updated_at = &t
-}
-
-// UpdatedAt returns the value of the "updated_at" field in the mutation.
-func (m *KusogeeeeeeNFTMutation) UpdatedAt() (r time.Time, exists bool) {
-	v := m.updated_at
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldUpdatedAt returns the old "updated_at" field's value of the KusogeeeeeeNFT entity.
-// If the KusogeeeeeeNFT object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *KusogeeeeeeNFTMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldUpdatedAt is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldUpdatedAt requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldUpdatedAt: %w", err)
-	}
-	return oldValue.UpdatedAt, nil
-}
-
-// ResetUpdatedAt resets all changes to the "updated_at" field.
-func (m *KusogeeeeeeNFTMutation) ResetUpdatedAt() {
-	m.updated_at = nil
-}
-
-// SetDeletedAt sets the "deleted_at" field.
-func (m *KusogeeeeeeNFTMutation) SetDeletedAt(t time.Time) {
-	m.deleted_at = &t
-}
-
-// DeletedAt returns the value of the "deleted_at" field in the mutation.
-func (m *KusogeeeeeeNFTMutation) DeletedAt() (r time.Time, exists bool) {
-	v := m.deleted_at
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldDeletedAt returns the old "deleted_at" field's value of the KusogeeeeeeNFT entity.
-// If the KusogeeeeeeNFT object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *KusogeeeeeeNFTMutation) OldDeletedAt(ctx context.Context) (v *time.Time, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldDeletedAt is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldDeletedAt requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldDeletedAt: %w", err)
-	}
-	return oldValue.DeletedAt, nil
-}
-
-// ClearDeletedAt clears the value of the "deleted_at" field.
-func (m *KusogeeeeeeNFTMutation) ClearDeletedAt() {
-	m.deleted_at = nil
-	m.clearedFields[kusogeeeeeenft.FieldDeletedAt] = struct{}{}
-}
-
-// DeletedAtCleared returns if the "deleted_at" field was cleared in this mutation.
-func (m *KusogeeeeeeNFTMutation) DeletedAtCleared() bool {
-	_, ok := m.clearedFields[kusogeeeeeenft.FieldDeletedAt]
-	return ok
-}
-
-// ResetDeletedAt resets all changes to the "deleted_at" field.
-func (m *KusogeeeeeeNFTMutation) ResetDeletedAt() {
-	m.deleted_at = nil
-	delete(m.clearedFields, kusogeeeeeenft.FieldDeletedAt)
+	delete(m.clearedFields, changokushiweapon.FieldDeletedAt)
 }
 
 // SetURI sets the "uri" field.
-func (m *KusogeeeeeeNFTMutation) SetURI(s string) {
+func (m *ChangokushiWeaponMutation) SetURI(s string) {
 	m.uri = &s
 }
 
 // URI returns the value of the "uri" field in the mutation.
-func (m *KusogeeeeeeNFTMutation) URI() (r string, exists bool) {
+func (m *ChangokushiWeaponMutation) URI() (r string, exists bool) {
 	v := m.uri
 	if v == nil {
 		return
@@ -2648,10 +302,10 @@ func (m *KusogeeeeeeNFTMutation) URI() (r string, exists bool) {
 	return *v, true
 }
 
-// OldURI returns the old "uri" field's value of the KusogeeeeeeNFT entity.
-// If the KusogeeeeeeNFT object wasn't provided to the builder, the object is fetched from the database.
+// OldURI returns the old "uri" field's value of the ChangokushiWeapon entity.
+// If the ChangokushiWeapon object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *KusogeeeeeeNFTMutation) OldURI(ctx context.Context) (v string, err error) {
+func (m *ChangokushiWeaponMutation) OldURI(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldURI is only allowed on UpdateOne operations")
 	}
@@ -2666,53 +320,17 @@ func (m *KusogeeeeeeNFTMutation) OldURI(ctx context.Context) (v string, err erro
 }
 
 // ResetURI resets all changes to the "uri" field.
-func (m *KusogeeeeeeNFTMutation) ResetURI() {
+func (m *ChangokushiWeaponMutation) ResetURI() {
 	m.uri = nil
 }
 
-// SetType sets the "type" field.
-func (m *KusogeeeeeeNFTMutation) SetType(s string) {
-	m._type = &s
-}
-
-// GetType returns the value of the "type" field in the mutation.
-func (m *KusogeeeeeeNFTMutation) GetType() (r string, exists bool) {
-	v := m._type
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldType returns the old "type" field's value of the KusogeeeeeeNFT entity.
-// If the KusogeeeeeeNFT object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *KusogeeeeeeNFTMutation) OldType(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldType is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldType requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldType: %w", err)
-	}
-	return oldValue.Type, nil
-}
-
-// ResetType resets all changes to the "type" field.
-func (m *KusogeeeeeeNFTMutation) ResetType() {
-	m._type = nil
-}
-
 // SetName sets the "name" field.
-func (m *KusogeeeeeeNFTMutation) SetName(s string) {
+func (m *ChangokushiWeaponMutation) SetName(s string) {
 	m.name = &s
 }
 
 // Name returns the value of the "name" field in the mutation.
-func (m *KusogeeeeeeNFTMutation) Name() (r string, exists bool) {
+func (m *ChangokushiWeaponMutation) Name() (r string, exists bool) {
 	v := m.name
 	if v == nil {
 		return
@@ -2720,10 +338,10 @@ func (m *KusogeeeeeeNFTMutation) Name() (r string, exists bool) {
 	return *v, true
 }
 
-// OldName returns the old "name" field's value of the KusogeeeeeeNFT entity.
-// If the KusogeeeeeeNFT object wasn't provided to the builder, the object is fetched from the database.
+// OldName returns the old "name" field's value of the ChangokushiWeapon entity.
+// If the ChangokushiWeapon object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *KusogeeeeeeNFTMutation) OldName(ctx context.Context) (v string, err error) {
+func (m *ChangokushiWeaponMutation) OldName(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldName is only allowed on UpdateOne operations")
 	}
@@ -2738,17 +356,1264 @@ func (m *KusogeeeeeeNFTMutation) OldName(ctx context.Context) (v string, err err
 }
 
 // ResetName resets all changes to the "name" field.
-func (m *KusogeeeeeeNFTMutation) ResetName() {
+func (m *ChangokushiWeaponMutation) ResetName() {
 	m.name = nil
 }
 
+// SetRank sets the "rank" field.
+func (m *ChangokushiWeaponMutation) SetRank(i int) {
+	m.rank = &i
+	m.addrank = nil
+}
+
+// Rank returns the value of the "rank" field in the mutation.
+func (m *ChangokushiWeaponMutation) Rank() (r int, exists bool) {
+	v := m.rank
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldRank returns the old "rank" field's value of the ChangokushiWeapon entity.
+// If the ChangokushiWeapon object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *ChangokushiWeaponMutation) OldRank(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldRank is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldRank requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldRank: %w", err)
+	}
+	return oldValue.Rank, nil
+}
+
+// AddRank adds i to the "rank" field.
+func (m *ChangokushiWeaponMutation) AddRank(i int) {
+	if m.addrank != nil {
+		*m.addrank += i
+	} else {
+		m.addrank = &i
+	}
+}
+
+// AddedRank returns the value that was added to the "rank" field in this mutation.
+func (m *ChangokushiWeaponMutation) AddedRank() (r int, exists bool) {
+	v := m.addrank
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetRank resets all changes to the "rank" field.
+func (m *ChangokushiWeaponMutation) ResetRank() {
+	m.rank = nil
+	m.addrank = nil
+}
+
+// SetType sets the "type" field.
+func (m *ChangokushiWeaponMutation) SetType(s string) {
+	m._type = &s
+}
+
+// GetType returns the value of the "type" field in the mutation.
+func (m *ChangokushiWeaponMutation) GetType() (r string, exists bool) {
+	v := m._type
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldType returns the old "type" field's value of the ChangokushiWeapon entity.
+// If the ChangokushiWeapon object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *ChangokushiWeaponMutation) OldType(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldType is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldType requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldType: %w", err)
+	}
+	return oldValue.Type, nil
+}
+
+// ResetType resets all changes to the "type" field.
+func (m *ChangokushiWeaponMutation) ResetType() {
+	m._type = nil
+}
+
+// SetSkill sets the "skill" field.
+func (m *ChangokushiWeaponMutation) SetSkill(s string) {
+	m.skill = &s
+}
+
+// Skill returns the value of the "skill" field in the mutation.
+func (m *ChangokushiWeaponMutation) Skill() (r string, exists bool) {
+	v := m.skill
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldSkill returns the old "skill" field's value of the ChangokushiWeapon entity.
+// If the ChangokushiWeapon object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *ChangokushiWeaponMutation) OldSkill(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldSkill is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldSkill requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldSkill: %w", err)
+	}
+	return oldValue.Skill, nil
+}
+
+// ResetSkill resets all changes to the "skill" field.
+func (m *ChangokushiWeaponMutation) ResetSkill() {
+	m.skill = nil
+}
+
+// SetVitality sets the "vitality" field.
+func (m *ChangokushiWeaponMutation) SetVitality(i int) {
+	m.vitality = &i
+	m.addvitality = nil
+}
+
+// Vitality returns the value of the "vitality" field in the mutation.
+func (m *ChangokushiWeaponMutation) Vitality() (r int, exists bool) {
+	v := m.vitality
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldVitality returns the old "vitality" field's value of the ChangokushiWeapon entity.
+// If the ChangokushiWeapon object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *ChangokushiWeaponMutation) OldVitality(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldVitality is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldVitality requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldVitality: %w", err)
+	}
+	return oldValue.Vitality, nil
+}
+
+// AddVitality adds i to the "vitality" field.
+func (m *ChangokushiWeaponMutation) AddVitality(i int) {
+	if m.addvitality != nil {
+		*m.addvitality += i
+	} else {
+		m.addvitality = &i
+	}
+}
+
+// AddedVitality returns the value that was added to the "vitality" field in this mutation.
+func (m *ChangokushiWeaponMutation) AddedVitality() (r int, exists bool) {
+	v := m.addvitality
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetVitality resets all changes to the "vitality" field.
+func (m *ChangokushiWeaponMutation) ResetVitality() {
+	m.vitality = nil
+	m.addvitality = nil
+}
+
+// SetStrength sets the "strength" field.
+func (m *ChangokushiWeaponMutation) SetStrength(i int) {
+	m.strength = &i
+	m.addstrength = nil
+}
+
+// Strength returns the value of the "strength" field in the mutation.
+func (m *ChangokushiWeaponMutation) Strength() (r int, exists bool) {
+	v := m.strength
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldStrength returns the old "strength" field's value of the ChangokushiWeapon entity.
+// If the ChangokushiWeapon object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *ChangokushiWeaponMutation) OldStrength(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldStrength is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldStrength requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldStrength: %w", err)
+	}
+	return oldValue.Strength, nil
+}
+
+// AddStrength adds i to the "strength" field.
+func (m *ChangokushiWeaponMutation) AddStrength(i int) {
+	if m.addstrength != nil {
+		*m.addstrength += i
+	} else {
+		m.addstrength = &i
+	}
+}
+
+// AddedStrength returns the value that was added to the "strength" field in this mutation.
+func (m *ChangokushiWeaponMutation) AddedStrength() (r int, exists bool) {
+	v := m.addstrength
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetStrength resets all changes to the "strength" field.
+func (m *ChangokushiWeaponMutation) ResetStrength() {
+	m.strength = nil
+	m.addstrength = nil
+}
+
+// SetPhysicalDefense sets the "physical_defense" field.
+func (m *ChangokushiWeaponMutation) SetPhysicalDefense(i int) {
+	m.physical_defense = &i
+	m.addphysical_defense = nil
+}
+
+// PhysicalDefense returns the value of the "physical_defense" field in the mutation.
+func (m *ChangokushiWeaponMutation) PhysicalDefense() (r int, exists bool) {
+	v := m.physical_defense
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldPhysicalDefense returns the old "physical_defense" field's value of the ChangokushiWeapon entity.
+// If the ChangokushiWeapon object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *ChangokushiWeaponMutation) OldPhysicalDefense(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldPhysicalDefense is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldPhysicalDefense requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldPhysicalDefense: %w", err)
+	}
+	return oldValue.PhysicalDefense, nil
+}
+
+// AddPhysicalDefense adds i to the "physical_defense" field.
+func (m *ChangokushiWeaponMutation) AddPhysicalDefense(i int) {
+	if m.addphysical_defense != nil {
+		*m.addphysical_defense += i
+	} else {
+		m.addphysical_defense = &i
+	}
+}
+
+// AddedPhysicalDefense returns the value that was added to the "physical_defense" field in this mutation.
+func (m *ChangokushiWeaponMutation) AddedPhysicalDefense() (r int, exists bool) {
+	v := m.addphysical_defense
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetPhysicalDefense resets all changes to the "physical_defense" field.
+func (m *ChangokushiWeaponMutation) ResetPhysicalDefense() {
+	m.physical_defense = nil
+	m.addphysical_defense = nil
+}
+
+// SetMagicalDefense sets the "magical_defense" field.
+func (m *ChangokushiWeaponMutation) SetMagicalDefense(i int) {
+	m.magical_defense = &i
+	m.addmagical_defense = nil
+}
+
+// MagicalDefense returns the value of the "magical_defense" field in the mutation.
+func (m *ChangokushiWeaponMutation) MagicalDefense() (r int, exists bool) {
+	v := m.magical_defense
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldMagicalDefense returns the old "magical_defense" field's value of the ChangokushiWeapon entity.
+// If the ChangokushiWeapon object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *ChangokushiWeaponMutation) OldMagicalDefense(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldMagicalDefense is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldMagicalDefense requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldMagicalDefense: %w", err)
+	}
+	return oldValue.MagicalDefense, nil
+}
+
+// AddMagicalDefense adds i to the "magical_defense" field.
+func (m *ChangokushiWeaponMutation) AddMagicalDefense(i int) {
+	if m.addmagical_defense != nil {
+		*m.addmagical_defense += i
+	} else {
+		m.addmagical_defense = &i
+	}
+}
+
+// AddedMagicalDefense returns the value that was added to the "magical_defense" field in this mutation.
+func (m *ChangokushiWeaponMutation) AddedMagicalDefense() (r int, exists bool) {
+	v := m.addmagical_defense
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetMagicalDefense resets all changes to the "magical_defense" field.
+func (m *ChangokushiWeaponMutation) ResetMagicalDefense() {
+	m.magical_defense = nil
+	m.addmagical_defense = nil
+}
+
+// SetAgility sets the "agility" field.
+func (m *ChangokushiWeaponMutation) SetAgility(i int) {
+	m.agility = &i
+	m.addagility = nil
+}
+
+// Agility returns the value of the "agility" field in the mutation.
+func (m *ChangokushiWeaponMutation) Agility() (r int, exists bool) {
+	v := m.agility
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldAgility returns the old "agility" field's value of the ChangokushiWeapon entity.
+// If the ChangokushiWeapon object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *ChangokushiWeaponMutation) OldAgility(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldAgility is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldAgility requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldAgility: %w", err)
+	}
+	return oldValue.Agility, nil
+}
+
+// AddAgility adds i to the "agility" field.
+func (m *ChangokushiWeaponMutation) AddAgility(i int) {
+	if m.addagility != nil {
+		*m.addagility += i
+	} else {
+		m.addagility = &i
+	}
+}
+
+// AddedAgility returns the value that was added to the "agility" field in this mutation.
+func (m *ChangokushiWeaponMutation) AddedAgility() (r int, exists bool) {
+	v := m.addagility
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetAgility resets all changes to the "agility" field.
+func (m *ChangokushiWeaponMutation) ResetAgility() {
+	m.agility = nil
+	m.addagility = nil
+}
+
+// AddChangeLogIDs adds the "change_logs" edge to the ChangokushiWeaponChangeLog entity by ids.
+func (m *ChangokushiWeaponMutation) AddChangeLogIDs(ids ...uint32) {
+	if m.change_logs == nil {
+		m.change_logs = make(map[uint32]struct{})
+	}
+	for i := range ids {
+		m.change_logs[ids[i]] = struct{}{}
+	}
+}
+
+// ClearChangeLogs clears the "change_logs" edge to the ChangokushiWeaponChangeLog entity.
+func (m *ChangokushiWeaponMutation) ClearChangeLogs() {
+	m.clearedchange_logs = true
+}
+
+// ChangeLogsCleared reports if the "change_logs" edge to the ChangokushiWeaponChangeLog entity was cleared.
+func (m *ChangokushiWeaponMutation) ChangeLogsCleared() bool {
+	return m.clearedchange_logs
+}
+
+// RemoveChangeLogIDs removes the "change_logs" edge to the ChangokushiWeaponChangeLog entity by IDs.
+func (m *ChangokushiWeaponMutation) RemoveChangeLogIDs(ids ...uint32) {
+	if m.removedchange_logs == nil {
+		m.removedchange_logs = make(map[uint32]struct{})
+	}
+	for i := range ids {
+		delete(m.change_logs, ids[i])
+		m.removedchange_logs[ids[i]] = struct{}{}
+	}
+}
+
+// RemovedChangeLogs returns the removed IDs of the "change_logs" edge to the ChangokushiWeaponChangeLog entity.
+func (m *ChangokushiWeaponMutation) RemovedChangeLogsIDs() (ids []uint32) {
+	for id := range m.removedchange_logs {
+		ids = append(ids, id)
+	}
+	return
+}
+
+// ChangeLogsIDs returns the "change_logs" edge IDs in the mutation.
+func (m *ChangokushiWeaponMutation) ChangeLogsIDs() (ids []uint32) {
+	for id := range m.change_logs {
+		ids = append(ids, id)
+	}
+	return
+}
+
+// ResetChangeLogs resets all changes to the "change_logs" edge.
+func (m *ChangokushiWeaponMutation) ResetChangeLogs() {
+	m.change_logs = nil
+	m.clearedchange_logs = false
+	m.removedchange_logs = nil
+}
+
+// Where appends a list predicates to the ChangokushiWeaponMutation builder.
+func (m *ChangokushiWeaponMutation) Where(ps ...predicate.ChangokushiWeapon) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// WhereP appends storage-level predicates to the ChangokushiWeaponMutation builder. Using this method,
+// users can use type-assertion to append predicates that do not depend on any generated package.
+func (m *ChangokushiWeaponMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.ChangokushiWeapon, len(ps))
+	for i := range ps {
+		p[i] = ps[i]
+	}
+	m.Where(p...)
+}
+
+// Op returns the operation name.
+func (m *ChangokushiWeaponMutation) Op() Op {
+	return m.op
+}
+
+// SetOp allows setting the mutation operation.
+func (m *ChangokushiWeaponMutation) SetOp(op Op) {
+	m.op = op
+}
+
+// Type returns the node type of this mutation (ChangokushiWeapon).
+func (m *ChangokushiWeaponMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *ChangokushiWeaponMutation) Fields() []string {
+	fields := make([]string, 0, 13)
+	if m.created_at != nil {
+		fields = append(fields, changokushiweapon.FieldCreatedAt)
+	}
+	if m.updated_at != nil {
+		fields = append(fields, changokushiweapon.FieldUpdatedAt)
+	}
+	if m.deleted_at != nil {
+		fields = append(fields, changokushiweapon.FieldDeletedAt)
+	}
+	if m.uri != nil {
+		fields = append(fields, changokushiweapon.FieldURI)
+	}
+	if m.name != nil {
+		fields = append(fields, changokushiweapon.FieldName)
+	}
+	if m.rank != nil {
+		fields = append(fields, changokushiweapon.FieldRank)
+	}
+	if m._type != nil {
+		fields = append(fields, changokushiweapon.FieldType)
+	}
+	if m.skill != nil {
+		fields = append(fields, changokushiweapon.FieldSkill)
+	}
+	if m.vitality != nil {
+		fields = append(fields, changokushiweapon.FieldVitality)
+	}
+	if m.strength != nil {
+		fields = append(fields, changokushiweapon.FieldStrength)
+	}
+	if m.physical_defense != nil {
+		fields = append(fields, changokushiweapon.FieldPhysicalDefense)
+	}
+	if m.magical_defense != nil {
+		fields = append(fields, changokushiweapon.FieldMagicalDefense)
+	}
+	if m.agility != nil {
+		fields = append(fields, changokushiweapon.FieldAgility)
+	}
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *ChangokushiWeaponMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case changokushiweapon.FieldCreatedAt:
+		return m.CreatedAt()
+	case changokushiweapon.FieldUpdatedAt:
+		return m.UpdatedAt()
+	case changokushiweapon.FieldDeletedAt:
+		return m.DeletedAt()
+	case changokushiweapon.FieldURI:
+		return m.URI()
+	case changokushiweapon.FieldName:
+		return m.Name()
+	case changokushiweapon.FieldRank:
+		return m.Rank()
+	case changokushiweapon.FieldType:
+		return m.GetType()
+	case changokushiweapon.FieldSkill:
+		return m.Skill()
+	case changokushiweapon.FieldVitality:
+		return m.Vitality()
+	case changokushiweapon.FieldStrength:
+		return m.Strength()
+	case changokushiweapon.FieldPhysicalDefense:
+		return m.PhysicalDefense()
+	case changokushiweapon.FieldMagicalDefense:
+		return m.MagicalDefense()
+	case changokushiweapon.FieldAgility:
+		return m.Agility()
+	}
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *ChangokushiWeaponMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case changokushiweapon.FieldCreatedAt:
+		return m.OldCreatedAt(ctx)
+	case changokushiweapon.FieldUpdatedAt:
+		return m.OldUpdatedAt(ctx)
+	case changokushiweapon.FieldDeletedAt:
+		return m.OldDeletedAt(ctx)
+	case changokushiweapon.FieldURI:
+		return m.OldURI(ctx)
+	case changokushiweapon.FieldName:
+		return m.OldName(ctx)
+	case changokushiweapon.FieldRank:
+		return m.OldRank(ctx)
+	case changokushiweapon.FieldType:
+		return m.OldType(ctx)
+	case changokushiweapon.FieldSkill:
+		return m.OldSkill(ctx)
+	case changokushiweapon.FieldVitality:
+		return m.OldVitality(ctx)
+	case changokushiweapon.FieldStrength:
+		return m.OldStrength(ctx)
+	case changokushiweapon.FieldPhysicalDefense:
+		return m.OldPhysicalDefense(ctx)
+	case changokushiweapon.FieldMagicalDefense:
+		return m.OldMagicalDefense(ctx)
+	case changokushiweapon.FieldAgility:
+		return m.OldAgility(ctx)
+	}
+	return nil, fmt.Errorf("unknown ChangokushiWeapon field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *ChangokushiWeaponMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	case changokushiweapon.FieldCreatedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCreatedAt(v)
+		return nil
+	case changokushiweapon.FieldUpdatedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUpdatedAt(v)
+		return nil
+	case changokushiweapon.FieldDeletedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetDeletedAt(v)
+		return nil
+	case changokushiweapon.FieldURI:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetURI(v)
+		return nil
+	case changokushiweapon.FieldName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetName(v)
+		return nil
+	case changokushiweapon.FieldRank:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetRank(v)
+		return nil
+	case changokushiweapon.FieldType:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetType(v)
+		return nil
+	case changokushiweapon.FieldSkill:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetSkill(v)
+		return nil
+	case changokushiweapon.FieldVitality:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetVitality(v)
+		return nil
+	case changokushiweapon.FieldStrength:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetStrength(v)
+		return nil
+	case changokushiweapon.FieldPhysicalDefense:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetPhysicalDefense(v)
+		return nil
+	case changokushiweapon.FieldMagicalDefense:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetMagicalDefense(v)
+		return nil
+	case changokushiweapon.FieldAgility:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetAgility(v)
+		return nil
+	}
+	return fmt.Errorf("unknown ChangokushiWeapon field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *ChangokushiWeaponMutation) AddedFields() []string {
+	var fields []string
+	if m.addrank != nil {
+		fields = append(fields, changokushiweapon.FieldRank)
+	}
+	if m.addvitality != nil {
+		fields = append(fields, changokushiweapon.FieldVitality)
+	}
+	if m.addstrength != nil {
+		fields = append(fields, changokushiweapon.FieldStrength)
+	}
+	if m.addphysical_defense != nil {
+		fields = append(fields, changokushiweapon.FieldPhysicalDefense)
+	}
+	if m.addmagical_defense != nil {
+		fields = append(fields, changokushiweapon.FieldMagicalDefense)
+	}
+	if m.addagility != nil {
+		fields = append(fields, changokushiweapon.FieldAgility)
+	}
+	return fields
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *ChangokushiWeaponMutation) AddedField(name string) (ent.Value, bool) {
+	switch name {
+	case changokushiweapon.FieldRank:
+		return m.AddedRank()
+	case changokushiweapon.FieldVitality:
+		return m.AddedVitality()
+	case changokushiweapon.FieldStrength:
+		return m.AddedStrength()
+	case changokushiweapon.FieldPhysicalDefense:
+		return m.AddedPhysicalDefense()
+	case changokushiweapon.FieldMagicalDefense:
+		return m.AddedMagicalDefense()
+	case changokushiweapon.FieldAgility:
+		return m.AddedAgility()
+	}
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *ChangokushiWeaponMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	case changokushiweapon.FieldRank:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddRank(v)
+		return nil
+	case changokushiweapon.FieldVitality:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddVitality(v)
+		return nil
+	case changokushiweapon.FieldStrength:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddStrength(v)
+		return nil
+	case changokushiweapon.FieldPhysicalDefense:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddPhysicalDefense(v)
+		return nil
+	case changokushiweapon.FieldMagicalDefense:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddMagicalDefense(v)
+		return nil
+	case changokushiweapon.FieldAgility:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddAgility(v)
+		return nil
+	}
+	return fmt.Errorf("unknown ChangokushiWeapon numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *ChangokushiWeaponMutation) ClearedFields() []string {
+	var fields []string
+	if m.FieldCleared(changokushiweapon.FieldDeletedAt) {
+		fields = append(fields, changokushiweapon.FieldDeletedAt)
+	}
+	return fields
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *ChangokushiWeaponMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *ChangokushiWeaponMutation) ClearField(name string) error {
+	switch name {
+	case changokushiweapon.FieldDeletedAt:
+		m.ClearDeletedAt()
+		return nil
+	}
+	return fmt.Errorf("unknown ChangokushiWeapon nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *ChangokushiWeaponMutation) ResetField(name string) error {
+	switch name {
+	case changokushiweapon.FieldCreatedAt:
+		m.ResetCreatedAt()
+		return nil
+	case changokushiweapon.FieldUpdatedAt:
+		m.ResetUpdatedAt()
+		return nil
+	case changokushiweapon.FieldDeletedAt:
+		m.ResetDeletedAt()
+		return nil
+	case changokushiweapon.FieldURI:
+		m.ResetURI()
+		return nil
+	case changokushiweapon.FieldName:
+		m.ResetName()
+		return nil
+	case changokushiweapon.FieldRank:
+		m.ResetRank()
+		return nil
+	case changokushiweapon.FieldType:
+		m.ResetType()
+		return nil
+	case changokushiweapon.FieldSkill:
+		m.ResetSkill()
+		return nil
+	case changokushiweapon.FieldVitality:
+		m.ResetVitality()
+		return nil
+	case changokushiweapon.FieldStrength:
+		m.ResetStrength()
+		return nil
+	case changokushiweapon.FieldPhysicalDefense:
+		m.ResetPhysicalDefense()
+		return nil
+	case changokushiweapon.FieldMagicalDefense:
+		m.ResetMagicalDefense()
+		return nil
+	case changokushiweapon.FieldAgility:
+		m.ResetAgility()
+		return nil
+	}
+	return fmt.Errorf("unknown ChangokushiWeapon field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *ChangokushiWeaponMutation) AddedEdges() []string {
+	edges := make([]string, 0, 1)
+	if m.change_logs != nil {
+		edges = append(edges, changokushiweapon.EdgeChangeLogs)
+	}
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *ChangokushiWeaponMutation) AddedIDs(name string) []ent.Value {
+	switch name {
+	case changokushiweapon.EdgeChangeLogs:
+		ids := make([]ent.Value, 0, len(m.change_logs))
+		for id := range m.change_logs {
+			ids = append(ids, id)
+		}
+		return ids
+	}
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *ChangokushiWeaponMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 1)
+	if m.removedchange_logs != nil {
+		edges = append(edges, changokushiweapon.EdgeChangeLogs)
+	}
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *ChangokushiWeaponMutation) RemovedIDs(name string) []ent.Value {
+	switch name {
+	case changokushiweapon.EdgeChangeLogs:
+		ids := make([]ent.Value, 0, len(m.removedchange_logs))
+		for id := range m.removedchange_logs {
+			ids = append(ids, id)
+		}
+		return ids
+	}
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *ChangokushiWeaponMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 1)
+	if m.clearedchange_logs {
+		edges = append(edges, changokushiweapon.EdgeChangeLogs)
+	}
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *ChangokushiWeaponMutation) EdgeCleared(name string) bool {
+	switch name {
+	case changokushiweapon.EdgeChangeLogs:
+		return m.clearedchange_logs
+	}
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *ChangokushiWeaponMutation) ClearEdge(name string) error {
+	switch name {
+	}
+	return fmt.Errorf("unknown ChangokushiWeapon unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *ChangokushiWeaponMutation) ResetEdge(name string) error {
+	switch name {
+	case changokushiweapon.EdgeChangeLogs:
+		m.ResetChangeLogs()
+		return nil
+	}
+	return fmt.Errorf("unknown ChangokushiWeapon edge %s", name)
+}
+
+// ChangokushiWeaponChangeLogMutation represents an operation that mutates the ChangokushiWeaponChangeLog nodes in the graph.
+type ChangokushiWeaponChangeLogMutation struct {
+	config
+	op                        Op
+	typ                       string
+	id                        *uint32
+	created_at                *time.Time
+	updated_at                *time.Time
+	deleted_at                *time.Time
+	status                    *string
+	price                     *int
+	addprice                  *int
+	published_at              *time.Time
+	clearedFields             map[string]struct{}
+	changokushi_weapon        *uint32
+	clearedchangokushi_weapon bool
+	done                      bool
+	oldValue                  func(context.Context) (*ChangokushiWeaponChangeLog, error)
+	predicates                []predicate.ChangokushiWeaponChangeLog
+}
+
+var _ ent.Mutation = (*ChangokushiWeaponChangeLogMutation)(nil)
+
+// changokushiweaponchangelogOption allows management of the mutation configuration using functional options.
+type changokushiweaponchangelogOption func(*ChangokushiWeaponChangeLogMutation)
+
+// newChangokushiWeaponChangeLogMutation creates new mutation for the ChangokushiWeaponChangeLog entity.
+func newChangokushiWeaponChangeLogMutation(c config, op Op, opts ...changokushiweaponchangelogOption) *ChangokushiWeaponChangeLogMutation {
+	m := &ChangokushiWeaponChangeLogMutation{
+		config:        c,
+		op:            op,
+		typ:           TypeChangokushiWeaponChangeLog,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withChangokushiWeaponChangeLogID sets the ID field of the mutation.
+func withChangokushiWeaponChangeLogID(id uint32) changokushiweaponchangelogOption {
+	return func(m *ChangokushiWeaponChangeLogMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *ChangokushiWeaponChangeLog
+		)
+		m.oldValue = func(ctx context.Context) (*ChangokushiWeaponChangeLog, error) {
+			once.Do(func() {
+				if m.done {
+					err = errors.New("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().ChangokushiWeaponChangeLog.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withChangokushiWeaponChangeLog sets the old ChangokushiWeaponChangeLog of the mutation.
+func withChangokushiWeaponChangeLog(node *ChangokushiWeaponChangeLog) changokushiweaponchangelogOption {
+	return func(m *ChangokushiWeaponChangeLogMutation) {
+		m.oldValue = func(context.Context) (*ChangokushiWeaponChangeLog, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m ChangokushiWeaponChangeLogMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m ChangokushiWeaponChangeLogMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, errors.New("ent: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// SetID sets the value of the id field. Note that this
+// operation is only accepted on creation of ChangokushiWeaponChangeLog entities.
+func (m *ChangokushiWeaponChangeLogMutation) SetID(id uint32) {
+	m.id = &id
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *ChangokushiWeaponChangeLogMutation) ID() (id uint32, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *ChangokushiWeaponChangeLogMutation) IDs(ctx context.Context) ([]uint32, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []uint32{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().ChangokushiWeaponChangeLog.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
+}
+
+// SetCreatedAt sets the "created_at" field.
+func (m *ChangokushiWeaponChangeLogMutation) SetCreatedAt(t time.Time) {
+	m.created_at = &t
+}
+
+// CreatedAt returns the value of the "created_at" field in the mutation.
+func (m *ChangokushiWeaponChangeLogMutation) CreatedAt() (r time.Time, exists bool) {
+	v := m.created_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCreatedAt returns the old "created_at" field's value of the ChangokushiWeaponChangeLog entity.
+// If the ChangokushiWeaponChangeLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *ChangokushiWeaponChangeLogMutation) OldCreatedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCreatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCreatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCreatedAt: %w", err)
+	}
+	return oldValue.CreatedAt, nil
+}
+
+// ResetCreatedAt resets all changes to the "created_at" field.
+func (m *ChangokushiWeaponChangeLogMutation) ResetCreatedAt() {
+	m.created_at = nil
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (m *ChangokushiWeaponChangeLogMutation) SetUpdatedAt(t time.Time) {
+	m.updated_at = &t
+}
+
+// UpdatedAt returns the value of the "updated_at" field in the mutation.
+func (m *ChangokushiWeaponChangeLogMutation) UpdatedAt() (r time.Time, exists bool) {
+	v := m.updated_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUpdatedAt returns the old "updated_at" field's value of the ChangokushiWeaponChangeLog entity.
+// If the ChangokushiWeaponChangeLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *ChangokushiWeaponChangeLogMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUpdatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUpdatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUpdatedAt: %w", err)
+	}
+	return oldValue.UpdatedAt, nil
+}
+
+// ResetUpdatedAt resets all changes to the "updated_at" field.
+func (m *ChangokushiWeaponChangeLogMutation) ResetUpdatedAt() {
+	m.updated_at = nil
+}
+
+// SetDeletedAt sets the "deleted_at" field.
+func (m *ChangokushiWeaponChangeLogMutation) SetDeletedAt(t time.Time) {
+	m.deleted_at = &t
+}
+
+// DeletedAt returns the value of the "deleted_at" field in the mutation.
+func (m *ChangokushiWeaponChangeLogMutation) DeletedAt() (r time.Time, exists bool) {
+	v := m.deleted_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldDeletedAt returns the old "deleted_at" field's value of the ChangokushiWeaponChangeLog entity.
+// If the ChangokushiWeaponChangeLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *ChangokushiWeaponChangeLogMutation) OldDeletedAt(ctx context.Context) (v *time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldDeletedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldDeletedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldDeletedAt: %w", err)
+	}
+	return oldValue.DeletedAt, nil
+}
+
+// ClearDeletedAt clears the value of the "deleted_at" field.
+func (m *ChangokushiWeaponChangeLogMutation) ClearDeletedAt() {
+	m.deleted_at = nil
+	m.clearedFields[changokushiweaponchangelog.FieldDeletedAt] = struct{}{}
+}
+
+// DeletedAtCleared returns if the "deleted_at" field was cleared in this mutation.
+func (m *ChangokushiWeaponChangeLogMutation) DeletedAtCleared() bool {
+	_, ok := m.clearedFields[changokushiweaponchangelog.FieldDeletedAt]
+	return ok
+}
+
+// ResetDeletedAt resets all changes to the "deleted_at" field.
+func (m *ChangokushiWeaponChangeLogMutation) ResetDeletedAt() {
+	m.deleted_at = nil
+	delete(m.clearedFields, changokushiweaponchangelog.FieldDeletedAt)
+}
+
+// SetChangokushiWeaponID sets the "changokushi_weapon_id" field.
+func (m *ChangokushiWeaponChangeLogMutation) SetChangokushiWeaponID(u uint32) {
+	m.changokushi_weapon = &u
+}
+
+// ChangokushiWeaponID returns the value of the "changokushi_weapon_id" field in the mutation.
+func (m *ChangokushiWeaponChangeLogMutation) ChangokushiWeaponID() (r uint32, exists bool) {
+	v := m.changokushi_weapon
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldChangokushiWeaponID returns the old "changokushi_weapon_id" field's value of the ChangokushiWeaponChangeLog entity.
+// If the ChangokushiWeaponChangeLog object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *ChangokushiWeaponChangeLogMutation) OldChangokushiWeaponID(ctx context.Context) (v uint32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldChangokushiWeaponID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldChangokushiWeaponID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldChangokushiWeaponID: %w", err)
+	}
+	return oldValue.ChangokushiWeaponID, nil
+}
+
+// ResetChangokushiWeaponID resets all changes to the "changokushi_weapon_id" field.
+func (m *ChangokushiWeaponChangeLogMutation) ResetChangokushiWeaponID() {
+	m.changokushi_weapon = nil
+}
+
 // SetStatus sets the "status" field.
-func (m *KusogeeeeeeNFTMutation) SetStatus(s string) {
+func (m *ChangokushiWeaponChangeLogMutation) SetStatus(s string) {
 	m.status = &s
 }
 
 // Status returns the value of the "status" field in the mutation.
-func (m *KusogeeeeeeNFTMutation) Status() (r string, exists bool) {
+func (m *ChangokushiWeaponChangeLogMutation) Status() (r string, exists bool) {
 	v := m.status
 	if v == nil {
 		return
@@ -2756,10 +1621,10 @@ func (m *KusogeeeeeeNFTMutation) Status() (r string, exists bool) {
 	return *v, true
 }
 
-// OldStatus returns the old "status" field's value of the KusogeeeeeeNFT entity.
-// If the KusogeeeeeeNFT object wasn't provided to the builder, the object is fetched from the database.
+// OldStatus returns the old "status" field's value of the ChangokushiWeaponChangeLog entity.
+// If the ChangokushiWeaponChangeLog object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *KusogeeeeeeNFTMutation) OldStatus(ctx context.Context) (v string, err error) {
+func (m *ChangokushiWeaponChangeLogMutation) OldStatus(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldStatus is only allowed on UpdateOne operations")
 	}
@@ -2774,18 +1639,18 @@ func (m *KusogeeeeeeNFTMutation) OldStatus(ctx context.Context) (v string, err e
 }
 
 // ResetStatus resets all changes to the "status" field.
-func (m *KusogeeeeeeNFTMutation) ResetStatus() {
+func (m *ChangokushiWeaponChangeLogMutation) ResetStatus() {
 	m.status = nil
 }
 
 // SetPrice sets the "price" field.
-func (m *KusogeeeeeeNFTMutation) SetPrice(i int) {
+func (m *ChangokushiWeaponChangeLogMutation) SetPrice(i int) {
 	m.price = &i
 	m.addprice = nil
 }
 
 // Price returns the value of the "price" field in the mutation.
-func (m *KusogeeeeeeNFTMutation) Price() (r int, exists bool) {
+func (m *ChangokushiWeaponChangeLogMutation) Price() (r int, exists bool) {
 	v := m.price
 	if v == nil {
 		return
@@ -2793,10 +1658,10 @@ func (m *KusogeeeeeeNFTMutation) Price() (r int, exists bool) {
 	return *v, true
 }
 
-// OldPrice returns the old "price" field's value of the KusogeeeeeeNFT entity.
-// If the KusogeeeeeeNFT object wasn't provided to the builder, the object is fetched from the database.
+// OldPrice returns the old "price" field's value of the ChangokushiWeaponChangeLog entity.
+// If the ChangokushiWeaponChangeLog object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *KusogeeeeeeNFTMutation) OldPrice(ctx context.Context) (v int, err error) {
+func (m *ChangokushiWeaponChangeLogMutation) OldPrice(ctx context.Context) (v int, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldPrice is only allowed on UpdateOne operations")
 	}
@@ -2811,7 +1676,7 @@ func (m *KusogeeeeeeNFTMutation) OldPrice(ctx context.Context) (v int, err error
 }
 
 // AddPrice adds i to the "price" field.
-func (m *KusogeeeeeeNFTMutation) AddPrice(i int) {
+func (m *ChangokushiWeaponChangeLogMutation) AddPrice(i int) {
 	if m.addprice != nil {
 		*m.addprice += i
 	} else {
@@ -2820,7 +1685,7 @@ func (m *KusogeeeeeeNFTMutation) AddPrice(i int) {
 }
 
 // AddedPrice returns the value that was added to the "price" field in this mutation.
-func (m *KusogeeeeeeNFTMutation) AddedPrice() (r int, exists bool) {
+func (m *ChangokushiWeaponChangeLogMutation) AddedPrice() (r int, exists bool) {
 	v := m.addprice
 	if v == nil {
 		return
@@ -2829,18 +1694,18 @@ func (m *KusogeeeeeeNFTMutation) AddedPrice() (r int, exists bool) {
 }
 
 // ResetPrice resets all changes to the "price" field.
-func (m *KusogeeeeeeNFTMutation) ResetPrice() {
+func (m *ChangokushiWeaponChangeLogMutation) ResetPrice() {
 	m.price = nil
 	m.addprice = nil
 }
 
 // SetPublishedAt sets the "published_at" field.
-func (m *KusogeeeeeeNFTMutation) SetPublishedAt(t time.Time) {
+func (m *ChangokushiWeaponChangeLogMutation) SetPublishedAt(t time.Time) {
 	m.published_at = &t
 }
 
 // PublishedAt returns the value of the "published_at" field in the mutation.
-func (m *KusogeeeeeeNFTMutation) PublishedAt() (r time.Time, exists bool) {
+func (m *ChangokushiWeaponChangeLogMutation) PublishedAt() (r time.Time, exists bool) {
 	v := m.published_at
 	if v == nil {
 		return
@@ -2848,10 +1713,10 @@ func (m *KusogeeeeeeNFTMutation) PublishedAt() (r time.Time, exists bool) {
 	return *v, true
 }
 
-// OldPublishedAt returns the old "published_at" field's value of the KusogeeeeeeNFT entity.
-// If the KusogeeeeeeNFT object wasn't provided to the builder, the object is fetched from the database.
+// OldPublishedAt returns the old "published_at" field's value of the ChangokushiWeaponChangeLog entity.
+// If the ChangokushiWeaponChangeLog object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *KusogeeeeeeNFTMutation) OldPublishedAt(ctx context.Context) (v time.Time, err error) {
+func (m *ChangokushiWeaponChangeLogMutation) OldPublishedAt(ctx context.Context) (v time.Time, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldPublishedAt is only allowed on UpdateOne operations")
 	}
@@ -2866,661 +1731,46 @@ func (m *KusogeeeeeeNFTMutation) OldPublishedAt(ctx context.Context) (v time.Tim
 }
 
 // ResetPublishedAt resets all changes to the "published_at" field.
-func (m *KusogeeeeeeNFTMutation) ResetPublishedAt() {
+func (m *ChangokushiWeaponChangeLogMutation) ResetPublishedAt() {
 	m.published_at = nil
 }
 
-// SetWeaponRank sets the "weapon_rank" field.
-func (m *KusogeeeeeeNFTMutation) SetWeaponRank(i int) {
-	m.weapon_rank = &i
-	m.addweapon_rank = nil
-}
-
-// WeaponRank returns the value of the "weapon_rank" field in the mutation.
-func (m *KusogeeeeeeNFTMutation) WeaponRank() (r int, exists bool) {
-	v := m.weapon_rank
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldWeaponRank returns the old "weapon_rank" field's value of the KusogeeeeeeNFT entity.
-// If the KusogeeeeeeNFT object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *KusogeeeeeeNFTMutation) OldWeaponRank(ctx context.Context) (v *int, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldWeaponRank is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldWeaponRank requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldWeaponRank: %w", err)
-	}
-	return oldValue.WeaponRank, nil
-}
-
-// AddWeaponRank adds i to the "weapon_rank" field.
-func (m *KusogeeeeeeNFTMutation) AddWeaponRank(i int) {
-	if m.addweapon_rank != nil {
-		*m.addweapon_rank += i
-	} else {
-		m.addweapon_rank = &i
-	}
-}
-
-// AddedWeaponRank returns the value that was added to the "weapon_rank" field in this mutation.
-func (m *KusogeeeeeeNFTMutation) AddedWeaponRank() (r int, exists bool) {
-	v := m.addweapon_rank
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// ClearWeaponRank clears the value of the "weapon_rank" field.
-func (m *KusogeeeeeeNFTMutation) ClearWeaponRank() {
-	m.weapon_rank = nil
-	m.addweapon_rank = nil
-	m.clearedFields[kusogeeeeeenft.FieldWeaponRank] = struct{}{}
-}
-
-// WeaponRankCleared returns if the "weapon_rank" field was cleared in this mutation.
-func (m *KusogeeeeeeNFTMutation) WeaponRankCleared() bool {
-	_, ok := m.clearedFields[kusogeeeeeenft.FieldWeaponRank]
-	return ok
-}
-
-// ResetWeaponRank resets all changes to the "weapon_rank" field.
-func (m *KusogeeeeeeNFTMutation) ResetWeaponRank() {
-	m.weapon_rank = nil
-	m.addweapon_rank = nil
-	delete(m.clearedFields, kusogeeeeeenft.FieldWeaponRank)
-}
-
-// SetWeaponType sets the "weapon_type" field.
-func (m *KusogeeeeeeNFTMutation) SetWeaponType(s string) {
-	m.weapon_type = &s
-}
-
-// WeaponType returns the value of the "weapon_type" field in the mutation.
-func (m *KusogeeeeeeNFTMutation) WeaponType() (r string, exists bool) {
-	v := m.weapon_type
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldWeaponType returns the old "weapon_type" field's value of the KusogeeeeeeNFT entity.
-// If the KusogeeeeeeNFT object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *KusogeeeeeeNFTMutation) OldWeaponType(ctx context.Context) (v *string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldWeaponType is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldWeaponType requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldWeaponType: %w", err)
-	}
-	return oldValue.WeaponType, nil
-}
-
-// ClearWeaponType clears the value of the "weapon_type" field.
-func (m *KusogeeeeeeNFTMutation) ClearWeaponType() {
-	m.weapon_type = nil
-	m.clearedFields[kusogeeeeeenft.FieldWeaponType] = struct{}{}
-}
-
-// WeaponTypeCleared returns if the "weapon_type" field was cleared in this mutation.
-func (m *KusogeeeeeeNFTMutation) WeaponTypeCleared() bool {
-	_, ok := m.clearedFields[kusogeeeeeenft.FieldWeaponType]
-	return ok
-}
-
-// ResetWeaponType resets all changes to the "weapon_type" field.
-func (m *KusogeeeeeeNFTMutation) ResetWeaponType() {
-	m.weapon_type = nil
-	delete(m.clearedFields, kusogeeeeeenft.FieldWeaponType)
-}
-
-// SetWeaponVitality sets the "weapon_vitality" field.
-func (m *KusogeeeeeeNFTMutation) SetWeaponVitality(i int) {
-	m.weapon_vitality = &i
-	m.addweapon_vitality = nil
-}
-
-// WeaponVitality returns the value of the "weapon_vitality" field in the mutation.
-func (m *KusogeeeeeeNFTMutation) WeaponVitality() (r int, exists bool) {
-	v := m.weapon_vitality
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldWeaponVitality returns the old "weapon_vitality" field's value of the KusogeeeeeeNFT entity.
-// If the KusogeeeeeeNFT object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *KusogeeeeeeNFTMutation) OldWeaponVitality(ctx context.Context) (v *int, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldWeaponVitality is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldWeaponVitality requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldWeaponVitality: %w", err)
-	}
-	return oldValue.WeaponVitality, nil
-}
-
-// AddWeaponVitality adds i to the "weapon_vitality" field.
-func (m *KusogeeeeeeNFTMutation) AddWeaponVitality(i int) {
-	if m.addweapon_vitality != nil {
-		*m.addweapon_vitality += i
-	} else {
-		m.addweapon_vitality = &i
-	}
-}
-
-// AddedWeaponVitality returns the value that was added to the "weapon_vitality" field in this mutation.
-func (m *KusogeeeeeeNFTMutation) AddedWeaponVitality() (r int, exists bool) {
-	v := m.addweapon_vitality
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// ClearWeaponVitality clears the value of the "weapon_vitality" field.
-func (m *KusogeeeeeeNFTMutation) ClearWeaponVitality() {
-	m.weapon_vitality = nil
-	m.addweapon_vitality = nil
-	m.clearedFields[kusogeeeeeenft.FieldWeaponVitality] = struct{}{}
-}
-
-// WeaponVitalityCleared returns if the "weapon_vitality" field was cleared in this mutation.
-func (m *KusogeeeeeeNFTMutation) WeaponVitalityCleared() bool {
-	_, ok := m.clearedFields[kusogeeeeeenft.FieldWeaponVitality]
-	return ok
-}
-
-// ResetWeaponVitality resets all changes to the "weapon_vitality" field.
-func (m *KusogeeeeeeNFTMutation) ResetWeaponVitality() {
-	m.weapon_vitality = nil
-	m.addweapon_vitality = nil
-	delete(m.clearedFields, kusogeeeeeenft.FieldWeaponVitality)
-}
-
-// SetWeaponStrength sets the "weapon_strength" field.
-func (m *KusogeeeeeeNFTMutation) SetWeaponStrength(i int) {
-	m.weapon_strength = &i
-	m.addweapon_strength = nil
-}
-
-// WeaponStrength returns the value of the "weapon_strength" field in the mutation.
-func (m *KusogeeeeeeNFTMutation) WeaponStrength() (r int, exists bool) {
-	v := m.weapon_strength
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldWeaponStrength returns the old "weapon_strength" field's value of the KusogeeeeeeNFT entity.
-// If the KusogeeeeeeNFT object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *KusogeeeeeeNFTMutation) OldWeaponStrength(ctx context.Context) (v *int, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldWeaponStrength is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldWeaponStrength requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldWeaponStrength: %w", err)
-	}
-	return oldValue.WeaponStrength, nil
-}
-
-// AddWeaponStrength adds i to the "weapon_strength" field.
-func (m *KusogeeeeeeNFTMutation) AddWeaponStrength(i int) {
-	if m.addweapon_strength != nil {
-		*m.addweapon_strength += i
-	} else {
-		m.addweapon_strength = &i
-	}
-}
-
-// AddedWeaponStrength returns the value that was added to the "weapon_strength" field in this mutation.
-func (m *KusogeeeeeeNFTMutation) AddedWeaponStrength() (r int, exists bool) {
-	v := m.addweapon_strength
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// ClearWeaponStrength clears the value of the "weapon_strength" field.
-func (m *KusogeeeeeeNFTMutation) ClearWeaponStrength() {
-	m.weapon_strength = nil
-	m.addweapon_strength = nil
-	m.clearedFields[kusogeeeeeenft.FieldWeaponStrength] = struct{}{}
-}
-
-// WeaponStrengthCleared returns if the "weapon_strength" field was cleared in this mutation.
-func (m *KusogeeeeeeNFTMutation) WeaponStrengthCleared() bool {
-	_, ok := m.clearedFields[kusogeeeeeenft.FieldWeaponStrength]
-	return ok
-}
-
-// ResetWeaponStrength resets all changes to the "weapon_strength" field.
-func (m *KusogeeeeeeNFTMutation) ResetWeaponStrength() {
-	m.weapon_strength = nil
-	m.addweapon_strength = nil
-	delete(m.clearedFields, kusogeeeeeenft.FieldWeaponStrength)
-}
-
-// SetWeaponPhysicalDefense sets the "weapon_physical_defense" field.
-func (m *KusogeeeeeeNFTMutation) SetWeaponPhysicalDefense(i int) {
-	m.weapon_physical_defense = &i
-	m.addweapon_physical_defense = nil
-}
-
-// WeaponPhysicalDefense returns the value of the "weapon_physical_defense" field in the mutation.
-func (m *KusogeeeeeeNFTMutation) WeaponPhysicalDefense() (r int, exists bool) {
-	v := m.weapon_physical_defense
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldWeaponPhysicalDefense returns the old "weapon_physical_defense" field's value of the KusogeeeeeeNFT entity.
-// If the KusogeeeeeeNFT object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *KusogeeeeeeNFTMutation) OldWeaponPhysicalDefense(ctx context.Context) (v *int, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldWeaponPhysicalDefense is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldWeaponPhysicalDefense requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldWeaponPhysicalDefense: %w", err)
-	}
-	return oldValue.WeaponPhysicalDefense, nil
-}
-
-// AddWeaponPhysicalDefense adds i to the "weapon_physical_defense" field.
-func (m *KusogeeeeeeNFTMutation) AddWeaponPhysicalDefense(i int) {
-	if m.addweapon_physical_defense != nil {
-		*m.addweapon_physical_defense += i
-	} else {
-		m.addweapon_physical_defense = &i
-	}
-}
-
-// AddedWeaponPhysicalDefense returns the value that was added to the "weapon_physical_defense" field in this mutation.
-func (m *KusogeeeeeeNFTMutation) AddedWeaponPhysicalDefense() (r int, exists bool) {
-	v := m.addweapon_physical_defense
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// ClearWeaponPhysicalDefense clears the value of the "weapon_physical_defense" field.
-func (m *KusogeeeeeeNFTMutation) ClearWeaponPhysicalDefense() {
-	m.weapon_physical_defense = nil
-	m.addweapon_physical_defense = nil
-	m.clearedFields[kusogeeeeeenft.FieldWeaponPhysicalDefense] = struct{}{}
-}
-
-// WeaponPhysicalDefenseCleared returns if the "weapon_physical_defense" field was cleared in this mutation.
-func (m *KusogeeeeeeNFTMutation) WeaponPhysicalDefenseCleared() bool {
-	_, ok := m.clearedFields[kusogeeeeeenft.FieldWeaponPhysicalDefense]
-	return ok
-}
-
-// ResetWeaponPhysicalDefense resets all changes to the "weapon_physical_defense" field.
-func (m *KusogeeeeeeNFTMutation) ResetWeaponPhysicalDefense() {
-	m.weapon_physical_defense = nil
-	m.addweapon_physical_defense = nil
-	delete(m.clearedFields, kusogeeeeeenft.FieldWeaponPhysicalDefense)
-}
-
-// SetWeaponMagicalDefense sets the "weapon_magical_defense" field.
-func (m *KusogeeeeeeNFTMutation) SetWeaponMagicalDefense(i int) {
-	m.weapon_magical_defense = &i
-	m.addweapon_magical_defense = nil
-}
-
-// WeaponMagicalDefense returns the value of the "weapon_magical_defense" field in the mutation.
-func (m *KusogeeeeeeNFTMutation) WeaponMagicalDefense() (r int, exists bool) {
-	v := m.weapon_magical_defense
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldWeaponMagicalDefense returns the old "weapon_magical_defense" field's value of the KusogeeeeeeNFT entity.
-// If the KusogeeeeeeNFT object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *KusogeeeeeeNFTMutation) OldWeaponMagicalDefense(ctx context.Context) (v *int, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldWeaponMagicalDefense is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldWeaponMagicalDefense requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldWeaponMagicalDefense: %w", err)
-	}
-	return oldValue.WeaponMagicalDefense, nil
-}
-
-// AddWeaponMagicalDefense adds i to the "weapon_magical_defense" field.
-func (m *KusogeeeeeeNFTMutation) AddWeaponMagicalDefense(i int) {
-	if m.addweapon_magical_defense != nil {
-		*m.addweapon_magical_defense += i
-	} else {
-		m.addweapon_magical_defense = &i
-	}
-}
-
-// AddedWeaponMagicalDefense returns the value that was added to the "weapon_magical_defense" field in this mutation.
-func (m *KusogeeeeeeNFTMutation) AddedWeaponMagicalDefense() (r int, exists bool) {
-	v := m.addweapon_magical_defense
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// ClearWeaponMagicalDefense clears the value of the "weapon_magical_defense" field.
-func (m *KusogeeeeeeNFTMutation) ClearWeaponMagicalDefense() {
-	m.weapon_magical_defense = nil
-	m.addweapon_magical_defense = nil
-	m.clearedFields[kusogeeeeeenft.FieldWeaponMagicalDefense] = struct{}{}
-}
-
-// WeaponMagicalDefenseCleared returns if the "weapon_magical_defense" field was cleared in this mutation.
-func (m *KusogeeeeeeNFTMutation) WeaponMagicalDefenseCleared() bool {
-	_, ok := m.clearedFields[kusogeeeeeenft.FieldWeaponMagicalDefense]
-	return ok
-}
-
-// ResetWeaponMagicalDefense resets all changes to the "weapon_magical_defense" field.
-func (m *KusogeeeeeeNFTMutation) ResetWeaponMagicalDefense() {
-	m.weapon_magical_defense = nil
-	m.addweapon_magical_defense = nil
-	delete(m.clearedFields, kusogeeeeeenft.FieldWeaponMagicalDefense)
-}
-
-// SetWeaponAgility sets the "weapon_agility" field.
-func (m *KusogeeeeeeNFTMutation) SetWeaponAgility(i int) {
-	m.weapon_agility = &i
-	m.addweapon_agility = nil
-}
-
-// WeaponAgility returns the value of the "weapon_agility" field in the mutation.
-func (m *KusogeeeeeeNFTMutation) WeaponAgility() (r int, exists bool) {
-	v := m.weapon_agility
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldWeaponAgility returns the old "weapon_agility" field's value of the KusogeeeeeeNFT entity.
-// If the KusogeeeeeeNFT object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *KusogeeeeeeNFTMutation) OldWeaponAgility(ctx context.Context) (v *int, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldWeaponAgility is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldWeaponAgility requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldWeaponAgility: %w", err)
-	}
-	return oldValue.WeaponAgility, nil
-}
-
-// AddWeaponAgility adds i to the "weapon_agility" field.
-func (m *KusogeeeeeeNFTMutation) AddWeaponAgility(i int) {
-	if m.addweapon_agility != nil {
-		*m.addweapon_agility += i
-	} else {
-		m.addweapon_agility = &i
-	}
-}
-
-// AddedWeaponAgility returns the value that was added to the "weapon_agility" field in this mutation.
-func (m *KusogeeeeeeNFTMutation) AddedWeaponAgility() (r int, exists bool) {
-	v := m.addweapon_agility
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// ClearWeaponAgility clears the value of the "weapon_agility" field.
-func (m *KusogeeeeeeNFTMutation) ClearWeaponAgility() {
-	m.weapon_agility = nil
-	m.addweapon_agility = nil
-	m.clearedFields[kusogeeeeeenft.FieldWeaponAgility] = struct{}{}
-}
-
-// WeaponAgilityCleared returns if the "weapon_agility" field was cleared in this mutation.
-func (m *KusogeeeeeeNFTMutation) WeaponAgilityCleared() bool {
-	_, ok := m.clearedFields[kusogeeeeeenft.FieldWeaponAgility]
-	return ok
-}
-
-// ResetWeaponAgility resets all changes to the "weapon_agility" field.
-func (m *KusogeeeeeeNFTMutation) ResetWeaponAgility() {
-	m.weapon_agility = nil
-	m.addweapon_agility = nil
-	delete(m.clearedFields, kusogeeeeeenft.FieldWeaponAgility)
-}
-
-// SetCharacterRank sets the "character_rank" field.
-func (m *KusogeeeeeeNFTMutation) SetCharacterRank(s string) {
-	m.character_rank = &s
-}
-
-// CharacterRank returns the value of the "character_rank" field in the mutation.
-func (m *KusogeeeeeeNFTMutation) CharacterRank() (r string, exists bool) {
-	v := m.character_rank
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldCharacterRank returns the old "character_rank" field's value of the KusogeeeeeeNFT entity.
-// If the KusogeeeeeeNFT object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *KusogeeeeeeNFTMutation) OldCharacterRank(ctx context.Context) (v *string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldCharacterRank is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldCharacterRank requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldCharacterRank: %w", err)
-	}
-	return oldValue.CharacterRank, nil
-}
-
-// ClearCharacterRank clears the value of the "character_rank" field.
-func (m *KusogeeeeeeNFTMutation) ClearCharacterRank() {
-	m.character_rank = nil
-	m.clearedFields[kusogeeeeeenft.FieldCharacterRank] = struct{}{}
-}
-
-// CharacterRankCleared returns if the "character_rank" field was cleared in this mutation.
-func (m *KusogeeeeeeNFTMutation) CharacterRankCleared() bool {
-	_, ok := m.clearedFields[kusogeeeeeenft.FieldCharacterRank]
-	return ok
-}
-
-// ResetCharacterRank resets all changes to the "character_rank" field.
-func (m *KusogeeeeeeNFTMutation) ResetCharacterRank() {
-	m.character_rank = nil
-	delete(m.clearedFields, kusogeeeeeenft.FieldCharacterRank)
-}
-
-// SetCharacterTotalSupply sets the "character_total_supply" field.
-func (m *KusogeeeeeeNFTMutation) SetCharacterTotalSupply(i int) {
-	m.character_total_supply = &i
-	m.addcharacter_total_supply = nil
-}
-
-// CharacterTotalSupply returns the value of the "character_total_supply" field in the mutation.
-func (m *KusogeeeeeeNFTMutation) CharacterTotalSupply() (r int, exists bool) {
-	v := m.character_total_supply
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldCharacterTotalSupply returns the old "character_total_supply" field's value of the KusogeeeeeeNFT entity.
-// If the KusogeeeeeeNFT object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *KusogeeeeeeNFTMutation) OldCharacterTotalSupply(ctx context.Context) (v *int, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldCharacterTotalSupply is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldCharacterTotalSupply requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldCharacterTotalSupply: %w", err)
-	}
-	return oldValue.CharacterTotalSupply, nil
-}
-
-// AddCharacterTotalSupply adds i to the "character_total_supply" field.
-func (m *KusogeeeeeeNFTMutation) AddCharacterTotalSupply(i int) {
-	if m.addcharacter_total_supply != nil {
-		*m.addcharacter_total_supply += i
-	} else {
-		m.addcharacter_total_supply = &i
-	}
-}
-
-// AddedCharacterTotalSupply returns the value that was added to the "character_total_supply" field in this mutation.
-func (m *KusogeeeeeeNFTMutation) AddedCharacterTotalSupply() (r int, exists bool) {
-	v := m.addcharacter_total_supply
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// ClearCharacterTotalSupply clears the value of the "character_total_supply" field.
-func (m *KusogeeeeeeNFTMutation) ClearCharacterTotalSupply() {
-	m.character_total_supply = nil
-	m.addcharacter_total_supply = nil
-	m.clearedFields[kusogeeeeeenft.FieldCharacterTotalSupply] = struct{}{}
-}
-
-// CharacterTotalSupplyCleared returns if the "character_total_supply" field was cleared in this mutation.
-func (m *KusogeeeeeeNFTMutation) CharacterTotalSupplyCleared() bool {
-	_, ok := m.clearedFields[kusogeeeeeenft.FieldCharacterTotalSupply]
-	return ok
-}
-
-// ResetCharacterTotalSupply resets all changes to the "character_total_supply" field.
-func (m *KusogeeeeeeNFTMutation) ResetCharacterTotalSupply() {
-	m.character_total_supply = nil
-	m.addcharacter_total_supply = nil
-	delete(m.clearedFields, kusogeeeeeenft.FieldCharacterTotalSupply)
-}
-
-// AddChangeLogIDs adds the "change_logs" edge to the KusogeeeeeeNFTChangeLog entity by ids.
-func (m *KusogeeeeeeNFTMutation) AddChangeLogIDs(ids ...uint32) {
-	if m.change_logs == nil {
-		m.change_logs = make(map[uint32]struct{})
-	}
-	for i := range ids {
-		m.change_logs[ids[i]] = struct{}{}
-	}
-}
-
-// ClearChangeLogs clears the "change_logs" edge to the KusogeeeeeeNFTChangeLog entity.
-func (m *KusogeeeeeeNFTMutation) ClearChangeLogs() {
-	m.clearedchange_logs = true
-}
-
-// ChangeLogsCleared reports if the "change_logs" edge to the KusogeeeeeeNFTChangeLog entity was cleared.
-func (m *KusogeeeeeeNFTMutation) ChangeLogsCleared() bool {
-	return m.clearedchange_logs
-}
-
-// RemoveChangeLogIDs removes the "change_logs" edge to the KusogeeeeeeNFTChangeLog entity by IDs.
-func (m *KusogeeeeeeNFTMutation) RemoveChangeLogIDs(ids ...uint32) {
-	if m.removedchange_logs == nil {
-		m.removedchange_logs = make(map[uint32]struct{})
-	}
-	for i := range ids {
-		delete(m.change_logs, ids[i])
-		m.removedchange_logs[ids[i]] = struct{}{}
-	}
-}
-
-// RemovedChangeLogs returns the removed IDs of the "change_logs" edge to the KusogeeeeeeNFTChangeLog entity.
-func (m *KusogeeeeeeNFTMutation) RemovedChangeLogsIDs() (ids []uint32) {
-	for id := range m.removedchange_logs {
-		ids = append(ids, id)
+// ClearChangokushiWeapon clears the "changokushi_weapon" edge to the ChangokushiWeapon entity.
+func (m *ChangokushiWeaponChangeLogMutation) ClearChangokushiWeapon() {
+	m.clearedchangokushi_weapon = true
+	m.clearedFields[changokushiweaponchangelog.FieldChangokushiWeaponID] = struct{}{}
+}
+
+// ChangokushiWeaponCleared reports if the "changokushi_weapon" edge to the ChangokushiWeapon entity was cleared.
+func (m *ChangokushiWeaponChangeLogMutation) ChangokushiWeaponCleared() bool {
+	return m.clearedchangokushi_weapon
+}
+
+// ChangokushiWeaponIDs returns the "changokushi_weapon" edge IDs in the mutation.
+// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
+// ChangokushiWeaponID instead. It exists only for internal usage by the builders.
+func (m *ChangokushiWeaponChangeLogMutation) ChangokushiWeaponIDs() (ids []uint32) {
+	if id := m.changokushi_weapon; id != nil {
+		ids = append(ids, *id)
 	}
 	return
 }
 
-// ChangeLogsIDs returns the "change_logs" edge IDs in the mutation.
-func (m *KusogeeeeeeNFTMutation) ChangeLogsIDs() (ids []uint32) {
-	for id := range m.change_logs {
-		ids = append(ids, id)
-	}
-	return
+// ResetChangokushiWeapon resets all changes to the "changokushi_weapon" edge.
+func (m *ChangokushiWeaponChangeLogMutation) ResetChangokushiWeapon() {
+	m.changokushi_weapon = nil
+	m.clearedchangokushi_weapon = false
 }
 
-// ResetChangeLogs resets all changes to the "change_logs" edge.
-func (m *KusogeeeeeeNFTMutation) ResetChangeLogs() {
-	m.change_logs = nil
-	m.clearedchange_logs = false
-	m.removedchange_logs = nil
-}
-
-// Where appends a list predicates to the KusogeeeeeeNFTMutation builder.
-func (m *KusogeeeeeeNFTMutation) Where(ps ...predicate.KusogeeeeeeNFT) {
+// Where appends a list predicates to the ChangokushiWeaponChangeLogMutation builder.
+func (m *ChangokushiWeaponChangeLogMutation) Where(ps ...predicate.ChangokushiWeaponChangeLog) {
 	m.predicates = append(m.predicates, ps...)
 }
 
-// WhereP appends storage-level predicates to the KusogeeeeeeNFTMutation builder. Using this method,
+// WhereP appends storage-level predicates to the ChangokushiWeaponChangeLogMutation builder. Using this method,
 // users can use type-assertion to append predicates that do not depend on any generated package.
-func (m *KusogeeeeeeNFTMutation) WhereP(ps ...func(*sql.Selector)) {
-	p := make([]predicate.KusogeeeeeeNFT, len(ps))
+func (m *ChangokushiWeaponChangeLogMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.ChangokushiWeaponChangeLog, len(ps))
 	for i := range ps {
 		p[i] = ps[i]
 	}
@@ -3528,78 +1778,45 @@ func (m *KusogeeeeeeNFTMutation) WhereP(ps ...func(*sql.Selector)) {
 }
 
 // Op returns the operation name.
-func (m *KusogeeeeeeNFTMutation) Op() Op {
+func (m *ChangokushiWeaponChangeLogMutation) Op() Op {
 	return m.op
 }
 
 // SetOp allows setting the mutation operation.
-func (m *KusogeeeeeeNFTMutation) SetOp(op Op) {
+func (m *ChangokushiWeaponChangeLogMutation) SetOp(op Op) {
 	m.op = op
 }
 
-// Type returns the node type of this mutation (KusogeeeeeeNFT).
-func (m *KusogeeeeeeNFTMutation) Type() string {
+// Type returns the node type of this mutation (ChangokushiWeaponChangeLog).
+func (m *ChangokushiWeaponChangeLogMutation) Type() string {
 	return m.typ
 }
 
 // Fields returns all fields that were changed during this mutation. Note that in
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
-func (m *KusogeeeeeeNFTMutation) Fields() []string {
-	fields := make([]string, 0, 18)
+func (m *ChangokushiWeaponChangeLogMutation) Fields() []string {
+	fields := make([]string, 0, 7)
 	if m.created_at != nil {
-		fields = append(fields, kusogeeeeeenft.FieldCreatedAt)
+		fields = append(fields, changokushiweaponchangelog.FieldCreatedAt)
 	}
 	if m.updated_at != nil {
-		fields = append(fields, kusogeeeeeenft.FieldUpdatedAt)
+		fields = append(fields, changokushiweaponchangelog.FieldUpdatedAt)
 	}
 	if m.deleted_at != nil {
-		fields = append(fields, kusogeeeeeenft.FieldDeletedAt)
+		fields = append(fields, changokushiweaponchangelog.FieldDeletedAt)
 	}
-	if m.uri != nil {
-		fields = append(fields, kusogeeeeeenft.FieldURI)
-	}
-	if m._type != nil {
-		fields = append(fields, kusogeeeeeenft.FieldType)
-	}
-	if m.name != nil {
-		fields = append(fields, kusogeeeeeenft.FieldName)
+	if m.changokushi_weapon != nil {
+		fields = append(fields, changokushiweaponchangelog.FieldChangokushiWeaponID)
 	}
 	if m.status != nil {
-		fields = append(fields, kusogeeeeeenft.FieldStatus)
+		fields = append(fields, changokushiweaponchangelog.FieldStatus)
 	}
 	if m.price != nil {
-		fields = append(fields, kusogeeeeeenft.FieldPrice)
+		fields = append(fields, changokushiweaponchangelog.FieldPrice)
 	}
 	if m.published_at != nil {
-		fields = append(fields, kusogeeeeeenft.FieldPublishedAt)
-	}
-	if m.weapon_rank != nil {
-		fields = append(fields, kusogeeeeeenft.FieldWeaponRank)
-	}
-	if m.weapon_type != nil {
-		fields = append(fields, kusogeeeeeenft.FieldWeaponType)
-	}
-	if m.weapon_vitality != nil {
-		fields = append(fields, kusogeeeeeenft.FieldWeaponVitality)
-	}
-	if m.weapon_strength != nil {
-		fields = append(fields, kusogeeeeeenft.FieldWeaponStrength)
-	}
-	if m.weapon_physical_defense != nil {
-		fields = append(fields, kusogeeeeeenft.FieldWeaponPhysicalDefense)
-	}
-	if m.weapon_magical_defense != nil {
-		fields = append(fields, kusogeeeeeenft.FieldWeaponMagicalDefense)
-	}
-	if m.weapon_agility != nil {
-		fields = append(fields, kusogeeeeeenft.FieldWeaponAgility)
-	}
-	if m.character_rank != nil {
-		fields = append(fields, kusogeeeeeenft.FieldCharacterRank)
-	}
-	if m.character_total_supply != nil {
-		fields = append(fields, kusogeeeeeenft.FieldCharacterTotalSupply)
+		fields = append(fields, changokushiweaponchangelog.FieldPublishedAt)
 	}
 	return fields
 }
@@ -3607,44 +1824,22 @@ func (m *KusogeeeeeeNFTMutation) Fields() []string {
 // Field returns the value of a field with the given name. The second boolean
 // return value indicates that this field was not set, or was not defined in the
 // schema.
-func (m *KusogeeeeeeNFTMutation) Field(name string) (ent.Value, bool) {
+func (m *ChangokushiWeaponChangeLogMutation) Field(name string) (ent.Value, bool) {
 	switch name {
-	case kusogeeeeeenft.FieldCreatedAt:
+	case changokushiweaponchangelog.FieldCreatedAt:
 		return m.CreatedAt()
-	case kusogeeeeeenft.FieldUpdatedAt:
+	case changokushiweaponchangelog.FieldUpdatedAt:
 		return m.UpdatedAt()
-	case kusogeeeeeenft.FieldDeletedAt:
+	case changokushiweaponchangelog.FieldDeletedAt:
 		return m.DeletedAt()
-	case kusogeeeeeenft.FieldURI:
-		return m.URI()
-	case kusogeeeeeenft.FieldType:
-		return m.GetType()
-	case kusogeeeeeenft.FieldName:
-		return m.Name()
-	case kusogeeeeeenft.FieldStatus:
+	case changokushiweaponchangelog.FieldChangokushiWeaponID:
+		return m.ChangokushiWeaponID()
+	case changokushiweaponchangelog.FieldStatus:
 		return m.Status()
-	case kusogeeeeeenft.FieldPrice:
+	case changokushiweaponchangelog.FieldPrice:
 		return m.Price()
-	case kusogeeeeeenft.FieldPublishedAt:
+	case changokushiweaponchangelog.FieldPublishedAt:
 		return m.PublishedAt()
-	case kusogeeeeeenft.FieldWeaponRank:
-		return m.WeaponRank()
-	case kusogeeeeeenft.FieldWeaponType:
-		return m.WeaponType()
-	case kusogeeeeeenft.FieldWeaponVitality:
-		return m.WeaponVitality()
-	case kusogeeeeeenft.FieldWeaponStrength:
-		return m.WeaponStrength()
-	case kusogeeeeeenft.FieldWeaponPhysicalDefense:
-		return m.WeaponPhysicalDefense()
-	case kusogeeeeeenft.FieldWeaponMagicalDefense:
-		return m.WeaponMagicalDefense()
-	case kusogeeeeeenft.FieldWeaponAgility:
-		return m.WeaponAgility()
-	case kusogeeeeeenft.FieldCharacterRank:
-		return m.CharacterRank()
-	case kusogeeeeeenft.FieldCharacterTotalSupply:
-		return m.CharacterTotalSupply()
 	}
 	return nil, false
 }
@@ -3652,210 +1847,90 @@ func (m *KusogeeeeeeNFTMutation) Field(name string) (ent.Value, bool) {
 // OldField returns the old value of the field from the database. An error is
 // returned if the mutation operation is not UpdateOne, or the query to the
 // database failed.
-func (m *KusogeeeeeeNFTMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+func (m *ChangokushiWeaponChangeLogMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
 	switch name {
-	case kusogeeeeeenft.FieldCreatedAt:
+	case changokushiweaponchangelog.FieldCreatedAt:
 		return m.OldCreatedAt(ctx)
-	case kusogeeeeeenft.FieldUpdatedAt:
+	case changokushiweaponchangelog.FieldUpdatedAt:
 		return m.OldUpdatedAt(ctx)
-	case kusogeeeeeenft.FieldDeletedAt:
+	case changokushiweaponchangelog.FieldDeletedAt:
 		return m.OldDeletedAt(ctx)
-	case kusogeeeeeenft.FieldURI:
-		return m.OldURI(ctx)
-	case kusogeeeeeenft.FieldType:
-		return m.OldType(ctx)
-	case kusogeeeeeenft.FieldName:
-		return m.OldName(ctx)
-	case kusogeeeeeenft.FieldStatus:
+	case changokushiweaponchangelog.FieldChangokushiWeaponID:
+		return m.OldChangokushiWeaponID(ctx)
+	case changokushiweaponchangelog.FieldStatus:
 		return m.OldStatus(ctx)
-	case kusogeeeeeenft.FieldPrice:
+	case changokushiweaponchangelog.FieldPrice:
 		return m.OldPrice(ctx)
-	case kusogeeeeeenft.FieldPublishedAt:
+	case changokushiweaponchangelog.FieldPublishedAt:
 		return m.OldPublishedAt(ctx)
-	case kusogeeeeeenft.FieldWeaponRank:
-		return m.OldWeaponRank(ctx)
-	case kusogeeeeeenft.FieldWeaponType:
-		return m.OldWeaponType(ctx)
-	case kusogeeeeeenft.FieldWeaponVitality:
-		return m.OldWeaponVitality(ctx)
-	case kusogeeeeeenft.FieldWeaponStrength:
-		return m.OldWeaponStrength(ctx)
-	case kusogeeeeeenft.FieldWeaponPhysicalDefense:
-		return m.OldWeaponPhysicalDefense(ctx)
-	case kusogeeeeeenft.FieldWeaponMagicalDefense:
-		return m.OldWeaponMagicalDefense(ctx)
-	case kusogeeeeeenft.FieldWeaponAgility:
-		return m.OldWeaponAgility(ctx)
-	case kusogeeeeeenft.FieldCharacterRank:
-		return m.OldCharacterRank(ctx)
-	case kusogeeeeeenft.FieldCharacterTotalSupply:
-		return m.OldCharacterTotalSupply(ctx)
 	}
-	return nil, fmt.Errorf("unknown KusogeeeeeeNFT field %s", name)
+	return nil, fmt.Errorf("unknown ChangokushiWeaponChangeLog field %s", name)
 }
 
 // SetField sets the value of a field with the given name. It returns an error if
 // the field is not defined in the schema, or if the type mismatched the field
 // type.
-func (m *KusogeeeeeeNFTMutation) SetField(name string, value ent.Value) error {
+func (m *ChangokushiWeaponChangeLogMutation) SetField(name string, value ent.Value) error {
 	switch name {
-	case kusogeeeeeenft.FieldCreatedAt:
+	case changokushiweaponchangelog.FieldCreatedAt:
 		v, ok := value.(time.Time)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetCreatedAt(v)
 		return nil
-	case kusogeeeeeenft.FieldUpdatedAt:
+	case changokushiweaponchangelog.FieldUpdatedAt:
 		v, ok := value.(time.Time)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetUpdatedAt(v)
 		return nil
-	case kusogeeeeeenft.FieldDeletedAt:
+	case changokushiweaponchangelog.FieldDeletedAt:
 		v, ok := value.(time.Time)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetDeletedAt(v)
 		return nil
-	case kusogeeeeeenft.FieldURI:
-		v, ok := value.(string)
+	case changokushiweaponchangelog.FieldChangokushiWeaponID:
+		v, ok := value.(uint32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetURI(v)
+		m.SetChangokushiWeaponID(v)
 		return nil
-	case kusogeeeeeenft.FieldType:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetType(v)
-		return nil
-	case kusogeeeeeenft.FieldName:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetName(v)
-		return nil
-	case kusogeeeeeenft.FieldStatus:
+	case changokushiweaponchangelog.FieldStatus:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetStatus(v)
 		return nil
-	case kusogeeeeeenft.FieldPrice:
+	case changokushiweaponchangelog.FieldPrice:
 		v, ok := value.(int)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetPrice(v)
 		return nil
-	case kusogeeeeeenft.FieldPublishedAt:
+	case changokushiweaponchangelog.FieldPublishedAt:
 		v, ok := value.(time.Time)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetPublishedAt(v)
 		return nil
-	case kusogeeeeeenft.FieldWeaponRank:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetWeaponRank(v)
-		return nil
-	case kusogeeeeeenft.FieldWeaponType:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetWeaponType(v)
-		return nil
-	case kusogeeeeeenft.FieldWeaponVitality:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetWeaponVitality(v)
-		return nil
-	case kusogeeeeeenft.FieldWeaponStrength:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetWeaponStrength(v)
-		return nil
-	case kusogeeeeeenft.FieldWeaponPhysicalDefense:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetWeaponPhysicalDefense(v)
-		return nil
-	case kusogeeeeeenft.FieldWeaponMagicalDefense:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetWeaponMagicalDefense(v)
-		return nil
-	case kusogeeeeeenft.FieldWeaponAgility:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetWeaponAgility(v)
-		return nil
-	case kusogeeeeeenft.FieldCharacterRank:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetCharacterRank(v)
-		return nil
-	case kusogeeeeeenft.FieldCharacterTotalSupply:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetCharacterTotalSupply(v)
-		return nil
 	}
-	return fmt.Errorf("unknown KusogeeeeeeNFT field %s", name)
+	return fmt.Errorf("unknown ChangokushiWeaponChangeLog field %s", name)
 }
 
 // AddedFields returns all numeric fields that were incremented/decremented during
 // this mutation.
-func (m *KusogeeeeeeNFTMutation) AddedFields() []string {
+func (m *ChangokushiWeaponChangeLogMutation) AddedFields() []string {
 	var fields []string
 	if m.addprice != nil {
-		fields = append(fields, kusogeeeeeenft.FieldPrice)
-	}
-	if m.addweapon_rank != nil {
-		fields = append(fields, kusogeeeeeenft.FieldWeaponRank)
-	}
-	if m.addweapon_vitality != nil {
-		fields = append(fields, kusogeeeeeenft.FieldWeaponVitality)
-	}
-	if m.addweapon_strength != nil {
-		fields = append(fields, kusogeeeeeenft.FieldWeaponStrength)
-	}
-	if m.addweapon_physical_defense != nil {
-		fields = append(fields, kusogeeeeeenft.FieldWeaponPhysicalDefense)
-	}
-	if m.addweapon_magical_defense != nil {
-		fields = append(fields, kusogeeeeeenft.FieldWeaponMagicalDefense)
-	}
-	if m.addweapon_agility != nil {
-		fields = append(fields, kusogeeeeeenft.FieldWeaponAgility)
-	}
-	if m.addcharacter_total_supply != nil {
-		fields = append(fields, kusogeeeeeenft.FieldCharacterTotalSupply)
+		fields = append(fields, changokushiweaponchangelog.FieldPrice)
 	}
 	return fields
 }
@@ -3863,24 +1938,10 @@ func (m *KusogeeeeeeNFTMutation) AddedFields() []string {
 // AddedField returns the numeric value that was incremented/decremented on a field
 // with the given name. The second boolean return value indicates that this field
 // was not set, or was not defined in the schema.
-func (m *KusogeeeeeeNFTMutation) AddedField(name string) (ent.Value, bool) {
+func (m *ChangokushiWeaponChangeLogMutation) AddedField(name string) (ent.Value, bool) {
 	switch name {
-	case kusogeeeeeenft.FieldPrice:
+	case changokushiweaponchangelog.FieldPrice:
 		return m.AddedPrice()
-	case kusogeeeeeenft.FieldWeaponRank:
-		return m.AddedWeaponRank()
-	case kusogeeeeeenft.FieldWeaponVitality:
-		return m.AddedWeaponVitality()
-	case kusogeeeeeenft.FieldWeaponStrength:
-		return m.AddedWeaponStrength()
-	case kusogeeeeeenft.FieldWeaponPhysicalDefense:
-		return m.AddedWeaponPhysicalDefense()
-	case kusogeeeeeenft.FieldWeaponMagicalDefense:
-		return m.AddedWeaponMagicalDefense()
-	case kusogeeeeeenft.FieldWeaponAgility:
-		return m.AddedWeaponAgility()
-	case kusogeeeeeenft.FieldCharacterTotalSupply:
-		return m.AddedCharacterTotalSupply()
 	}
 	return nil, false
 }
@@ -3888,951 +1949,91 @@ func (m *KusogeeeeeeNFTMutation) AddedField(name string) (ent.Value, bool) {
 // AddField adds the value to the field with the given name. It returns an error if
 // the field is not defined in the schema, or if the type mismatched the field
 // type.
-func (m *KusogeeeeeeNFTMutation) AddField(name string, value ent.Value) error {
+func (m *ChangokushiWeaponChangeLogMutation) AddField(name string, value ent.Value) error {
 	switch name {
-	case kusogeeeeeenft.FieldPrice:
+	case changokushiweaponchangelog.FieldPrice:
 		v, ok := value.(int)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddPrice(v)
 		return nil
-	case kusogeeeeeenft.FieldWeaponRank:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddWeaponRank(v)
-		return nil
-	case kusogeeeeeenft.FieldWeaponVitality:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddWeaponVitality(v)
-		return nil
-	case kusogeeeeeenft.FieldWeaponStrength:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddWeaponStrength(v)
-		return nil
-	case kusogeeeeeenft.FieldWeaponPhysicalDefense:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddWeaponPhysicalDefense(v)
-		return nil
-	case kusogeeeeeenft.FieldWeaponMagicalDefense:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddWeaponMagicalDefense(v)
-		return nil
-	case kusogeeeeeenft.FieldWeaponAgility:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddWeaponAgility(v)
-		return nil
-	case kusogeeeeeenft.FieldCharacterTotalSupply:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddCharacterTotalSupply(v)
-		return nil
 	}
-	return fmt.Errorf("unknown KusogeeeeeeNFT numeric field %s", name)
+	return fmt.Errorf("unknown ChangokushiWeaponChangeLog numeric field %s", name)
 }
 
 // ClearedFields returns all nullable fields that were cleared during this
 // mutation.
-func (m *KusogeeeeeeNFTMutation) ClearedFields() []string {
+func (m *ChangokushiWeaponChangeLogMutation) ClearedFields() []string {
 	var fields []string
-	if m.FieldCleared(kusogeeeeeenft.FieldDeletedAt) {
-		fields = append(fields, kusogeeeeeenft.FieldDeletedAt)
-	}
-	if m.FieldCleared(kusogeeeeeenft.FieldWeaponRank) {
-		fields = append(fields, kusogeeeeeenft.FieldWeaponRank)
-	}
-	if m.FieldCleared(kusogeeeeeenft.FieldWeaponType) {
-		fields = append(fields, kusogeeeeeenft.FieldWeaponType)
-	}
-	if m.FieldCleared(kusogeeeeeenft.FieldWeaponVitality) {
-		fields = append(fields, kusogeeeeeenft.FieldWeaponVitality)
-	}
-	if m.FieldCleared(kusogeeeeeenft.FieldWeaponStrength) {
-		fields = append(fields, kusogeeeeeenft.FieldWeaponStrength)
-	}
-	if m.FieldCleared(kusogeeeeeenft.FieldWeaponPhysicalDefense) {
-		fields = append(fields, kusogeeeeeenft.FieldWeaponPhysicalDefense)
-	}
-	if m.FieldCleared(kusogeeeeeenft.FieldWeaponMagicalDefense) {
-		fields = append(fields, kusogeeeeeenft.FieldWeaponMagicalDefense)
-	}
-	if m.FieldCleared(kusogeeeeeenft.FieldWeaponAgility) {
-		fields = append(fields, kusogeeeeeenft.FieldWeaponAgility)
-	}
-	if m.FieldCleared(kusogeeeeeenft.FieldCharacterRank) {
-		fields = append(fields, kusogeeeeeenft.FieldCharacterRank)
-	}
-	if m.FieldCleared(kusogeeeeeenft.FieldCharacterTotalSupply) {
-		fields = append(fields, kusogeeeeeenft.FieldCharacterTotalSupply)
+	if m.FieldCleared(changokushiweaponchangelog.FieldDeletedAt) {
+		fields = append(fields, changokushiweaponchangelog.FieldDeletedAt)
 	}
 	return fields
 }
 
 // FieldCleared returns a boolean indicating if a field with the given name was
 // cleared in this mutation.
-func (m *KusogeeeeeeNFTMutation) FieldCleared(name string) bool {
+func (m *ChangokushiWeaponChangeLogMutation) FieldCleared(name string) bool {
 	_, ok := m.clearedFields[name]
 	return ok
 }
 
 // ClearField clears the value of the field with the given name. It returns an
 // error if the field is not defined in the schema.
-func (m *KusogeeeeeeNFTMutation) ClearField(name string) error {
+func (m *ChangokushiWeaponChangeLogMutation) ClearField(name string) error {
 	switch name {
-	case kusogeeeeeenft.FieldDeletedAt:
+	case changokushiweaponchangelog.FieldDeletedAt:
 		m.ClearDeletedAt()
 		return nil
-	case kusogeeeeeenft.FieldWeaponRank:
-		m.ClearWeaponRank()
-		return nil
-	case kusogeeeeeenft.FieldWeaponType:
-		m.ClearWeaponType()
-		return nil
-	case kusogeeeeeenft.FieldWeaponVitality:
-		m.ClearWeaponVitality()
-		return nil
-	case kusogeeeeeenft.FieldWeaponStrength:
-		m.ClearWeaponStrength()
-		return nil
-	case kusogeeeeeenft.FieldWeaponPhysicalDefense:
-		m.ClearWeaponPhysicalDefense()
-		return nil
-	case kusogeeeeeenft.FieldWeaponMagicalDefense:
-		m.ClearWeaponMagicalDefense()
-		return nil
-	case kusogeeeeeenft.FieldWeaponAgility:
-		m.ClearWeaponAgility()
-		return nil
-	case kusogeeeeeenft.FieldCharacterRank:
-		m.ClearCharacterRank()
-		return nil
-	case kusogeeeeeenft.FieldCharacterTotalSupply:
-		m.ClearCharacterTotalSupply()
-		return nil
 	}
-	return fmt.Errorf("unknown KusogeeeeeeNFT nullable field %s", name)
+	return fmt.Errorf("unknown ChangokushiWeaponChangeLog nullable field %s", name)
 }
 
 // ResetField resets all changes in the mutation for the field with the given name.
 // It returns an error if the field is not defined in the schema.
-func (m *KusogeeeeeeNFTMutation) ResetField(name string) error {
+func (m *ChangokushiWeaponChangeLogMutation) ResetField(name string) error {
 	switch name {
-	case kusogeeeeeenft.FieldCreatedAt:
+	case changokushiweaponchangelog.FieldCreatedAt:
 		m.ResetCreatedAt()
 		return nil
-	case kusogeeeeeenft.FieldUpdatedAt:
+	case changokushiweaponchangelog.FieldUpdatedAt:
 		m.ResetUpdatedAt()
 		return nil
-	case kusogeeeeeenft.FieldDeletedAt:
+	case changokushiweaponchangelog.FieldDeletedAt:
 		m.ResetDeletedAt()
 		return nil
-	case kusogeeeeeenft.FieldURI:
-		m.ResetURI()
+	case changokushiweaponchangelog.FieldChangokushiWeaponID:
+		m.ResetChangokushiWeaponID()
 		return nil
-	case kusogeeeeeenft.FieldType:
-		m.ResetType()
-		return nil
-	case kusogeeeeeenft.FieldName:
-		m.ResetName()
-		return nil
-	case kusogeeeeeenft.FieldStatus:
+	case changokushiweaponchangelog.FieldStatus:
 		m.ResetStatus()
 		return nil
-	case kusogeeeeeenft.FieldPrice:
+	case changokushiweaponchangelog.FieldPrice:
 		m.ResetPrice()
 		return nil
-	case kusogeeeeeenft.FieldPublishedAt:
+	case changokushiweaponchangelog.FieldPublishedAt:
 		m.ResetPublishedAt()
 		return nil
-	case kusogeeeeeenft.FieldWeaponRank:
-		m.ResetWeaponRank()
-		return nil
-	case kusogeeeeeenft.FieldWeaponType:
-		m.ResetWeaponType()
-		return nil
-	case kusogeeeeeenft.FieldWeaponVitality:
-		m.ResetWeaponVitality()
-		return nil
-	case kusogeeeeeenft.FieldWeaponStrength:
-		m.ResetWeaponStrength()
-		return nil
-	case kusogeeeeeenft.FieldWeaponPhysicalDefense:
-		m.ResetWeaponPhysicalDefense()
-		return nil
-	case kusogeeeeeenft.FieldWeaponMagicalDefense:
-		m.ResetWeaponMagicalDefense()
-		return nil
-	case kusogeeeeeenft.FieldWeaponAgility:
-		m.ResetWeaponAgility()
-		return nil
-	case kusogeeeeeenft.FieldCharacterRank:
-		m.ResetCharacterRank()
-		return nil
-	case kusogeeeeeenft.FieldCharacterTotalSupply:
-		m.ResetCharacterTotalSupply()
-		return nil
 	}
-	return fmt.Errorf("unknown KusogeeeeeeNFT field %s", name)
+	return fmt.Errorf("unknown ChangokushiWeaponChangeLog field %s", name)
 }
 
 // AddedEdges returns all edge names that were set/added in this mutation.
-func (m *KusogeeeeeeNFTMutation) AddedEdges() []string {
+func (m *ChangokushiWeaponChangeLogMutation) AddedEdges() []string {
 	edges := make([]string, 0, 1)
-	if m.change_logs != nil {
-		edges = append(edges, kusogeeeeeenft.EdgeChangeLogs)
+	if m.changokushi_weapon != nil {
+		edges = append(edges, changokushiweaponchangelog.EdgeChangokushiWeapon)
 	}
 	return edges
 }
 
 // AddedIDs returns all IDs (to other nodes) that were added for the given edge
 // name in this mutation.
-func (m *KusogeeeeeeNFTMutation) AddedIDs(name string) []ent.Value {
+func (m *ChangokushiWeaponChangeLogMutation) AddedIDs(name string) []ent.Value {
 	switch name {
-	case kusogeeeeeenft.EdgeChangeLogs:
-		ids := make([]ent.Value, 0, len(m.change_logs))
-		for id := range m.change_logs {
-			ids = append(ids, id)
-		}
-		return ids
-	}
-	return nil
-}
-
-// RemovedEdges returns all edge names that were removed in this mutation.
-func (m *KusogeeeeeeNFTMutation) RemovedEdges() []string {
-	edges := make([]string, 0, 1)
-	if m.removedchange_logs != nil {
-		edges = append(edges, kusogeeeeeenft.EdgeChangeLogs)
-	}
-	return edges
-}
-
-// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
-// the given name in this mutation.
-func (m *KusogeeeeeeNFTMutation) RemovedIDs(name string) []ent.Value {
-	switch name {
-	case kusogeeeeeenft.EdgeChangeLogs:
-		ids := make([]ent.Value, 0, len(m.removedchange_logs))
-		for id := range m.removedchange_logs {
-			ids = append(ids, id)
-		}
-		return ids
-	}
-	return nil
-}
-
-// ClearedEdges returns all edge names that were cleared in this mutation.
-func (m *KusogeeeeeeNFTMutation) ClearedEdges() []string {
-	edges := make([]string, 0, 1)
-	if m.clearedchange_logs {
-		edges = append(edges, kusogeeeeeenft.EdgeChangeLogs)
-	}
-	return edges
-}
-
-// EdgeCleared returns a boolean which indicates if the edge with the given name
-// was cleared in this mutation.
-func (m *KusogeeeeeeNFTMutation) EdgeCleared(name string) bool {
-	switch name {
-	case kusogeeeeeenft.EdgeChangeLogs:
-		return m.clearedchange_logs
-	}
-	return false
-}
-
-// ClearEdge clears the value of the edge with the given name. It returns an error
-// if that edge is not defined in the schema.
-func (m *KusogeeeeeeNFTMutation) ClearEdge(name string) error {
-	switch name {
-	}
-	return fmt.Errorf("unknown KusogeeeeeeNFT unique edge %s", name)
-}
-
-// ResetEdge resets all changes to the edge with the given name in this mutation.
-// It returns an error if the edge is not defined in the schema.
-func (m *KusogeeeeeeNFTMutation) ResetEdge(name string) error {
-	switch name {
-	case kusogeeeeeenft.EdgeChangeLogs:
-		m.ResetChangeLogs()
-		return nil
-	}
-	return fmt.Errorf("unknown KusogeeeeeeNFT edge %s", name)
-}
-
-// KusogeeeeeeNFTChangeLogMutation represents an operation that mutates the KusogeeeeeeNFTChangeLog nodes in the graph.
-type KusogeeeeeeNFTChangeLogMutation struct {
-	config
-	op                     Op
-	typ                    string
-	id                     *uint32
-	created_at             *time.Time
-	updated_at             *time.Time
-	deleted_at             *time.Time
-	status                 *string
-	price                  *int
-	addprice               *int
-	clearedFields          map[string]struct{}
-	kusogeeeeee_nft        *uint32
-	clearedkusogeeeeee_nft bool
-	done                   bool
-	oldValue               func(context.Context) (*KusogeeeeeeNFTChangeLog, error)
-	predicates             []predicate.KusogeeeeeeNFTChangeLog
-}
-
-var _ ent.Mutation = (*KusogeeeeeeNFTChangeLogMutation)(nil)
-
-// kusogeeeeeenftchangelogOption allows management of the mutation configuration using functional options.
-type kusogeeeeeenftchangelogOption func(*KusogeeeeeeNFTChangeLogMutation)
-
-// newKusogeeeeeeNFTChangeLogMutation creates new mutation for the KusogeeeeeeNFTChangeLog entity.
-func newKusogeeeeeeNFTChangeLogMutation(c config, op Op, opts ...kusogeeeeeenftchangelogOption) *KusogeeeeeeNFTChangeLogMutation {
-	m := &KusogeeeeeeNFTChangeLogMutation{
-		config:        c,
-		op:            op,
-		typ:           TypeKusogeeeeeeNFTChangeLog,
-		clearedFields: make(map[string]struct{}),
-	}
-	for _, opt := range opts {
-		opt(m)
-	}
-	return m
-}
-
-// withKusogeeeeeeNFTChangeLogID sets the ID field of the mutation.
-func withKusogeeeeeeNFTChangeLogID(id uint32) kusogeeeeeenftchangelogOption {
-	return func(m *KusogeeeeeeNFTChangeLogMutation) {
-		var (
-			err   error
-			once  sync.Once
-			value *KusogeeeeeeNFTChangeLog
-		)
-		m.oldValue = func(ctx context.Context) (*KusogeeeeeeNFTChangeLog, error) {
-			once.Do(func() {
-				if m.done {
-					err = errors.New("querying old values post mutation is not allowed")
-				} else {
-					value, err = m.Client().KusogeeeeeeNFTChangeLog.Get(ctx, id)
-				}
-			})
-			return value, err
-		}
-		m.id = &id
-	}
-}
-
-// withKusogeeeeeeNFTChangeLog sets the old KusogeeeeeeNFTChangeLog of the mutation.
-func withKusogeeeeeeNFTChangeLog(node *KusogeeeeeeNFTChangeLog) kusogeeeeeenftchangelogOption {
-	return func(m *KusogeeeeeeNFTChangeLogMutation) {
-		m.oldValue = func(context.Context) (*KusogeeeeeeNFTChangeLog, error) {
-			return node, nil
-		}
-		m.id = &node.ID
-	}
-}
-
-// Client returns a new `ent.Client` from the mutation. If the mutation was
-// executed in a transaction (ent.Tx), a transactional client is returned.
-func (m KusogeeeeeeNFTChangeLogMutation) Client() *Client {
-	client := &Client{config: m.config}
-	client.init()
-	return client
-}
-
-// Tx returns an `ent.Tx` for mutations that were executed in transactions;
-// it returns an error otherwise.
-func (m KusogeeeeeeNFTChangeLogMutation) Tx() (*Tx, error) {
-	if _, ok := m.driver.(*txDriver); !ok {
-		return nil, errors.New("ent: mutation is not running in a transaction")
-	}
-	tx := &Tx{config: m.config}
-	tx.init()
-	return tx, nil
-}
-
-// SetID sets the value of the id field. Note that this
-// operation is only accepted on creation of KusogeeeeeeNFTChangeLog entities.
-func (m *KusogeeeeeeNFTChangeLogMutation) SetID(id uint32) {
-	m.id = &id
-}
-
-// ID returns the ID value in the mutation. Note that the ID is only available
-// if it was provided to the builder or after it was returned from the database.
-func (m *KusogeeeeeeNFTChangeLogMutation) ID() (id uint32, exists bool) {
-	if m.id == nil {
-		return
-	}
-	return *m.id, true
-}
-
-// IDs queries the database and returns the entity ids that match the mutation's predicate.
-// That means, if the mutation is applied within a transaction with an isolation level such
-// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
-// or updated by the mutation.
-func (m *KusogeeeeeeNFTChangeLogMutation) IDs(ctx context.Context) ([]uint32, error) {
-	switch {
-	case m.op.Is(OpUpdateOne | OpDeleteOne):
-		id, exists := m.ID()
-		if exists {
-			return []uint32{id}, nil
-		}
-		fallthrough
-	case m.op.Is(OpUpdate | OpDelete):
-		return m.Client().KusogeeeeeeNFTChangeLog.Query().Where(m.predicates...).IDs(ctx)
-	default:
-		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
-	}
-}
-
-// SetCreatedAt sets the "created_at" field.
-func (m *KusogeeeeeeNFTChangeLogMutation) SetCreatedAt(t time.Time) {
-	m.created_at = &t
-}
-
-// CreatedAt returns the value of the "created_at" field in the mutation.
-func (m *KusogeeeeeeNFTChangeLogMutation) CreatedAt() (r time.Time, exists bool) {
-	v := m.created_at
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldCreatedAt returns the old "created_at" field's value of the KusogeeeeeeNFTChangeLog entity.
-// If the KusogeeeeeeNFTChangeLog object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *KusogeeeeeeNFTChangeLogMutation) OldCreatedAt(ctx context.Context) (v time.Time, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldCreatedAt is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldCreatedAt requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldCreatedAt: %w", err)
-	}
-	return oldValue.CreatedAt, nil
-}
-
-// ResetCreatedAt resets all changes to the "created_at" field.
-func (m *KusogeeeeeeNFTChangeLogMutation) ResetCreatedAt() {
-	m.created_at = nil
-}
-
-// SetUpdatedAt sets the "updated_at" field.
-func (m *KusogeeeeeeNFTChangeLogMutation) SetUpdatedAt(t time.Time) {
-	m.updated_at = &t
-}
-
-// UpdatedAt returns the value of the "updated_at" field in the mutation.
-func (m *KusogeeeeeeNFTChangeLogMutation) UpdatedAt() (r time.Time, exists bool) {
-	v := m.updated_at
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldUpdatedAt returns the old "updated_at" field's value of the KusogeeeeeeNFTChangeLog entity.
-// If the KusogeeeeeeNFTChangeLog object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *KusogeeeeeeNFTChangeLogMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldUpdatedAt is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldUpdatedAt requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldUpdatedAt: %w", err)
-	}
-	return oldValue.UpdatedAt, nil
-}
-
-// ResetUpdatedAt resets all changes to the "updated_at" field.
-func (m *KusogeeeeeeNFTChangeLogMutation) ResetUpdatedAt() {
-	m.updated_at = nil
-}
-
-// SetDeletedAt sets the "deleted_at" field.
-func (m *KusogeeeeeeNFTChangeLogMutation) SetDeletedAt(t time.Time) {
-	m.deleted_at = &t
-}
-
-// DeletedAt returns the value of the "deleted_at" field in the mutation.
-func (m *KusogeeeeeeNFTChangeLogMutation) DeletedAt() (r time.Time, exists bool) {
-	v := m.deleted_at
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldDeletedAt returns the old "deleted_at" field's value of the KusogeeeeeeNFTChangeLog entity.
-// If the KusogeeeeeeNFTChangeLog object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *KusogeeeeeeNFTChangeLogMutation) OldDeletedAt(ctx context.Context) (v *time.Time, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldDeletedAt is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldDeletedAt requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldDeletedAt: %w", err)
-	}
-	return oldValue.DeletedAt, nil
-}
-
-// ClearDeletedAt clears the value of the "deleted_at" field.
-func (m *KusogeeeeeeNFTChangeLogMutation) ClearDeletedAt() {
-	m.deleted_at = nil
-	m.clearedFields[kusogeeeeeenftchangelog.FieldDeletedAt] = struct{}{}
-}
-
-// DeletedAtCleared returns if the "deleted_at" field was cleared in this mutation.
-func (m *KusogeeeeeeNFTChangeLogMutation) DeletedAtCleared() bool {
-	_, ok := m.clearedFields[kusogeeeeeenftchangelog.FieldDeletedAt]
-	return ok
-}
-
-// ResetDeletedAt resets all changes to the "deleted_at" field.
-func (m *KusogeeeeeeNFTChangeLogMutation) ResetDeletedAt() {
-	m.deleted_at = nil
-	delete(m.clearedFields, kusogeeeeeenftchangelog.FieldDeletedAt)
-}
-
-// SetKusogeeeeeeNftID sets the "kusogeeeeee_nft_id" field.
-func (m *KusogeeeeeeNFTChangeLogMutation) SetKusogeeeeeeNftID(u uint32) {
-	m.kusogeeeeee_nft = &u
-}
-
-// KusogeeeeeeNftID returns the value of the "kusogeeeeee_nft_id" field in the mutation.
-func (m *KusogeeeeeeNFTChangeLogMutation) KusogeeeeeeNftID() (r uint32, exists bool) {
-	v := m.kusogeeeeee_nft
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldKusogeeeeeeNftID returns the old "kusogeeeeee_nft_id" field's value of the KusogeeeeeeNFTChangeLog entity.
-// If the KusogeeeeeeNFTChangeLog object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *KusogeeeeeeNFTChangeLogMutation) OldKusogeeeeeeNftID(ctx context.Context) (v uint32, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldKusogeeeeeeNftID is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldKusogeeeeeeNftID requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldKusogeeeeeeNftID: %w", err)
-	}
-	return oldValue.KusogeeeeeeNftID, nil
-}
-
-// ResetKusogeeeeeeNftID resets all changes to the "kusogeeeeee_nft_id" field.
-func (m *KusogeeeeeeNFTChangeLogMutation) ResetKusogeeeeeeNftID() {
-	m.kusogeeeeee_nft = nil
-}
-
-// SetStatus sets the "status" field.
-func (m *KusogeeeeeeNFTChangeLogMutation) SetStatus(s string) {
-	m.status = &s
-}
-
-// Status returns the value of the "status" field in the mutation.
-func (m *KusogeeeeeeNFTChangeLogMutation) Status() (r string, exists bool) {
-	v := m.status
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldStatus returns the old "status" field's value of the KusogeeeeeeNFTChangeLog entity.
-// If the KusogeeeeeeNFTChangeLog object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *KusogeeeeeeNFTChangeLogMutation) OldStatus(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldStatus is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldStatus requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldStatus: %w", err)
-	}
-	return oldValue.Status, nil
-}
-
-// ResetStatus resets all changes to the "status" field.
-func (m *KusogeeeeeeNFTChangeLogMutation) ResetStatus() {
-	m.status = nil
-}
-
-// SetPrice sets the "price" field.
-func (m *KusogeeeeeeNFTChangeLogMutation) SetPrice(i int) {
-	m.price = &i
-	m.addprice = nil
-}
-
-// Price returns the value of the "price" field in the mutation.
-func (m *KusogeeeeeeNFTChangeLogMutation) Price() (r int, exists bool) {
-	v := m.price
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldPrice returns the old "price" field's value of the KusogeeeeeeNFTChangeLog entity.
-// If the KusogeeeeeeNFTChangeLog object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *KusogeeeeeeNFTChangeLogMutation) OldPrice(ctx context.Context) (v int, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldPrice is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldPrice requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldPrice: %w", err)
-	}
-	return oldValue.Price, nil
-}
-
-// AddPrice adds i to the "price" field.
-func (m *KusogeeeeeeNFTChangeLogMutation) AddPrice(i int) {
-	if m.addprice != nil {
-		*m.addprice += i
-	} else {
-		m.addprice = &i
-	}
-}
-
-// AddedPrice returns the value that was added to the "price" field in this mutation.
-func (m *KusogeeeeeeNFTChangeLogMutation) AddedPrice() (r int, exists bool) {
-	v := m.addprice
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// ResetPrice resets all changes to the "price" field.
-func (m *KusogeeeeeeNFTChangeLogMutation) ResetPrice() {
-	m.price = nil
-	m.addprice = nil
-}
-
-// ClearKusogeeeeeeNft clears the "kusogeeeeee_nft" edge to the KusogeeeeeeNFT entity.
-func (m *KusogeeeeeeNFTChangeLogMutation) ClearKusogeeeeeeNft() {
-	m.clearedkusogeeeeee_nft = true
-	m.clearedFields[kusogeeeeeenftchangelog.FieldKusogeeeeeeNftID] = struct{}{}
-}
-
-// KusogeeeeeeNftCleared reports if the "kusogeeeeee_nft" edge to the KusogeeeeeeNFT entity was cleared.
-func (m *KusogeeeeeeNFTChangeLogMutation) KusogeeeeeeNftCleared() bool {
-	return m.clearedkusogeeeeee_nft
-}
-
-// KusogeeeeeeNftIDs returns the "kusogeeeeee_nft" edge IDs in the mutation.
-// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
-// KusogeeeeeeNftID instead. It exists only for internal usage by the builders.
-func (m *KusogeeeeeeNFTChangeLogMutation) KusogeeeeeeNftIDs() (ids []uint32) {
-	if id := m.kusogeeeeee_nft; id != nil {
-		ids = append(ids, *id)
-	}
-	return
-}
-
-// ResetKusogeeeeeeNft resets all changes to the "kusogeeeeee_nft" edge.
-func (m *KusogeeeeeeNFTChangeLogMutation) ResetKusogeeeeeeNft() {
-	m.kusogeeeeee_nft = nil
-	m.clearedkusogeeeeee_nft = false
-}
-
-// Where appends a list predicates to the KusogeeeeeeNFTChangeLogMutation builder.
-func (m *KusogeeeeeeNFTChangeLogMutation) Where(ps ...predicate.KusogeeeeeeNFTChangeLog) {
-	m.predicates = append(m.predicates, ps...)
-}
-
-// WhereP appends storage-level predicates to the KusogeeeeeeNFTChangeLogMutation builder. Using this method,
-// users can use type-assertion to append predicates that do not depend on any generated package.
-func (m *KusogeeeeeeNFTChangeLogMutation) WhereP(ps ...func(*sql.Selector)) {
-	p := make([]predicate.KusogeeeeeeNFTChangeLog, len(ps))
-	for i := range ps {
-		p[i] = ps[i]
-	}
-	m.Where(p...)
-}
-
-// Op returns the operation name.
-func (m *KusogeeeeeeNFTChangeLogMutation) Op() Op {
-	return m.op
-}
-
-// SetOp allows setting the mutation operation.
-func (m *KusogeeeeeeNFTChangeLogMutation) SetOp(op Op) {
-	m.op = op
-}
-
-// Type returns the node type of this mutation (KusogeeeeeeNFTChangeLog).
-func (m *KusogeeeeeeNFTChangeLogMutation) Type() string {
-	return m.typ
-}
-
-// Fields returns all fields that were changed during this mutation. Note that in
-// order to get all numeric fields that were incremented/decremented, call
-// AddedFields().
-func (m *KusogeeeeeeNFTChangeLogMutation) Fields() []string {
-	fields := make([]string, 0, 6)
-	if m.created_at != nil {
-		fields = append(fields, kusogeeeeeenftchangelog.FieldCreatedAt)
-	}
-	if m.updated_at != nil {
-		fields = append(fields, kusogeeeeeenftchangelog.FieldUpdatedAt)
-	}
-	if m.deleted_at != nil {
-		fields = append(fields, kusogeeeeeenftchangelog.FieldDeletedAt)
-	}
-	if m.kusogeeeeee_nft != nil {
-		fields = append(fields, kusogeeeeeenftchangelog.FieldKusogeeeeeeNftID)
-	}
-	if m.status != nil {
-		fields = append(fields, kusogeeeeeenftchangelog.FieldStatus)
-	}
-	if m.price != nil {
-		fields = append(fields, kusogeeeeeenftchangelog.FieldPrice)
-	}
-	return fields
-}
-
-// Field returns the value of a field with the given name. The second boolean
-// return value indicates that this field was not set, or was not defined in the
-// schema.
-func (m *KusogeeeeeeNFTChangeLogMutation) Field(name string) (ent.Value, bool) {
-	switch name {
-	case kusogeeeeeenftchangelog.FieldCreatedAt:
-		return m.CreatedAt()
-	case kusogeeeeeenftchangelog.FieldUpdatedAt:
-		return m.UpdatedAt()
-	case kusogeeeeeenftchangelog.FieldDeletedAt:
-		return m.DeletedAt()
-	case kusogeeeeeenftchangelog.FieldKusogeeeeeeNftID:
-		return m.KusogeeeeeeNftID()
-	case kusogeeeeeenftchangelog.FieldStatus:
-		return m.Status()
-	case kusogeeeeeenftchangelog.FieldPrice:
-		return m.Price()
-	}
-	return nil, false
-}
-
-// OldField returns the old value of the field from the database. An error is
-// returned if the mutation operation is not UpdateOne, or the query to the
-// database failed.
-func (m *KusogeeeeeeNFTChangeLogMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
-	switch name {
-	case kusogeeeeeenftchangelog.FieldCreatedAt:
-		return m.OldCreatedAt(ctx)
-	case kusogeeeeeenftchangelog.FieldUpdatedAt:
-		return m.OldUpdatedAt(ctx)
-	case kusogeeeeeenftchangelog.FieldDeletedAt:
-		return m.OldDeletedAt(ctx)
-	case kusogeeeeeenftchangelog.FieldKusogeeeeeeNftID:
-		return m.OldKusogeeeeeeNftID(ctx)
-	case kusogeeeeeenftchangelog.FieldStatus:
-		return m.OldStatus(ctx)
-	case kusogeeeeeenftchangelog.FieldPrice:
-		return m.OldPrice(ctx)
-	}
-	return nil, fmt.Errorf("unknown KusogeeeeeeNFTChangeLog field %s", name)
-}
-
-// SetField sets the value of a field with the given name. It returns an error if
-// the field is not defined in the schema, or if the type mismatched the field
-// type.
-func (m *KusogeeeeeeNFTChangeLogMutation) SetField(name string, value ent.Value) error {
-	switch name {
-	case kusogeeeeeenftchangelog.FieldCreatedAt:
-		v, ok := value.(time.Time)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetCreatedAt(v)
-		return nil
-	case kusogeeeeeenftchangelog.FieldUpdatedAt:
-		v, ok := value.(time.Time)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetUpdatedAt(v)
-		return nil
-	case kusogeeeeeenftchangelog.FieldDeletedAt:
-		v, ok := value.(time.Time)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetDeletedAt(v)
-		return nil
-	case kusogeeeeeenftchangelog.FieldKusogeeeeeeNftID:
-		v, ok := value.(uint32)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetKusogeeeeeeNftID(v)
-		return nil
-	case kusogeeeeeenftchangelog.FieldStatus:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetStatus(v)
-		return nil
-	case kusogeeeeeenftchangelog.FieldPrice:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetPrice(v)
-		return nil
-	}
-	return fmt.Errorf("unknown KusogeeeeeeNFTChangeLog field %s", name)
-}
-
-// AddedFields returns all numeric fields that were incremented/decremented during
-// this mutation.
-func (m *KusogeeeeeeNFTChangeLogMutation) AddedFields() []string {
-	var fields []string
-	if m.addprice != nil {
-		fields = append(fields, kusogeeeeeenftchangelog.FieldPrice)
-	}
-	return fields
-}
-
-// AddedField returns the numeric value that was incremented/decremented on a field
-// with the given name. The second boolean return value indicates that this field
-// was not set, or was not defined in the schema.
-func (m *KusogeeeeeeNFTChangeLogMutation) AddedField(name string) (ent.Value, bool) {
-	switch name {
-	case kusogeeeeeenftchangelog.FieldPrice:
-		return m.AddedPrice()
-	}
-	return nil, false
-}
-
-// AddField adds the value to the field with the given name. It returns an error if
-// the field is not defined in the schema, or if the type mismatched the field
-// type.
-func (m *KusogeeeeeeNFTChangeLogMutation) AddField(name string, value ent.Value) error {
-	switch name {
-	case kusogeeeeeenftchangelog.FieldPrice:
-		v, ok := value.(int)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddPrice(v)
-		return nil
-	}
-	return fmt.Errorf("unknown KusogeeeeeeNFTChangeLog numeric field %s", name)
-}
-
-// ClearedFields returns all nullable fields that were cleared during this
-// mutation.
-func (m *KusogeeeeeeNFTChangeLogMutation) ClearedFields() []string {
-	var fields []string
-	if m.FieldCleared(kusogeeeeeenftchangelog.FieldDeletedAt) {
-		fields = append(fields, kusogeeeeeenftchangelog.FieldDeletedAt)
-	}
-	return fields
-}
-
-// FieldCleared returns a boolean indicating if a field with the given name was
-// cleared in this mutation.
-func (m *KusogeeeeeeNFTChangeLogMutation) FieldCleared(name string) bool {
-	_, ok := m.clearedFields[name]
-	return ok
-}
-
-// ClearField clears the value of the field with the given name. It returns an
-// error if the field is not defined in the schema.
-func (m *KusogeeeeeeNFTChangeLogMutation) ClearField(name string) error {
-	switch name {
-	case kusogeeeeeenftchangelog.FieldDeletedAt:
-		m.ClearDeletedAt()
-		return nil
-	}
-	return fmt.Errorf("unknown KusogeeeeeeNFTChangeLog nullable field %s", name)
-}
-
-// ResetField resets all changes in the mutation for the field with the given name.
-// It returns an error if the field is not defined in the schema.
-func (m *KusogeeeeeeNFTChangeLogMutation) ResetField(name string) error {
-	switch name {
-	case kusogeeeeeenftchangelog.FieldCreatedAt:
-		m.ResetCreatedAt()
-		return nil
-	case kusogeeeeeenftchangelog.FieldUpdatedAt:
-		m.ResetUpdatedAt()
-		return nil
-	case kusogeeeeeenftchangelog.FieldDeletedAt:
-		m.ResetDeletedAt()
-		return nil
-	case kusogeeeeeenftchangelog.FieldKusogeeeeeeNftID:
-		m.ResetKusogeeeeeeNftID()
-		return nil
-	case kusogeeeeeenftchangelog.FieldStatus:
-		m.ResetStatus()
-		return nil
-	case kusogeeeeeenftchangelog.FieldPrice:
-		m.ResetPrice()
-		return nil
-	}
-	return fmt.Errorf("unknown KusogeeeeeeNFTChangeLog field %s", name)
-}
-
-// AddedEdges returns all edge names that were set/added in this mutation.
-func (m *KusogeeeeeeNFTChangeLogMutation) AddedEdges() []string {
-	edges := make([]string, 0, 1)
-	if m.kusogeeeeee_nft != nil {
-		edges = append(edges, kusogeeeeeenftchangelog.EdgeKusogeeeeeeNft)
-	}
-	return edges
-}
-
-// AddedIDs returns all IDs (to other nodes) that were added for the given edge
-// name in this mutation.
-func (m *KusogeeeeeeNFTChangeLogMutation) AddedIDs(name string) []ent.Value {
-	switch name {
-	case kusogeeeeeenftchangelog.EdgeKusogeeeeeeNft:
-		if id := m.kusogeeeeee_nft; id != nil {
+	case changokushiweaponchangelog.EdgeChangokushiWeapon:
+		if id := m.changokushi_weapon; id != nil {
 			return []ent.Value{*id}
 		}
 	}
@@ -4840,2825 +2041,54 @@ func (m *KusogeeeeeeNFTChangeLogMutation) AddedIDs(name string) []ent.Value {
 }
 
 // RemovedEdges returns all edge names that were removed in this mutation.
-func (m *KusogeeeeeeNFTChangeLogMutation) RemovedEdges() []string {
+func (m *ChangokushiWeaponChangeLogMutation) RemovedEdges() []string {
 	edges := make([]string, 0, 1)
 	return edges
 }
 
 // RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
 // the given name in this mutation.
-func (m *KusogeeeeeeNFTChangeLogMutation) RemovedIDs(name string) []ent.Value {
+func (m *ChangokushiWeaponChangeLogMutation) RemovedIDs(name string) []ent.Value {
 	return nil
 }
 
 // ClearedEdges returns all edge names that were cleared in this mutation.
-func (m *KusogeeeeeeNFTChangeLogMutation) ClearedEdges() []string {
+func (m *ChangokushiWeaponChangeLogMutation) ClearedEdges() []string {
 	edges := make([]string, 0, 1)
-	if m.clearedkusogeeeeee_nft {
-		edges = append(edges, kusogeeeeeenftchangelog.EdgeKusogeeeeeeNft)
+	if m.clearedchangokushi_weapon {
+		edges = append(edges, changokushiweaponchangelog.EdgeChangokushiWeapon)
 	}
 	return edges
 }
 
 // EdgeCleared returns a boolean which indicates if the edge with the given name
 // was cleared in this mutation.
-func (m *KusogeeeeeeNFTChangeLogMutation) EdgeCleared(name string) bool {
+func (m *ChangokushiWeaponChangeLogMutation) EdgeCleared(name string) bool {
 	switch name {
-	case kusogeeeeeenftchangelog.EdgeKusogeeeeeeNft:
-		return m.clearedkusogeeeeee_nft
+	case changokushiweaponchangelog.EdgeChangokushiWeapon:
+		return m.clearedchangokushi_weapon
 	}
 	return false
 }
 
 // ClearEdge clears the value of the edge with the given name. It returns an error
 // if that edge is not defined in the schema.
-func (m *KusogeeeeeeNFTChangeLogMutation) ClearEdge(name string) error {
+func (m *ChangokushiWeaponChangeLogMutation) ClearEdge(name string) error {
 	switch name {
-	case kusogeeeeeenftchangelog.EdgeKusogeeeeeeNft:
-		m.ClearKusogeeeeeeNft()
+	case changokushiweaponchangelog.EdgeChangokushiWeapon:
+		m.ClearChangokushiWeapon()
 		return nil
 	}
-	return fmt.Errorf("unknown KusogeeeeeeNFTChangeLog unique edge %s", name)
+	return fmt.Errorf("unknown ChangokushiWeaponChangeLog unique edge %s", name)
 }
 
 // ResetEdge resets all changes to the edge with the given name in this mutation.
 // It returns an error if the edge is not defined in the schema.
-func (m *KusogeeeeeeNFTChangeLogMutation) ResetEdge(name string) error {
+func (m *ChangokushiWeaponChangeLogMutation) ResetEdge(name string) error {
 	switch name {
-	case kusogeeeeeenftchangelog.EdgeKusogeeeeeeNft:
-		m.ResetKusogeeeeeeNft()
+	case changokushiweaponchangelog.EdgeChangokushiWeapon:
+		m.ResetChangokushiWeapon()
 		return nil
 	}
-	return fmt.Errorf("unknown KusogeeeeeeNFTChangeLog edge %s", name)
-}
-
-// LINENFTMutation represents an operation that mutates the LINENFT nodes in the graph.
-type LINENFTMutation struct {
-	config
-	op                              Op
-	typ                             string
-	id                              *uint32
-	created_at                      *time.Time
-	updated_at                      *time.Time
-	deleted_at                      *time.Time
-	line_nft_id                     *uint32
-	addline_nft_id                  *int32
-	contract_id                     *string
-	token_type                      *string
-	token_index                     *string
-	token_name                      *string
-	token_description               *string
-	token_content_url               *string
-	clearedFields                   map[string]struct{}
-	activities                      map[uint32]struct{}
-	removedactivities               map[uint32]struct{}
-	clearedactivities               bool
-	million_arthurs_property        *uint32
-	clearedmillion_arthurs_property bool
-	done                            bool
-	oldValue                        func(context.Context) (*LINENFT, error)
-	predicates                      []predicate.LINENFT
-}
-
-var _ ent.Mutation = (*LINENFTMutation)(nil)
-
-// linenftOption allows management of the mutation configuration using functional options.
-type linenftOption func(*LINENFTMutation)
-
-// newLINENFTMutation creates new mutation for the LINENFT entity.
-func newLINENFTMutation(c config, op Op, opts ...linenftOption) *LINENFTMutation {
-	m := &LINENFTMutation{
-		config:        c,
-		op:            op,
-		typ:           TypeLINENFT,
-		clearedFields: make(map[string]struct{}),
-	}
-	for _, opt := range opts {
-		opt(m)
-	}
-	return m
-}
-
-// withLINENFTID sets the ID field of the mutation.
-func withLINENFTID(id uint32) linenftOption {
-	return func(m *LINENFTMutation) {
-		var (
-			err   error
-			once  sync.Once
-			value *LINENFT
-		)
-		m.oldValue = func(ctx context.Context) (*LINENFT, error) {
-			once.Do(func() {
-				if m.done {
-					err = errors.New("querying old values post mutation is not allowed")
-				} else {
-					value, err = m.Client().LINENFT.Get(ctx, id)
-				}
-			})
-			return value, err
-		}
-		m.id = &id
-	}
-}
-
-// withLINENFT sets the old LINENFT of the mutation.
-func withLINENFT(node *LINENFT) linenftOption {
-	return func(m *LINENFTMutation) {
-		m.oldValue = func(context.Context) (*LINENFT, error) {
-			return node, nil
-		}
-		m.id = &node.ID
-	}
-}
-
-// Client returns a new `ent.Client` from the mutation. If the mutation was
-// executed in a transaction (ent.Tx), a transactional client is returned.
-func (m LINENFTMutation) Client() *Client {
-	client := &Client{config: m.config}
-	client.init()
-	return client
-}
-
-// Tx returns an `ent.Tx` for mutations that were executed in transactions;
-// it returns an error otherwise.
-func (m LINENFTMutation) Tx() (*Tx, error) {
-	if _, ok := m.driver.(*txDriver); !ok {
-		return nil, errors.New("ent: mutation is not running in a transaction")
-	}
-	tx := &Tx{config: m.config}
-	tx.init()
-	return tx, nil
-}
-
-// SetID sets the value of the id field. Note that this
-// operation is only accepted on creation of LINENFT entities.
-func (m *LINENFTMutation) SetID(id uint32) {
-	m.id = &id
-}
-
-// ID returns the ID value in the mutation. Note that the ID is only available
-// if it was provided to the builder or after it was returned from the database.
-func (m *LINENFTMutation) ID() (id uint32, exists bool) {
-	if m.id == nil {
-		return
-	}
-	return *m.id, true
-}
-
-// IDs queries the database and returns the entity ids that match the mutation's predicate.
-// That means, if the mutation is applied within a transaction with an isolation level such
-// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
-// or updated by the mutation.
-func (m *LINENFTMutation) IDs(ctx context.Context) ([]uint32, error) {
-	switch {
-	case m.op.Is(OpUpdateOne | OpDeleteOne):
-		id, exists := m.ID()
-		if exists {
-			return []uint32{id}, nil
-		}
-		fallthrough
-	case m.op.Is(OpUpdate | OpDelete):
-		return m.Client().LINENFT.Query().Where(m.predicates...).IDs(ctx)
-	default:
-		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
-	}
-}
-
-// SetCreatedAt sets the "created_at" field.
-func (m *LINENFTMutation) SetCreatedAt(t time.Time) {
-	m.created_at = &t
-}
-
-// CreatedAt returns the value of the "created_at" field in the mutation.
-func (m *LINENFTMutation) CreatedAt() (r time.Time, exists bool) {
-	v := m.created_at
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldCreatedAt returns the old "created_at" field's value of the LINENFT entity.
-// If the LINENFT object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *LINENFTMutation) OldCreatedAt(ctx context.Context) (v time.Time, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldCreatedAt is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldCreatedAt requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldCreatedAt: %w", err)
-	}
-	return oldValue.CreatedAt, nil
-}
-
-// ResetCreatedAt resets all changes to the "created_at" field.
-func (m *LINENFTMutation) ResetCreatedAt() {
-	m.created_at = nil
-}
-
-// SetUpdatedAt sets the "updated_at" field.
-func (m *LINENFTMutation) SetUpdatedAt(t time.Time) {
-	m.updated_at = &t
-}
-
-// UpdatedAt returns the value of the "updated_at" field in the mutation.
-func (m *LINENFTMutation) UpdatedAt() (r time.Time, exists bool) {
-	v := m.updated_at
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldUpdatedAt returns the old "updated_at" field's value of the LINENFT entity.
-// If the LINENFT object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *LINENFTMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldUpdatedAt is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldUpdatedAt requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldUpdatedAt: %w", err)
-	}
-	return oldValue.UpdatedAt, nil
-}
-
-// ResetUpdatedAt resets all changes to the "updated_at" field.
-func (m *LINENFTMutation) ResetUpdatedAt() {
-	m.updated_at = nil
-}
-
-// SetDeletedAt sets the "deleted_at" field.
-func (m *LINENFTMutation) SetDeletedAt(t time.Time) {
-	m.deleted_at = &t
-}
-
-// DeletedAt returns the value of the "deleted_at" field in the mutation.
-func (m *LINENFTMutation) DeletedAt() (r time.Time, exists bool) {
-	v := m.deleted_at
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldDeletedAt returns the old "deleted_at" field's value of the LINENFT entity.
-// If the LINENFT object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *LINENFTMutation) OldDeletedAt(ctx context.Context) (v *time.Time, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldDeletedAt is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldDeletedAt requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldDeletedAt: %w", err)
-	}
-	return oldValue.DeletedAt, nil
-}
-
-// ClearDeletedAt clears the value of the "deleted_at" field.
-func (m *LINENFTMutation) ClearDeletedAt() {
-	m.deleted_at = nil
-	m.clearedFields[linenft.FieldDeletedAt] = struct{}{}
-}
-
-// DeletedAtCleared returns if the "deleted_at" field was cleared in this mutation.
-func (m *LINENFTMutation) DeletedAtCleared() bool {
-	_, ok := m.clearedFields[linenft.FieldDeletedAt]
-	return ok
-}
-
-// ResetDeletedAt resets all changes to the "deleted_at" field.
-func (m *LINENFTMutation) ResetDeletedAt() {
-	m.deleted_at = nil
-	delete(m.clearedFields, linenft.FieldDeletedAt)
-}
-
-// SetLineNftID sets the "line_nft_id" field.
-func (m *LINENFTMutation) SetLineNftID(u uint32) {
-	m.line_nft_id = &u
-	m.addline_nft_id = nil
-}
-
-// LineNftID returns the value of the "line_nft_id" field in the mutation.
-func (m *LINENFTMutation) LineNftID() (r uint32, exists bool) {
-	v := m.line_nft_id
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldLineNftID returns the old "line_nft_id" field's value of the LINENFT entity.
-// If the LINENFT object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *LINENFTMutation) OldLineNftID(ctx context.Context) (v uint32, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldLineNftID is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldLineNftID requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldLineNftID: %w", err)
-	}
-	return oldValue.LineNftID, nil
-}
-
-// AddLineNftID adds u to the "line_nft_id" field.
-func (m *LINENFTMutation) AddLineNftID(u int32) {
-	if m.addline_nft_id != nil {
-		*m.addline_nft_id += u
-	} else {
-		m.addline_nft_id = &u
-	}
-}
-
-// AddedLineNftID returns the value that was added to the "line_nft_id" field in this mutation.
-func (m *LINENFTMutation) AddedLineNftID() (r int32, exists bool) {
-	v := m.addline_nft_id
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// ResetLineNftID resets all changes to the "line_nft_id" field.
-func (m *LINENFTMutation) ResetLineNftID() {
-	m.line_nft_id = nil
-	m.addline_nft_id = nil
-}
-
-// SetContractID sets the "contract_id" field.
-func (m *LINENFTMutation) SetContractID(s string) {
-	m.contract_id = &s
-}
-
-// ContractID returns the value of the "contract_id" field in the mutation.
-func (m *LINENFTMutation) ContractID() (r string, exists bool) {
-	v := m.contract_id
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldContractID returns the old "contract_id" field's value of the LINENFT entity.
-// If the LINENFT object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *LINENFTMutation) OldContractID(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldContractID is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldContractID requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldContractID: %w", err)
-	}
-	return oldValue.ContractID, nil
-}
-
-// ResetContractID resets all changes to the "contract_id" field.
-func (m *LINENFTMutation) ResetContractID() {
-	m.contract_id = nil
-}
-
-// SetTokenType sets the "token_type" field.
-func (m *LINENFTMutation) SetTokenType(s string) {
-	m.token_type = &s
-}
-
-// TokenType returns the value of the "token_type" field in the mutation.
-func (m *LINENFTMutation) TokenType() (r string, exists bool) {
-	v := m.token_type
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldTokenType returns the old "token_type" field's value of the LINENFT entity.
-// If the LINENFT object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *LINENFTMutation) OldTokenType(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldTokenType is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldTokenType requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldTokenType: %w", err)
-	}
-	return oldValue.TokenType, nil
-}
-
-// ResetTokenType resets all changes to the "token_type" field.
-func (m *LINENFTMutation) ResetTokenType() {
-	m.token_type = nil
-}
-
-// SetTokenIndex sets the "token_index" field.
-func (m *LINENFTMutation) SetTokenIndex(s string) {
-	m.token_index = &s
-}
-
-// TokenIndex returns the value of the "token_index" field in the mutation.
-func (m *LINENFTMutation) TokenIndex() (r string, exists bool) {
-	v := m.token_index
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldTokenIndex returns the old "token_index" field's value of the LINENFT entity.
-// If the LINENFT object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *LINENFTMutation) OldTokenIndex(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldTokenIndex is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldTokenIndex requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldTokenIndex: %w", err)
-	}
-	return oldValue.TokenIndex, nil
-}
-
-// ResetTokenIndex resets all changes to the "token_index" field.
-func (m *LINENFTMutation) ResetTokenIndex() {
-	m.token_index = nil
-}
-
-// SetTokenName sets the "token_name" field.
-func (m *LINENFTMutation) SetTokenName(s string) {
-	m.token_name = &s
-}
-
-// TokenName returns the value of the "token_name" field in the mutation.
-func (m *LINENFTMutation) TokenName() (r string, exists bool) {
-	v := m.token_name
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldTokenName returns the old "token_name" field's value of the LINENFT entity.
-// If the LINENFT object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *LINENFTMutation) OldTokenName(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldTokenName is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldTokenName requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldTokenName: %w", err)
-	}
-	return oldValue.TokenName, nil
-}
-
-// ResetTokenName resets all changes to the "token_name" field.
-func (m *LINENFTMutation) ResetTokenName() {
-	m.token_name = nil
-}
-
-// SetTokenDescription sets the "token_description" field.
-func (m *LINENFTMutation) SetTokenDescription(s string) {
-	m.token_description = &s
-}
-
-// TokenDescription returns the value of the "token_description" field in the mutation.
-func (m *LINENFTMutation) TokenDescription() (r string, exists bool) {
-	v := m.token_description
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldTokenDescription returns the old "token_description" field's value of the LINENFT entity.
-// If the LINENFT object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *LINENFTMutation) OldTokenDescription(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldTokenDescription is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldTokenDescription requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldTokenDescription: %w", err)
-	}
-	return oldValue.TokenDescription, nil
-}
-
-// ResetTokenDescription resets all changes to the "token_description" field.
-func (m *LINENFTMutation) ResetTokenDescription() {
-	m.token_description = nil
-}
-
-// SetTokenContentURL sets the "token_content_url" field.
-func (m *LINENFTMutation) SetTokenContentURL(s string) {
-	m.token_content_url = &s
-}
-
-// TokenContentURL returns the value of the "token_content_url" field in the mutation.
-func (m *LINENFTMutation) TokenContentURL() (r string, exists bool) {
-	v := m.token_content_url
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldTokenContentURL returns the old "token_content_url" field's value of the LINENFT entity.
-// If the LINENFT object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *LINENFTMutation) OldTokenContentURL(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldTokenContentURL is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldTokenContentURL requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldTokenContentURL: %w", err)
-	}
-	return oldValue.TokenContentURL, nil
-}
-
-// ResetTokenContentURL resets all changes to the "token_content_url" field.
-func (m *LINENFTMutation) ResetTokenContentURL() {
-	m.token_content_url = nil
-}
-
-// AddActivityIDs adds the "activities" edge to the LINENFTActivity entity by ids.
-func (m *LINENFTMutation) AddActivityIDs(ids ...uint32) {
-	if m.activities == nil {
-		m.activities = make(map[uint32]struct{})
-	}
-	for i := range ids {
-		m.activities[ids[i]] = struct{}{}
-	}
-}
-
-// ClearActivities clears the "activities" edge to the LINENFTActivity entity.
-func (m *LINENFTMutation) ClearActivities() {
-	m.clearedactivities = true
-}
-
-// ActivitiesCleared reports if the "activities" edge to the LINENFTActivity entity was cleared.
-func (m *LINENFTMutation) ActivitiesCleared() bool {
-	return m.clearedactivities
-}
-
-// RemoveActivityIDs removes the "activities" edge to the LINENFTActivity entity by IDs.
-func (m *LINENFTMutation) RemoveActivityIDs(ids ...uint32) {
-	if m.removedactivities == nil {
-		m.removedactivities = make(map[uint32]struct{})
-	}
-	for i := range ids {
-		delete(m.activities, ids[i])
-		m.removedactivities[ids[i]] = struct{}{}
-	}
-}
-
-// RemovedActivities returns the removed IDs of the "activities" edge to the LINENFTActivity entity.
-func (m *LINENFTMutation) RemovedActivitiesIDs() (ids []uint32) {
-	for id := range m.removedactivities {
-		ids = append(ids, id)
-	}
-	return
-}
-
-// ActivitiesIDs returns the "activities" edge IDs in the mutation.
-func (m *LINENFTMutation) ActivitiesIDs() (ids []uint32) {
-	for id := range m.activities {
-		ids = append(ids, id)
-	}
-	return
-}
-
-// ResetActivities resets all changes to the "activities" edge.
-func (m *LINENFTMutation) ResetActivities() {
-	m.activities = nil
-	m.clearedactivities = false
-	m.removedactivities = nil
-}
-
-// SetMillionArthursPropertyID sets the "million_arthurs_property" edge to the LINENFTMillionArthursProperty entity by id.
-func (m *LINENFTMutation) SetMillionArthursPropertyID(id uint32) {
-	m.million_arthurs_property = &id
-}
-
-// ClearMillionArthursProperty clears the "million_arthurs_property" edge to the LINENFTMillionArthursProperty entity.
-func (m *LINENFTMutation) ClearMillionArthursProperty() {
-	m.clearedmillion_arthurs_property = true
-}
-
-// MillionArthursPropertyCleared reports if the "million_arthurs_property" edge to the LINENFTMillionArthursProperty entity was cleared.
-func (m *LINENFTMutation) MillionArthursPropertyCleared() bool {
-	return m.clearedmillion_arthurs_property
-}
-
-// MillionArthursPropertyID returns the "million_arthurs_property" edge ID in the mutation.
-func (m *LINENFTMutation) MillionArthursPropertyID() (id uint32, exists bool) {
-	if m.million_arthurs_property != nil {
-		return *m.million_arthurs_property, true
-	}
-	return
-}
-
-// MillionArthursPropertyIDs returns the "million_arthurs_property" edge IDs in the mutation.
-// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
-// MillionArthursPropertyID instead. It exists only for internal usage by the builders.
-func (m *LINENFTMutation) MillionArthursPropertyIDs() (ids []uint32) {
-	if id := m.million_arthurs_property; id != nil {
-		ids = append(ids, *id)
-	}
-	return
-}
-
-// ResetMillionArthursProperty resets all changes to the "million_arthurs_property" edge.
-func (m *LINENFTMutation) ResetMillionArthursProperty() {
-	m.million_arthurs_property = nil
-	m.clearedmillion_arthurs_property = false
-}
-
-// Where appends a list predicates to the LINENFTMutation builder.
-func (m *LINENFTMutation) Where(ps ...predicate.LINENFT) {
-	m.predicates = append(m.predicates, ps...)
-}
-
-// WhereP appends storage-level predicates to the LINENFTMutation builder. Using this method,
-// users can use type-assertion to append predicates that do not depend on any generated package.
-func (m *LINENFTMutation) WhereP(ps ...func(*sql.Selector)) {
-	p := make([]predicate.LINENFT, len(ps))
-	for i := range ps {
-		p[i] = ps[i]
-	}
-	m.Where(p...)
-}
-
-// Op returns the operation name.
-func (m *LINENFTMutation) Op() Op {
-	return m.op
-}
-
-// SetOp allows setting the mutation operation.
-func (m *LINENFTMutation) SetOp(op Op) {
-	m.op = op
-}
-
-// Type returns the node type of this mutation (LINENFT).
-func (m *LINENFTMutation) Type() string {
-	return m.typ
-}
-
-// Fields returns all fields that were changed during this mutation. Note that in
-// order to get all numeric fields that were incremented/decremented, call
-// AddedFields().
-func (m *LINENFTMutation) Fields() []string {
-	fields := make([]string, 0, 10)
-	if m.created_at != nil {
-		fields = append(fields, linenft.FieldCreatedAt)
-	}
-	if m.updated_at != nil {
-		fields = append(fields, linenft.FieldUpdatedAt)
-	}
-	if m.deleted_at != nil {
-		fields = append(fields, linenft.FieldDeletedAt)
-	}
-	if m.line_nft_id != nil {
-		fields = append(fields, linenft.FieldLineNftID)
-	}
-	if m.contract_id != nil {
-		fields = append(fields, linenft.FieldContractID)
-	}
-	if m.token_type != nil {
-		fields = append(fields, linenft.FieldTokenType)
-	}
-	if m.token_index != nil {
-		fields = append(fields, linenft.FieldTokenIndex)
-	}
-	if m.token_name != nil {
-		fields = append(fields, linenft.FieldTokenName)
-	}
-	if m.token_description != nil {
-		fields = append(fields, linenft.FieldTokenDescription)
-	}
-	if m.token_content_url != nil {
-		fields = append(fields, linenft.FieldTokenContentURL)
-	}
-	return fields
-}
-
-// Field returns the value of a field with the given name. The second boolean
-// return value indicates that this field was not set, or was not defined in the
-// schema.
-func (m *LINENFTMutation) Field(name string) (ent.Value, bool) {
-	switch name {
-	case linenft.FieldCreatedAt:
-		return m.CreatedAt()
-	case linenft.FieldUpdatedAt:
-		return m.UpdatedAt()
-	case linenft.FieldDeletedAt:
-		return m.DeletedAt()
-	case linenft.FieldLineNftID:
-		return m.LineNftID()
-	case linenft.FieldContractID:
-		return m.ContractID()
-	case linenft.FieldTokenType:
-		return m.TokenType()
-	case linenft.FieldTokenIndex:
-		return m.TokenIndex()
-	case linenft.FieldTokenName:
-		return m.TokenName()
-	case linenft.FieldTokenDescription:
-		return m.TokenDescription()
-	case linenft.FieldTokenContentURL:
-		return m.TokenContentURL()
-	}
-	return nil, false
-}
-
-// OldField returns the old value of the field from the database. An error is
-// returned if the mutation operation is not UpdateOne, or the query to the
-// database failed.
-func (m *LINENFTMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
-	switch name {
-	case linenft.FieldCreatedAt:
-		return m.OldCreatedAt(ctx)
-	case linenft.FieldUpdatedAt:
-		return m.OldUpdatedAt(ctx)
-	case linenft.FieldDeletedAt:
-		return m.OldDeletedAt(ctx)
-	case linenft.FieldLineNftID:
-		return m.OldLineNftID(ctx)
-	case linenft.FieldContractID:
-		return m.OldContractID(ctx)
-	case linenft.FieldTokenType:
-		return m.OldTokenType(ctx)
-	case linenft.FieldTokenIndex:
-		return m.OldTokenIndex(ctx)
-	case linenft.FieldTokenName:
-		return m.OldTokenName(ctx)
-	case linenft.FieldTokenDescription:
-		return m.OldTokenDescription(ctx)
-	case linenft.FieldTokenContentURL:
-		return m.OldTokenContentURL(ctx)
-	}
-	return nil, fmt.Errorf("unknown LINENFT field %s", name)
-}
-
-// SetField sets the value of a field with the given name. It returns an error if
-// the field is not defined in the schema, or if the type mismatched the field
-// type.
-func (m *LINENFTMutation) SetField(name string, value ent.Value) error {
-	switch name {
-	case linenft.FieldCreatedAt:
-		v, ok := value.(time.Time)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetCreatedAt(v)
-		return nil
-	case linenft.FieldUpdatedAt:
-		v, ok := value.(time.Time)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetUpdatedAt(v)
-		return nil
-	case linenft.FieldDeletedAt:
-		v, ok := value.(time.Time)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetDeletedAt(v)
-		return nil
-	case linenft.FieldLineNftID:
-		v, ok := value.(uint32)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetLineNftID(v)
-		return nil
-	case linenft.FieldContractID:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetContractID(v)
-		return nil
-	case linenft.FieldTokenType:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetTokenType(v)
-		return nil
-	case linenft.FieldTokenIndex:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetTokenIndex(v)
-		return nil
-	case linenft.FieldTokenName:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetTokenName(v)
-		return nil
-	case linenft.FieldTokenDescription:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetTokenDescription(v)
-		return nil
-	case linenft.FieldTokenContentURL:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetTokenContentURL(v)
-		return nil
-	}
-	return fmt.Errorf("unknown LINENFT field %s", name)
-}
-
-// AddedFields returns all numeric fields that were incremented/decremented during
-// this mutation.
-func (m *LINENFTMutation) AddedFields() []string {
-	var fields []string
-	if m.addline_nft_id != nil {
-		fields = append(fields, linenft.FieldLineNftID)
-	}
-	return fields
-}
-
-// AddedField returns the numeric value that was incremented/decremented on a field
-// with the given name. The second boolean return value indicates that this field
-// was not set, or was not defined in the schema.
-func (m *LINENFTMutation) AddedField(name string) (ent.Value, bool) {
-	switch name {
-	case linenft.FieldLineNftID:
-		return m.AddedLineNftID()
-	}
-	return nil, false
-}
-
-// AddField adds the value to the field with the given name. It returns an error if
-// the field is not defined in the schema, or if the type mismatched the field
-// type.
-func (m *LINENFTMutation) AddField(name string, value ent.Value) error {
-	switch name {
-	case linenft.FieldLineNftID:
-		v, ok := value.(int32)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddLineNftID(v)
-		return nil
-	}
-	return fmt.Errorf("unknown LINENFT numeric field %s", name)
-}
-
-// ClearedFields returns all nullable fields that were cleared during this
-// mutation.
-func (m *LINENFTMutation) ClearedFields() []string {
-	var fields []string
-	if m.FieldCleared(linenft.FieldDeletedAt) {
-		fields = append(fields, linenft.FieldDeletedAt)
-	}
-	return fields
-}
-
-// FieldCleared returns a boolean indicating if a field with the given name was
-// cleared in this mutation.
-func (m *LINENFTMutation) FieldCleared(name string) bool {
-	_, ok := m.clearedFields[name]
-	return ok
-}
-
-// ClearField clears the value of the field with the given name. It returns an
-// error if the field is not defined in the schema.
-func (m *LINENFTMutation) ClearField(name string) error {
-	switch name {
-	case linenft.FieldDeletedAt:
-		m.ClearDeletedAt()
-		return nil
-	}
-	return fmt.Errorf("unknown LINENFT nullable field %s", name)
-}
-
-// ResetField resets all changes in the mutation for the field with the given name.
-// It returns an error if the field is not defined in the schema.
-func (m *LINENFTMutation) ResetField(name string) error {
-	switch name {
-	case linenft.FieldCreatedAt:
-		m.ResetCreatedAt()
-		return nil
-	case linenft.FieldUpdatedAt:
-		m.ResetUpdatedAt()
-		return nil
-	case linenft.FieldDeletedAt:
-		m.ResetDeletedAt()
-		return nil
-	case linenft.FieldLineNftID:
-		m.ResetLineNftID()
-		return nil
-	case linenft.FieldContractID:
-		m.ResetContractID()
-		return nil
-	case linenft.FieldTokenType:
-		m.ResetTokenType()
-		return nil
-	case linenft.FieldTokenIndex:
-		m.ResetTokenIndex()
-		return nil
-	case linenft.FieldTokenName:
-		m.ResetTokenName()
-		return nil
-	case linenft.FieldTokenDescription:
-		m.ResetTokenDescription()
-		return nil
-	case linenft.FieldTokenContentURL:
-		m.ResetTokenContentURL()
-		return nil
-	}
-	return fmt.Errorf("unknown LINENFT field %s", name)
-}
-
-// AddedEdges returns all edge names that were set/added in this mutation.
-func (m *LINENFTMutation) AddedEdges() []string {
-	edges := make([]string, 0, 2)
-	if m.activities != nil {
-		edges = append(edges, linenft.EdgeActivities)
-	}
-	if m.million_arthurs_property != nil {
-		edges = append(edges, linenft.EdgeMillionArthursProperty)
-	}
-	return edges
-}
-
-// AddedIDs returns all IDs (to other nodes) that were added for the given edge
-// name in this mutation.
-func (m *LINENFTMutation) AddedIDs(name string) []ent.Value {
-	switch name {
-	case linenft.EdgeActivities:
-		ids := make([]ent.Value, 0, len(m.activities))
-		for id := range m.activities {
-			ids = append(ids, id)
-		}
-		return ids
-	case linenft.EdgeMillionArthursProperty:
-		if id := m.million_arthurs_property; id != nil {
-			return []ent.Value{*id}
-		}
-	}
-	return nil
-}
-
-// RemovedEdges returns all edge names that were removed in this mutation.
-func (m *LINENFTMutation) RemovedEdges() []string {
-	edges := make([]string, 0, 2)
-	if m.removedactivities != nil {
-		edges = append(edges, linenft.EdgeActivities)
-	}
-	return edges
-}
-
-// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
-// the given name in this mutation.
-func (m *LINENFTMutation) RemovedIDs(name string) []ent.Value {
-	switch name {
-	case linenft.EdgeActivities:
-		ids := make([]ent.Value, 0, len(m.removedactivities))
-		for id := range m.removedactivities {
-			ids = append(ids, id)
-		}
-		return ids
-	}
-	return nil
-}
-
-// ClearedEdges returns all edge names that were cleared in this mutation.
-func (m *LINENFTMutation) ClearedEdges() []string {
-	edges := make([]string, 0, 2)
-	if m.clearedactivities {
-		edges = append(edges, linenft.EdgeActivities)
-	}
-	if m.clearedmillion_arthurs_property {
-		edges = append(edges, linenft.EdgeMillionArthursProperty)
-	}
-	return edges
-}
-
-// EdgeCleared returns a boolean which indicates if the edge with the given name
-// was cleared in this mutation.
-func (m *LINENFTMutation) EdgeCleared(name string) bool {
-	switch name {
-	case linenft.EdgeActivities:
-		return m.clearedactivities
-	case linenft.EdgeMillionArthursProperty:
-		return m.clearedmillion_arthurs_property
-	}
-	return false
-}
-
-// ClearEdge clears the value of the edge with the given name. It returns an error
-// if that edge is not defined in the schema.
-func (m *LINENFTMutation) ClearEdge(name string) error {
-	switch name {
-	case linenft.EdgeMillionArthursProperty:
-		m.ClearMillionArthursProperty()
-		return nil
-	}
-	return fmt.Errorf("unknown LINENFT unique edge %s", name)
-}
-
-// ResetEdge resets all changes to the edge with the given name in this mutation.
-// It returns an error if the edge is not defined in the schema.
-func (m *LINENFTMutation) ResetEdge(name string) error {
-	switch name {
-	case linenft.EdgeActivities:
-		m.ResetActivities()
-		return nil
-	case linenft.EdgeMillionArthursProperty:
-		m.ResetMillionArthursProperty()
-		return nil
-	}
-	return fmt.Errorf("unknown LINENFT edge %s", name)
-}
-
-// LINENFTActivityMutation represents an operation that mutates the LINENFTActivity nodes in the graph.
-type LINENFTActivityMutation struct {
-	config
-	op              Op
-	typ             string
-	id              *uint32
-	created_at      *time.Time
-	updated_at      *time.Time
-	deleted_at      *time.Time
-	activity_type   *string
-	sale_id         *uint32
-	addsale_id      *int32
-	sale_type       *string
-	currency_type   *string
-	price           *float32
-	addprice        *float32
-	activated_at    *time.Time
-	clearedFields   map[string]struct{}
-	line_nft        *uint32
-	clearedline_nft bool
-	done            bool
-	oldValue        func(context.Context) (*LINENFTActivity, error)
-	predicates      []predicate.LINENFTActivity
-}
-
-var _ ent.Mutation = (*LINENFTActivityMutation)(nil)
-
-// linenftactivityOption allows management of the mutation configuration using functional options.
-type linenftactivityOption func(*LINENFTActivityMutation)
-
-// newLINENFTActivityMutation creates new mutation for the LINENFTActivity entity.
-func newLINENFTActivityMutation(c config, op Op, opts ...linenftactivityOption) *LINENFTActivityMutation {
-	m := &LINENFTActivityMutation{
-		config:        c,
-		op:            op,
-		typ:           TypeLINENFTActivity,
-		clearedFields: make(map[string]struct{}),
-	}
-	for _, opt := range opts {
-		opt(m)
-	}
-	return m
-}
-
-// withLINENFTActivityID sets the ID field of the mutation.
-func withLINENFTActivityID(id uint32) linenftactivityOption {
-	return func(m *LINENFTActivityMutation) {
-		var (
-			err   error
-			once  sync.Once
-			value *LINENFTActivity
-		)
-		m.oldValue = func(ctx context.Context) (*LINENFTActivity, error) {
-			once.Do(func() {
-				if m.done {
-					err = errors.New("querying old values post mutation is not allowed")
-				} else {
-					value, err = m.Client().LINENFTActivity.Get(ctx, id)
-				}
-			})
-			return value, err
-		}
-		m.id = &id
-	}
-}
-
-// withLINENFTActivity sets the old LINENFTActivity of the mutation.
-func withLINENFTActivity(node *LINENFTActivity) linenftactivityOption {
-	return func(m *LINENFTActivityMutation) {
-		m.oldValue = func(context.Context) (*LINENFTActivity, error) {
-			return node, nil
-		}
-		m.id = &node.ID
-	}
-}
-
-// Client returns a new `ent.Client` from the mutation. If the mutation was
-// executed in a transaction (ent.Tx), a transactional client is returned.
-func (m LINENFTActivityMutation) Client() *Client {
-	client := &Client{config: m.config}
-	client.init()
-	return client
-}
-
-// Tx returns an `ent.Tx` for mutations that were executed in transactions;
-// it returns an error otherwise.
-func (m LINENFTActivityMutation) Tx() (*Tx, error) {
-	if _, ok := m.driver.(*txDriver); !ok {
-		return nil, errors.New("ent: mutation is not running in a transaction")
-	}
-	tx := &Tx{config: m.config}
-	tx.init()
-	return tx, nil
-}
-
-// SetID sets the value of the id field. Note that this
-// operation is only accepted on creation of LINENFTActivity entities.
-func (m *LINENFTActivityMutation) SetID(id uint32) {
-	m.id = &id
-}
-
-// ID returns the ID value in the mutation. Note that the ID is only available
-// if it was provided to the builder or after it was returned from the database.
-func (m *LINENFTActivityMutation) ID() (id uint32, exists bool) {
-	if m.id == nil {
-		return
-	}
-	return *m.id, true
-}
-
-// IDs queries the database and returns the entity ids that match the mutation's predicate.
-// That means, if the mutation is applied within a transaction with an isolation level such
-// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
-// or updated by the mutation.
-func (m *LINENFTActivityMutation) IDs(ctx context.Context) ([]uint32, error) {
-	switch {
-	case m.op.Is(OpUpdateOne | OpDeleteOne):
-		id, exists := m.ID()
-		if exists {
-			return []uint32{id}, nil
-		}
-		fallthrough
-	case m.op.Is(OpUpdate | OpDelete):
-		return m.Client().LINENFTActivity.Query().Where(m.predicates...).IDs(ctx)
-	default:
-		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
-	}
-}
-
-// SetCreatedAt sets the "created_at" field.
-func (m *LINENFTActivityMutation) SetCreatedAt(t time.Time) {
-	m.created_at = &t
-}
-
-// CreatedAt returns the value of the "created_at" field in the mutation.
-func (m *LINENFTActivityMutation) CreatedAt() (r time.Time, exists bool) {
-	v := m.created_at
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldCreatedAt returns the old "created_at" field's value of the LINENFTActivity entity.
-// If the LINENFTActivity object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *LINENFTActivityMutation) OldCreatedAt(ctx context.Context) (v time.Time, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldCreatedAt is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldCreatedAt requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldCreatedAt: %w", err)
-	}
-	return oldValue.CreatedAt, nil
-}
-
-// ResetCreatedAt resets all changes to the "created_at" field.
-func (m *LINENFTActivityMutation) ResetCreatedAt() {
-	m.created_at = nil
-}
-
-// SetUpdatedAt sets the "updated_at" field.
-func (m *LINENFTActivityMutation) SetUpdatedAt(t time.Time) {
-	m.updated_at = &t
-}
-
-// UpdatedAt returns the value of the "updated_at" field in the mutation.
-func (m *LINENFTActivityMutation) UpdatedAt() (r time.Time, exists bool) {
-	v := m.updated_at
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldUpdatedAt returns the old "updated_at" field's value of the LINENFTActivity entity.
-// If the LINENFTActivity object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *LINENFTActivityMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldUpdatedAt is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldUpdatedAt requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldUpdatedAt: %w", err)
-	}
-	return oldValue.UpdatedAt, nil
-}
-
-// ResetUpdatedAt resets all changes to the "updated_at" field.
-func (m *LINENFTActivityMutation) ResetUpdatedAt() {
-	m.updated_at = nil
-}
-
-// SetDeletedAt sets the "deleted_at" field.
-func (m *LINENFTActivityMutation) SetDeletedAt(t time.Time) {
-	m.deleted_at = &t
-}
-
-// DeletedAt returns the value of the "deleted_at" field in the mutation.
-func (m *LINENFTActivityMutation) DeletedAt() (r time.Time, exists bool) {
-	v := m.deleted_at
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldDeletedAt returns the old "deleted_at" field's value of the LINENFTActivity entity.
-// If the LINENFTActivity object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *LINENFTActivityMutation) OldDeletedAt(ctx context.Context) (v *time.Time, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldDeletedAt is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldDeletedAt requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldDeletedAt: %w", err)
-	}
-	return oldValue.DeletedAt, nil
-}
-
-// ClearDeletedAt clears the value of the "deleted_at" field.
-func (m *LINENFTActivityMutation) ClearDeletedAt() {
-	m.deleted_at = nil
-	m.clearedFields[linenftactivity.FieldDeletedAt] = struct{}{}
-}
-
-// DeletedAtCleared returns if the "deleted_at" field was cleared in this mutation.
-func (m *LINENFTActivityMutation) DeletedAtCleared() bool {
-	_, ok := m.clearedFields[linenftactivity.FieldDeletedAt]
-	return ok
-}
-
-// ResetDeletedAt resets all changes to the "deleted_at" field.
-func (m *LINENFTActivityMutation) ResetDeletedAt() {
-	m.deleted_at = nil
-	delete(m.clearedFields, linenftactivity.FieldDeletedAt)
-}
-
-// SetActivityType sets the "activity_type" field.
-func (m *LINENFTActivityMutation) SetActivityType(s string) {
-	m.activity_type = &s
-}
-
-// ActivityType returns the value of the "activity_type" field in the mutation.
-func (m *LINENFTActivityMutation) ActivityType() (r string, exists bool) {
-	v := m.activity_type
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldActivityType returns the old "activity_type" field's value of the LINENFTActivity entity.
-// If the LINENFTActivity object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *LINENFTActivityMutation) OldActivityType(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldActivityType is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldActivityType requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldActivityType: %w", err)
-	}
-	return oldValue.ActivityType, nil
-}
-
-// ResetActivityType resets all changes to the "activity_type" field.
-func (m *LINENFTActivityMutation) ResetActivityType() {
-	m.activity_type = nil
-}
-
-// SetSaleID sets the "sale_id" field.
-func (m *LINENFTActivityMutation) SetSaleID(u uint32) {
-	m.sale_id = &u
-	m.addsale_id = nil
-}
-
-// SaleID returns the value of the "sale_id" field in the mutation.
-func (m *LINENFTActivityMutation) SaleID() (r uint32, exists bool) {
-	v := m.sale_id
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldSaleID returns the old "sale_id" field's value of the LINENFTActivity entity.
-// If the LINENFTActivity object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *LINENFTActivityMutation) OldSaleID(ctx context.Context) (v uint32, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldSaleID is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldSaleID requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldSaleID: %w", err)
-	}
-	return oldValue.SaleID, nil
-}
-
-// AddSaleID adds u to the "sale_id" field.
-func (m *LINENFTActivityMutation) AddSaleID(u int32) {
-	if m.addsale_id != nil {
-		*m.addsale_id += u
-	} else {
-		m.addsale_id = &u
-	}
-}
-
-// AddedSaleID returns the value that was added to the "sale_id" field in this mutation.
-func (m *LINENFTActivityMutation) AddedSaleID() (r int32, exists bool) {
-	v := m.addsale_id
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// ResetSaleID resets all changes to the "sale_id" field.
-func (m *LINENFTActivityMutation) ResetSaleID() {
-	m.sale_id = nil
-	m.addsale_id = nil
-}
-
-// SetSaleType sets the "sale_type" field.
-func (m *LINENFTActivityMutation) SetSaleType(s string) {
-	m.sale_type = &s
-}
-
-// SaleType returns the value of the "sale_type" field in the mutation.
-func (m *LINENFTActivityMutation) SaleType() (r string, exists bool) {
-	v := m.sale_type
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldSaleType returns the old "sale_type" field's value of the LINENFTActivity entity.
-// If the LINENFTActivity object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *LINENFTActivityMutation) OldSaleType(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldSaleType is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldSaleType requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldSaleType: %w", err)
-	}
-	return oldValue.SaleType, nil
-}
-
-// ResetSaleType resets all changes to the "sale_type" field.
-func (m *LINENFTActivityMutation) ResetSaleType() {
-	m.sale_type = nil
-}
-
-// SetCurrencyType sets the "currency_type" field.
-func (m *LINENFTActivityMutation) SetCurrencyType(s string) {
-	m.currency_type = &s
-}
-
-// CurrencyType returns the value of the "currency_type" field in the mutation.
-func (m *LINENFTActivityMutation) CurrencyType() (r string, exists bool) {
-	v := m.currency_type
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldCurrencyType returns the old "currency_type" field's value of the LINENFTActivity entity.
-// If the LINENFTActivity object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *LINENFTActivityMutation) OldCurrencyType(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldCurrencyType is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldCurrencyType requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldCurrencyType: %w", err)
-	}
-	return oldValue.CurrencyType, nil
-}
-
-// ResetCurrencyType resets all changes to the "currency_type" field.
-func (m *LINENFTActivityMutation) ResetCurrencyType() {
-	m.currency_type = nil
-}
-
-// SetPrice sets the "price" field.
-func (m *LINENFTActivityMutation) SetPrice(f float32) {
-	m.price = &f
-	m.addprice = nil
-}
-
-// Price returns the value of the "price" field in the mutation.
-func (m *LINENFTActivityMutation) Price() (r float32, exists bool) {
-	v := m.price
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldPrice returns the old "price" field's value of the LINENFTActivity entity.
-// If the LINENFTActivity object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *LINENFTActivityMutation) OldPrice(ctx context.Context) (v float32, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldPrice is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldPrice requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldPrice: %w", err)
-	}
-	return oldValue.Price, nil
-}
-
-// AddPrice adds f to the "price" field.
-func (m *LINENFTActivityMutation) AddPrice(f float32) {
-	if m.addprice != nil {
-		*m.addprice += f
-	} else {
-		m.addprice = &f
-	}
-}
-
-// AddedPrice returns the value that was added to the "price" field in this mutation.
-func (m *LINENFTActivityMutation) AddedPrice() (r float32, exists bool) {
-	v := m.addprice
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// ResetPrice resets all changes to the "price" field.
-func (m *LINENFTActivityMutation) ResetPrice() {
-	m.price = nil
-	m.addprice = nil
-}
-
-// SetActivatedAt sets the "activated_at" field.
-func (m *LINENFTActivityMutation) SetActivatedAt(t time.Time) {
-	m.activated_at = &t
-}
-
-// ActivatedAt returns the value of the "activated_at" field in the mutation.
-func (m *LINENFTActivityMutation) ActivatedAt() (r time.Time, exists bool) {
-	v := m.activated_at
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldActivatedAt returns the old "activated_at" field's value of the LINENFTActivity entity.
-// If the LINENFTActivity object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *LINENFTActivityMutation) OldActivatedAt(ctx context.Context) (v time.Time, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldActivatedAt is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldActivatedAt requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldActivatedAt: %w", err)
-	}
-	return oldValue.ActivatedAt, nil
-}
-
-// ResetActivatedAt resets all changes to the "activated_at" field.
-func (m *LINENFTActivityMutation) ResetActivatedAt() {
-	m.activated_at = nil
-}
-
-// SetLineNftID sets the "line_nft" edge to the LINENFT entity by id.
-func (m *LINENFTActivityMutation) SetLineNftID(id uint32) {
-	m.line_nft = &id
-}
-
-// ClearLineNft clears the "line_nft" edge to the LINENFT entity.
-func (m *LINENFTActivityMutation) ClearLineNft() {
-	m.clearedline_nft = true
-}
-
-// LineNftCleared reports if the "line_nft" edge to the LINENFT entity was cleared.
-func (m *LINENFTActivityMutation) LineNftCleared() bool {
-	return m.clearedline_nft
-}
-
-// LineNftID returns the "line_nft" edge ID in the mutation.
-func (m *LINENFTActivityMutation) LineNftID() (id uint32, exists bool) {
-	if m.line_nft != nil {
-		return *m.line_nft, true
-	}
-	return
-}
-
-// LineNftIDs returns the "line_nft" edge IDs in the mutation.
-// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
-// LineNftID instead. It exists only for internal usage by the builders.
-func (m *LINENFTActivityMutation) LineNftIDs() (ids []uint32) {
-	if id := m.line_nft; id != nil {
-		ids = append(ids, *id)
-	}
-	return
-}
-
-// ResetLineNft resets all changes to the "line_nft" edge.
-func (m *LINENFTActivityMutation) ResetLineNft() {
-	m.line_nft = nil
-	m.clearedline_nft = false
-}
-
-// Where appends a list predicates to the LINENFTActivityMutation builder.
-func (m *LINENFTActivityMutation) Where(ps ...predicate.LINENFTActivity) {
-	m.predicates = append(m.predicates, ps...)
-}
-
-// WhereP appends storage-level predicates to the LINENFTActivityMutation builder. Using this method,
-// users can use type-assertion to append predicates that do not depend on any generated package.
-func (m *LINENFTActivityMutation) WhereP(ps ...func(*sql.Selector)) {
-	p := make([]predicate.LINENFTActivity, len(ps))
-	for i := range ps {
-		p[i] = ps[i]
-	}
-	m.Where(p...)
-}
-
-// Op returns the operation name.
-func (m *LINENFTActivityMutation) Op() Op {
-	return m.op
-}
-
-// SetOp allows setting the mutation operation.
-func (m *LINENFTActivityMutation) SetOp(op Op) {
-	m.op = op
-}
-
-// Type returns the node type of this mutation (LINENFTActivity).
-func (m *LINENFTActivityMutation) Type() string {
-	return m.typ
-}
-
-// Fields returns all fields that were changed during this mutation. Note that in
-// order to get all numeric fields that were incremented/decremented, call
-// AddedFields().
-func (m *LINENFTActivityMutation) Fields() []string {
-	fields := make([]string, 0, 9)
-	if m.created_at != nil {
-		fields = append(fields, linenftactivity.FieldCreatedAt)
-	}
-	if m.updated_at != nil {
-		fields = append(fields, linenftactivity.FieldUpdatedAt)
-	}
-	if m.deleted_at != nil {
-		fields = append(fields, linenftactivity.FieldDeletedAt)
-	}
-	if m.activity_type != nil {
-		fields = append(fields, linenftactivity.FieldActivityType)
-	}
-	if m.sale_id != nil {
-		fields = append(fields, linenftactivity.FieldSaleID)
-	}
-	if m.sale_type != nil {
-		fields = append(fields, linenftactivity.FieldSaleType)
-	}
-	if m.currency_type != nil {
-		fields = append(fields, linenftactivity.FieldCurrencyType)
-	}
-	if m.price != nil {
-		fields = append(fields, linenftactivity.FieldPrice)
-	}
-	if m.activated_at != nil {
-		fields = append(fields, linenftactivity.FieldActivatedAt)
-	}
-	return fields
-}
-
-// Field returns the value of a field with the given name. The second boolean
-// return value indicates that this field was not set, or was not defined in the
-// schema.
-func (m *LINENFTActivityMutation) Field(name string) (ent.Value, bool) {
-	switch name {
-	case linenftactivity.FieldCreatedAt:
-		return m.CreatedAt()
-	case linenftactivity.FieldUpdatedAt:
-		return m.UpdatedAt()
-	case linenftactivity.FieldDeletedAt:
-		return m.DeletedAt()
-	case linenftactivity.FieldActivityType:
-		return m.ActivityType()
-	case linenftactivity.FieldSaleID:
-		return m.SaleID()
-	case linenftactivity.FieldSaleType:
-		return m.SaleType()
-	case linenftactivity.FieldCurrencyType:
-		return m.CurrencyType()
-	case linenftactivity.FieldPrice:
-		return m.Price()
-	case linenftactivity.FieldActivatedAt:
-		return m.ActivatedAt()
-	}
-	return nil, false
-}
-
-// OldField returns the old value of the field from the database. An error is
-// returned if the mutation operation is not UpdateOne, or the query to the
-// database failed.
-func (m *LINENFTActivityMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
-	switch name {
-	case linenftactivity.FieldCreatedAt:
-		return m.OldCreatedAt(ctx)
-	case linenftactivity.FieldUpdatedAt:
-		return m.OldUpdatedAt(ctx)
-	case linenftactivity.FieldDeletedAt:
-		return m.OldDeletedAt(ctx)
-	case linenftactivity.FieldActivityType:
-		return m.OldActivityType(ctx)
-	case linenftactivity.FieldSaleID:
-		return m.OldSaleID(ctx)
-	case linenftactivity.FieldSaleType:
-		return m.OldSaleType(ctx)
-	case linenftactivity.FieldCurrencyType:
-		return m.OldCurrencyType(ctx)
-	case linenftactivity.FieldPrice:
-		return m.OldPrice(ctx)
-	case linenftactivity.FieldActivatedAt:
-		return m.OldActivatedAt(ctx)
-	}
-	return nil, fmt.Errorf("unknown LINENFTActivity field %s", name)
-}
-
-// SetField sets the value of a field with the given name. It returns an error if
-// the field is not defined in the schema, or if the type mismatched the field
-// type.
-func (m *LINENFTActivityMutation) SetField(name string, value ent.Value) error {
-	switch name {
-	case linenftactivity.FieldCreatedAt:
-		v, ok := value.(time.Time)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetCreatedAt(v)
-		return nil
-	case linenftactivity.FieldUpdatedAt:
-		v, ok := value.(time.Time)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetUpdatedAt(v)
-		return nil
-	case linenftactivity.FieldDeletedAt:
-		v, ok := value.(time.Time)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetDeletedAt(v)
-		return nil
-	case linenftactivity.FieldActivityType:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetActivityType(v)
-		return nil
-	case linenftactivity.FieldSaleID:
-		v, ok := value.(uint32)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetSaleID(v)
-		return nil
-	case linenftactivity.FieldSaleType:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetSaleType(v)
-		return nil
-	case linenftactivity.FieldCurrencyType:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetCurrencyType(v)
-		return nil
-	case linenftactivity.FieldPrice:
-		v, ok := value.(float32)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetPrice(v)
-		return nil
-	case linenftactivity.FieldActivatedAt:
-		v, ok := value.(time.Time)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetActivatedAt(v)
-		return nil
-	}
-	return fmt.Errorf("unknown LINENFTActivity field %s", name)
-}
-
-// AddedFields returns all numeric fields that were incremented/decremented during
-// this mutation.
-func (m *LINENFTActivityMutation) AddedFields() []string {
-	var fields []string
-	if m.addsale_id != nil {
-		fields = append(fields, linenftactivity.FieldSaleID)
-	}
-	if m.addprice != nil {
-		fields = append(fields, linenftactivity.FieldPrice)
-	}
-	return fields
-}
-
-// AddedField returns the numeric value that was incremented/decremented on a field
-// with the given name. The second boolean return value indicates that this field
-// was not set, or was not defined in the schema.
-func (m *LINENFTActivityMutation) AddedField(name string) (ent.Value, bool) {
-	switch name {
-	case linenftactivity.FieldSaleID:
-		return m.AddedSaleID()
-	case linenftactivity.FieldPrice:
-		return m.AddedPrice()
-	}
-	return nil, false
-}
-
-// AddField adds the value to the field with the given name. It returns an error if
-// the field is not defined in the schema, or if the type mismatched the field
-// type.
-func (m *LINENFTActivityMutation) AddField(name string, value ent.Value) error {
-	switch name {
-	case linenftactivity.FieldSaleID:
-		v, ok := value.(int32)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddSaleID(v)
-		return nil
-	case linenftactivity.FieldPrice:
-		v, ok := value.(float32)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.AddPrice(v)
-		return nil
-	}
-	return fmt.Errorf("unknown LINENFTActivity numeric field %s", name)
-}
-
-// ClearedFields returns all nullable fields that were cleared during this
-// mutation.
-func (m *LINENFTActivityMutation) ClearedFields() []string {
-	var fields []string
-	if m.FieldCleared(linenftactivity.FieldDeletedAt) {
-		fields = append(fields, linenftactivity.FieldDeletedAt)
-	}
-	return fields
-}
-
-// FieldCleared returns a boolean indicating if a field with the given name was
-// cleared in this mutation.
-func (m *LINENFTActivityMutation) FieldCleared(name string) bool {
-	_, ok := m.clearedFields[name]
-	return ok
-}
-
-// ClearField clears the value of the field with the given name. It returns an
-// error if the field is not defined in the schema.
-func (m *LINENFTActivityMutation) ClearField(name string) error {
-	switch name {
-	case linenftactivity.FieldDeletedAt:
-		m.ClearDeletedAt()
-		return nil
-	}
-	return fmt.Errorf("unknown LINENFTActivity nullable field %s", name)
-}
-
-// ResetField resets all changes in the mutation for the field with the given name.
-// It returns an error if the field is not defined in the schema.
-func (m *LINENFTActivityMutation) ResetField(name string) error {
-	switch name {
-	case linenftactivity.FieldCreatedAt:
-		m.ResetCreatedAt()
-		return nil
-	case linenftactivity.FieldUpdatedAt:
-		m.ResetUpdatedAt()
-		return nil
-	case linenftactivity.FieldDeletedAt:
-		m.ResetDeletedAt()
-		return nil
-	case linenftactivity.FieldActivityType:
-		m.ResetActivityType()
-		return nil
-	case linenftactivity.FieldSaleID:
-		m.ResetSaleID()
-		return nil
-	case linenftactivity.FieldSaleType:
-		m.ResetSaleType()
-		return nil
-	case linenftactivity.FieldCurrencyType:
-		m.ResetCurrencyType()
-		return nil
-	case linenftactivity.FieldPrice:
-		m.ResetPrice()
-		return nil
-	case linenftactivity.FieldActivatedAt:
-		m.ResetActivatedAt()
-		return nil
-	}
-	return fmt.Errorf("unknown LINENFTActivity field %s", name)
-}
-
-// AddedEdges returns all edge names that were set/added in this mutation.
-func (m *LINENFTActivityMutation) AddedEdges() []string {
-	edges := make([]string, 0, 1)
-	if m.line_nft != nil {
-		edges = append(edges, linenftactivity.EdgeLineNft)
-	}
-	return edges
-}
-
-// AddedIDs returns all IDs (to other nodes) that were added for the given edge
-// name in this mutation.
-func (m *LINENFTActivityMutation) AddedIDs(name string) []ent.Value {
-	switch name {
-	case linenftactivity.EdgeLineNft:
-		if id := m.line_nft; id != nil {
-			return []ent.Value{*id}
-		}
-	}
-	return nil
-}
-
-// RemovedEdges returns all edge names that were removed in this mutation.
-func (m *LINENFTActivityMutation) RemovedEdges() []string {
-	edges := make([]string, 0, 1)
-	return edges
-}
-
-// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
-// the given name in this mutation.
-func (m *LINENFTActivityMutation) RemovedIDs(name string) []ent.Value {
-	return nil
-}
-
-// ClearedEdges returns all edge names that were cleared in this mutation.
-func (m *LINENFTActivityMutation) ClearedEdges() []string {
-	edges := make([]string, 0, 1)
-	if m.clearedline_nft {
-		edges = append(edges, linenftactivity.EdgeLineNft)
-	}
-	return edges
-}
-
-// EdgeCleared returns a boolean which indicates if the edge with the given name
-// was cleared in this mutation.
-func (m *LINENFTActivityMutation) EdgeCleared(name string) bool {
-	switch name {
-	case linenftactivity.EdgeLineNft:
-		return m.clearedline_nft
-	}
-	return false
-}
-
-// ClearEdge clears the value of the edge with the given name. It returns an error
-// if that edge is not defined in the schema.
-func (m *LINENFTActivityMutation) ClearEdge(name string) error {
-	switch name {
-	case linenftactivity.EdgeLineNft:
-		m.ClearLineNft()
-		return nil
-	}
-	return fmt.Errorf("unknown LINENFTActivity unique edge %s", name)
-}
-
-// ResetEdge resets all changes to the edge with the given name in this mutation.
-// It returns an error if the edge is not defined in the schema.
-func (m *LINENFTActivityMutation) ResetEdge(name string) error {
-	switch name {
-	case linenftactivity.EdgeLineNft:
-		m.ResetLineNft()
-		return nil
-	}
-	return fmt.Errorf("unknown LINENFTActivity edge %s", name)
-}
-
-// LINENFTMillionArthursPropertyMutation represents an operation that mutates the LINENFTMillionArthursProperty nodes in the graph.
-type LINENFTMillionArthursPropertyMutation struct {
-	config
-	op              Op
-	typ             string
-	id              *uint32
-	created_at      *time.Time
-	updated_at      *time.Time
-	deleted_at      *time.Time
-	series          *string
-	gear_category   *string
-	gear_rarity     *string
-	omj             *string
-	clearedFields   map[string]struct{}
-	line_nft        *uint32
-	clearedline_nft bool
-	done            bool
-	oldValue        func(context.Context) (*LINENFTMillionArthursProperty, error)
-	predicates      []predicate.LINENFTMillionArthursProperty
-}
-
-var _ ent.Mutation = (*LINENFTMillionArthursPropertyMutation)(nil)
-
-// linenftmillionarthurspropertyOption allows management of the mutation configuration using functional options.
-type linenftmillionarthurspropertyOption func(*LINENFTMillionArthursPropertyMutation)
-
-// newLINENFTMillionArthursPropertyMutation creates new mutation for the LINENFTMillionArthursProperty entity.
-func newLINENFTMillionArthursPropertyMutation(c config, op Op, opts ...linenftmillionarthurspropertyOption) *LINENFTMillionArthursPropertyMutation {
-	m := &LINENFTMillionArthursPropertyMutation{
-		config:        c,
-		op:            op,
-		typ:           TypeLINENFTMillionArthursProperty,
-		clearedFields: make(map[string]struct{}),
-	}
-	for _, opt := range opts {
-		opt(m)
-	}
-	return m
-}
-
-// withLINENFTMillionArthursPropertyID sets the ID field of the mutation.
-func withLINENFTMillionArthursPropertyID(id uint32) linenftmillionarthurspropertyOption {
-	return func(m *LINENFTMillionArthursPropertyMutation) {
-		var (
-			err   error
-			once  sync.Once
-			value *LINENFTMillionArthursProperty
-		)
-		m.oldValue = func(ctx context.Context) (*LINENFTMillionArthursProperty, error) {
-			once.Do(func() {
-				if m.done {
-					err = errors.New("querying old values post mutation is not allowed")
-				} else {
-					value, err = m.Client().LINENFTMillionArthursProperty.Get(ctx, id)
-				}
-			})
-			return value, err
-		}
-		m.id = &id
-	}
-}
-
-// withLINENFTMillionArthursProperty sets the old LINENFTMillionArthursProperty of the mutation.
-func withLINENFTMillionArthursProperty(node *LINENFTMillionArthursProperty) linenftmillionarthurspropertyOption {
-	return func(m *LINENFTMillionArthursPropertyMutation) {
-		m.oldValue = func(context.Context) (*LINENFTMillionArthursProperty, error) {
-			return node, nil
-		}
-		m.id = &node.ID
-	}
-}
-
-// Client returns a new `ent.Client` from the mutation. If the mutation was
-// executed in a transaction (ent.Tx), a transactional client is returned.
-func (m LINENFTMillionArthursPropertyMutation) Client() *Client {
-	client := &Client{config: m.config}
-	client.init()
-	return client
-}
-
-// Tx returns an `ent.Tx` for mutations that were executed in transactions;
-// it returns an error otherwise.
-func (m LINENFTMillionArthursPropertyMutation) Tx() (*Tx, error) {
-	if _, ok := m.driver.(*txDriver); !ok {
-		return nil, errors.New("ent: mutation is not running in a transaction")
-	}
-	tx := &Tx{config: m.config}
-	tx.init()
-	return tx, nil
-}
-
-// SetID sets the value of the id field. Note that this
-// operation is only accepted on creation of LINENFTMillionArthursProperty entities.
-func (m *LINENFTMillionArthursPropertyMutation) SetID(id uint32) {
-	m.id = &id
-}
-
-// ID returns the ID value in the mutation. Note that the ID is only available
-// if it was provided to the builder or after it was returned from the database.
-func (m *LINENFTMillionArthursPropertyMutation) ID() (id uint32, exists bool) {
-	if m.id == nil {
-		return
-	}
-	return *m.id, true
-}
-
-// IDs queries the database and returns the entity ids that match the mutation's predicate.
-// That means, if the mutation is applied within a transaction with an isolation level such
-// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
-// or updated by the mutation.
-func (m *LINENFTMillionArthursPropertyMutation) IDs(ctx context.Context) ([]uint32, error) {
-	switch {
-	case m.op.Is(OpUpdateOne | OpDeleteOne):
-		id, exists := m.ID()
-		if exists {
-			return []uint32{id}, nil
-		}
-		fallthrough
-	case m.op.Is(OpUpdate | OpDelete):
-		return m.Client().LINENFTMillionArthursProperty.Query().Where(m.predicates...).IDs(ctx)
-	default:
-		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
-	}
-}
-
-// SetCreatedAt sets the "created_at" field.
-func (m *LINENFTMillionArthursPropertyMutation) SetCreatedAt(t time.Time) {
-	m.created_at = &t
-}
-
-// CreatedAt returns the value of the "created_at" field in the mutation.
-func (m *LINENFTMillionArthursPropertyMutation) CreatedAt() (r time.Time, exists bool) {
-	v := m.created_at
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldCreatedAt returns the old "created_at" field's value of the LINENFTMillionArthursProperty entity.
-// If the LINENFTMillionArthursProperty object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *LINENFTMillionArthursPropertyMutation) OldCreatedAt(ctx context.Context) (v time.Time, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldCreatedAt is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldCreatedAt requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldCreatedAt: %w", err)
-	}
-	return oldValue.CreatedAt, nil
-}
-
-// ResetCreatedAt resets all changes to the "created_at" field.
-func (m *LINENFTMillionArthursPropertyMutation) ResetCreatedAt() {
-	m.created_at = nil
-}
-
-// SetUpdatedAt sets the "updated_at" field.
-func (m *LINENFTMillionArthursPropertyMutation) SetUpdatedAt(t time.Time) {
-	m.updated_at = &t
-}
-
-// UpdatedAt returns the value of the "updated_at" field in the mutation.
-func (m *LINENFTMillionArthursPropertyMutation) UpdatedAt() (r time.Time, exists bool) {
-	v := m.updated_at
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldUpdatedAt returns the old "updated_at" field's value of the LINENFTMillionArthursProperty entity.
-// If the LINENFTMillionArthursProperty object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *LINENFTMillionArthursPropertyMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldUpdatedAt is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldUpdatedAt requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldUpdatedAt: %w", err)
-	}
-	return oldValue.UpdatedAt, nil
-}
-
-// ResetUpdatedAt resets all changes to the "updated_at" field.
-func (m *LINENFTMillionArthursPropertyMutation) ResetUpdatedAt() {
-	m.updated_at = nil
-}
-
-// SetDeletedAt sets the "deleted_at" field.
-func (m *LINENFTMillionArthursPropertyMutation) SetDeletedAt(t time.Time) {
-	m.deleted_at = &t
-}
-
-// DeletedAt returns the value of the "deleted_at" field in the mutation.
-func (m *LINENFTMillionArthursPropertyMutation) DeletedAt() (r time.Time, exists bool) {
-	v := m.deleted_at
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldDeletedAt returns the old "deleted_at" field's value of the LINENFTMillionArthursProperty entity.
-// If the LINENFTMillionArthursProperty object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *LINENFTMillionArthursPropertyMutation) OldDeletedAt(ctx context.Context) (v *time.Time, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldDeletedAt is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldDeletedAt requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldDeletedAt: %w", err)
-	}
-	return oldValue.DeletedAt, nil
-}
-
-// ClearDeletedAt clears the value of the "deleted_at" field.
-func (m *LINENFTMillionArthursPropertyMutation) ClearDeletedAt() {
-	m.deleted_at = nil
-	m.clearedFields[linenftmillionarthursproperty.FieldDeletedAt] = struct{}{}
-}
-
-// DeletedAtCleared returns if the "deleted_at" field was cleared in this mutation.
-func (m *LINENFTMillionArthursPropertyMutation) DeletedAtCleared() bool {
-	_, ok := m.clearedFields[linenftmillionarthursproperty.FieldDeletedAt]
-	return ok
-}
-
-// ResetDeletedAt resets all changes to the "deleted_at" field.
-func (m *LINENFTMillionArthursPropertyMutation) ResetDeletedAt() {
-	m.deleted_at = nil
-	delete(m.clearedFields, linenftmillionarthursproperty.FieldDeletedAt)
-}
-
-// SetSeries sets the "series" field.
-func (m *LINENFTMillionArthursPropertyMutation) SetSeries(s string) {
-	m.series = &s
-}
-
-// Series returns the value of the "series" field in the mutation.
-func (m *LINENFTMillionArthursPropertyMutation) Series() (r string, exists bool) {
-	v := m.series
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldSeries returns the old "series" field's value of the LINENFTMillionArthursProperty entity.
-// If the LINENFTMillionArthursProperty object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *LINENFTMillionArthursPropertyMutation) OldSeries(ctx context.Context) (v *string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldSeries is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldSeries requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldSeries: %w", err)
-	}
-	return oldValue.Series, nil
-}
-
-// ClearSeries clears the value of the "series" field.
-func (m *LINENFTMillionArthursPropertyMutation) ClearSeries() {
-	m.series = nil
-	m.clearedFields[linenftmillionarthursproperty.FieldSeries] = struct{}{}
-}
-
-// SeriesCleared returns if the "series" field was cleared in this mutation.
-func (m *LINENFTMillionArthursPropertyMutation) SeriesCleared() bool {
-	_, ok := m.clearedFields[linenftmillionarthursproperty.FieldSeries]
-	return ok
-}
-
-// ResetSeries resets all changes to the "series" field.
-func (m *LINENFTMillionArthursPropertyMutation) ResetSeries() {
-	m.series = nil
-	delete(m.clearedFields, linenftmillionarthursproperty.FieldSeries)
-}
-
-// SetGearCategory sets the "gear_category" field.
-func (m *LINENFTMillionArthursPropertyMutation) SetGearCategory(s string) {
-	m.gear_category = &s
-}
-
-// GearCategory returns the value of the "gear_category" field in the mutation.
-func (m *LINENFTMillionArthursPropertyMutation) GearCategory() (r string, exists bool) {
-	v := m.gear_category
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldGearCategory returns the old "gear_category" field's value of the LINENFTMillionArthursProperty entity.
-// If the LINENFTMillionArthursProperty object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *LINENFTMillionArthursPropertyMutation) OldGearCategory(ctx context.Context) (v *string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldGearCategory is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldGearCategory requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldGearCategory: %w", err)
-	}
-	return oldValue.GearCategory, nil
-}
-
-// ClearGearCategory clears the value of the "gear_category" field.
-func (m *LINENFTMillionArthursPropertyMutation) ClearGearCategory() {
-	m.gear_category = nil
-	m.clearedFields[linenftmillionarthursproperty.FieldGearCategory] = struct{}{}
-}
-
-// GearCategoryCleared returns if the "gear_category" field was cleared in this mutation.
-func (m *LINENFTMillionArthursPropertyMutation) GearCategoryCleared() bool {
-	_, ok := m.clearedFields[linenftmillionarthursproperty.FieldGearCategory]
-	return ok
-}
-
-// ResetGearCategory resets all changes to the "gear_category" field.
-func (m *LINENFTMillionArthursPropertyMutation) ResetGearCategory() {
-	m.gear_category = nil
-	delete(m.clearedFields, linenftmillionarthursproperty.FieldGearCategory)
-}
-
-// SetGearRarity sets the "gear_rarity" field.
-func (m *LINENFTMillionArthursPropertyMutation) SetGearRarity(s string) {
-	m.gear_rarity = &s
-}
-
-// GearRarity returns the value of the "gear_rarity" field in the mutation.
-func (m *LINENFTMillionArthursPropertyMutation) GearRarity() (r string, exists bool) {
-	v := m.gear_rarity
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldGearRarity returns the old "gear_rarity" field's value of the LINENFTMillionArthursProperty entity.
-// If the LINENFTMillionArthursProperty object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *LINENFTMillionArthursPropertyMutation) OldGearRarity(ctx context.Context) (v *string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldGearRarity is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldGearRarity requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldGearRarity: %w", err)
-	}
-	return oldValue.GearRarity, nil
-}
-
-// ClearGearRarity clears the value of the "gear_rarity" field.
-func (m *LINENFTMillionArthursPropertyMutation) ClearGearRarity() {
-	m.gear_rarity = nil
-	m.clearedFields[linenftmillionarthursproperty.FieldGearRarity] = struct{}{}
-}
-
-// GearRarityCleared returns if the "gear_rarity" field was cleared in this mutation.
-func (m *LINENFTMillionArthursPropertyMutation) GearRarityCleared() bool {
-	_, ok := m.clearedFields[linenftmillionarthursproperty.FieldGearRarity]
-	return ok
-}
-
-// ResetGearRarity resets all changes to the "gear_rarity" field.
-func (m *LINENFTMillionArthursPropertyMutation) ResetGearRarity() {
-	m.gear_rarity = nil
-	delete(m.clearedFields, linenftmillionarthursproperty.FieldGearRarity)
-}
-
-// SetOmj sets the "omj" field.
-func (m *LINENFTMillionArthursPropertyMutation) SetOmj(s string) {
-	m.omj = &s
-}
-
-// Omj returns the value of the "omj" field in the mutation.
-func (m *LINENFTMillionArthursPropertyMutation) Omj() (r string, exists bool) {
-	v := m.omj
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldOmj returns the old "omj" field's value of the LINENFTMillionArthursProperty entity.
-// If the LINENFTMillionArthursProperty object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *LINENFTMillionArthursPropertyMutation) OldOmj(ctx context.Context) (v *string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldOmj is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldOmj requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldOmj: %w", err)
-	}
-	return oldValue.Omj, nil
-}
-
-// ClearOmj clears the value of the "omj" field.
-func (m *LINENFTMillionArthursPropertyMutation) ClearOmj() {
-	m.omj = nil
-	m.clearedFields[linenftmillionarthursproperty.FieldOmj] = struct{}{}
-}
-
-// OmjCleared returns if the "omj" field was cleared in this mutation.
-func (m *LINENFTMillionArthursPropertyMutation) OmjCleared() bool {
-	_, ok := m.clearedFields[linenftmillionarthursproperty.FieldOmj]
-	return ok
-}
-
-// ResetOmj resets all changes to the "omj" field.
-func (m *LINENFTMillionArthursPropertyMutation) ResetOmj() {
-	m.omj = nil
-	delete(m.clearedFields, linenftmillionarthursproperty.FieldOmj)
-}
-
-// SetLineNftID sets the "line_nft" edge to the LINENFT entity by id.
-func (m *LINENFTMillionArthursPropertyMutation) SetLineNftID(id uint32) {
-	m.line_nft = &id
-}
-
-// ClearLineNft clears the "line_nft" edge to the LINENFT entity.
-func (m *LINENFTMillionArthursPropertyMutation) ClearLineNft() {
-	m.clearedline_nft = true
-}
-
-// LineNftCleared reports if the "line_nft" edge to the LINENFT entity was cleared.
-func (m *LINENFTMillionArthursPropertyMutation) LineNftCleared() bool {
-	return m.clearedline_nft
-}
-
-// LineNftID returns the "line_nft" edge ID in the mutation.
-func (m *LINENFTMillionArthursPropertyMutation) LineNftID() (id uint32, exists bool) {
-	if m.line_nft != nil {
-		return *m.line_nft, true
-	}
-	return
-}
-
-// LineNftIDs returns the "line_nft" edge IDs in the mutation.
-// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
-// LineNftID instead. It exists only for internal usage by the builders.
-func (m *LINENFTMillionArthursPropertyMutation) LineNftIDs() (ids []uint32) {
-	if id := m.line_nft; id != nil {
-		ids = append(ids, *id)
-	}
-	return
-}
-
-// ResetLineNft resets all changes to the "line_nft" edge.
-func (m *LINENFTMillionArthursPropertyMutation) ResetLineNft() {
-	m.line_nft = nil
-	m.clearedline_nft = false
-}
-
-// Where appends a list predicates to the LINENFTMillionArthursPropertyMutation builder.
-func (m *LINENFTMillionArthursPropertyMutation) Where(ps ...predicate.LINENFTMillionArthursProperty) {
-	m.predicates = append(m.predicates, ps...)
-}
-
-// WhereP appends storage-level predicates to the LINENFTMillionArthursPropertyMutation builder. Using this method,
-// users can use type-assertion to append predicates that do not depend on any generated package.
-func (m *LINENFTMillionArthursPropertyMutation) WhereP(ps ...func(*sql.Selector)) {
-	p := make([]predicate.LINENFTMillionArthursProperty, len(ps))
-	for i := range ps {
-		p[i] = ps[i]
-	}
-	m.Where(p...)
-}
-
-// Op returns the operation name.
-func (m *LINENFTMillionArthursPropertyMutation) Op() Op {
-	return m.op
-}
-
-// SetOp allows setting the mutation operation.
-func (m *LINENFTMillionArthursPropertyMutation) SetOp(op Op) {
-	m.op = op
-}
-
-// Type returns the node type of this mutation (LINENFTMillionArthursProperty).
-func (m *LINENFTMillionArthursPropertyMutation) Type() string {
-	return m.typ
-}
-
-// Fields returns all fields that were changed during this mutation. Note that in
-// order to get all numeric fields that were incremented/decremented, call
-// AddedFields().
-func (m *LINENFTMillionArthursPropertyMutation) Fields() []string {
-	fields := make([]string, 0, 7)
-	if m.created_at != nil {
-		fields = append(fields, linenftmillionarthursproperty.FieldCreatedAt)
-	}
-	if m.updated_at != nil {
-		fields = append(fields, linenftmillionarthursproperty.FieldUpdatedAt)
-	}
-	if m.deleted_at != nil {
-		fields = append(fields, linenftmillionarthursproperty.FieldDeletedAt)
-	}
-	if m.series != nil {
-		fields = append(fields, linenftmillionarthursproperty.FieldSeries)
-	}
-	if m.gear_category != nil {
-		fields = append(fields, linenftmillionarthursproperty.FieldGearCategory)
-	}
-	if m.gear_rarity != nil {
-		fields = append(fields, linenftmillionarthursproperty.FieldGearRarity)
-	}
-	if m.omj != nil {
-		fields = append(fields, linenftmillionarthursproperty.FieldOmj)
-	}
-	return fields
-}
-
-// Field returns the value of a field with the given name. The second boolean
-// return value indicates that this field was not set, or was not defined in the
-// schema.
-func (m *LINENFTMillionArthursPropertyMutation) Field(name string) (ent.Value, bool) {
-	switch name {
-	case linenftmillionarthursproperty.FieldCreatedAt:
-		return m.CreatedAt()
-	case linenftmillionarthursproperty.FieldUpdatedAt:
-		return m.UpdatedAt()
-	case linenftmillionarthursproperty.FieldDeletedAt:
-		return m.DeletedAt()
-	case linenftmillionarthursproperty.FieldSeries:
-		return m.Series()
-	case linenftmillionarthursproperty.FieldGearCategory:
-		return m.GearCategory()
-	case linenftmillionarthursproperty.FieldGearRarity:
-		return m.GearRarity()
-	case linenftmillionarthursproperty.FieldOmj:
-		return m.Omj()
-	}
-	return nil, false
-}
-
-// OldField returns the old value of the field from the database. An error is
-// returned if the mutation operation is not UpdateOne, or the query to the
-// database failed.
-func (m *LINENFTMillionArthursPropertyMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
-	switch name {
-	case linenftmillionarthursproperty.FieldCreatedAt:
-		return m.OldCreatedAt(ctx)
-	case linenftmillionarthursproperty.FieldUpdatedAt:
-		return m.OldUpdatedAt(ctx)
-	case linenftmillionarthursproperty.FieldDeletedAt:
-		return m.OldDeletedAt(ctx)
-	case linenftmillionarthursproperty.FieldSeries:
-		return m.OldSeries(ctx)
-	case linenftmillionarthursproperty.FieldGearCategory:
-		return m.OldGearCategory(ctx)
-	case linenftmillionarthursproperty.FieldGearRarity:
-		return m.OldGearRarity(ctx)
-	case linenftmillionarthursproperty.FieldOmj:
-		return m.OldOmj(ctx)
-	}
-	return nil, fmt.Errorf("unknown LINENFTMillionArthursProperty field %s", name)
-}
-
-// SetField sets the value of a field with the given name. It returns an error if
-// the field is not defined in the schema, or if the type mismatched the field
-// type.
-func (m *LINENFTMillionArthursPropertyMutation) SetField(name string, value ent.Value) error {
-	switch name {
-	case linenftmillionarthursproperty.FieldCreatedAt:
-		v, ok := value.(time.Time)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetCreatedAt(v)
-		return nil
-	case linenftmillionarthursproperty.FieldUpdatedAt:
-		v, ok := value.(time.Time)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetUpdatedAt(v)
-		return nil
-	case linenftmillionarthursproperty.FieldDeletedAt:
-		v, ok := value.(time.Time)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetDeletedAt(v)
-		return nil
-	case linenftmillionarthursproperty.FieldSeries:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetSeries(v)
-		return nil
-	case linenftmillionarthursproperty.FieldGearCategory:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetGearCategory(v)
-		return nil
-	case linenftmillionarthursproperty.FieldGearRarity:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetGearRarity(v)
-		return nil
-	case linenftmillionarthursproperty.FieldOmj:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetOmj(v)
-		return nil
-	}
-	return fmt.Errorf("unknown LINENFTMillionArthursProperty field %s", name)
-}
-
-// AddedFields returns all numeric fields that were incremented/decremented during
-// this mutation.
-func (m *LINENFTMillionArthursPropertyMutation) AddedFields() []string {
-	return nil
-}
-
-// AddedField returns the numeric value that was incremented/decremented on a field
-// with the given name. The second boolean return value indicates that this field
-// was not set, or was not defined in the schema.
-func (m *LINENFTMillionArthursPropertyMutation) AddedField(name string) (ent.Value, bool) {
-	return nil, false
-}
-
-// AddField adds the value to the field with the given name. It returns an error if
-// the field is not defined in the schema, or if the type mismatched the field
-// type.
-func (m *LINENFTMillionArthursPropertyMutation) AddField(name string, value ent.Value) error {
-	switch name {
-	}
-	return fmt.Errorf("unknown LINENFTMillionArthursProperty numeric field %s", name)
-}
-
-// ClearedFields returns all nullable fields that were cleared during this
-// mutation.
-func (m *LINENFTMillionArthursPropertyMutation) ClearedFields() []string {
-	var fields []string
-	if m.FieldCleared(linenftmillionarthursproperty.FieldDeletedAt) {
-		fields = append(fields, linenftmillionarthursproperty.FieldDeletedAt)
-	}
-	if m.FieldCleared(linenftmillionarthursproperty.FieldSeries) {
-		fields = append(fields, linenftmillionarthursproperty.FieldSeries)
-	}
-	if m.FieldCleared(linenftmillionarthursproperty.FieldGearCategory) {
-		fields = append(fields, linenftmillionarthursproperty.FieldGearCategory)
-	}
-	if m.FieldCleared(linenftmillionarthursproperty.FieldGearRarity) {
-		fields = append(fields, linenftmillionarthursproperty.FieldGearRarity)
-	}
-	if m.FieldCleared(linenftmillionarthursproperty.FieldOmj) {
-		fields = append(fields, linenftmillionarthursproperty.FieldOmj)
-	}
-	return fields
-}
-
-// FieldCleared returns a boolean indicating if a field with the given name was
-// cleared in this mutation.
-func (m *LINENFTMillionArthursPropertyMutation) FieldCleared(name string) bool {
-	_, ok := m.clearedFields[name]
-	return ok
-}
-
-// ClearField clears the value of the field with the given name. It returns an
-// error if the field is not defined in the schema.
-func (m *LINENFTMillionArthursPropertyMutation) ClearField(name string) error {
-	switch name {
-	case linenftmillionarthursproperty.FieldDeletedAt:
-		m.ClearDeletedAt()
-		return nil
-	case linenftmillionarthursproperty.FieldSeries:
-		m.ClearSeries()
-		return nil
-	case linenftmillionarthursproperty.FieldGearCategory:
-		m.ClearGearCategory()
-		return nil
-	case linenftmillionarthursproperty.FieldGearRarity:
-		m.ClearGearRarity()
-		return nil
-	case linenftmillionarthursproperty.FieldOmj:
-		m.ClearOmj()
-		return nil
-	}
-	return fmt.Errorf("unknown LINENFTMillionArthursProperty nullable field %s", name)
-}
-
-// ResetField resets all changes in the mutation for the field with the given name.
-// It returns an error if the field is not defined in the schema.
-func (m *LINENFTMillionArthursPropertyMutation) ResetField(name string) error {
-	switch name {
-	case linenftmillionarthursproperty.FieldCreatedAt:
-		m.ResetCreatedAt()
-		return nil
-	case linenftmillionarthursproperty.FieldUpdatedAt:
-		m.ResetUpdatedAt()
-		return nil
-	case linenftmillionarthursproperty.FieldDeletedAt:
-		m.ResetDeletedAt()
-		return nil
-	case linenftmillionarthursproperty.FieldSeries:
-		m.ResetSeries()
-		return nil
-	case linenftmillionarthursproperty.FieldGearCategory:
-		m.ResetGearCategory()
-		return nil
-	case linenftmillionarthursproperty.FieldGearRarity:
-		m.ResetGearRarity()
-		return nil
-	case linenftmillionarthursproperty.FieldOmj:
-		m.ResetOmj()
-		return nil
-	}
-	return fmt.Errorf("unknown LINENFTMillionArthursProperty field %s", name)
-}
-
-// AddedEdges returns all edge names that were set/added in this mutation.
-func (m *LINENFTMillionArthursPropertyMutation) AddedEdges() []string {
-	edges := make([]string, 0, 1)
-	if m.line_nft != nil {
-		edges = append(edges, linenftmillionarthursproperty.EdgeLineNft)
-	}
-	return edges
-}
-
-// AddedIDs returns all IDs (to other nodes) that were added for the given edge
-// name in this mutation.
-func (m *LINENFTMillionArthursPropertyMutation) AddedIDs(name string) []ent.Value {
-	switch name {
-	case linenftmillionarthursproperty.EdgeLineNft:
-		if id := m.line_nft; id != nil {
-			return []ent.Value{*id}
-		}
-	}
-	return nil
-}
-
-// RemovedEdges returns all edge names that were removed in this mutation.
-func (m *LINENFTMillionArthursPropertyMutation) RemovedEdges() []string {
-	edges := make([]string, 0, 1)
-	return edges
-}
-
-// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
-// the given name in this mutation.
-func (m *LINENFTMillionArthursPropertyMutation) RemovedIDs(name string) []ent.Value {
-	return nil
-}
-
-// ClearedEdges returns all edge names that were cleared in this mutation.
-func (m *LINENFTMillionArthursPropertyMutation) ClearedEdges() []string {
-	edges := make([]string, 0, 1)
-	if m.clearedline_nft {
-		edges = append(edges, linenftmillionarthursproperty.EdgeLineNft)
-	}
-	return edges
-}
-
-// EdgeCleared returns a boolean which indicates if the edge with the given name
-// was cleared in this mutation.
-func (m *LINENFTMillionArthursPropertyMutation) EdgeCleared(name string) bool {
-	switch name {
-	case linenftmillionarthursproperty.EdgeLineNft:
-		return m.clearedline_nft
-	}
-	return false
-}
-
-// ClearEdge clears the value of the edge with the given name. It returns an error
-// if that edge is not defined in the schema.
-func (m *LINENFTMillionArthursPropertyMutation) ClearEdge(name string) error {
-	switch name {
-	case linenftmillionarthursproperty.EdgeLineNft:
-		m.ClearLineNft()
-		return nil
-	}
-	return fmt.Errorf("unknown LINENFTMillionArthursProperty unique edge %s", name)
-}
-
-// ResetEdge resets all changes to the edge with the given name in this mutation.
-// It returns an error if the edge is not defined in the schema.
-func (m *LINENFTMillionArthursPropertyMutation) ResetEdge(name string) error {
-	switch name {
-	case linenftmillionarthursproperty.EdgeLineNft:
-		m.ResetLineNft()
-		return nil
-	}
-	return fmt.Errorf("unknown LINENFTMillionArthursProperty edge %s", name)
+	return fmt.Errorf("unknown ChangokushiWeaponChangeLog edge %s", name)
 }

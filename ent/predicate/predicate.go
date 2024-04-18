@@ -6,26 +6,8 @@ import (
 	"entgo.io/ent/dialect/sql"
 )
 
-// FinschiaItemToken is the predicate function for finschiaitemtoken builders.
-type FinschiaItemToken func(*sql.Selector)
+// ChangokushiWeapon is the predicate function for changokushiweapon builders.
+type ChangokushiWeapon func(*sql.Selector)
 
-// FinschiaItemTokenActivity is the predicate function for finschiaitemtokenactivity builders.
-type FinschiaItemTokenActivity func(*sql.Selector)
-
-// FinschiaItemTokenMillionArthursProperty is the predicate function for finschiaitemtokenmillionarthursproperty builders.
-type FinschiaItemTokenMillionArthursProperty func(*sql.Selector)
-
-// KusogeeeeeeNFT is the predicate function for kusogeeeeeenft builders.
-type KusogeeeeeeNFT func(*sql.Selector)
-
-// KusogeeeeeeNFTChangeLog is the predicate function for kusogeeeeeenftchangelog builders.
-type KusogeeeeeeNFTChangeLog func(*sql.Selector)
-
-// LINENFT is the predicate function for linenft builders.
-type LINENFT func(*sql.Selector)
-
-// LINENFTActivity is the predicate function for linenftactivity builders.
-type LINENFTActivity func(*sql.Selector)
-
-// LINENFTMillionArthursProperty is the predicate function for linenftmillionarthursproperty builders.
-type LINENFTMillionArthursProperty func(*sql.Selector)
+// ChangokushiWeaponChangeLog is the predicate function for changokushiweaponchangelog builders.
+type ChangokushiWeaponChangeLog func(*sql.Selector)

@@ -9,100 +9,28 @@ import (
 	"github.com/a10adotapp/a10a.app/ent"
 )
 
-// The FinschiaItemTokenFunc type is an adapter to allow the use of ordinary
-// function as FinschiaItemToken mutator.
-type FinschiaItemTokenFunc func(context.Context, *ent.FinschiaItemTokenMutation) (ent.Value, error)
+// The ChangokushiWeaponFunc type is an adapter to allow the use of ordinary
+// function as ChangokushiWeapon mutator.
+type ChangokushiWeaponFunc func(context.Context, *ent.ChangokushiWeaponMutation) (ent.Value, error)
 
 // Mutate calls f(ctx, m).
-func (f FinschiaItemTokenFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	if mv, ok := m.(*ent.FinschiaItemTokenMutation); ok {
+func (f ChangokushiWeaponFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.ChangokushiWeaponMutation); ok {
 		return f(ctx, mv)
 	}
-	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.FinschiaItemTokenMutation", m)
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.ChangokushiWeaponMutation", m)
 }
 
-// The FinschiaItemTokenActivityFunc type is an adapter to allow the use of ordinary
-// function as FinschiaItemTokenActivity mutator.
-type FinschiaItemTokenActivityFunc func(context.Context, *ent.FinschiaItemTokenActivityMutation) (ent.Value, error)
+// The ChangokushiWeaponChangeLogFunc type is an adapter to allow the use of ordinary
+// function as ChangokushiWeaponChangeLog mutator.
+type ChangokushiWeaponChangeLogFunc func(context.Context, *ent.ChangokushiWeaponChangeLogMutation) (ent.Value, error)
 
 // Mutate calls f(ctx, m).
-func (f FinschiaItemTokenActivityFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	if mv, ok := m.(*ent.FinschiaItemTokenActivityMutation); ok {
+func (f ChangokushiWeaponChangeLogFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.ChangokushiWeaponChangeLogMutation); ok {
 		return f(ctx, mv)
 	}
-	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.FinschiaItemTokenActivityMutation", m)
-}
-
-// The FinschiaItemTokenMillionArthursPropertyFunc type is an adapter to allow the use of ordinary
-// function as FinschiaItemTokenMillionArthursProperty mutator.
-type FinschiaItemTokenMillionArthursPropertyFunc func(context.Context, *ent.FinschiaItemTokenMillionArthursPropertyMutation) (ent.Value, error)
-
-// Mutate calls f(ctx, m).
-func (f FinschiaItemTokenMillionArthursPropertyFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	if mv, ok := m.(*ent.FinschiaItemTokenMillionArthursPropertyMutation); ok {
-		return f(ctx, mv)
-	}
-	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.FinschiaItemTokenMillionArthursPropertyMutation", m)
-}
-
-// The KusogeeeeeeNFTFunc type is an adapter to allow the use of ordinary
-// function as KusogeeeeeeNFT mutator.
-type KusogeeeeeeNFTFunc func(context.Context, *ent.KusogeeeeeeNFTMutation) (ent.Value, error)
-
-// Mutate calls f(ctx, m).
-func (f KusogeeeeeeNFTFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	if mv, ok := m.(*ent.KusogeeeeeeNFTMutation); ok {
-		return f(ctx, mv)
-	}
-	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.KusogeeeeeeNFTMutation", m)
-}
-
-// The KusogeeeeeeNFTChangeLogFunc type is an adapter to allow the use of ordinary
-// function as KusogeeeeeeNFTChangeLog mutator.
-type KusogeeeeeeNFTChangeLogFunc func(context.Context, *ent.KusogeeeeeeNFTChangeLogMutation) (ent.Value, error)
-
-// Mutate calls f(ctx, m).
-func (f KusogeeeeeeNFTChangeLogFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	if mv, ok := m.(*ent.KusogeeeeeeNFTChangeLogMutation); ok {
-		return f(ctx, mv)
-	}
-	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.KusogeeeeeeNFTChangeLogMutation", m)
-}
-
-// The LINENFTFunc type is an adapter to allow the use of ordinary
-// function as LINENFT mutator.
-type LINENFTFunc func(context.Context, *ent.LINENFTMutation) (ent.Value, error)
-
-// Mutate calls f(ctx, m).
-func (f LINENFTFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	if mv, ok := m.(*ent.LINENFTMutation); ok {
-		return f(ctx, mv)
-	}
-	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.LINENFTMutation", m)
-}
-
-// The LINENFTActivityFunc type is an adapter to allow the use of ordinary
-// function as LINENFTActivity mutator.
-type LINENFTActivityFunc func(context.Context, *ent.LINENFTActivityMutation) (ent.Value, error)
-
-// Mutate calls f(ctx, m).
-func (f LINENFTActivityFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	if mv, ok := m.(*ent.LINENFTActivityMutation); ok {
-		return f(ctx, mv)
-	}
-	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.LINENFTActivityMutation", m)
-}
-
-// The LINENFTMillionArthursPropertyFunc type is an adapter to allow the use of ordinary
-// function as LINENFTMillionArthursProperty mutator.
-type LINENFTMillionArthursPropertyFunc func(context.Context, *ent.LINENFTMillionArthursPropertyMutation) (ent.Value, error)
-
-// Mutate calls f(ctx, m).
-func (f LINENFTMillionArthursPropertyFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	if mv, ok := m.(*ent.LINENFTMillionArthursPropertyMutation); ok {
-		return f(ctx, mv)
-	}
-	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.LINENFTMillionArthursPropertyMutation", m)
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.ChangokushiWeaponChangeLogMutation", m)
 }
 
 // Condition is a hook condition function.

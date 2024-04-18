@@ -5,14 +5,8 @@ package runtime
 import (
 	"time"
 
-	"github.com/a10adotapp/a10a.app/ent/finschiaitemtoken"
-	"github.com/a10adotapp/a10a.app/ent/finschiaitemtokenactivity"
-	"github.com/a10adotapp/a10a.app/ent/finschiaitemtokenmillionarthursproperty"
-	"github.com/a10adotapp/a10a.app/ent/kusogeeeeeenft"
-	"github.com/a10adotapp/a10a.app/ent/kusogeeeeeenftchangelog"
-	"github.com/a10adotapp/a10a.app/ent/linenft"
-	"github.com/a10adotapp/a10a.app/ent/linenftactivity"
-	"github.com/a10adotapp/a10a.app/ent/linenftmillionarthursproperty"
+	"github.com/a10adotapp/a10a.app/ent/changokushiweapon"
+	"github.com/a10adotapp/a10a.app/ent/changokushiweaponchangelog"
 	"github.com/a10adotapp/a10a.app/ent/schema"
 )
 
@@ -20,158 +14,44 @@ import (
 // (default values, validators, hooks and policies) and stitches it
 // to their package variables.
 func init() {
-	finschiaitemtokenMixin := schema.FinschiaItemToken{}.Mixin()
-	finschiaitemtokenMixinHooks1 := finschiaitemtokenMixin[1].Hooks()
-	finschiaitemtoken.Hooks[0] = finschiaitemtokenMixinHooks1[0]
-	finschiaitemtokenMixinInters1 := finschiaitemtokenMixin[1].Interceptors()
-	finschiaitemtoken.Interceptors[0] = finschiaitemtokenMixinInters1[0]
-	finschiaitemtokenMixinFields0 := finschiaitemtokenMixin[0].Fields()
-	_ = finschiaitemtokenMixinFields0
-	finschiaitemtokenFields := schema.FinschiaItemToken{}.Fields()
-	_ = finschiaitemtokenFields
-	// finschiaitemtokenDescCreatedAt is the schema descriptor for created_at field.
-	finschiaitemtokenDescCreatedAt := finschiaitemtokenMixinFields0[0].Descriptor()
-	// finschiaitemtoken.DefaultCreatedAt holds the default value on creation for the created_at field.
-	finschiaitemtoken.DefaultCreatedAt = finschiaitemtokenDescCreatedAt.Default.(func() time.Time)
-	// finschiaitemtokenDescUpdatedAt is the schema descriptor for updated_at field.
-	finschiaitemtokenDescUpdatedAt := finschiaitemtokenMixinFields0[1].Descriptor()
-	// finschiaitemtoken.DefaultUpdatedAt holds the default value on creation for the updated_at field.
-	finschiaitemtoken.DefaultUpdatedAt = finschiaitemtokenDescUpdatedAt.Default.(func() time.Time)
-	// finschiaitemtoken.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
-	finschiaitemtoken.UpdateDefaultUpdatedAt = finschiaitemtokenDescUpdatedAt.UpdateDefault.(func() time.Time)
-	finschiaitemtokenactivityMixin := schema.FinschiaItemTokenActivity{}.Mixin()
-	finschiaitemtokenactivityMixinHooks1 := finschiaitemtokenactivityMixin[1].Hooks()
-	finschiaitemtokenactivity.Hooks[0] = finschiaitemtokenactivityMixinHooks1[0]
-	finschiaitemtokenactivityMixinInters1 := finschiaitemtokenactivityMixin[1].Interceptors()
-	finschiaitemtokenactivity.Interceptors[0] = finschiaitemtokenactivityMixinInters1[0]
-	finschiaitemtokenactivityMixinFields0 := finschiaitemtokenactivityMixin[0].Fields()
-	_ = finschiaitemtokenactivityMixinFields0
-	finschiaitemtokenactivityFields := schema.FinschiaItemTokenActivity{}.Fields()
-	_ = finschiaitemtokenactivityFields
-	// finschiaitemtokenactivityDescCreatedAt is the schema descriptor for created_at field.
-	finschiaitemtokenactivityDescCreatedAt := finschiaitemtokenactivityMixinFields0[0].Descriptor()
-	// finschiaitemtokenactivity.DefaultCreatedAt holds the default value on creation for the created_at field.
-	finschiaitemtokenactivity.DefaultCreatedAt = finschiaitemtokenactivityDescCreatedAt.Default.(func() time.Time)
-	// finschiaitemtokenactivityDescUpdatedAt is the schema descriptor for updated_at field.
-	finschiaitemtokenactivityDescUpdatedAt := finschiaitemtokenactivityMixinFields0[1].Descriptor()
-	// finschiaitemtokenactivity.DefaultUpdatedAt holds the default value on creation for the updated_at field.
-	finschiaitemtokenactivity.DefaultUpdatedAt = finschiaitemtokenactivityDescUpdatedAt.Default.(func() time.Time)
-	// finschiaitemtokenactivity.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
-	finschiaitemtokenactivity.UpdateDefaultUpdatedAt = finschiaitemtokenactivityDescUpdatedAt.UpdateDefault.(func() time.Time)
-	finschiaitemtokenmillionarthurspropertyMixin := schema.FinschiaItemTokenMillionArthursProperty{}.Mixin()
-	finschiaitemtokenmillionarthurspropertyMixinHooks1 := finschiaitemtokenmillionarthurspropertyMixin[1].Hooks()
-	finschiaitemtokenmillionarthursproperty.Hooks[0] = finschiaitemtokenmillionarthurspropertyMixinHooks1[0]
-	finschiaitemtokenmillionarthurspropertyMixinInters1 := finschiaitemtokenmillionarthurspropertyMixin[1].Interceptors()
-	finschiaitemtokenmillionarthursproperty.Interceptors[0] = finschiaitemtokenmillionarthurspropertyMixinInters1[0]
-	finschiaitemtokenmillionarthurspropertyMixinFields0 := finschiaitemtokenmillionarthurspropertyMixin[0].Fields()
-	_ = finschiaitemtokenmillionarthurspropertyMixinFields0
-	finschiaitemtokenmillionarthurspropertyFields := schema.FinschiaItemTokenMillionArthursProperty{}.Fields()
-	_ = finschiaitemtokenmillionarthurspropertyFields
-	// finschiaitemtokenmillionarthurspropertyDescCreatedAt is the schema descriptor for created_at field.
-	finschiaitemtokenmillionarthurspropertyDescCreatedAt := finschiaitemtokenmillionarthurspropertyMixinFields0[0].Descriptor()
-	// finschiaitemtokenmillionarthursproperty.DefaultCreatedAt holds the default value on creation for the created_at field.
-	finschiaitemtokenmillionarthursproperty.DefaultCreatedAt = finschiaitemtokenmillionarthurspropertyDescCreatedAt.Default.(func() time.Time)
-	// finschiaitemtokenmillionarthurspropertyDescUpdatedAt is the schema descriptor for updated_at field.
-	finschiaitemtokenmillionarthurspropertyDescUpdatedAt := finschiaitemtokenmillionarthurspropertyMixinFields0[1].Descriptor()
-	// finschiaitemtokenmillionarthursproperty.DefaultUpdatedAt holds the default value on creation for the updated_at field.
-	finschiaitemtokenmillionarthursproperty.DefaultUpdatedAt = finschiaitemtokenmillionarthurspropertyDescUpdatedAt.Default.(func() time.Time)
-	// finschiaitemtokenmillionarthursproperty.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
-	finschiaitemtokenmillionarthursproperty.UpdateDefaultUpdatedAt = finschiaitemtokenmillionarthurspropertyDescUpdatedAt.UpdateDefault.(func() time.Time)
-	kusogeeeeeenftMixin := schema.KusogeeeeeeNFT{}.Mixin()
-	kusogeeeeeenftMixinHooks1 := kusogeeeeeenftMixin[1].Hooks()
-	kusogeeeeeenft.Hooks[0] = kusogeeeeeenftMixinHooks1[0]
-	kusogeeeeeenftMixinInters1 := kusogeeeeeenftMixin[1].Interceptors()
-	kusogeeeeeenft.Interceptors[0] = kusogeeeeeenftMixinInters1[0]
-	kusogeeeeeenftMixinFields0 := kusogeeeeeenftMixin[0].Fields()
-	_ = kusogeeeeeenftMixinFields0
-	kusogeeeeeenftFields := schema.KusogeeeeeeNFT{}.Fields()
-	_ = kusogeeeeeenftFields
-	// kusogeeeeeenftDescCreatedAt is the schema descriptor for created_at field.
-	kusogeeeeeenftDescCreatedAt := kusogeeeeeenftMixinFields0[0].Descriptor()
-	// kusogeeeeeenft.DefaultCreatedAt holds the default value on creation for the created_at field.
-	kusogeeeeeenft.DefaultCreatedAt = kusogeeeeeenftDescCreatedAt.Default.(func() time.Time)
-	// kusogeeeeeenftDescUpdatedAt is the schema descriptor for updated_at field.
-	kusogeeeeeenftDescUpdatedAt := kusogeeeeeenftMixinFields0[1].Descriptor()
-	// kusogeeeeeenft.DefaultUpdatedAt holds the default value on creation for the updated_at field.
-	kusogeeeeeenft.DefaultUpdatedAt = kusogeeeeeenftDescUpdatedAt.Default.(func() time.Time)
-	// kusogeeeeeenft.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
-	kusogeeeeeenft.UpdateDefaultUpdatedAt = kusogeeeeeenftDescUpdatedAt.UpdateDefault.(func() time.Time)
-	kusogeeeeeenftchangelogMixin := schema.KusogeeeeeeNFTChangeLog{}.Mixin()
-	kusogeeeeeenftchangelogMixinHooks1 := kusogeeeeeenftchangelogMixin[1].Hooks()
-	kusogeeeeeenftchangelog.Hooks[0] = kusogeeeeeenftchangelogMixinHooks1[0]
-	kusogeeeeeenftchangelogMixinInters1 := kusogeeeeeenftchangelogMixin[1].Interceptors()
-	kusogeeeeeenftchangelog.Interceptors[0] = kusogeeeeeenftchangelogMixinInters1[0]
-	kusogeeeeeenftchangelogMixinFields0 := kusogeeeeeenftchangelogMixin[0].Fields()
-	_ = kusogeeeeeenftchangelogMixinFields0
-	kusogeeeeeenftchangelogFields := schema.KusogeeeeeeNFTChangeLog{}.Fields()
-	_ = kusogeeeeeenftchangelogFields
-	// kusogeeeeeenftchangelogDescCreatedAt is the schema descriptor for created_at field.
-	kusogeeeeeenftchangelogDescCreatedAt := kusogeeeeeenftchangelogMixinFields0[0].Descriptor()
-	// kusogeeeeeenftchangelog.DefaultCreatedAt holds the default value on creation for the created_at field.
-	kusogeeeeeenftchangelog.DefaultCreatedAt = kusogeeeeeenftchangelogDescCreatedAt.Default.(func() time.Time)
-	// kusogeeeeeenftchangelogDescUpdatedAt is the schema descriptor for updated_at field.
-	kusogeeeeeenftchangelogDescUpdatedAt := kusogeeeeeenftchangelogMixinFields0[1].Descriptor()
-	// kusogeeeeeenftchangelog.DefaultUpdatedAt holds the default value on creation for the updated_at field.
-	kusogeeeeeenftchangelog.DefaultUpdatedAt = kusogeeeeeenftchangelogDescUpdatedAt.Default.(func() time.Time)
-	// kusogeeeeeenftchangelog.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
-	kusogeeeeeenftchangelog.UpdateDefaultUpdatedAt = kusogeeeeeenftchangelogDescUpdatedAt.UpdateDefault.(func() time.Time)
-	linenftMixin := schema.LINENFT{}.Mixin()
-	linenftMixinHooks1 := linenftMixin[1].Hooks()
-	linenft.Hooks[0] = linenftMixinHooks1[0]
-	linenftMixinInters1 := linenftMixin[1].Interceptors()
-	linenft.Interceptors[0] = linenftMixinInters1[0]
-	linenftMixinFields0 := linenftMixin[0].Fields()
-	_ = linenftMixinFields0
-	linenftFields := schema.LINENFT{}.Fields()
-	_ = linenftFields
-	// linenftDescCreatedAt is the schema descriptor for created_at field.
-	linenftDescCreatedAt := linenftMixinFields0[0].Descriptor()
-	// linenft.DefaultCreatedAt holds the default value on creation for the created_at field.
-	linenft.DefaultCreatedAt = linenftDescCreatedAt.Default.(func() time.Time)
-	// linenftDescUpdatedAt is the schema descriptor for updated_at field.
-	linenftDescUpdatedAt := linenftMixinFields0[1].Descriptor()
-	// linenft.DefaultUpdatedAt holds the default value on creation for the updated_at field.
-	linenft.DefaultUpdatedAt = linenftDescUpdatedAt.Default.(func() time.Time)
-	// linenft.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
-	linenft.UpdateDefaultUpdatedAt = linenftDescUpdatedAt.UpdateDefault.(func() time.Time)
-	linenftactivityMixin := schema.LINENFTActivity{}.Mixin()
-	linenftactivityMixinHooks1 := linenftactivityMixin[1].Hooks()
-	linenftactivity.Hooks[0] = linenftactivityMixinHooks1[0]
-	linenftactivityMixinInters1 := linenftactivityMixin[1].Interceptors()
-	linenftactivity.Interceptors[0] = linenftactivityMixinInters1[0]
-	linenftactivityMixinFields0 := linenftactivityMixin[0].Fields()
-	_ = linenftactivityMixinFields0
-	linenftactivityFields := schema.LINENFTActivity{}.Fields()
-	_ = linenftactivityFields
-	// linenftactivityDescCreatedAt is the schema descriptor for created_at field.
-	linenftactivityDescCreatedAt := linenftactivityMixinFields0[0].Descriptor()
-	// linenftactivity.DefaultCreatedAt holds the default value on creation for the created_at field.
-	linenftactivity.DefaultCreatedAt = linenftactivityDescCreatedAt.Default.(func() time.Time)
-	// linenftactivityDescUpdatedAt is the schema descriptor for updated_at field.
-	linenftactivityDescUpdatedAt := linenftactivityMixinFields0[1].Descriptor()
-	// linenftactivity.DefaultUpdatedAt holds the default value on creation for the updated_at field.
-	linenftactivity.DefaultUpdatedAt = linenftactivityDescUpdatedAt.Default.(func() time.Time)
-	// linenftactivity.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
-	linenftactivity.UpdateDefaultUpdatedAt = linenftactivityDescUpdatedAt.UpdateDefault.(func() time.Time)
-	linenftmillionarthurspropertyMixin := schema.LINENFTMillionArthursProperty{}.Mixin()
-	linenftmillionarthurspropertyMixinHooks1 := linenftmillionarthurspropertyMixin[1].Hooks()
-	linenftmillionarthursproperty.Hooks[0] = linenftmillionarthurspropertyMixinHooks1[0]
-	linenftmillionarthurspropertyMixinInters1 := linenftmillionarthurspropertyMixin[1].Interceptors()
-	linenftmillionarthursproperty.Interceptors[0] = linenftmillionarthurspropertyMixinInters1[0]
-	linenftmillionarthurspropertyMixinFields0 := linenftmillionarthurspropertyMixin[0].Fields()
-	_ = linenftmillionarthurspropertyMixinFields0
-	linenftmillionarthurspropertyFields := schema.LINENFTMillionArthursProperty{}.Fields()
-	_ = linenftmillionarthurspropertyFields
-	// linenftmillionarthurspropertyDescCreatedAt is the schema descriptor for created_at field.
-	linenftmillionarthurspropertyDescCreatedAt := linenftmillionarthurspropertyMixinFields0[0].Descriptor()
-	// linenftmillionarthursproperty.DefaultCreatedAt holds the default value on creation for the created_at field.
-	linenftmillionarthursproperty.DefaultCreatedAt = linenftmillionarthurspropertyDescCreatedAt.Default.(func() time.Time)
-	// linenftmillionarthurspropertyDescUpdatedAt is the schema descriptor for updated_at field.
-	linenftmillionarthurspropertyDescUpdatedAt := linenftmillionarthurspropertyMixinFields0[1].Descriptor()
-	// linenftmillionarthursproperty.DefaultUpdatedAt holds the default value on creation for the updated_at field.
-	linenftmillionarthursproperty.DefaultUpdatedAt = linenftmillionarthurspropertyDescUpdatedAt.Default.(func() time.Time)
-	// linenftmillionarthursproperty.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
-	linenftmillionarthursproperty.UpdateDefaultUpdatedAt = linenftmillionarthurspropertyDescUpdatedAt.UpdateDefault.(func() time.Time)
+	changokushiweaponMixin := schema.ChangokushiWeapon{}.Mixin()
+	changokushiweaponMixinHooks1 := changokushiweaponMixin[1].Hooks()
+	changokushiweapon.Hooks[0] = changokushiweaponMixinHooks1[0]
+	changokushiweaponMixinInters1 := changokushiweaponMixin[1].Interceptors()
+	changokushiweapon.Interceptors[0] = changokushiweaponMixinInters1[0]
+	changokushiweaponMixinFields0 := changokushiweaponMixin[0].Fields()
+	_ = changokushiweaponMixinFields0
+	changokushiweaponFields := schema.ChangokushiWeapon{}.Fields()
+	_ = changokushiweaponFields
+	// changokushiweaponDescCreatedAt is the schema descriptor for created_at field.
+	changokushiweaponDescCreatedAt := changokushiweaponMixinFields0[0].Descriptor()
+	// changokushiweapon.DefaultCreatedAt holds the default value on creation for the created_at field.
+	changokushiweapon.DefaultCreatedAt = changokushiweaponDescCreatedAt.Default.(func() time.Time)
+	// changokushiweaponDescUpdatedAt is the schema descriptor for updated_at field.
+	changokushiweaponDescUpdatedAt := changokushiweaponMixinFields0[1].Descriptor()
+	// changokushiweapon.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	changokushiweapon.DefaultUpdatedAt = changokushiweaponDescUpdatedAt.Default.(func() time.Time)
+	// changokushiweapon.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	changokushiweapon.UpdateDefaultUpdatedAt = changokushiweaponDescUpdatedAt.UpdateDefault.(func() time.Time)
+	changokushiweaponchangelogMixin := schema.ChangokushiWeaponChangeLog{}.Mixin()
+	changokushiweaponchangelogMixinHooks1 := changokushiweaponchangelogMixin[1].Hooks()
+	changokushiweaponchangelog.Hooks[0] = changokushiweaponchangelogMixinHooks1[0]
+	changokushiweaponchangelogMixinInters1 := changokushiweaponchangelogMixin[1].Interceptors()
+	changokushiweaponchangelog.Interceptors[0] = changokushiweaponchangelogMixinInters1[0]
+	changokushiweaponchangelogMixinFields0 := changokushiweaponchangelogMixin[0].Fields()
+	_ = changokushiweaponchangelogMixinFields0
+	changokushiweaponchangelogFields := schema.ChangokushiWeaponChangeLog{}.Fields()
+	_ = changokushiweaponchangelogFields
+	// changokushiweaponchangelogDescCreatedAt is the schema descriptor for created_at field.
+	changokushiweaponchangelogDescCreatedAt := changokushiweaponchangelogMixinFields0[0].Descriptor()
+	// changokushiweaponchangelog.DefaultCreatedAt holds the default value on creation for the created_at field.
+	changokushiweaponchangelog.DefaultCreatedAt = changokushiweaponchangelogDescCreatedAt.Default.(func() time.Time)
+	// changokushiweaponchangelogDescUpdatedAt is the schema descriptor for updated_at field.
+	changokushiweaponchangelogDescUpdatedAt := changokushiweaponchangelogMixinFields0[1].Descriptor()
+	// changokushiweaponchangelog.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	changokushiweaponchangelog.DefaultUpdatedAt = changokushiweaponchangelogDescUpdatedAt.Default.(func() time.Time)
+	// changokushiweaponchangelog.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	changokushiweaponchangelog.UpdateDefaultUpdatedAt = changokushiweaponchangelogDescUpdatedAt.UpdateDefault.(func() time.Time)
 }
 
 const (
