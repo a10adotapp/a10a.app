@@ -16,7 +16,7 @@ type ChangokushiWeapon struct {
 
 func (ChangokushiWeapon) Annotations() []schema.Annotation {
 	return []schema.Annotation{
-		entsql.Table("changokushi_weapon"),
+		entsql.Table("changokushi_weapons"),
 		entsql.WithComments(true),
 		schema.Comment("Changokushi weapons"),
 	}

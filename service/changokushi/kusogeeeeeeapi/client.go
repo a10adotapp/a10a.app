@@ -7,6 +7,8 @@ import (
 	"io"
 	"log/slog"
 	"net/http"
+
+	"github.com/a10adotapp/a10a.app/lib/xslices"
 )
 
 type Client struct{}
@@ -68,11 +70,17 @@ func (c *Client) NFTs(ctx context.Context, page int) ([]*NFT, *Pagination, error
 		return nil, nil, err
 	}
 
-	return resData.NFTs, resData.Pagination, nil
+	return xslices.Map(resData.NFTItems, func(nftItem *NFTItem) *NFT {
+		return nftItem.NFT
+	}), resData.Pagination, nil
+}
+
+type NFTItem struct {
+	NFT *NFT `json:"nft"`
 }
 
 type ResponseData struct {
-	NFTs       []*NFT      `json:"nfts"`
+	NFTItems   []*NFTItem  `json:"nfts"`
 	Pagination *Pagination `json:"pagination"`
 }
 

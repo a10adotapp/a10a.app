@@ -9,8 +9,8 @@ import (
 )
 
 var (
-	// ChangokushiWeaponColumns holds the columns for the "changokushi_weapon" table.
-	ChangokushiWeaponColumns = []*schema.Column{
+	// ChangokushiWeaponsColumns holds the columns for the "changokushi_weapons" table.
+	ChangokushiWeaponsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUint32, Increment: true},
 		{Name: "created_at", Type: field.TypeTime, SchemaType: map[string]string{"mysql": "datetime"}},
 		{Name: "updated_at", Type: field.TypeTime, SchemaType: map[string]string{"mysql": "datetime"}},
@@ -26,12 +26,12 @@ var (
 		{Name: "magical_defense", Type: field.TypeInt},
 		{Name: "agility", Type: field.TypeInt},
 	}
-	// ChangokushiWeaponTable holds the schema information for the "changokushi_weapon" table.
-	ChangokushiWeaponTable = &schema.Table{
-		Name:       "changokushi_weapon",
+	// ChangokushiWeaponsTable holds the schema information for the "changokushi_weapons" table.
+	ChangokushiWeaponsTable = &schema.Table{
+		Name:       "changokushi_weapons",
 		Comment:    "Changokushi weapons",
-		Columns:    ChangokushiWeaponColumns,
-		PrimaryKey: []*schema.Column{ChangokushiWeaponColumns[0]},
+		Columns:    ChangokushiWeaponsColumns,
+		PrimaryKey: []*schema.Column{ChangokushiWeaponsColumns[0]},
 	}
 	// ChangokushiWeaponChangeLogsColumns holds the columns for the "changokushi_weapon_change_logs" table.
 	ChangokushiWeaponChangeLogsColumns = []*schema.Column{
@@ -52,25 +52,25 @@ var (
 		PrimaryKey: []*schema.Column{ChangokushiWeaponChangeLogsColumns[0]},
 		ForeignKeys: []*schema.ForeignKey{
 			{
-				Symbol:     "changokushi_weapon_change_logs_changokushi_weapon_change_logs",
+				Symbol:     "changokushi_weapon_change_logs_changokushi_weapons_change_logs",
 				Columns:    []*schema.Column{ChangokushiWeaponChangeLogsColumns[7]},
-				RefColumns: []*schema.Column{ChangokushiWeaponColumns[0]},
+				RefColumns: []*schema.Column{ChangokushiWeaponsColumns[0]},
 				OnDelete:   schema.NoAction,
 			},
 		},
 	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
-		ChangokushiWeaponTable,
+		ChangokushiWeaponsTable,
 		ChangokushiWeaponChangeLogsTable,
 	}
 )
 
 func init() {
-	ChangokushiWeaponTable.Annotation = &entsql.Annotation{
-		Table: "changokushi_weapon",
+	ChangokushiWeaponsTable.Annotation = &entsql.Annotation{
+		Table: "changokushi_weapons",
 	}
-	ChangokushiWeaponChangeLogsTable.ForeignKeys[0].RefTable = ChangokushiWeaponTable
+	ChangokushiWeaponChangeLogsTable.ForeignKeys[0].RefTable = ChangokushiWeaponsTable
 	ChangokushiWeaponChangeLogsTable.Annotation = &entsql.Annotation{
 		Table: "changokushi_weapon_change_logs",
 	}

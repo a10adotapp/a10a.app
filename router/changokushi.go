@@ -9,7 +9,7 @@ import (
 )
 
 type ChangokushiService interface {
-	GetWeapons(context.Context) error
+	GetWeapons(ctx context.Context) error
 }
 
 func ChangokushiRoute(service ChangokushiService) func(chi.Router) {

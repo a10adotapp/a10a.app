@@ -37,7 +37,7 @@ const (
 	ChangokushiWeaponTable = "changokushi_weapon_change_logs"
 	// ChangokushiWeaponInverseTable is the table name for the ChangokushiWeapon entity.
 	// It exists in this package in order to avoid circular dependency with the "changokushiweapon" package.
-	ChangokushiWeaponInverseTable = "changokushi_weapon"
+	ChangokushiWeaponInverseTable = "changokushi_weapons"
 	// ChangokushiWeaponColumn is the table column denoting the changokushi_weapon relation/edge.
 	ChangokushiWeaponColumn = "changokushi_weapon_id"
 )

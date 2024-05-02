@@ -22,8 +22,6 @@ func (s *ChangokushiService) GetWeapons(ctx context.Context) error {
 		return err
 	}
 
-	slog.InfoContext(ctx, "debug", slog.Any("page", pagination))
-
 	if len(nfts) == 0 {
 		slog.InfoContext(ctx, "no items on the page", slog.Any("page", pagination))
 
@@ -68,7 +66,9 @@ func (s *ChangokushiService) GetWeapons(ctx context.Context) error {
 		changokushiWeaponChangeLog, err := s.entClient.ChangokushiWeaponChangeLog.Query().
 			Where(
 				entchangokushiweaponchangelog.ChangokushiWeaponID(changokushiWeapon.ID),
-				entchangokushiweaponchangelog.PublishedAtLT(nft.PublishedAt),
+			).
+			Order(
+				ent.Desc(entchangokushiweaponchangelog.FieldPublishedAt),
 			).
 			First(ctx)
 		if ent.MaskNotFound(err) != nil {
@@ -77,14 +77,23 @@ func (s *ChangokushiService) GetWeapons(ctx context.Context) error {
 			continue
 		}
 
-		if changokushiWeaponChangeLog == nil {
+		needsCreate := changokushiWeaponChangeLog == nil
+		needsCreate = needsCreate || (changokushiWeaponChangeLog.Status != nft.Status)
+		needsCreate = needsCreate || (changokushiWeaponChangeLog.Price != nft.Amount)
+
+		if needsCreate {
 			if _, err := s.entClient.ChangokushiWeaponChangeLog.Create().
 				SetChangokushiWeaponID(changokushiWeapon.ID).
 				SetStatus(nft.Status).
 				SetPrice(nft.Amount).
 				SetPublishedAt(nft.PublishedAt).
 				Save(ctx); err != nil {
-				slog.ErrorContext(ctx, "failed to save changokushi weapon change log", slog.Any("err", err))
+				slog.ErrorContext(
+					ctx,
+					"failed to save changokushi weapon change log",
+					slog.Any("err", err),
+					slog.Any("nft", nft),
+				)
 
 				continue
 			}

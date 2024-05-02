@@ -44,7 +44,7 @@ const (
 	// EdgeChangeLogs holds the string denoting the change_logs edge name in mutations.
 	EdgeChangeLogs = "change_logs"
 	// Table holds the table name of the changokushiweapon in the database.
-	Table = "changokushi_weapon"
+	Table = "changokushi_weapons"
 	// ChangeLogsTable is the table that holds the change_logs relation/edge.
 	ChangeLogsTable = "changokushi_weapon_change_logs"
 	// ChangeLogsInverseTable is the table name for the ChangokushiWeaponChangeLog entity.
