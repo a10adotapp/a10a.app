@@ -2,12 +2,16 @@ package changokushi
 
 import (
 	"context"
+	"fmt"
 	"log/slog"
+	"strings"
 
 	"github.com/a10adotapp/a10a.app/ent"
 	entchangokushiweapon "github.com/a10adotapp/a10a.app/ent/changokushiweapon"
 	entchangokushiweaponchangelog "github.com/a10adotapp/a10a.app/ent/changokushiweaponchangelog"
+	"github.com/a10adotapp/a10a.app/lib/line/message"
 	"github.com/a10adotapp/a10a.app/service/changokushi/kusogeeeeeeapi"
+	"github.com/line/line-bot-sdk-go/v8/linebot/messaging_api"
 )
 
 var page = 1
@@ -82,6 +86,31 @@ func (s *ChangokushiService) GetWeapons(ctx context.Context) error {
 		needsCreate = needsCreate || (changokushiWeaponChangeLog.Price != nft.Amount)
 
 		if needsCreate {
+			needsNotified := true
+			needsNotified = needsNotified && changokushiWeapon.Rank > 8
+			needsNotified = needsNotified && strings.Contains(changokushiWeapon.Skill, "暗闇")
+
+			if needsNotified {
+				message.Push(
+					strings.Join([]string{
+						fmt.Sprintf("[%d] %s", changokushiWeapon.Rank, changokushiWeapon.Name),
+						changokushiWeapon.Skill,
+						"",
+						fmt.Sprintf("💪 %d", changokushiWeapon.Vitality),
+						fmt.Sprintf("👊 %d", changokushiWeapon.Strength),
+						fmt.Sprintf("🗡️ %d", changokushiWeapon.PhysicalDefense),
+						fmt.Sprintf("🪭 %d", changokushiWeapon.MagicalDefense),
+						fmt.Sprintf("🏃 %d", changokushiWeapon.Agility),
+						"",
+						fmt.Sprintf("https://kusogeeeeee.com/nfts/%s", changokushiWeapon.URI),
+					}, "\n"),
+					message.WithSender(&messaging_api.Sender{
+						Name:    "Changokushi",
+						IconUrl: "https://lh3.googleusercontent.com/u/0/drive-viewer/AKGpihbl03Rfgl1pMXYR1tfmNjwel1n6Gy7EQ8Ke2vBRdE7TNzEJ6Ro6n24cG1iEyviQAz_WaXn4x5byc-TGblM1_BhgqypyxESo4Q=w3840-h1918",
+					}),
+				)
+			}
+
 			if _, err := s.entClient.ChangokushiWeaponChangeLog.Create().
 				SetChangokushiWeaponID(changokushiWeapon.ID).
 				SetStatus(nft.Status).
