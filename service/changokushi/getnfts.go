@@ -72,7 +72,7 @@ func (s *ChangokushiService) GetWeapons(ctx context.Context) error {
 				entchangokushiweaponchangelog.ChangokushiWeaponID(changokushiWeapon.ID),
 			).
 			Order(
-				ent.Desc(entchangokushiweaponchangelog.FieldPublishedAt),
+				ent.Desc(entchangokushiweaponchangelog.FieldCreatedAt),
 			).
 			First(ctx)
 		if ent.MaskNotFound(err) != nil {
