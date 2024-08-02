@@ -87,8 +87,8 @@ func (s *ChangokushiService) GetWeapons(ctx context.Context) error {
 
 		if needsCreate {
 			needsNotified := true
-			needsNotified = needsNotified && changokushiWeapon.Rank > 8
-			needsNotified = needsNotified && strings.Contains(changokushiWeapon.Skill, "暗闇")
+			needsNotified = needsNotified && changokushiWeapon.Rank >= 10
+			needsNotified = needsNotified && strings.Contains(changokushiWeapon.Skill, "知防低下の法")
 
 			if needsNotified {
 				message.Push(
