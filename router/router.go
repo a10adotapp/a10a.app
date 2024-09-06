@@ -11,6 +11,7 @@ import (
 
 	"github.com/a10adotapp/a10a.app/ent"
 	"github.com/a10adotapp/a10a.app/service/changokushi"
+	"github.com/a10adotapp/a10a.app/service/sanmeihoikuen"
 	"github.com/go-chi/chi/v5"
 	chimiddleware "github.com/go-chi/chi/v5/middleware"
 )
@@ -35,6 +36,8 @@ func NewRouter(entClient *ent.Client) *chi.Mux {
 	})
 
 	router.Route("/changokushi", ChangokushiRoute(changokushi.NewChangokushiService(entClient)))
+
+	router.Route("/sanmei-hoikuen", SanmeiHoikuenRoute(sanmeihoikuen.NewSanmeiHoikuenService(entClient)))
 
 	router.Post("/upload", func(w http.ResponseWriter, r *http.Request) {
 		file, fileHeader, err := r.FormFile("file")

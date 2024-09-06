@@ -16,6 +16,8 @@ type Tx struct {
 	ChangokushiWeapon *ChangokushiWeaponClient
 	// ChangokushiWeaponChangeLog is the client for interacting with the ChangokushiWeaponChangeLog builders.
 	ChangokushiWeaponChangeLog *ChangokushiWeaponChangeLogClient
+	// SanmeiHoikuenPost is the client for interacting with the SanmeiHoikuenPost builders.
+	SanmeiHoikuenPost *SanmeiHoikuenPostClient
 
 	// lazily loaded.
 	client     *Client
@@ -149,6 +151,7 @@ func (tx *Tx) Client() *Client {
 func (tx *Tx) init() {
 	tx.ChangokushiWeapon = NewChangokushiWeaponClient(tx.config)
 	tx.ChangokushiWeaponChangeLog = NewChangokushiWeaponChangeLogClient(tx.config)
+	tx.SanmeiHoikuenPost = NewSanmeiHoikuenPostClient(tx.config)
 }
 
 // txDriver wraps the given dialect.Tx with a nop dialect.Driver implementation.

@@ -11,6 +11,7 @@ import (
 	"github.com/a10adotapp/a10a.app/ent/changokushiweapon"
 	"github.com/a10adotapp/a10a.app/ent/changokushiweaponchangelog"
 	"github.com/a10adotapp/a10a.app/ent/predicate"
+	"github.com/a10adotapp/a10a.app/ent/sanmeihoikuenpost"
 )
 
 // The Query interface represents an operation that queries a graph.
@@ -123,6 +124,33 @@ func (f TraverseChangokushiWeaponChangeLog) Traverse(ctx context.Context, q ent.
 	return fmt.Errorf("unexpected query type %T. expect *ent.ChangokushiWeaponChangeLogQuery", q)
 }
 
+// The SanmeiHoikuenPostFunc type is an adapter to allow the use of ordinary function as a Querier.
+type SanmeiHoikuenPostFunc func(context.Context, *ent.SanmeiHoikuenPostQuery) (ent.Value, error)
+
+// Query calls f(ctx, q).
+func (f SanmeiHoikuenPostFunc) Query(ctx context.Context, q ent.Query) (ent.Value, error) {
+	if q, ok := q.(*ent.SanmeiHoikuenPostQuery); ok {
+		return f(ctx, q)
+	}
+	return nil, fmt.Errorf("unexpected query type %T. expect *ent.SanmeiHoikuenPostQuery", q)
+}
+
+// The TraverseSanmeiHoikuenPost type is an adapter to allow the use of ordinary function as Traverser.
+type TraverseSanmeiHoikuenPost func(context.Context, *ent.SanmeiHoikuenPostQuery) error
+
+// Intercept is a dummy implementation of Intercept that returns the next Querier in the pipeline.
+func (f TraverseSanmeiHoikuenPost) Intercept(next ent.Querier) ent.Querier {
+	return next
+}
+
+// Traverse calls f(ctx, q).
+func (f TraverseSanmeiHoikuenPost) Traverse(ctx context.Context, q ent.Query) error {
+	if q, ok := q.(*ent.SanmeiHoikuenPostQuery); ok {
+		return f(ctx, q)
+	}
+	return fmt.Errorf("unexpected query type %T. expect *ent.SanmeiHoikuenPostQuery", q)
+}
+
 // NewQuery returns the generic Query interface for the given typed query.
 func NewQuery(q ent.Query) (Query, error) {
 	switch q := q.(type) {
@@ -130,6 +158,8 @@ func NewQuery(q ent.Query) (Query, error) {
 		return &query[*ent.ChangokushiWeaponQuery, predicate.ChangokushiWeapon, changokushiweapon.OrderOption]{typ: ent.TypeChangokushiWeapon, tq: q}, nil
 	case *ent.ChangokushiWeaponChangeLogQuery:
 		return &query[*ent.ChangokushiWeaponChangeLogQuery, predicate.ChangokushiWeaponChangeLog, changokushiweaponchangelog.OrderOption]{typ: ent.TypeChangokushiWeaponChangeLog, tq: q}, nil
+	case *ent.SanmeiHoikuenPostQuery:
+		return &query[*ent.SanmeiHoikuenPostQuery, predicate.SanmeiHoikuenPost, sanmeihoikuenpost.OrderOption]{typ: ent.TypeSanmeiHoikuenPost, tq: q}, nil
 	default:
 		return nil, fmt.Errorf("unknown query type %T", q)
 	}

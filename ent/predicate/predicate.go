@@ -11,3 +11,6 @@ type ChangokushiWeapon func(*sql.Selector)
 
 // ChangokushiWeaponChangeLog is the predicate function for changokushiweaponchangelog builders.
 type ChangokushiWeaponChangeLog func(*sql.Selector)
+
+// SanmeiHoikuenPost is the predicate function for sanmeihoikuenpost builders.
+type SanmeiHoikuenPost func(*sql.Selector)

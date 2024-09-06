@@ -59,10 +59,27 @@ var (
 			},
 		},
 	}
+	// SanmeiHoikuenPostsColumns holds the columns for the "sanmei_hoikuen_posts" table.
+	SanmeiHoikuenPostsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeUint32, Increment: true},
+		{Name: "created_at", Type: field.TypeTime, SchemaType: map[string]string{"mysql": "datetime"}},
+		{Name: "updated_at", Type: field.TypeTime, SchemaType: map[string]string{"mysql": "datetime"}},
+		{Name: "deleted_at", Type: field.TypeTime, Nullable: true, SchemaType: map[string]string{"mysql": "datetime"}},
+		{Name: "url", Type: field.TypeString, Size: 2147483647},
+		{Name: "title", Type: field.TypeString},
+		{Name: "date", Type: field.TypeString},
+	}
+	// SanmeiHoikuenPostsTable holds the schema information for the "sanmei_hoikuen_posts" table.
+	SanmeiHoikuenPostsTable = &schema.Table{
+		Name:       "sanmei_hoikuen_posts",
+		Columns:    SanmeiHoikuenPostsColumns,
+		PrimaryKey: []*schema.Column{SanmeiHoikuenPostsColumns[0]},
+	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
 		ChangokushiWeaponsTable,
 		ChangokushiWeaponChangeLogsTable,
+		SanmeiHoikuenPostsTable,
 	}
 )
 

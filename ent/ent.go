@@ -14,6 +14,7 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"github.com/a10adotapp/a10a.app/ent/changokushiweapon"
 	"github.com/a10adotapp/a10a.app/ent/changokushiweaponchangelog"
+	"github.com/a10adotapp/a10a.app/ent/sanmeihoikuenpost"
 )
 
 // ent aliases to avoid import conflicts in user's code.
@@ -76,6 +77,7 @@ func checkColumn(table, column string) error {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
 			changokushiweapon.Table:          changokushiweapon.ValidColumn,
 			changokushiweaponchangelog.Table: changokushiweaponchangelog.ValidColumn,
+			sanmeihoikuenpost.Table:          sanmeihoikuenpost.ValidColumn,
 		})
 	})
 	return columnCheck(table, column)

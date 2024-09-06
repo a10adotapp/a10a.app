@@ -33,6 +33,18 @@ func (f ChangokushiWeaponChangeLogFunc) Mutate(ctx context.Context, m ent.Mutati
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.ChangokushiWeaponChangeLogMutation", m)
 }
 
+// The SanmeiHoikuenPostFunc type is an adapter to allow the use of ordinary
+// function as SanmeiHoikuenPost mutator.
+type SanmeiHoikuenPostFunc func(context.Context, *ent.SanmeiHoikuenPostMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f SanmeiHoikuenPostFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.SanmeiHoikuenPostMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.SanmeiHoikuenPostMutation", m)
+}
+
 // Condition is a hook condition function.
 type Condition func(context.Context, ent.Mutation) bool
 

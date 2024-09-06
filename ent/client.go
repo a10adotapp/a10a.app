@@ -17,6 +17,7 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"github.com/a10adotapp/a10a.app/ent/changokushiweapon"
 	"github.com/a10adotapp/a10a.app/ent/changokushiweaponchangelog"
+	"github.com/a10adotapp/a10a.app/ent/sanmeihoikuenpost"
 )
 
 // Client is the client that holds all ent builders.
@@ -28,6 +29,8 @@ type Client struct {
 	ChangokushiWeapon *ChangokushiWeaponClient
 	// ChangokushiWeaponChangeLog is the client for interacting with the ChangokushiWeaponChangeLog builders.
 	ChangokushiWeaponChangeLog *ChangokushiWeaponChangeLogClient
+	// SanmeiHoikuenPost is the client for interacting with the SanmeiHoikuenPost builders.
+	SanmeiHoikuenPost *SanmeiHoikuenPostClient
 }
 
 // NewClient creates a new client configured with the given options.
@@ -41,6 +44,7 @@ func (c *Client) init() {
 	c.Schema = migrate.NewSchema(c.driver)
 	c.ChangokushiWeapon = NewChangokushiWeaponClient(c.config)
 	c.ChangokushiWeaponChangeLog = NewChangokushiWeaponChangeLogClient(c.config)
+	c.SanmeiHoikuenPost = NewSanmeiHoikuenPostClient(c.config)
 }
 
 type (
@@ -135,6 +139,7 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		config:                     cfg,
 		ChangokushiWeapon:          NewChangokushiWeaponClient(cfg),
 		ChangokushiWeaponChangeLog: NewChangokushiWeaponChangeLogClient(cfg),
+		SanmeiHoikuenPost:          NewSanmeiHoikuenPostClient(cfg),
 	}, nil
 }
 
@@ -156,6 +161,7 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		config:                     cfg,
 		ChangokushiWeapon:          NewChangokushiWeaponClient(cfg),
 		ChangokushiWeaponChangeLog: NewChangokushiWeaponChangeLogClient(cfg),
+		SanmeiHoikuenPost:          NewSanmeiHoikuenPostClient(cfg),
 	}, nil
 }
 
@@ -186,6 +192,7 @@ func (c *Client) Close() error {
 func (c *Client) Use(hooks ...Hook) {
 	c.ChangokushiWeapon.Use(hooks...)
 	c.ChangokushiWeaponChangeLog.Use(hooks...)
+	c.SanmeiHoikuenPost.Use(hooks...)
 }
 
 // Intercept adds the query interceptors to all the entity clients.
@@ -193,6 +200,7 @@ func (c *Client) Use(hooks ...Hook) {
 func (c *Client) Intercept(interceptors ...Interceptor) {
 	c.ChangokushiWeapon.Intercept(interceptors...)
 	c.ChangokushiWeaponChangeLog.Intercept(interceptors...)
+	c.SanmeiHoikuenPost.Intercept(interceptors...)
 }
 
 // Mutate implements the ent.Mutator interface.
@@ -202,6 +210,8 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.ChangokushiWeapon.mutate(ctx, m)
 	case *ChangokushiWeaponChangeLogMutation:
 		return c.ChangokushiWeaponChangeLog.mutate(ctx, m)
+	case *SanmeiHoikuenPostMutation:
+		return c.SanmeiHoikuenPost.mutate(ctx, m)
 	default:
 		return nil, fmt.Errorf("ent: unknown mutation type %T", m)
 	}
@@ -509,12 +519,148 @@ func (c *ChangokushiWeaponChangeLogClient) mutate(ctx context.Context, m *Chango
 	}
 }
 
+// SanmeiHoikuenPostClient is a client for the SanmeiHoikuenPost schema.
+type SanmeiHoikuenPostClient struct {
+	config
+}
+
+// NewSanmeiHoikuenPostClient returns a client for the SanmeiHoikuenPost from the given config.
+func NewSanmeiHoikuenPostClient(c config) *SanmeiHoikuenPostClient {
+	return &SanmeiHoikuenPostClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `sanmeihoikuenpost.Hooks(f(g(h())))`.
+func (c *SanmeiHoikuenPostClient) Use(hooks ...Hook) {
+	c.hooks.SanmeiHoikuenPost = append(c.hooks.SanmeiHoikuenPost, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `sanmeihoikuenpost.Intercept(f(g(h())))`.
+func (c *SanmeiHoikuenPostClient) Intercept(interceptors ...Interceptor) {
+	c.inters.SanmeiHoikuenPost = append(c.inters.SanmeiHoikuenPost, interceptors...)
+}
+
+// Create returns a builder for creating a SanmeiHoikuenPost entity.
+func (c *SanmeiHoikuenPostClient) Create() *SanmeiHoikuenPostCreate {
+	mutation := newSanmeiHoikuenPostMutation(c.config, OpCreate)
+	return &SanmeiHoikuenPostCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of SanmeiHoikuenPost entities.
+func (c *SanmeiHoikuenPostClient) CreateBulk(builders ...*SanmeiHoikuenPostCreate) *SanmeiHoikuenPostCreateBulk {
+	return &SanmeiHoikuenPostCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *SanmeiHoikuenPostClient) MapCreateBulk(slice any, setFunc func(*SanmeiHoikuenPostCreate, int)) *SanmeiHoikuenPostCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &SanmeiHoikuenPostCreateBulk{err: fmt.Errorf("calling to SanmeiHoikuenPostClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*SanmeiHoikuenPostCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &SanmeiHoikuenPostCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for SanmeiHoikuenPost.
+func (c *SanmeiHoikuenPostClient) Update() *SanmeiHoikuenPostUpdate {
+	mutation := newSanmeiHoikuenPostMutation(c.config, OpUpdate)
+	return &SanmeiHoikuenPostUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *SanmeiHoikuenPostClient) UpdateOne(shp *SanmeiHoikuenPost) *SanmeiHoikuenPostUpdateOne {
+	mutation := newSanmeiHoikuenPostMutation(c.config, OpUpdateOne, withSanmeiHoikuenPost(shp))
+	return &SanmeiHoikuenPostUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *SanmeiHoikuenPostClient) UpdateOneID(id uint32) *SanmeiHoikuenPostUpdateOne {
+	mutation := newSanmeiHoikuenPostMutation(c.config, OpUpdateOne, withSanmeiHoikuenPostID(id))
+	return &SanmeiHoikuenPostUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for SanmeiHoikuenPost.
+func (c *SanmeiHoikuenPostClient) Delete() *SanmeiHoikuenPostDelete {
+	mutation := newSanmeiHoikuenPostMutation(c.config, OpDelete)
+	return &SanmeiHoikuenPostDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *SanmeiHoikuenPostClient) DeleteOne(shp *SanmeiHoikuenPost) *SanmeiHoikuenPostDeleteOne {
+	return c.DeleteOneID(shp.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *SanmeiHoikuenPostClient) DeleteOneID(id uint32) *SanmeiHoikuenPostDeleteOne {
+	builder := c.Delete().Where(sanmeihoikuenpost.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &SanmeiHoikuenPostDeleteOne{builder}
+}
+
+// Query returns a query builder for SanmeiHoikuenPost.
+func (c *SanmeiHoikuenPostClient) Query() *SanmeiHoikuenPostQuery {
+	return &SanmeiHoikuenPostQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeSanmeiHoikuenPost},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a SanmeiHoikuenPost entity by its id.
+func (c *SanmeiHoikuenPostClient) Get(ctx context.Context, id uint32) (*SanmeiHoikuenPost, error) {
+	return c.Query().Where(sanmeihoikuenpost.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *SanmeiHoikuenPostClient) GetX(ctx context.Context, id uint32) *SanmeiHoikuenPost {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *SanmeiHoikuenPostClient) Hooks() []Hook {
+	hooks := c.hooks.SanmeiHoikuenPost
+	return append(hooks[:len(hooks):len(hooks)], sanmeihoikuenpost.Hooks[:]...)
+}
+
+// Interceptors returns the client interceptors.
+func (c *SanmeiHoikuenPostClient) Interceptors() []Interceptor {
+	inters := c.inters.SanmeiHoikuenPost
+	return append(inters[:len(inters):len(inters)], sanmeihoikuenpost.Interceptors[:]...)
+}
+
+func (c *SanmeiHoikuenPostClient) mutate(ctx context.Context, m *SanmeiHoikuenPostMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&SanmeiHoikuenPostCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&SanmeiHoikuenPostUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&SanmeiHoikuenPostUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&SanmeiHoikuenPostDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown SanmeiHoikuenPost mutation op: %q", m.Op())
+	}
+}
+
 // hooks and interceptors per client, for fast access.
 type (
 	hooks struct {
-		ChangokushiWeapon, ChangokushiWeaponChangeLog []ent.Hook
+		ChangokushiWeapon, ChangokushiWeaponChangeLog, SanmeiHoikuenPost []ent.Hook
 	}
 	inters struct {
-		ChangokushiWeapon, ChangokushiWeaponChangeLog []ent.Interceptor
+		ChangokushiWeapon, ChangokushiWeaponChangeLog,
+		SanmeiHoikuenPost []ent.Interceptor
 	}
 )

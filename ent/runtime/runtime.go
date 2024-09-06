@@ -7,6 +7,7 @@ import (
 
 	"github.com/a10adotapp/a10a.app/ent/changokushiweapon"
 	"github.com/a10adotapp/a10a.app/ent/changokushiweaponchangelog"
+	"github.com/a10adotapp/a10a.app/ent/sanmeihoikuenpost"
 	"github.com/a10adotapp/a10a.app/ent/schema"
 )
 
@@ -52,6 +53,25 @@ func init() {
 	changokushiweaponchangelog.DefaultUpdatedAt = changokushiweaponchangelogDescUpdatedAt.Default.(func() time.Time)
 	// changokushiweaponchangelog.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
 	changokushiweaponchangelog.UpdateDefaultUpdatedAt = changokushiweaponchangelogDescUpdatedAt.UpdateDefault.(func() time.Time)
+	sanmeihoikuenpostMixin := schema.SanmeiHoikuenPost{}.Mixin()
+	sanmeihoikuenpostMixinHooks1 := sanmeihoikuenpostMixin[1].Hooks()
+	sanmeihoikuenpost.Hooks[0] = sanmeihoikuenpostMixinHooks1[0]
+	sanmeihoikuenpostMixinInters1 := sanmeihoikuenpostMixin[1].Interceptors()
+	sanmeihoikuenpost.Interceptors[0] = sanmeihoikuenpostMixinInters1[0]
+	sanmeihoikuenpostMixinFields0 := sanmeihoikuenpostMixin[0].Fields()
+	_ = sanmeihoikuenpostMixinFields0
+	sanmeihoikuenpostFields := schema.SanmeiHoikuenPost{}.Fields()
+	_ = sanmeihoikuenpostFields
+	// sanmeihoikuenpostDescCreatedAt is the schema descriptor for created_at field.
+	sanmeihoikuenpostDescCreatedAt := sanmeihoikuenpostMixinFields0[0].Descriptor()
+	// sanmeihoikuenpost.DefaultCreatedAt holds the default value on creation for the created_at field.
+	sanmeihoikuenpost.DefaultCreatedAt = sanmeihoikuenpostDescCreatedAt.Default.(func() time.Time)
+	// sanmeihoikuenpostDescUpdatedAt is the schema descriptor for updated_at field.
+	sanmeihoikuenpostDescUpdatedAt := sanmeihoikuenpostMixinFields0[1].Descriptor()
+	// sanmeihoikuenpost.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	sanmeihoikuenpost.DefaultUpdatedAt = sanmeihoikuenpostDescUpdatedAt.Default.(func() time.Time)
+	// sanmeihoikuenpost.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	sanmeihoikuenpost.UpdateDefaultUpdatedAt = sanmeihoikuenpostDescUpdatedAt.UpdateDefault.(func() time.Time)
 }
 
 const (
