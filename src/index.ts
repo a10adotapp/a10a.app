@@ -1,4 +1,4 @@
-import { ScrapingClient } from "@/lib/scraping/clinet";
+import { ScrapingClient } from "@/lib/scraping/client";
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import TurndownService from "turndown";

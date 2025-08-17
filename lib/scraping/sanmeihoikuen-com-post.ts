@@ -1,5 +1,5 @@
 import { load } from "cheerio";
-import type { ScrapingClient } from "./clinet";
+import type { ScrapingClient } from "./client";
 
 export async function sanmeihoikuenComPost(this: ScrapingClient): Promise<{
   url: string;
