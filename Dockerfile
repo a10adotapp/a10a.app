@@ -9,7 +9,12 @@ RUN apk add --no-cache gcompat
 
 WORKDIR /app
 
-COPY package*json tsconfig.json src ./
+COPY package.json ./
+COPY package-lock.json ./
+COPY tsconfig.json ./
+COPY prisma ./prisma
+COPY lib ./lib
+COPY src ./
 
 RUN npm ci
 RUN npm run build && npm prune --production
