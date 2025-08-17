@@ -1,0 +1,18 @@
+enum CodmonLogKind {
+  TimelineData
+  CommentData
+  HandoutData
+}
+
+model CodmonLog {
+  id String @id @default(cuid(2)) @db.VarChar(30)
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @default(now()) @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  kind     CodmonLogKind @map("kind")
+  codmonId String        @map("codmon_id")
+
+  @@map("codmon_logs")
+}

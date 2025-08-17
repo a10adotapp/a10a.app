@@ -1,0 +1,25 @@
+services:
+  app:
+    image: github.com/a10adotapp/a10a.app:local
+    build:
+      context: ..
+      dockerfile: ./.devcontainer/Dockerfile
+    container_name: a10a-app-app
+    command: sleep infinity
+    env_file: .env
+    environment:
+      DATABASE_URL: "mysql://root:root@db:3306/a10a_app_local"
+    volumes:
+      - ..:/workspace/app
+    ports:
+      - 3000:3000
+
+  db:
+    image: mysql:8
+    container_name: a10a-app-db
+    environment:
+      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_TCP_PORT: 3306
+      MYSQL_DATABASE: "a10a_app_local"
+    ports:
+      - 3306:3306
