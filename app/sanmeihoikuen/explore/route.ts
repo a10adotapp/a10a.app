@@ -101,8 +101,6 @@ export const POST = withCronAuth(async () => {
     if (!codmonLog) {
       const handout = await codmonClient.handout(data.handoutId);
 
-      console.log(JSON.stringify(handout, null, 2));
-
       await lineClient.sendCodmonHandoutData(handout);
 
       await prisma.codmonLog.create({

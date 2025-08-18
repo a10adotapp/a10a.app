@@ -85,34 +85,38 @@ export async function sendCodmonCommentData(this: LineClient, data: z.output<typ
                         ],
                       },
                     ] : []),
-                    {
-                      type: "box",
-                      layout: "horizontal",
-                      contents: [
-                        {
-                          type: "text",
-                          text: "入眠",
-                        },
-                        {
-                          type: "text",
-                          text: data.content.sleep,
-                        },
-                      ],
-                    },
-                    {
-                      type: "box",
-                      layout: "horizontal",
-                      contents: [
-                        {
-                          type: "text",
-                          text: "起床",
-                        },
-                        {
-                          type: "text",
-                          text: data.content.wake,
-                        },
-                      ],
-                    },
+                    ...(data.content.sleep ? [
+                      {
+                        type: "box",
+                        layout: "horizontal",
+                        contents: [
+                          {
+                            type: "text",
+                            text: "入眠",
+                          },
+                          {
+                            type: "text",
+                            text: data.content.sleep,
+                          },
+                        ],
+                      },
+                    ] : []),
+                    ...(data.content.wake ? [
+                      {
+                        type: "box",
+                        layout: "horizontal",
+                        contents: [
+                          {
+                            type: "text",
+                            text: "起床",
+                          },
+                          {
+                            type: "text",
+                            text: data.content.wake,
+                          },
+                        ],
+                      },
+                    ] : []),
                     {
                       type: "box",
                       layout: "horizontal",

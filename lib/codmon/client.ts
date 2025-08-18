@@ -1,8 +1,12 @@
+import { Filedump } from "@/lib/filedump/client";
+import { format } from "@formkit/tempo";
 import type z from "zod";
 import { commentResponseSchema, handoutResponseSchema, handoutsResponseSchema, loginResponseSchema, timelineResponseSchema } from "./schema";
 
 export class CodmonClient {
   sessionId: string | undefined;
+
+  filedump: Filedump | undefined;
 
   static async init(): Promise<CodmonClient> {
     const self = new CodmonClient();
@@ -25,6 +29,8 @@ export class CodmonClient {
     const responseData = loginResponseSchema.parse(await response.json());
 
     self.sessionId = responseData.data.session_id;
+
+    self.filedump = Filedump.init();
 
     return self;
   }
@@ -67,7 +73,23 @@ export class CodmonClient {
         },
       });
 
-    return timelineResponseSchema.parse(await response.json());
+    const responseData = await response.json();
+
+    this.filedump?.dumpTextFile(
+      [
+        "codmon",
+        "timeline",
+        format({
+          date: new Date(),
+          format: "YYYYMMDDHHmmss",
+          tz: "Asia/Tokyo",
+        }),
+        "json",
+      ].join("."),
+      JSON.stringify(responseData, null, 2),
+    );
+
+    return timelineResponseSchema.parse(responseData);
   }
 
   async comments({
@@ -92,7 +114,23 @@ export class CodmonClient {
         },
       });
 
-    return commentResponseSchema.parse(await response.json());
+    const responseData = await response.json();
+
+    this.filedump?.dumpTextFile(
+      [
+        "codmon",
+        "comments",
+        format({
+          date: new Date(),
+          format: "YYYYMMDDHHmmss",
+          tz: "Asia/Tokyo",
+        }),
+        "json",
+      ].join("."),
+      JSON.stringify(responseData, null, 2),
+    );
+
+    return commentResponseSchema.parse(responseData);
   }
 
   async handouts(): Promise<z.output<typeof handoutsResponseSchema>> {
@@ -107,7 +145,23 @@ export class CodmonClient {
         },
       });
 
-    return handoutsResponseSchema.parse(await response.json());
+    const responseData = await response.json();
+
+    this.filedump?.dumpTextFile(
+      [
+        "codmon",
+        "handouts",
+        format({
+          date: new Date(),
+          format: "YYYYMMDDHHmmss",
+          tz: "Asia/Tokyo",
+        }),
+        "json",
+      ].join("."),
+      JSON.stringify(responseData, null, 2),
+    );
+
+    return handoutsResponseSchema.parse(responseData);
   }
 
   async handout(id: string): Promise<z.output<typeof handoutResponseSchema>> {
@@ -120,6 +174,22 @@ export class CodmonClient {
         },
       });
 
-    return handoutResponseSchema.parse(await response.json());
+    const responseData = await response.json();
+
+    this.filedump?.dumpTextFile(
+      [
+        "codmon",
+        "handout",
+        format({
+          date: new Date(),
+          format: "YYYYMMDDHHmmss",
+          tz: "Asia/Tokyo",
+        }),
+        "json",
+      ].join("."),
+      JSON.stringify(responseData, null, 2),
+    );
+
+    return handoutResponseSchema.parse(responseData);
   }
 }
