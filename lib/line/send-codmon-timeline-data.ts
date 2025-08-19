@@ -107,7 +107,7 @@ export async function sendCodmonTimelineData(this: LineClient, data: z.output<ty
                   contents: [
                     {
                       type: "text",
-                      text: this.turndownService?.turndown(data.content.memo.replace(/\n/g, "  \n")) ?? "",
+                      text: this.turndownService?.turndown(data.content.memo.replace(/\n/g, "  \n")).substring(0, 2000) ?? "未入力",
                       wrap: true,
                     },
                   ],

@@ -28,7 +28,6 @@ export const POST = withCronAuth(async () => {
 
   const yesterdayDateString = format({
     date: addDay(now, -1),
-    // date: addDay(now, -30),
     format: "YYYY-MM-DD",
     tz: "Asia/Tokyo",
   });
@@ -109,8 +108,6 @@ export const POST = withCronAuth(async () => {
           codmonId: data.handoutId,
         },
       });
-
-      break;
     }
   }
 

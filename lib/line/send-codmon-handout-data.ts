@@ -59,7 +59,7 @@ export async function sendCodmonHandoutData(this: LineClient, data: z.output<typ
                   contents: [
                     {
                       type: "text",
-                      text: data.description?.replace(/\n/g, "\n\n") ?? "",
+                      text: data.description?.substring(0, 2000) || "未入力",
                       wrap: true,
                     },
                   ],

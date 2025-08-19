@@ -187,7 +187,7 @@ export async function sendCodmonCommentData(this: LineClient, data: z.output<typ
                   contents: [
                     {
                       type: "text",
-                      text: data.content.memo,
+                      text: data.content.memo.substring(0, 2000) || "未入力",
                       wrap: true,
                     },
                   ],
