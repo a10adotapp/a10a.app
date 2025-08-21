@@ -45,6 +45,14 @@ export const timelineResponseDataSchema = z.object({
   kind: z.literal("7"),
 });
 
+export const timelineAbsenseDataSchema = z.object({
+  id: z.string(),
+  kind: z.literal("8"),
+  display_date: z.string(),
+  title: z.string(),
+  content: z.string(),
+});
+
 export const timelineResponseSchema = z.object({
   success: z.literal(true),
   data: z.array(
@@ -52,6 +60,7 @@ export const timelineResponseSchema = z.object({
       timelineTopicDataSchema,
       timelineCommentDataSchema,
       timelineResponseDataSchema,
+      timelineAbsenseDataSchema,
     ]),
   ),
 });
@@ -70,8 +79,8 @@ export const commentResponseSchema = z.object({
           evacuation_evening_times: z.string().optional(),
           evacuation_morning: z.string().optional(),
           evacuation_morning_times: z.string().optional(),
-          meal_evening: z.string(),
-          meal_morning: z.string(),
+          meal_evening: z.string().optional(),
+          meal_morning: z.string().optional(),
           sleep: z.string().optional(),
           wake: z.string().optional(),
           temprature: z.string().optional(),

@@ -64,7 +64,7 @@ export async function sendCodmonCommentData(this: LineClient, data: z.output<typ
                         },
                         {
                           type: "text",
-                          text: data.content.meal_evening,
+                          text: data.content.meal_evening || "未入力",
                           wrap: true,
                         },
                       ],
@@ -157,7 +157,7 @@ export async function sendCodmonCommentData(this: LineClient, data: z.output<typ
                         },
                         {
                           type: "text",
-                          text: data.content.meal_morning,
+                          text: data.content.meal_morning || "未入力",
                           wrap: true,
                         },
                       ],
