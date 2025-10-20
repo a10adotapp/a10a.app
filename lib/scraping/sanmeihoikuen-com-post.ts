@@ -62,7 +62,7 @@ export async function sanmeihoikuenComPost(this: ScrapingClient): Promise<{
         return post$(elem).text().trim();
       });
 
-      const imageUris = Array.from(post$(".entryContents img")).map((elem) => {
+      let imageUris = Array.from(post$(".entryContents img")).map((elem) => {
         return post$(elem).prop("src");
       }).filter((imageUri) => {
         return imageUri !== undefined;
@@ -73,6 +73,14 @@ export async function sanmeihoikuenComPost(this: ScrapingClient): Promise<{
 
         return true;
       });
+
+      imageUris = await Promise.all(imageUris.map(async (imageUri) => {
+        if (this.fileDownloader) {
+          return await this.fileDownloader.download(imageUri);
+        }
+
+        return imageUri;
+      }));
 
       result.push({
         url,

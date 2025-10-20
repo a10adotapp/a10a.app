@@ -8,9 +8,13 @@ services:
     command: sleep infinity
     env_file: .env
     environment:
+      FILEDUMP_DIRNAME: "/tmp/filedump"
+      PUBLIC_FILE_DIRNAME: "/workspace/app/public"
       DATABASE_URL: "mysql://root:root@db:3306/a10a_app_local"
+      APP_URL: "http://localhost:3000"
     volumes:
       - ..:/workspace/app
+      - .my.cnf:/etc/my.cnf
     ports:
       - 3000:3000
 

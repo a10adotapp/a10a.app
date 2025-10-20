@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+mysql -e 'source /workspace/app/.bin/sql/0001_reset_database.sql' \
+ && mysql -e 'source /workspace/app/.bin/sql/a10a_app.production.20251020.sql' \
+ && npx prisma migrate deploy

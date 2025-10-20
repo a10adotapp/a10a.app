@@ -42,3 +42,5 @@ next-env.d.ts
 
 # custom
 prisma/generated/*
+.bin/sql/*
+!.bin/sql/0001_reset_database.sql

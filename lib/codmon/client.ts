@@ -1,12 +1,15 @@
 import { Filedump } from "@/lib/filedump/client";
 import { format } from "@formkit/tempo";
 import type z from "zod";
+import { FileDownloader } from "../file-downloader/client";
 import { commentResponseSchema, handoutResponseSchema, handoutsResponseSchema, loginResponseSchema, timelineResponseSchema } from "./schema";
 
 export class CodmonClient {
   sessionId: string | undefined;
 
   filedump: Filedump | undefined;
+
+  fileDownloader: FileDownloader | undefined;
 
   static async init(): Promise<CodmonClient> {
     const self = new CodmonClient();
@@ -31,6 +34,8 @@ export class CodmonClient {
     self.sessionId = responseData.data.session_id;
 
     self.filedump = Filedump.init();
+
+    self.fileDownloader = FileDownloader.init();
 
     return self;
   }
@@ -89,7 +94,27 @@ export class CodmonClient {
       JSON.stringify(responseData, null, 2),
     );
 
-    return timelineResponseSchema.parse(responseData);
+    const timelineResponse = timelineResponseSchema.parse(responseData);
+
+    if (this.fileDownloader) {
+      for (const data of timelineResponse.data) {
+        if (data.kind === "4") {
+          if (data.thumbnail_url) {
+            data.thumbnail_url = await this.fileDownloader.download(data.thumbnail_url);
+          }
+
+          if (data.thumbnail_url) {
+            data.thumbnail_url = await this.fileDownloader.download(data.thumbnail_url);
+          }
+
+          if (data.thumbnail_url) {
+            data.thumbnail_url = await this.fileDownloader.download(data.thumbnail_url);
+          }
+        }
+      }
+    }
+
+    return timelineResponse;
   }
 
   async comments({
@@ -190,6 +215,14 @@ export class CodmonClient {
       JSON.stringify(responseData, null, 2),
     );
 
-    return handoutResponseSchema.parse(responseData);
+    const handoutResponse = handoutResponseSchema.parse(responseData);
+
+    if (this.fileDownloader) {
+      for (const attachment of handoutResponse.attachments) {
+        attachment.url = await this.fileDownloader.download(attachment.url);
+      }
+    }
+
+    return handoutResponse;
   }
 }
