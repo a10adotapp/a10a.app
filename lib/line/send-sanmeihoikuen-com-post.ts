@@ -106,6 +106,11 @@ export async function sendSanmeihoikuenComPost(this: LineClient, data: {
                   size: "full",
                   aspectMode: "cover",
                   flex: 1,
+                  action: {
+                    "type": "uri",
+                    "label": "show original image",
+                    "uri": imageUri,
+                  },
                 },
               ],
             },

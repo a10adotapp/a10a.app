@@ -80,6 +80,11 @@ export async function sendCodmonHandoutData(this: LineClient, data: z.output<typ
                   size: "full",
                   aspectMode: "cover",
                   flex: 1,
+                  action: {
+                    "type": "uri",
+                    "label": "show original image",
+                    "uri": attachment.url,
+                  },
                 },
               ],
             },
