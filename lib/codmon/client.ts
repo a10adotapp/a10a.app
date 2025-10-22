@@ -103,12 +103,12 @@ export class CodmonClient {
             data.thumbnail_url = await this.fileDownloader.download(data.thumbnail_url);
           }
 
-          if (data.thumbnail_url) {
-            data.thumbnail_url = await this.fileDownloader.download(data.thumbnail_url);
+          if (data.thumbnail_url2) {
+            data.thumbnail_url2 = await this.fileDownloader.download(data.thumbnail_url2);
           }
 
-          if (data.thumbnail_url) {
-            data.thumbnail_url = await this.fileDownloader.download(data.thumbnail_url);
+          if (data.thumbnail_url3) {
+            data.thumbnail_url3 = await this.fileDownloader.download(data.thumbnail_url3);
           }
         }
       }

@@ -67,7 +67,7 @@ export class FileDownloader {
       throw new Error("no dirname");
     }
 
-    const filePath = path.join(this.publicFileDirname, ...slug);
+    const filePath = path.join(this.publicFileDirname, "download", ...slug);
 
     const stat = statSync(filePath, {
       throwIfNoEntry: false,
