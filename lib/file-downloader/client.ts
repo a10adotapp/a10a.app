@@ -1,5 +1,5 @@
 import { createHash } from "crypto";
-import { mkdirSync, writeFileSync } from "fs";
+import { mkdirSync, readFileSync, statSync, writeFileSync } from "fs";
 import mime from "mime";
 import path from "path";
 
@@ -60,5 +60,23 @@ export class FileDownloader {
     }
 
     return url;
+  }
+
+  async readDownloadFile(slug: string[]): Promise<Buffer<ArrayBuffer> | null> {
+    if (!this.publicFileDirname) {
+      throw new Error("no dirname");
+    }
+
+    const filePath = path.join(this.publicFileDirname, ...slug);
+
+    const stat = statSync(filePath, {
+      throwIfNoEntry: false,
+    });
+
+    if (!stat) {
+      return null;
+    }
+
+    return readFileSync(filePath);
   }
 }

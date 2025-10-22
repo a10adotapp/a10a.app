@@ -1,9 +1,25 @@
-import { Filedump } from "@/lib/filedump/client";
+import { FileDownloader } from "@/lib/file-downloader/client";
+import { RouteProps } from "@/lib/props/route-props";
+import z from "zod";
 
-export async function GET(): Promise<Response> {
-  const filedump = Filedump.init();
+const paramsSchema = z.object({
+  slug: z.array(z.string()),
+});
 
-  const dumpfiles = filedump.listDumpfile();
+export async function GET(_: Request, props: RouteProps): Promise<Response> {
+  const params = paramsSchema.parse(await props.params);
 
-  return Response.json(dumpfiles);
+  const fileDownloader = FileDownloader.init();
+
+  const fileData = await fileDownloader.readDownloadFile(params.slug);
+
+  if (!fileData) {
+    return Response.json({
+      message: "not found",
+    }, {
+      status: 404,
+    });
+  }
+
+  return new Response(fileData);
 }
