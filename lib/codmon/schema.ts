@@ -53,6 +53,11 @@ export const timelineAbsenseDataSchema = z.object({
   content: z.string(),
 });
 
+export const timelineUnknownDataSchema = z.object({
+  id: z.string(),
+  kind: z.undefined(),
+});
+
 export const timelineResponseSchema = z.object({
   success: z.literal(true),
   data: z.array(
@@ -61,6 +66,7 @@ export const timelineResponseSchema = z.object({
       timelineCommentDataSchema,
       timelineResponseDataSchema,
       timelineAbsenseDataSchema,
+      timelineUnknownDataSchema,
     ]),
   ),
 });
