@@ -7,6 +7,8 @@ FROM base AS builder
 
 WORKDIR /app
 
+ENV DATABASE_URL="mysql://user:pass@host:3306/dummy"
+
 COPY . .
 
 RUN rm package-lock.json && npm i
