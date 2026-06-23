@@ -52,7 +52,6 @@ export const timelineAbsenseDataSchema = z.object({
   insert_administrator_name: z.string().optional(),
   title: z.string(),
   content: z.string().nullable(),
-  photo_url: z.string().nullable().optional(),
   photos: z.object({
     lists: z.array(z.object({
       id: z.string(),

@@ -55,30 +55,14 @@ export async function sendCodmonTimelineAbsenseData(
               ],
             },
           },
-          ...(data.photo_url ? [
-            {
-              type: "bubble",
-              body: {
-                type: "box",
-                layout: "vertical",
-                paddingAll: "none",
-                contents: [
-                  {
-                    type: "image",
-                    url: data.photo_url,
-                    size: "full",
-                    aspectMode: "cover",
-                    flex: 1,
-                    action: {
-                      "type": "uri",
-                      "label": "show images",
-                      "uri": `${process.env.APP_URL}/codmon-logs/${codmonLog.id}/photos`,
-                    },
-                  },
-                ],
-              },
+          {
+            type: "button",
+            action: {
+              type: "uri",
+              label: "写真を見る",
+              uri: `${process.env.APP_URL}/codmon-logs/${codmonLog.id}/photos`,
             },
-          ] : []),
+          },
         ],
       },
     },

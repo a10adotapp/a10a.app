@@ -113,10 +113,6 @@ export class CodmonClient {
         }
 
         if (data.kind === "8") {
-          if (data.photo_url) {
-            data.photo_url = await this.fileDownloader.download(data.photo_url);
-          }
-
           if (data.photos) {
             for (let i = 0; i < data.photos.lists.length; i++) {
               const url = data.photos.lists[i].url;
