@@ -33,7 +33,7 @@ export async function sendCodmonTimelineAbsenseData(
                     },
                     {
                       type: "text",
-                      text: data.insert_administrator_name,
+                      text: data.insert_administrator_name || "",
                       color: "#999999",
                       flex: 0,
                     },
