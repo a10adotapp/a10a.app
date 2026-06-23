@@ -6,11 +6,11 @@ on:
 permissions: write-all
 
 jobs:
-  migrate:
+  migrations:
     uses: ./.github/workflows/deploy-migrations.yml
     secrets: inherit
 
-  deploy:
-    needs: migrate
+  container:
+    needs: migrations
     uses: ./.github/workflows/deploy-container.yml
     secrets: inherit
