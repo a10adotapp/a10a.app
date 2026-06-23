@@ -1,0 +1,40 @@
+name: Deploy Container
+
+on:
+  workflow_call:
+
+jobs:
+  deploy-container:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - run: |
+          echo "${{ secrets.DOCKER_REGISTRY_PASSWORD }}" \
+           | docker login \
+              --username ${{ secrets.DOCKER_REGISTRY_USERNAME }} \
+              --password-stdin \
+              ${{ secrets.DOCKER_REGISTRY_HOST }}
+
+      - run: |
+          docker build \
+              --tag ${{ secrets.DOCKER_REGISTRY_HOST }}/a10a.app:latest \
+              .
+
+      - run: docker push ${{ secrets.DOCKER_REGISTRY_HOST }}/a10a.app:latest
+
+      - run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+
+      - run: |
+          ssh ${{ secrets.SSH_USER}}@${{ secrets.SSH_HOST }} ' \
+              cd ~/a10a.app \
+               && docker compose pull \
+               && docker compose build \
+               && docker compose up -d \
+          '

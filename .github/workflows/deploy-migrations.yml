@@ -1,0 +1,35 @@
+name: Deploy Migrations
+
+on:
+  workflow_call:
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 26
+
+      - run: npm ci
+
+      - run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+
+      - run: |
+          ssh \
+              -o ExitOnForwardFailure=yes \
+              -f -N \
+              -L 3306:127.0.0.1:3306 \
+              ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}
+
+      - run: npx prisma migrate deploy
+        env:
+          DATABASE_URL: mysql://root:${{ secrets.MYSQL_ROOT_PASSWORD }}@127.0.0.1:3306/a10a_app

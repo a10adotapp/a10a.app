@@ -6,56 +6,11 @@ on:
 permissions: write-all
 
 jobs:
-  main:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          persist-credentials: false
+  migrate:
+    uses: ./.github/workflows/deploy-migrations.yml
+    secrets: inherit
 
-      - name: docker login
-        run: |
-          echo "${{ secrets.DOCKER_REGISTRY_PASSWORD }}" \
-           | docker login \
-              --username ${{ secrets.DOCKER_REGISTRY_USERNAME }} \
-              --password-stdin \
-              ${{ secrets.DOCKER_REGISTRY_HOST }}
-
-      - name: docker build
-        run: |
-          docker build \
-              --tag ${{ secrets.DOCKER_REGISTRY_HOST }}/a10a.app:latest \
-              .
-
-      - name: docker push
-        run: docker push ${{ secrets.DOCKER_REGISTRY_HOST }}/a10a.app:latest
-
-      - name: setup ssh
-        run: |
-          mkdir -p ~/.ssh
-          ssh-keyscan ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
-          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_ed25519
-          chmod 600 ~/.ssh/id_ed25519
-
-      - name: ssh deploy
-        run: |
-          ssh ${{ secrets.SSH_USER}}@${{ secrets.SSH_HOST }} ' \
-              cd ~/a10a.app \
-               && docker compose pull \
-               && docker compose build \
-               && docker compose up -d \
-          '
-
-      - name: Open SSH tunnel to MySQL
-        run: |
-          ssh \
-              -o ExitOnForwardFailure=yes \
-              -o StrictHostKeyChecking=yes \
-              -f -N \
-              -L 3306:127.0.0.1:3306 \
-              ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}
-
-      - name: Run Prisma migrations
-        run: npx prisma migrate deploy
-        env:
-          DATABASE_URL: mysql://root:${{ secrets.MYSQL_ROOT_PASSWORD }}@127.0.0.1:3306/a10a_app
+  deploy:
+    needs: migrate
+    uses: ./.github/workflows/deploy-container.yml
+    secrets: inherit
