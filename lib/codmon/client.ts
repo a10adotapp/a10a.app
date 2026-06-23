@@ -119,7 +119,11 @@ export class CodmonClient {
 
           if (data.photos) {
             for (let i = 0; i < data.photos.lists.length; i++) {
-              data.photos.lists[i].url = await this.fileDownloader.download(data.photos.lists[i].url);
+              const url = data.photos.lists[i].url;
+
+              if (url) {
+                data.photos.lists[i].url = await this.fileDownloader.download(url);
+              }
             }
           }
         }

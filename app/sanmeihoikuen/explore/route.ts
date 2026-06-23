@@ -57,7 +57,8 @@ export const POST = withCronAuth(async () => {
             codmonId: data.id,
             photos: (() => {
               if (data.kind === "8") {
-                return (data.photos?.lists || []).map(({ url }) => ({
+                return (data.photos?.lists || []).map(({ id, url }) => ({
+                  id,
                   uri: url,
                 }));
               }

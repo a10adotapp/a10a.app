@@ -55,7 +55,8 @@ export const timelineAbsenseDataSchema = z.object({
   photo_url: z.string().nullable().optional(),
   photos: z.object({
     lists: z.array(z.object({
-      url: z.string(),
+      id: z.string(),
+      url: z.string().optional(),
     })),
   }).nullable().optional(),
 });

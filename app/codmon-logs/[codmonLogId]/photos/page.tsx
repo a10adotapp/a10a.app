@@ -20,11 +20,19 @@ export default async function Page(props: {
   const photos = z.array(photoSchema).parse(codmonLog.photos);
 
   return photos.map((photo, i) => (
-    <Image
-      key={`${i}:${photo.uri}`}
-      alt={photo.uri}
-      height={512}
-      width={512}
-      src={photo.uri} />
+    <div key={`${i}:${photo.uri}`}>
+      {photo.uri ? (
+        <Image
+          key={photo.id}
+          alt={photo.uri}
+          height={512}
+          width={512}
+          src={photo.uri} />
+      ) : (
+        <div>
+          {photo.id}
+        </div>
+      )}
+    </div>
   ));
 }
