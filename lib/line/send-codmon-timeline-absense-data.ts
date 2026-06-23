@@ -56,11 +56,20 @@ export async function sendCodmonTimelineAbsenseData(
             },
           },
           {
-            type: "button",
-            action: {
-              type: "uri",
-              label: "写真を見る",
-              uri: `${process.env.APP_URL}/codmon-logs/${codmonLog.id}/photos`,
+            type: "bubble",
+            body: {
+              type: "box",
+              layout: "vertical",
+              contents: [
+                {
+                  type: "button",
+                  action: {
+                    type: "uri",
+                    label: "写真を見る",
+                    uri: `${process.env.APP_URL}/codmon-logs/${codmonLog.id}/photos`,
+                  },
+                },
+              ],
             },
           },
         ],
