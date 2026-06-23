@@ -111,6 +111,18 @@ export class CodmonClient {
             data.thumbnail_url3 = await this.fileDownloader.download(data.thumbnail_url3);
           }
         }
+
+        if (data.kind === "8") {
+          if (data.photo_url) {
+            data.photo_url = await this.fileDownloader.download(data.photo_url);
+          }
+
+          if (data.photos) {
+            for (let i = 0; i < data.photos.lists.length; i++) {
+              data.photos.lists[i].url = await this.fileDownloader.download(data.photos.lists[i].url);
+            }
+          }
+        }
       }
     }
 

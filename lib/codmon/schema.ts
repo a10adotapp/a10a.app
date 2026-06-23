@@ -49,8 +49,15 @@ export const timelineAbsenseDataSchema = z.object({
   id: z.string(),
   kind: z.literal("8"),
   display_date: z.string(),
+  insert_administrator_name: z.string(),
   title: z.string(),
-  content: z.string(),
+  content: z.string().nullable(),
+  photo_url: z.string().nullable().optional(),
+  photos: z.object({
+    lists: z.array(z.object({
+      url: z.string(),
+    })),
+  }).nullable().optional(),
 });
 
 export const timelineUnknownDataSchema = z.object({

@@ -2,7 +2,10 @@ import type z from "zod";
 import type { timelineCommentDataSchema } from "../codmon/schema";
 import type { LineClient } from "./client";
 
-export async function sendCodmonTimelineData(this: LineClient, data: z.output<typeof timelineCommentDataSchema>): Promise<void> {
+export async function sendCodmonTimelineCommentData(
+  this: LineClient,
+  data: z.output<typeof timelineCommentDataSchema>,
+): Promise<void> {
   await this.sendMessage([
     {
       type: "flex",

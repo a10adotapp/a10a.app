@@ -38,7 +38,10 @@ export const POST = withCronAuth(async () => {
   });
 
   for (const data of timeline.data) {
-    if (data.kind === "4") {
+    if ((data.kind !== undefined) && (
+      (data.kind === "4")
+      || (data.kind === "8")
+    )) {
       const codmonLog = await prisma.codmonLog.findFirst({
         where: {
           deletedAt: null,
@@ -48,14 +51,23 @@ export const POST = withCronAuth(async () => {
       });
 
       if (!codmonLog) {
-        await lineClient.sendCodmonTimelineData(data);
-
-        await prisma.codmonLog.create({
+        const codmonLog = await prisma.codmonLog.create({
           data: {
             kind: CodmonLogKind.TimelineData,
             codmonId: data.id,
+            photos: (() => {
+              if (data.kind === "8") {
+                return (data.photos?.lists || []).map(({ url }) => ({
+                  uri: url,
+                }));
+              }
+
+              return [];
+            })(),
           },
         });
+
+        await lineClient.sendCodmonTimelineData(data, codmonLog);
       }
     }
   }

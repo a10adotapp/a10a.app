@@ -1,4 +1,4 @@
-FROM node:24-bookworm AS base
+FROM node:26-trixie AS base
 
 #
 # builder

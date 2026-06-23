@@ -1,10 +1,10 @@
-import { withAccelerate } from "@prisma/extension-accelerate";
+import { PrismaMariaDb } from "@prisma/adapter-mariadb";
 import { PrismaClient } from "./generated/client/index.js";
 
-const prismaClientSingleton = () => {
-  const prismaClient = new PrismaClient();
+const prismaClientSingleton = (): PrismaClient => {
+  const adapter = new PrismaMariaDb(process.env.DATABASE_URL!);
 
-  return prismaClient.$extends(withAccelerate());
+  return new PrismaClient({ adapter });
 };
 
 const globalForPrisma = global as unknown as {

@@ -1,9 +1,11 @@
+import { CodmonLog } from "@/prisma/generated/client";
 import type TurndownService from "turndown";
 import type z from "zod";
-import type { commentResponseSchema, handoutResponseSchema, timelineCommentDataSchema } from "../codmon/schema";
+import { timelineAbsenseDataSchema, type commentResponseSchema, type handoutResponseSchema, type timelineCommentDataSchema } from "../codmon/schema";
 import { sendCodmonCommentData } from "./send-codmon-comment-data";
 import { sendCodmonHandoutData } from "./send-codmon-handout-data";
-import { sendCodmonTimelineData } from "./send-codmon-timeline-data";
+import { sendCodmonTimelineAbsenseData } from "./send-codmon-timeline-absense-data";
+import { sendCodmonTimelineCommentData } from "./send-codmon-timeline-comment-data";
 import { sendSanmeihoikuenComPost } from "./send-sanmeihoikuen-com-post";
 
 export class LineClient {
@@ -62,8 +64,18 @@ export class LineClient {
     }
   }
 
-  async sendCodmonTimelineData(data: z.output<typeof timelineCommentDataSchema>): Promise<void> {
-    await sendCodmonTimelineData.bind(this)(data);
+  async sendCodmonTimelineData(
+    data: z.output<typeof timelineCommentDataSchema>
+      | z.output<typeof timelineAbsenseDataSchema>,
+    codmonLog: CodmonLog,
+  ): Promise<void> {
+    if (data.kind === "4") {
+      await sendCodmonTimelineCommentData.bind(this)(data);
+    }
+
+    if (data.kind === "8") {
+      await sendCodmonTimelineAbsenseData.bind(this)(data, codmonLog);
+    }
   }
 
   async sendCodmonCommentData(data: z.output<typeof commentResponseSchema>["data"][number]): Promise<void> {
