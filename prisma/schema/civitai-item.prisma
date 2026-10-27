@@ -1,0 +1,19 @@
+model CivitaiItem {
+  id Int @id
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  url String @map("url")
+
+  baseModel String @map("base_model")
+
+  prompt String @map("prompt") @db.Text
+
+  negativePrompt String @map("negative_prompt") @db.Text
+
+  itemTags CivitaiItemTag[]
+
+  isBookmarked Boolean @default(false) @map("is_bookmarked")
+
+  @@map("civitai_items")
+}
