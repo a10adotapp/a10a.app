@@ -1,4 +1,4 @@
-FROM node:26-trixie AS base
+FROM node:24.22.1-trixie AS base
 
 #
 # builder
@@ -18,7 +18,7 @@ RUN npm run build
 #
 # runner
 #
-FROM gcr.io/distroless/nodejs24-debian12 AS runner
+FROM node:24.22.1-trixie-slim AS runner
 
 WORKDIR /app
 

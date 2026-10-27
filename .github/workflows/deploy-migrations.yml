@@ -19,7 +19,7 @@ jobs:
 
       - run: |
           mkdir -p ~/.ssh
-          ssh-keyscan ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+          ssh-keyscan ${{ vars.SSH_HOST }} >> ~/.ssh/known_hosts
           echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
 
@@ -28,7 +28,7 @@ jobs:
               -o ExitOnForwardFailure=yes \
               -f -N \
               -L 3306:127.0.0.1:3306 \
-              ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}
+              ${{ vars.SSH_USER }}@${{ vars.SSH_HOST }}
 
       - run: npx prisma migrate deploy
         env:

@@ -14,25 +14,25 @@ jobs:
       - run: |
           echo "${{ secrets.DOCKER_REGISTRY_PASSWORD }}" \
            | docker login \
-              --username ${{ secrets.DOCKER_REGISTRY_USERNAME }} \
+              --username ${{ vars.DOCKER_REGISTRY_USERNAME }} \
               --password-stdin \
-              ${{ secrets.DOCKER_REGISTRY_HOST }}
+              ${{ vars.DOCKER_REGISTRY_HOST }}
 
       - run: |
           docker build \
-              --tag ${{ secrets.DOCKER_REGISTRY_HOST }}/a10a.app:latest \
+              --tag ${{ vars.DOCKER_REGISTRY_HOST }}/a10a.app:latest \
               .
 
-      - run: docker push ${{ secrets.DOCKER_REGISTRY_HOST }}/a10a.app:latest
+      - run: docker push ${{ vars.DOCKER_REGISTRY_HOST }}/a10a.app:latest
 
       - run: |
           mkdir -p ~/.ssh
-          ssh-keyscan ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+          ssh-keyscan ${{ vars.SSH_HOST }} >> ~/.ssh/known_hosts
           echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
 
       - run: |
-          ssh ${{ secrets.SSH_USER}}@${{ secrets.SSH_HOST }} ' \
+          ssh ${{ vars.SSH_USER}}@${{ vars.SSH_HOST }} ' \
               cd ~/a10a.app \
                && docker compose pull \
                && docker compose build \
