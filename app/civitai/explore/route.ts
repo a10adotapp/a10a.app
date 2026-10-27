@@ -1,3 +1,4 @@
+import { withCronAuth } from "@/lib/api-wrapper/cron-auth-wrapper";
 import prisma from "@/prisma";
 import { CivitaiTag } from "@/prisma/generated/client";
 import { extractTagsFromPrompt } from "./lib/extract-tags-from-prompt";
@@ -5,7 +6,7 @@ import { fetchImages } from "./lib/fetch-images";
 import { positiveScoreThreshold, safeLoopCount } from "./lib/settings";
 import { sleep } from "./lib/sleep";
 
-export async function POST() {
+export const POST = withCronAuth(async () => {
   const now = Date.now();
 
   let nextCursor: string | null = null;
@@ -111,4 +112,4 @@ export async function POST() {
   return Response.json({
     message: "ok",
   });
-}
+});
