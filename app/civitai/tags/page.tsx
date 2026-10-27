@@ -2,6 +2,8 @@ import { Header } from "@/components/civitai/header";
 import prisma from "@/prisma";
 import { CivitaiTagView } from "./_components/civitai-tag-view";
 
+export const dynamic = "force-dynamic";
+
 export default async function Page() {
   const civitaiTags = await prisma.civitaiTag.findMany({
     orderBy: [
