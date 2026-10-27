@@ -1,4 +1,3 @@
-import { writeFileSync } from "node:fs";
 import z from "zod";
 import { imagesResponseDataSchema } from "./schema/images-response-data-schema";
 
@@ -24,14 +23,6 @@ export async function fetchImages(options?: {
   const rawResponseData = await response.text();
 
   const responseData = imagesResponseDataSchema.parse(JSON.parse(rawResponseData));
-
-  writeFileSync(
-    "/workspace/app/app/civitai/explore/lib/response.json",
-    JSON.stringify(JSON.parse(rawResponseData), null, 2),
-    {
-      encoding: "utf8",
-    },
-  );
 
   return responseData;
 }
